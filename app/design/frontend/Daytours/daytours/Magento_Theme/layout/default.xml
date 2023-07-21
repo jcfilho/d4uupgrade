@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+
+        <referenceContainer name="after.body.start">
+            <block name="vs_scripts" as="vs_scripts" template="Magento_Theme::vs-scripts.phtml"/>
+        </referenceContainer>
+
+
+        <referenceBlock name="head.additional">
+            <block class="Daytours\Hreflang\Block\GenerateHrefMeta" name="head.hreflang" template="Daytours_Hreflang::hreflang.phtml" cacheable="false" />
+        </referenceBlock>
+
+        <referenceBlock name="top.links">
+            <block class="Magento\Customer\Block\Account\RegisterLink" name="register-link" template="Daytours_Customer::account/link/join.phtml">
+                <arguments>
+                    <argument name="label" xsi:type="string" translate="true">Join</argument>
+                </arguments>
+            </block>
+            <referenceBlock name="seller-link" remove="true" />
+        </referenceBlock>
+        <referenceBlock name="header.panel">
+            <!--<block name="custom_links" template="Magento_Theme::html/custom_links.phtml" after="store_switcher"/>-->
+            <block class="Magento\Cms\Block\Block" name="custom_links" after="store_switcher">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">header-help-chat</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+
+        <referenceContainer name="header.container">
+            <referenceContainer name="header-wrapper">
+                <block class="Magento\Theme\Block\Html\Header\Logo" name="logo" cacheable="false">
+
+                </block>
+            </referenceContainer>
+        </referenceContainer>
+
+        <referenceContainer name="content">
+            <block name="customer.section.config" class="Magento\Customer\Block\SectionConfig"
+                   template="Magento_Customer::js/section-config.phtml">
+                <arguments>
+                    <argument name="sectionNamesProvider" xsi:type="object">Magento\Customer\Block\SectionNamesProvider</argument>
+                </arguments>
+            </block>
+            <block name="customer.customer.data"
+                   class="Magento\Customer\Block\CustomerData"
+                   template="Magento_Customer::js/customer-data.phtml"/>
+        </referenceContainer>
+
+        <referenceContainer name="before.body.end">
+            <block class="Daytours\Wishlist\Block\WishlistNotLogged"
+                   name="wihslist.customer-not-logged"
+                   template="Daytours_Wishlist::wishlist-customer-not-logged.phtml"/>
+            <block class="Magento\Framework\View\Element\Template"
+                   name="main.js.to.site"
+                   template="Daytours_Theme::main-js-to-site.phtml"/>
+        </referenceContainer>
+
+        <move element="currency" destination="header.panel" before="custom_links" />
+        <move element="minicart" destination="header.panel.wrapper" />
+        <move element="navigation.sections" destination="header-wrapper" />
+        <move element="page.messages" destination="main"   before="-" />
+
+        <referenceBlock name="footer_links" remove="true"/>
+        <referenceBlock name="form.subscribe" remove="true"/>
+        <referenceBlock name="sale.reorder.sidebar" remove="true"/>
+    </body>
+</page>

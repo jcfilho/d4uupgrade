@@ -1,0 +1,77 @@
+<div class="total">
+    <strong class="title"><?php echo __('Total') ?>:</strong>
+    <?php echo $block->getChildHtml('product.price.final'); ?>
+</div>
+<div id="total-due-partial-payment" style="text-align: right;font-weight: 400;display: block;width: 100% !important;margin-bottom: 10px;font-size: 14px;"></div>
+<div class="btn-floating-content">
+    <div class="from-price">
+        <div class="text-from">
+                <?= __('from') ?>
+        </div>
+        <div class="price">
+
+        </div>
+    </div>
+    <div class="content-btn-book-now-floating">
+        <button id="btn-book-now-mobile-floating" class="book-now-floating action primary" ><?= __('Book now') ?></button>
+    </div>
+    <div class="clear clearfix"></div>
+</div>
+<script>
+    require([
+        'jquery',
+        'priceBox',
+    ], function ($,priceBox) {
+        'use strict';
+
+        $('body').on('click','#btn-book-now-mobile-floating',function(e){
+            e.preventDefault();
+            var pos = $('.book-product-addtocart').offset().top;
+            pos = pos -100;
+            $('body, html').animate({
+                scrollTop: pos
+            },400);
+            $('div.btn-floating-content').addClass('hide');
+        });
+
+        $('.price-box').on('updatePrice', (value)=>{
+            const isChecked = document.querySelector(".partial-payment-checkbox input")?.checked;
+            const containerElement = document.querySelector('#total-due-partial-payment');
+            if(isChecked){
+                const total = +document.querySelector(`span[data-price-type="finalPrice"] .price`).textContent.replace( /^\D+/g, '').replaceAll(',','');
+                const percentDiscount = +$(".partial-payment-checkbox .control span").text().replace("%", '');
+                containerElement.style.display = "block";
+		const originalTotal = total/(percentDiscount/100);
+                const phraseWithAmount = '<?= __("You will pay %amountToPay% later") ?>'.replace("%amountToPay%","<b>$"+(originalTotal - total).toFixed(2)+"</b>");
+                //const phraseWithAmount = '<?= __("You will must pay %amountToPay% later") ?>'.replace("%amountToPay%","<b>$$"+(total/(percentDiscount/100)).toFixed(2)+"</b>");
+                containerElement.innerHTML = phraseWithAmount;
+            }
+            else{
+                if(containerElement){
+                    containerElement.style.display = "none";
+                }
+            }
+        })
+    })
+</script>
+
+<!--script>
+    require([
+        'jquery'
+    ], function ($) {
+        'use strict';
+
+        /* price fixed bottom */
+
+        $('body').on('click','#btn-book-now-mobile-floating',function(e){
+            e.preventDefault();
+            var pos = $('.book-product-addtocart').offset().top;
+            pos = pos -100;
+            $('body, html').animate({
+                scrollTop: pos
+            },400);
+            $('div.btn-floating-content').addClass('hide');
+        });
+
+    })
+</script-->

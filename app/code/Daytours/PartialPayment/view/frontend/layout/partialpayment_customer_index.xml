@@ -1,0 +1,26 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd"> 
+<update handle="customer_account"/> 
+    <head>
+        <link rel="stylesheet" src="Daytours_PartialPayment::css/partial-payment.css"/>
+    </head>
+    <body> 
+        <referenceBlock name="head.additional">
+                <block class="Magento\Framework\View\Element\Text" name="paypal_scripts">
+                    <action method="setText">
+                        <argument name="text" xsi:type="string">
+                            <![CDATA[<script src="https://www.paypal.com/sdk/js?client-id=AQqUuH9FOUVV-qc4SC6UOFyjAFv09Fk-6kgLSyVIkbDK4EYiYwUNB7mj7n3hRKrQTWmsxy09IZrHk1cc&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script>]]>
+                        </argument>
+                    </action>
+                </block>
+        </referenceBlock>
+        <referenceBlock name="page.main.title"> 
+            <action method="setPageTitle"> 
+                <argument translate="true" name="title" xsi:type="string">Partial Payments</argument> 
+            </action> 
+        </referenceBlock> 
+        <referenceContainer name="content"> 
+            <block class="Daytours\PartialPayment\Block\PartialPayment" name="partial_payment_tab" template="Daytours_PartialPayment::partial-payments.phtml"> 
+            </block> 
+        </referenceContainer> 
+    </body> 
+</page>

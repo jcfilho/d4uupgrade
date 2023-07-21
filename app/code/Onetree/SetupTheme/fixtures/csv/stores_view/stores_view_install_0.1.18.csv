@@ -1,0 +1,5 @@
+"group_id","group_code","store_id","code","name","is_active","sort_order","is_default"
+"",argentina_u_website_store,"",aru_en,Argentina 4u English,"1",2,"0"
+"",argentina_u_website_store,"",aru_es,Argentina 4u Spanish,1,3,0
+"",argentina_u_website_store,"",aru_pt,Argentina 4u Portugues,1,4,0
+"",argentina_u_website_store,"",aru_fr,Argentina 4u French,1,5,0

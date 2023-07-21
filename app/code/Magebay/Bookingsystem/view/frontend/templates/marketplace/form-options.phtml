@@ -1,0 +1,217 @@
+<!--option-->
+<?php $optionId = $block->getMaxOptionId(); ?>
+<?php $storeId = 0; ?>
+<div id="parent-bk-option-<?php echo $optionId; ?>" class="fieldset-wrapper admin__collapsible-block-wrapper opened">
+    <input type="hidden" class="" name="bookings[options][<?php echo $optionId; ?>][option_id]" value="0">
+	<input type="hidden" class="" name="bookings[options][<?php echo $optionId; ?>][store_id]" value="0">
+  <div class="fieldset-wrapper-title">
+	  <div class="actions">
+		 <button id="id-booking-option-delete-<?php echo $optionId; ?>" class="action-delete" title="<?php echo __('Delete'); ?>" type="button">
+		 <span><?php echo __('Delete Custom Option'); ?></span>
+		 </button>
+	  </div>
+   </div>
+   <div id="bk-option-content-<?php echo $optionId; ?>" class="fieldset-wrapper-content in collapse">
+	  <fieldset class="fieldset">
+		 <fieldset id="booking_option_<?php echo $optionId; ?>" class="fieldset-alt booking-option-content-row-1">
+			 <div class="field field-option-input-type required">
+			   <label for="booking_option_<?php echo $optionId; ?>_title" class="label"><?php echo __('Title') ?></label>
+			   <div class="control">
+				  <input type="text" value="" class="required-entry input-text" name="bookings[options][<?php echo $optionId; ?>][option_title]" id="booking_option_<?php echo $optionId; ?>_title">
+			   </div>
+			</div>
+			<div class="field field-option-input-type required">
+			   <label for="booking_option_<?php echo $optionId; ?>_type" class="label"><?php echo __('Input Type'); ?></label>
+			   <div class="control opt-type">
+				  <select title="" class="select" id="booking_option_<?php echo $optionId; ?>_type" name="bookings[options][<?php echo $optionId; ?>][option_type]">
+					<option value="1"><?php echo __('Filed'); ?></option>
+                    <option value="2"><?php echo __('Dropdown'); ?></option>
+                    <option value="3"><?php echo __('Multi Dropdown'); ?></option>
+                    <option value="4"><?php echo __('Radio Button'); ?></option>
+                    <option value="5"><?php echo __('CheckBox'); ?></option>
+				  </select>
+			   </div>
+			</div>
+			<div class="field field-option-input-type required">
+			   <label for="booking_option_<?php echo $optionId; ?>_option_price_type" class="label"><?php echo __('Price Type'); ?></label>
+			   <div class="control opt-type">
+				  <select title="" class="select" id="booking_option_<?php echo $optionId; ?>_option_price_type" name="bookings[options][<?php echo $optionId; ?>][option_price_type]">
+					<option value="1"><?php echo __('Per Day or session'); ?></option>
+					<option value="2"><?php echo __('All'); ?></option>
+				  </select>
+			   </div>
+			 </div>
+			 <div class="field field-option-input-type required">
+			   <label for="booking_option_<?php echo $optionId; ?>_is_require" class="label"><?php echo __('Is Required'); ?></label>
+			   <div class="control opt-type">
+				  <select title="" class="select" id="booking_option_<?php echo $optionId; ?>_is_require" name="bookings[options][<?php echo $optionId; ?>][option_required]">
+					 <option value="1"><?php echo __('Yes'); ?></option>
+					<option value="0"><?php echo __('No'); ?></option>
+				  </select>
+			   </div>
+			 </div>
+			   <div class="field field-option-input-type required">
+				   <label for="booking_option_<?php echo $optionId; ?>option_sort" class="label"><?php echo __('Sort Order'); ?></label>
+				   <div class="control">
+					  <input type="text" value="0" class="input-text required-entry validate-zero-or-greater" name="bookings[options][<?php echo $optionId; ?>][option_sort]" id="booking_option_<?php echo $optionId; ?>option_sort">
+				   </div>
+				</div>
+		 </fieldset>
+		  <fieldset id="booking_option_<?php echo $optionId; ?>_type_text" class="fieldset-alt booking-option-content-row-2">
+			<div class="field required">
+			   <label for="booking_option_<?php echo $optionId; ?>_price" class="label"><?php echo __('Price'); ?></label>
+			   <div class="control">
+				  <input type="text" value="0" class="input-text bk-option-text-value required-entry validate-zero-or-greater" name="bookings[options][<?php echo $optionId; ?>][option_price]" id="booking_option_<?php echo $optionId; ?>_price">
+			   </div>
+			</div>
+			<div class="field  required">
+			   <label for="booking_option_<?php echo $optionId; ?>_max_number" class="label"><?php echo __('Max Number'); ?></label>
+			   <div class="control">
+				  <input type="text" value="0" class="input-text bk-option-text-value required-entry validate-zero-or-greater" name="bookings[options][<?php echo $optionId; ?>][option_max_number]" id="booking_option_<?php echo $optionId; ?>_max_number">
+			   </div>
+			</div>
+		 </fieldset>
+		  <fieldset id="booking_option_<?php echo $optionId; ?>_type_select" class="fieldset-alt booking-option-content-row-3" style="display : none;">
+			<input type="hidden" class="" value="" id="booking_option_<?php echo $optionId; ?>_type_select_validate" />
+			<div class="field control-booking-fileds-label">
+			   <label class="label"><?php echo __('Title'); ?></label>
+			   <label class="label"><?php echo __('Price'); ?></label>
+			</div>
+			<div id="bk_select_option_type_row_<?php echo $optionId ?>" class="bk-content-option-dropdown">
+			
+			</div>
+			<div class="control-booking-fileds-button">
+			   <div class="control">
+				   <button style="float : right;" class="action-default primary" type="button" title="Add New Row" id="bk_add_select_row_button_<?php echo $optionId; ?>">
+						<span><span><span><?php echo __('Add New Row'); ?></span></span></span>
+					</button>
+			   </div>
+			</div>
+		 </fieldset>
+	  </fieldset>
+   </div>
+</div>
+<script type="text/javascript">
+require(['jquery'],
+	function($) {
+		var optionId = '<?php echo $optionId; ?>';
+		var storeId = '<?php echo $storeId; ?>';
+		$('#id-booking-option-delete-'+optionId).click(function(){
+			$('#parent-bk-option-'+optionId).remove();
+		});
+		$('#booking_option_'+optionId+'_type').change(function(){
+			var typeValue = $(this).val();
+			if(typeValue == '1')
+			{
+				$('#booking_option_'+optionId+'_type_text').css('display','block');
+				$('#booking_option_'+optionId+'_type_select').css('display','none');
+				$('#booking_option_'+optionId+'_type_select_validate').removeClass('required-entry');
+				if($('#booking_option_'+optionId+'_type_text .bk-option-text-value').length)
+				{
+					if(!$('#booking_option_'+optionId+'_type_text .bk-option-text-value').hasClass('required-entry'))
+					{
+						$('#booking_option_'+optionId+'_type_text .bk-option-text-value').addClass('required-entry');
+					}
+					if(!$('#booking_option_'+optionId+'_type_text .bk-option-text-value').hasClass('validate-zero-or-greater'))
+					{
+						$('#booking_option_'+optionId+'_type_text .bk-option-text-value').addClass('validate-zero-or-greater');
+					}
+				}
+				if($('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').length)
+				{
+					if($('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').hasClass('required-entry'))
+					{
+						$('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').removeClass('required-entry');
+					}
+					if($('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').hasClass('validate-zero-or-greater'))
+					{
+						$('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').removeClass('validate-zero-or-greater');
+					}
+					
+				}
+				if($('#bk_select_option_type_row_'+optionId+' .bk-option-select-title').length)
+				{
+					if(!$('#bk_select_option_type_row_'+optionId+' .bk-option-select-title').hasClass('required-entry'))
+					{
+						$('#bk_select_option_type_row_'+optionId+' .bk-option-select-title').removeClass('required-entry');
+					}
+				}
+			}
+			else
+			{
+				$('#booking_option_'+optionId+'_type_select').css('display','block');
+				$('#booking_option_'+optionId+'_type_text').css('display','none');
+				if($('#booking_option_'+optionId+'_type_text .bk-option-text-value').length)
+				{
+					if($('#booking_option_'+optionId+'_type_text .bk-option-text-value').hasClass('required-entry'))
+					{
+						$('#booking_option_'+optionId+'_type_text .bk-option-text-value').removeClass('required-entry');
+					}
+					if($('#booking_option_'+optionId+'_type_text .bk-option-text-value').hasClass('validate-zero-or-greater'))
+					{
+						$('#booking_option_'+optionId+'_type_text .bk-option-text-value').removeClass('validate-zero-or-greater');
+					}
+				}
+				var contentSelect = $('#bk_select_option_type_row_'+optionId).text();
+				if($.trim(contentSelect) == '')
+				{
+					$('#booking_option_'+optionId+'_type_select_validate').addClass('required-entry');
+				}
+				if($('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').length)
+				{
+					if(!$('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').hasClass('required-entry'))
+					{
+						$('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').addClass('required-entry');
+					}
+					if(!$('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').hasClass('validate-zero-or-greater'))
+					{
+						$('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').addClass('validate-zero-or-greater');
+					}
+					
+				}
+				if($('#bk_select_option_type_row_'+optionId+' .bk-option-select-title').length)
+				{
+					if(!$('#bk_select_option_type_row_'+optionId+' .bk-option-select-title').hasClass('required-entry'))
+					{
+						$('#bk_select_option_type_row_'+optionId+' .bk-option-select-title').addClass('required-entry');
+					}
+				}
+			}
+		});
+		var bkDropdwonIRowId = 0;
+		$('#bk_add_select_row_button_'+optionId).click(function(){
+			console.log('test');
+			var rowTemplate = '<div id="bk-option-select_'+optionId+'_'+bkDropdwonIRowId+'_row" class="bk-option-select-row">'
+			rowTemplate += '<input type="hidden" name="bookings[options]['+optionId+'][values]['+bkDropdwonIRowId+'][dropdown_id]" class="input-text required-entry bk-option-select-value" value="0">';
+			rowTemplate += '<div class="field control-booking-fileds-input">';
+			rowTemplate += '<div class="control">';
+			rowTemplate += '<input type="text" name="bookings[options]['+optionId+'][values]['+bkDropdwonIRowId+'][dropdown_title]" class="input-text required-entry bk-option-select-title" value="">';
+			rowTemplate += '</div>';
+			rowTemplate += '</div>';
+			rowTemplate += '<div class="field control-booking-fileds-input">';
+			rowTemplate += '<div class="control">';
+			rowTemplate += '<input type="text" name="bookings[options]['+optionId+'][values]['+bkDropdwonIRowId+'][dropdown_price]" class="input-text required-entry bk-option-select-value validate-zero-or-greater" value="0">';
+			rowTemplate += '</div>';
+			rowTemplate += '</div>';
+			rowTemplate += '<div class="field control-booking-fileds-inputdell">';
+			rowTemplate += '<div class="control">';
+			rowTemplate += '<button id="bk-option-select_'+optionId+'_'+bkDropdwonIRowId+'" title="<?php echo __('Delete') ?>" type="button" class="action-default primary delete-row-keke-'+optionId+'" style="float : right;"><span><span><span><?php echo __('Delete') ?></span></span></span></button>';
+			rowTemplate += '</div>';
+			rowTemplate += '</div>';
+			rowTemplate += '</div>';
+			$('#bk_select_option_type_row_'+optionId).append(rowTemplate);
+			$('#booking_option_'+optionId+'_type_select_validate').removeClass('required-entry');
+			bkDropdwonIRowId++;
+		});
+		$('.delete-row-keke-'+optionId).live("click",function(){
+			var elementId = $(this).attr('id');
+			$('#'+elementId+'_row').remove();
+			var contentSelect = $('#bk_select_option_type_row_'+optionId).text();
+			if($.trim(contentSelect) == '')
+			{
+				$('#booking_option_'+optionId+'_type_select_validate').addClass('required-entry');
+			}
+		})
+	})
+</script>
+<!--end-->

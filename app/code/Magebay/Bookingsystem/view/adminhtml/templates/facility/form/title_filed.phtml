@@ -1,0 +1,62 @@
+<?php 
+$params = $block->getBkRequest();
+$id = isset($params['id']) ? $params['id'] : 0;
+$storeId = isset($params['store']) ? $params['store'] : 0;
+$title = '';
+if($id > 0)
+{
+	$facility = $block->getFacility();
+	$title = $facility->getFacilityTitle();
+}
+?>
+<div data-ui-id="adminhtml-facilities-edit-tab-info-0-fieldset-element-form-field-facility-title" class="admin__field field field-facility_title  required _required">
+   <label data-ui-id="adminhtml-facilities-edit-tab-info-0-fieldset-element-text-facilities-facility-title-label" for="facilities_facility_title" class="label admin__field-label"><span><?php echo __('Title'); ?></span></label>
+   <div class="admin__field-control control">                            
+		<?php if($id > 0 && $storeId > 0) : ?>
+			<?php
+				$title2 = $facility->getFacilityTitleTransalte();
+				$useDefault = 1;
+				if($title2 != '')
+				{
+					$arTitles = $block->getBkJsonDecode($title2);
+					if(count($arTitles))
+					{
+						foreach($arTitles as $arTitle)
+						{
+							if($arTitle['store_id'] == $storeId)
+							{
+								$title = $arTitle['value'];
+								$useDefault = $arTitle['use_default'];
+								break;
+							}
+						}
+					}
+				}
+			?>
+			<input type="text" class=" input-text admin__control-text required-entry _required" value="<?php echo $title; ?>" data-ui-id="adminhtml-facilities-edit-tab-info-0-fieldset-element-text-facilities-facility-title" name="facilities[facility_title]" id="facilities_facility_title" <?php if($useDefault == 1) { echo 'disabled="disabled"'; } ?>>
+			<input id="facilities_title_default" <?php if($useDefault == 1) { echo 'checked="checked"'; } ?> type="checkbox" name="facilities[title_default]" value="1" /> <?php echo __('Use Default Value'); ?>
+		<?php else : ?>
+			 <input type="text" class=" input-text admin__control-text required-entry _required" value="<?php echo $title; ?>" data-ui-id="adminhtml-facilities-edit-tab-info-0-fieldset-element-text-facilities-facility-title" name="facilities[facility_title]" id="facilities_facility_title">
+		<?php endif; ?>
+		
+   </div>
+</div>
+<?php if($id > 0 && $storeId > 0) : ?>
+	<script>
+	require(['jquery'],
+		function($) {
+		   $('#facilities_title_default').click(function(){
+			  
+			   if($(this).is(":checked"))
+			   {
+				   $('#facilities_facility_title').prop('disabled',true);
+			   }
+			   else
+			   {
+				   $('#facilities_facility_title').prop('disabled',false);
+			   }
+		   });
+		}
+	);
+</script>
+<?php endif; ?>

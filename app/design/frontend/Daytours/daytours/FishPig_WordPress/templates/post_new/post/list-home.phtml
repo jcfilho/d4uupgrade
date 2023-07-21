@@ -1,0 +1,67 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+
+?>
+
+    <div class="blog-content home-page-blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                  
+                        <h1 class="block-title "><?php 
+                     
+                            if ($_SERVER['REQUEST_URI']== '/en/travel-guide')
+                                { 
+                                    echo __('Travel Articles');
+                                }
+                            if ($_SERVER['REQUEST_URI']== '/es/travel-guide')
+                                { 
+                                    echo __('Artículos de Viaje');
+                                }
+                             if ($_SERVER['REQUEST_URI']== '/fr/travel-guide')
+                                { 
+                                    echo __('Articles de Voyage');
+                                }
+                             if ($_SERVER['REQUEST_URI']== '/pt/travel-guide')
+                                { 
+                                    echo __('Artigos de Viagem');
+                                }
+                         ?></h1>
+                   
+                   
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <?php
+
+                    echo $block->getLayout()
+                        ->createBlock('FishPig\WordPress\Block\Sidebar\Widget\Search')
+                        ->toHtml();
+                    ?>
+                </div>
+            </div>
+
+<?php $posts = $this->getPosts() ?>
+<?php if (count($posts) > 0): ?>
+	<div class="post-list-wrapper">
+        <div class="row">
+            <ol class="post-list">
+                <?php foreach($posts as $post): ?>
+                    <?php if ($renderedPostHtml = $this->renderPost($post)): ?>
+                        <li class="item<?php if ($post->isSticky()): ?> featured is-sticky<?php endif; ?> <?php echo $post->getPostFormat()?> col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <?php echo $renderedPostHtml ?>
+                        </li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </ol>
+        </div>
+    </div>
+		<?php echo $this->getPagerHtml() ?>
+
+<?php endif; ?>
+        </div>
+    </div>

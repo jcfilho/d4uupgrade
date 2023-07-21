@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @Author      : Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Core/etc/config.xsd">
+    <default>
+        <marketplace>
+            <general>
+                <enable>1</enable>
+                <admin_email>marketplace@gmail.com</admin_email>
+                <percent>10</percent>
+                <product_type>simple,download,virtual,configurable</product_type>
+                <magebay_marketplace_block_position>4</magebay_marketplace_block_position>
+                <seller_approval>1</seller_approval>
+                <product_approval>1</product_approval>
+                <product_edit_approval>0</product_edit_approval>
+                <review_approval>1</review_approval>
+                <review_approval_order>0</review_approval_order>
+                <seller_policy_approval>1</seller_policy_approval>
+                <categoryids></categoryids>
+                <taxmanage>0</taxmanage>
+                <multivendorlabel>Sell On Our Marketplace</multivendorlabel>
+                <multivendorbutton>Star Now</multivendorbutton>
+                <multivendordescription>Easy + No cost + 100% Risk-Free</multivendordescription>
+                <specificcountry></specificcountry>
+                <allowspecific>0</allowspecific>
+                <trans_key></trans_key>
+                <email_contact_vendor>marketplace_general_email_contact_vendor</email_contact_vendor>
+                <email_order_vendor>marketplace_general_email_order_vendor</email_order_vendor>
+                <email_register_vendor>marketplace_general_email_register_vendor</email_register_vendor>
+                <email_approve_vendor>marketplace_general_email_approve_vendor</email_approve_vendor>
+                <email_unapprove_vendor>marketplace_general_email_unapprove_vendor</email_unapprove_vendor>
+                <email_withdraw_vendor>marketplace_general_email_withdraw_vendor</email_withdraw_vendor>
+                <email_withdraw_admin>marketplace_general_email_withdraw_admin</email_withdraw_admin>
+                <email_complete_withdraw_vendor>marketplace_general_email_complete_withdraw_vendor</email_complete_withdraw_vendor>
+                <email_complete_withdraw_admin>marketplace_general_email_complete_withdraw_admin</email_complete_withdraw_admin>
+            </general>
+        </marketplace>
+    </default>
+</config>

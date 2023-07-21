@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="PayPalButtonsFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\Daytours\PayPalButtons\Model\Ui\ConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Daytours\PayPalButtons\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PayPalButtonsValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PayPalButtonsCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="PayPalButtonsConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\Daytours\PayPalButtons\Model\Ui\ConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Logger, initialized with PayPalButtonsConfig -->
+    <virtualType name="PayPalButtonsLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">PayPalButtonsConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Daytours\PayPalButtons\Gateway\Http\Client\ClientMock">
+        <arguments>
+            <argument name="logger" xsi:type="object">PayPalButtonsLogger</argument>
+        </arguments>
+    </type>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="PayPalButtonsCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PayPalButtonsAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">PayPalButtonsCaptureCommand</item>
+                <item name="void" xsi:type="string">PayPalButtonsVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorize command -->
+    <virtualType name="PayPalButtonsAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PayPalButtonsAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">PayPalButtonsResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Daytours\PayPalButtons\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Daytours\PayPalButtons\Gateway\Http\Client\ClientMock</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorization Request -->
+    <virtualType name="PayPalButtonsAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">Daytours\PayPalButtons\Gateway\Request\AuthorizationRequest</item>
+                <item name="mockData" xsi:type="string">Daytours\PayPalButtons\Gateway\Request\MockDataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Daytours\PayPalButtons\Gateway\Request\AuthorizationRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">PayPalButtonsConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- Capture command -->
+    <virtualType name="PayPalButtonsCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Daytours\PayPalButtons\Gateway\Request\CaptureRequest</argument>
+            <argument name="handler" xsi:type="object">Daytours\PayPalButtons\Gateway\Response\TxnIdHandler</argument>
+            <argument name="transferFactory" xsi:type="object">Daytours\PayPalButtons\Gateway\Http\TransferFactory</argument>
+            <argument name="validator" xsi:type="object">Daytours\PayPalButtons\Gateway\Validator\ResponseCodeValidator</argument>
+            <argument name="client" xsi:type="object">Daytours\PayPalButtons\Gateway\Http\Client\ClientMock</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Capture Request -->
+    <type name="Daytours\PayPalButtons\Gateway\Request\CaptureRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">PayPalButtonsConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- Void command -->
+    <virtualType name="PayPalButtonsVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Daytours\PayPalButtons\Gateway\Request\VoidRequest</argument>
+            <argument name="handler" xsi:type="object">Daytours\PayPalButtons\Gateway\Response\TxnIdHandler</argument>
+            <argument name="transferFactory" xsi:type="object">Daytours\PayPalButtons\Gateway\Http\TransferFactory</argument>
+            <argument name="validator" xsi:type="object">Daytours\PayPalButtons\Gateway\Validator\ResponseCodeValidator</argument>
+            <argument name="client" xsi:type="object">Daytours\PayPalButtons\Gateway\Http\Client\ClientMock</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Void Request -->
+    <type name="Daytours\PayPalButtons\Gateway\Request\VoidRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">PayPalButtonsConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- Response handlers -->
+    <virtualType name="PayPalButtonsResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="txnid" xsi:type="string">Daytours\PayPalButtons\Gateway\Response\TxnIdHandler</item>
+                <item name="fraud" xsi:type="string">Daytours\PayPalButtons\Gateway\Response\FraudHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="PayPalButtonsValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PayPalButtonsConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayPalButtonsConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PayPalButtonsConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Daytours\PayPalButtons\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PayPalButtonsConfig</argument>
+        </arguments>
+    </type>
+
+</config>

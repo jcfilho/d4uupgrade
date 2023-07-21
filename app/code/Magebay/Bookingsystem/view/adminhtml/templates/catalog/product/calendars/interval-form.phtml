@@ -1,0 +1,229 @@
+<?php
+// @var Magebay\Bookingsystem\Block\Adminhtml\Calendars
+$interval = $this->getIntervalData();
+$textTime = $interval['intervalhours_booking_time'] != '' ? explode('_',$interval['intervalhours_booking_time']) : array();
+$textTime1 = '';
+$textTime2 = '';
+$okTime = false;
+$typeTime = $block->getBkConfig('bookingsystem/setting/time_mode');
+$pm1 = 1;
+$pm2 = 1;
+if(count($textTime) > 3)
+{
+    $okTime = true;
+    if($typeTime == 1)
+    {
+        $pm1 = $textTime[0] > 12 ? 2 : 1;
+        $textTime[0] = $textTime[0] > 12 ? $textTime[0] - 12 : $textTime[0];
+        $pm2 = $textTime[2] > 12 ? 2 : 1;
+        $textTime[2] = $textTime[2] > 12 ? $textTime[2] - 12 : $textTime[2];
+    }
+    $textTime1 = $textTime[0].':'.$textTime[1];
+    $textTime2 = $textTime[2].':'.$textTime[3];
+}
+?>
+<?php if((int)$interval['intervalhours_booking_id'] > 0) : ?>
+
+    <form id="booking-update-interval" method="post" action="/">
+        <input type="hidden" name="intervalhours_booking_id" value="<?php echo $interval['intervalhours_booking_id']; ?>">
+        <input type="hidden" name="intervalhours_check_in" id="inter-check-in" value="<?php echo $interval['intervalhours_check_in']; ?>">
+        <input type="hidden" name="intervalhours_check_out" id="inter-check-out" value="<?php echo $interval['intervalhours_check_out']; ?>">
+        <input type="hidden" name="intervalhours_id" value="<?php echo $interval['intervalhours_id']; ?>">
+        <div class="add-calendar-field">
+            <label><?php echo __('Start Time'); ?></label>
+            <span style="width: 50%; float: left">
+				<select id="start-timeiner-hour" name="start_time_hour" style="float: left;width: 20%;">
+                    <?php if($typeTime == 2) : ?>
+					<?php for($h1 = 0; $h1 <= 23; $h1++) : ?>
+                        <?php $textH1 = $h1 < 10 ? '0'.$h1: $h1; ?>
+                        <option <?php echo ($okTime && $textTime[0] == $textH1) ? 'selected="selected"' : ''; ?> value="<?php echo $h1 ?>"><?php echo $textH1 ?></option>
+                    <?php endfor; ?>
+                    <?php else : ?>
+                        <?php if($okTime && $pm1 == 2) : ?>
+                            <option value="12">12</option>
+                            <?php for($h1 = 1; $h1 <= 11; $h1++) : ?>
+                                <?php $textH1 = $h1 < 10 ? '0'.$h1: $h1; ?>
+                                <option <?php echo ($okTime && $textTime[0] == $textH1) ? 'selected="selected"' : ''; ?> value="<?php echo $h1 ?>"><?php echo $textH1 ?></option>
+                            <?php endfor; ?>
+                         <?php else : ?>
+                            <?php for($h1 = 0; $h1 <= 11; $h1++) : ?>
+                                <?php $textH1 = $h1 < 10 ? '0'.$h1: $h1; ?>
+                                <option <?php echo ($okTime && $textTime[0] == $textH1) ? 'selected="selected"' : ''; ?> value="<?php echo $h1 ?>"><?php echo $textH1 ?></option>
+                            <?php endfor; ?>
+                         <?php endif; ?>
+                    <?php endif; ?>
+				</select>
+				<select id="start-timeiner-minute" name="start_time_minute" style="float: left;width: 20%;">
+					<?php for($m1 = 0; $m1 < 59; $m1++) : ?>
+                        <?php $textM1 =  $m1 < 10 ? '0'.$m1 : $m1; ?>
+                        <option <?php if($okTime && $textTime[1] == $textM1) echo 'selected="selected"'; ?> value="<?php echo $textM1; ?>"><?php echo $textM1; ?></option>
+                    <?php endfor; ?>
+				</select>
+                <?php
+                if($typeTime == 1) : ?>
+                    <select id="start-timeiner-type" name="start_time_type">
+                        <option value="1"><?php echo __('AM') ?></option>
+                        <option <?php if($pm1 == 2) { echo 'selected="selected"'; } ?> value="2"><?php echo __('PM') ?></option>
+                    </select>
+                <?php endif; ?>
+			</span>
+        </div>
+        <div class="add-calendar-field">
+            <label><?php echo __('End Time'); ?></label>
+            <span style="width: 50%; float: left">
+			<select id="end-timeiner-hour" name="end_time_hour" style="float: left;width: 20%;">
+                <?php if($typeTime == 2) : ?>
+                    <?php for($h2 = 0; $h2 <= 23; $h2++) : ?>
+                        <?php $textH2 = $h2 < 10 ? '0'.$h2 : $h2; ?>
+                        <option <?php echo ($okTime && $textTime[2] == $textH2) ? 'selected="selected"' : '' ?> value="<?php echo $h2 ?>"><?php echo $textH2 ?></option>
+                    <?php endfor; ?>
+                <?php else : ?>
+                   <?php if($okTime && $pm2 == 2) : ?>
+                        <option value="12">12</option>
+                        <?php for($h2 = 1; $h2 <= 11; $h2++) : ?>
+                            <?php $textH2 = $h2 < 10 ? '0'.$h2 : $h2; ?>
+                            <option <?php echo ($okTime && $textTime[2] == $textH2) ? 'selected="selected"' : '' ?> value="<?php echo $h2 ?>"><?php echo $textH2 ?></option>
+                        <?php endfor; ?>
+                   <?php else : ?>
+                       <?php for ($h2 = 0; $h2 <= 11; $h2++) : ?>
+                            <?php $textH2 = $h2 < 10 ? '0'.$h2 : $h2; ?>
+                            <option <?php echo ($okTime && $textTime[2] == $textH2) ? 'selected="selected"' : '' ?> value="<?php echo $h2 ?>"><?php echo $textH2 ?></option>
+                        <?php endfor; ?>
+                   <?php endif; ?>
+                <?php endif; ?>
+
+			</select>
+			<select id="end-timeiner-minute" name="end_time_minute" style="float: left;width: 20%;">
+				 <?php for($m2 = 0; $m2 < 59; $m2++) : ?>
+                     <?php $textM2 =  $m2 < 10 ? '0'.$m2 : $m2; ?>
+                     <option <?php if($okTime && $textTime[3] == $textM2) echo 'selected="selected"'; ?> value="<?php echo $textM2; ?>"><?php echo $textM2; ?></option>
+                 <?php endfor; ?>
+			</select>
+             <?php if($typeTime == 1) : ?>
+                <select id="end-timeiner-type" name="end_time_type">
+                    <option value="1"><?php echo __('AM') ?></option>
+                    <option <?php if($pm2 == 2) { echo 'selected="selected"'; } ?> value="2"><?php echo __('PM') ?></option>
+                </select>
+             <?php endif; ?>
+		</span>
+        </div>
+        <div class="add-calendar-field">
+            <label><?php echo __('Status'); ?></label>
+            <select name="intervalhours_status">
+                <option value="1"><?php echo __('Enable'); ?></option>
+                <option value="2" <?php if($interval['intervalhours_status'] == '2') { echo  'selected="selected"'; } ?>><?php echo __('Disable'); ?></option>
+            </select>
+        </div>
+        <div class="add-calendar-field">
+            <label><?php echo __('Qty'); ?></label>
+            <input type="number" class="input-text required-entry" name="intervalhours_quantity" value="<?php echo $interval['intervalhours_quantity']; ?>" placeholder="0" min="1">
+        </div>
+        <div class="add-calendar-field">
+            <label><?php echo __('Price'); ?></label>
+            <input type="text" class="input-text required-entry" name="intervalhours_price" value="<?php echo $interval['intervalhours_price']; ?>" placeholder="0">
+        </div>
+        <div class="add-calendar-field">
+            <label><?php echo __('Title'); ?></label>
+            <input type="text" name="intervalhours_label" value="<?php echo $interval['intervalhours_label']; ?>" placeholder="Title">
+        </div>
+
+        <div class="add-calendar-field">
+            <button	id="save-inervals" type="button"><?php echo $interval['intervalhours_id'] > 0 ? __('Update Item') : __('Add new Item'); ?></button>
+            <button type="button" id="form-update-inervals-close"><?php echo __('Close'); ?> </button>
+        </div>
+    </form>
+    <?php
+    $arAjaxUrl = $block->getIntervalsAjaxUrl();
+    $urlSave = $arAjaxUrl['save'];
+    ?>
+    <script>
+        require(['jquery','Magento_Ui/js/modal/alert'],function ($,alert) {
+            var urlSave = '<?php echo $urlSave; ?>';
+            $("#save-inervals").on("click",function(){
+                if (!$('#booking-update-interval').valid()) {
+                    return false;
+                }
+                var textMessage = '<?php echo __('You have enter Data is not correct, Please try again. !')?>';
+                $('.bk-loading-mask').css('display','block');
+                $.ajax({
+                    url : urlSave,
+                    dataType : 'json',
+                    type : 'POST',
+                    data : $('#booking-update-interval').serialize(),
+                    success : function(res)
+                    {
+                        if(typeof  res !== 'object')
+                        {
+                            res = JSON.parse(res);
+                        }
+                        if(res.status == 'error')
+                        {
+                            textMessage = res.message;
+                        }
+                        if(res.status == 'success')
+                        {
+                            textMessage = '<?php echo __('You have been updated data successfully') ?>';
+                            $('.booking-table-item-intervals .booking-list-items-content').html(res.html_intervals);
+                            $('.bk-intervals-form').css('display','none');
+                            $('#is-change-intervals').val(1);
+                        }
+                        alert({
+                            title : '',
+                            content : textMessage
+                        })
+                        $('.bk-loading-mask').css('display','none');
+                    },
+                    error : function () {
+                        alert({
+                            title : '',
+                            content : textMessage
+                        })
+                        $('.bk-loading-mask').css('display','none');
+                    }
+                })
+            });
+            $.validator.setDefaults({ ignore: '' });
+            //text hour for PM Type
+            if($('#start-timeiner-type').length)
+            {
+                var htmlPm1 = '';
+                for (var i = 0; i <= 11; i++)
+                {
+                    var ti = i < 10 ? '0'+i : i;
+                    htmlPm1 += '<option value="'+i+'">'+ti+'</option>';
+                }
+                var htmlPm2 = '<option value="12">12</option>';
+                for(var i = 1; i <= 11; i++)
+                {
+                    var ti = i < 10 ? '0'+i : i;
+                    htmlPm2 += '<option value="'+i+'">'+ti+'</option>';
+                }
+                $('#start-timeiner-type').change(function () {
+                    if($(this).val() == '1')
+                    {
+                        $('#start-timeiner-hour').html(htmlPm1);
+                    }
+                    else
+                    {
+                        $('#start-timeiner-hour').html(htmlPm2);
+                    }
+                })
+                $('#end-timeiner-type').change(function () {
+                    if($(this).val() == '1')
+                    {
+                        $('#end-timeiner-hour').html(htmlPm1);
+                    }
+                    else
+                    {
+                        $('#end-timeiner-hour').html(htmlPm2);
+                    }
+                })
+            }
+            $('#form-update-inervals-close').click(function () {
+                $('.bk-intervals-form').css('display','none');
+            })
+        })
+    </script>
+<?php else :  ?>
+    <span><?php echo __('Data not found, Please check again'); ?> </span>
+<?php endif; ?>

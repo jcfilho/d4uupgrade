@@ -1,0 +1,18 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Cart $block */
+?>
+<div class="info-product-bottom">
+    <div class="block-price">
+        <span class="label-price"><?= __('from');  ?></span>
+        <?php foreach ($block->getChildNames() as $childName): ?>
+            <?= /* @noEscape */ $block->getLayout()->renderElement($childName, false) ?>
+        <?php endforeach;?>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add
+                id="Daytours4u_Theme::main"
+                title="Daytours4u"
+                module="Daytours_Theme"
+                sortOrder="10"
+                resource="Daytours_Theme::main"/>
+    </menu>
+</config>

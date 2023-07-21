@@ -1,0 +1,185 @@
+<!--/**
+ * @Author      : Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)a
+**/-->
+<style>
+    .form-list td.label {
+        width: 200px;
+    }
+</style>
+<?php 
+    $sellerInfor = $block->getInforSeller();
+    $url_request = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+    $http_mode	= (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']==='on');
+    if($http_mode)$url_request = str_replace('http:', 'https:', $url_request);  
+?>
+<div class="box-left" style="width: 100%;border: 1px solid silver ">
+    <div class="entry-edit">
+        <div class="entry-edit-head" style="background: #5F564F;padding: 15px">
+            <h4 class="icon-head head-account" style="color: white;">Seller Information </h4>
+        </div>
+        <div class="fieldset" style="padding: 20px">
+            <form action="<?php echo $block->getPayAction() ?>" method="get">
+                <input type="hidden" id="old_url" name="old_url" value="<?php echo $block->getBackUrl() ?>" />
+                <input type="hidden" name="type" value="all_items" />
+                <input type="hidden" id="sellerid" name="sellerid" value="<?php echo $this->getRequest()->getParam('sellerid') ?>" />
+                <input type="hidden" id="amount_pay" name="amount_pay" value="<?php echo $block->getTotalAmounPay() ?>" />
+                <table cellspacing="0" style="width: 100%;" class="form-list">
+    	            <tbody>
+    		            <tr>
+    		                <td class="label"><label><?php echo __('Seller Name') ?></label></td>
+    		                <td class="value"><strong><?php echo $sellerInfor->getName() ?></strong></td>
+    		            </tr>
+    					<tr>
+    		                <td class="label"><label><?php echo __('Seller Email') ?></label></td>
+    		                <td class="value"><strong><?php echo $sellerInfor->getEmail() ?></strong></td>
+    		            </tr>
+    					<!--<tr>
+    		                <td class="label"><label><?php echo __('Payment Information') ?></label></td>
+    		                <td class="value"><strong><?php echo $block->getInforPaymentSeller() ?></strong></td>
+    		            </tr>-->
+    		            <tr>
+    		                <td class="label"><label><?php echo __('Total Amount Remain') ?></label></td>
+    		                <td class="value"><strong><span id="mst_total_sellerprice"><?php echo $block->getTotalAmounSeller() ?></span></strong></td>
+    		            </tr>
+                        <tr>
+    		                <td class="label"><label><?php echo __('Total Amount Received') ?></label></td>
+    		                <td class="value"><strong><span id="mst_total_sellerprice"><?php echo $block->getTotalAmounReceivedSeller() ?></span></strong></td>
+    		            </tr>
+    	            	<!--<tr>
+    		                <td class="label"><label><?php echo __('Add Comment') ?></label></td>
+    		                <td class="value"><strong><textarea style="width:80%;heigth:5em;" id="comment" class="comment" name="comment"></textarea></strong></td>
+    		            </tr>
+    					<tr>
+    						<td></td>
+    						<td>
+                                <br />
+                                <button id="add_new_product-button" class="action-default primary add" data-ui-id="products-list-add-new-product-button" title="Pay for this seller" <?php if($block->getTotalAmounPay()==0) echo 'disabled=""' ?> >
+                                    <span><?php echo __('Pay for this seller') ?></span>
+                                </button>
+                            </td>
+    					</tr>-->
+    	            </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- popup pay for seller-->
+<style>
+    #form-pay {
+        background: white none repeat scroll 0 0;
+        border-radius: 5px;
+        display: none;
+        float: left;
+        left: 50%;
+        margin-left: -155px;
+        padding: 20px;
+        position: fixed;
+        text-align: left;
+        top: 12%;
+        width: 400px;
+        z-index: 10001;
+    }
+    .form-top {
+        border-radius: 4px 4px 0 0;
+        padding: 0px 15px;
+    } 
+    .form-close {
+        font-size: 12px;
+        font-weight: bold;
+        position: absolute;
+        right: 10px;
+        text-transform: uppercase;
+        top: 6px;
+        cursor: pointer;
+    }
+    .form-dam {
+        font-size: 15px;
+        font-weight: bold;
+    }
+    #pay_seller_form {
+        display: inline-block;
+        width: 100%;
+    }
+    .form-content {
+        padding: 15px;
+        position: relative;
+        width: 100%;
+    }
+    .form-comment {
+        border: 1px solid silver;
+        border-radius: 5px;
+        width: 100%;
+    }
+    .form-footer {
+        padding: 5px 15px 15px;
+        text-align: right;
+    }
+    #control_overlay {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      z-index: 9998;
+      opacity: 0.65;
+      background: black;
+      display: none;
+    }
+</style>
+<div id="form-pay" style="display: none;z-index: 99999"> 
+	<div class="form-top">
+		<span class="form-close">x</span>
+		<p class="form-dam"><?php echo __('Payment Information') ?></p>
+		<p><?php echo $block->getInforPaymentSeller() ?></p>
+		<p><?php echo __('Amount: ') ?><b id="total_amount"></b></p>
+		<p class="form-dam"><?php echo __('Comment') ?></p>
+	</div>
+	<form action="<?php echo $block->getPayAction() ?>" method="get" id="pay_seller_form">
+		<div class="form-content">
+			<div class="form-body">
+                <input type="hidden" id="old_url" name="old_url" value="<?php echo $block->getBackUrl() ?>" />
+                <input type="hidden" name="type" value="one_item" />	
+                <input type="hidden" id="sellerid" name="sellerid" value="<?php echo $this->getRequest()->getParam('sellerid') ?>" />	
+                <input type="hidden" id="productid" name="productid" value="" />	
+                <input type="hidden" id="amount_pay" name="amount_pay" value="" />
+                <input type="hidden" id="table_id" name="table_id" value="" />
+				<textarea name="comment" class="bootbox-input bootbox-input-text form-comment required-entry"></textarea>		
+			</div>
+		</div>
+		<div class="form-footer">
+			<button title="Pay" type="submit"><span><span><span><?php echo __('Pay') ?></span></span></span></button>
+		</div>
+	</form>
+</div>
+<div id="control_overlay" style="display: none;"></div>
+<script type="text/javascript">
+    require([
+        'jquery'
+    ], function ($) {
+        $('.mst_pay_seller').click(function(e){
+            $('#productid').val($(this).attr('product_id'));
+            $('#total_amount').html('$'+$(this).attr('total_amount'));
+            $('.form-body #amount_pay').val($(this).attr('total_amount'));
+            $('#table_id').val($(this).attr('table_id'));
+            $('#control_overlay').show();
+            $('#form-pay').show();
+            e.preventDefault();
+        });
+        $('.form-close').click(function(e){
+            $('#control_overlay').hide();
+            $('#form-pay').hide();
+            e.preventDefault();
+        });
+        $('#control_overlay').click(function(e){
+            $('#control_overlay').hide();
+            $('#form-pay').hide();
+            e.preventDefault();
+        });
+    });
+</script>
+<?php echo $block->getGridHtml(); ?>

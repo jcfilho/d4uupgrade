@@ -1,0 +1,118 @@
+<?php
+/**
+ * @var \Daytours\Bookingsystem\Block\Intervals $block
+ * @var \Daytours\Bookingsystem\Helper\Data $helperBooking
+ */
+?>
+<?php $params = $this->getRequest()->getParams(); ?>
+<?php $results = $block->getBookingResultTwoCalendars(); ?>
+<?php $bookingError  = 0; ?>
+<?php $totalPrice  = 0; ?>
+<?php $totalPromo  = 0; ?>
+<?php $okPromo  = 0; ?>
+<?php $bookingId = isset($results['booking_id']) ? $results['booking_id'] : 0; ?>
+<?php $totalItems = $results['total_items']; ?>
+<?php $perPrice = 0; ?>
+
+<?php $booking = $block->getBkProductById($bookingId); ?>
+<?php $baseDoble = $booking->getRegulares() ?>
+<?php $helperBooking = $this->helper('Daytours\Bookingsystem\Helper\Data'); ?>
+
+<?php if($results['str_error'] == '') : ?>
+	<?php
+
+    /****  RANGE PRICE  ****/
+    $results['total_price'] = $results['total_price'] / $params['qty'];
+    $results['total_promo'] = $results['total_promo'] / $params['qty'];
+
+    $results['total_price'] = $helperBooking->getPriceByRange($bookingId,$params['qty'],$results['total_price']);
+    $results['total_promo'] = $helperBooking->getPriceByRange($bookingId,$params['qty'],$results['total_promo']);
+
+    /****  BASE DOBLE  *****/
+    if( $baseDoble == '1' && $params['qty'] == '1'){
+        $results['total_price'] *= 2;
+        $results['total_promo'] *= 2;
+    }
+    /*------------*/
+
+    $perPrice = $results['total_price'] / $totalItems;
+	$totalPrice = $block->getBkPriceHelper()->currency($results['total_price'],true,false);
+	$totalPromo = $results['total_promo'] > 0 ? $results['total_promo'] : 0;
+	if($totalPromo > 0)
+	{
+		$okPromo = 1;
+        $perPrice = $totalPromo / $perPrice;
+	}
+	$totalPromo = $block->getBkPriceHelper()->currency($totalPromo,true,false);
+    $perPrice = $block->getBkPriceHelper()->currency($perPrice,true,false);
+
+    $results['total_price'] = $block->getBkPriceHelper()->currency($results['total_price'],false,false);
+    $results['total_promo'] = $block->getBkPriceHelper()->currency($results['total_promo'],false,false);
+
+	?>
+	<?php if($results['str_note'] != '') : ?>
+		<span class="booking-result-note"><?php echo $results['str_note']; ?> </span>
+	<?php endif; ?>
+	<div class="price-box">
+		<?php if($results['total_promo'] > 0) : ?>
+			<p class="old-price">
+				<span class="price-label"><?php //echo __('Regular Price') ?></span>
+                <span class="regular-price"><span class="price"><?php echo $totalPrice; ?></span></span>
+			</p>
+			<p class="special-price">
+				<span class="price-label"><?php //echo __('Special Price'); ?></span>
+                <span class="regular-price"><span class="price"><?php echo $totalPromo; ?></span></span>
+			</p>
+		<?php else :  ?>
+			<p>
+				<span class="price-label"><?php //echo __('Regular Price') ?></span>
+                <span class="regular-price"><span class="price"><?php echo $totalPrice; ?></span></span>
+			</p>
+		<?php endif; ?>
+    </div>
+	<input type="hidden" name="booking_validate_book" id="booking-validate-book" class="booking-validate-book" value="1" />
+<?php else :  ?>
+<?php $bookingError = 1; ?>
+<span class="booking-result-error"><?php echo $results['str_error']; ?></span>
+<input type="hidden" name="booking_validate_book" id="booking-validate-book" class="booking-validate-book" value="0" />
+<?php endif; ?>
+<script>
+	require(['jquery','priceBox','lastMinuteOperations'],
+		function ($,priceBox,lastMinute){
+		var bookingError = '<?php echo $bookingError; ?>';
+		var bookingId = '<?php echo $bookingId; ?>';
+		var totalPrice = '<?php echo $totalPrice; ?>';
+		var totalPromo = '<?php echo $totalPromo; ?>';
+		var okPromo  = '<?php echo $okPromo ; ?>';
+		var perPrice  = '<?php echo $perPrice ; ?>';
+		if(bookingError == '1'){
+			if($('#product-addtocart-button').length){
+				$('#product-addtocart-button').prop('disabled',true);
+			}else{
+				$('#product-updatecart-button').prop('disabled',true);
+			}
+		}else{
+			if($('#product-addtocart-button').length){
+				$('#product-addtocart-button').prop('disabled',false);
+			}else{
+				$('#product-updatecart-button').prop('disabled',false);
+			}
+			var priceData = $('[data-role="priceBox"]').data();
+            $('.main-form .total .old-price').remove(); //remove if exist
+            if(okPromo == '1')
+            {
+                priceData.magePriceBox.createHtmlToOldPrice(0);
+                priceData.magePriceBox.changeBookingPrice(<?= $results['total_promo'] ?>,<?= $results['total_price'] ?>);
+            }
+            else
+            {
+                if( typeof priceData.magePriceBox !== 'undefined' && typeof priceData.magePriceBox.changeBookingPrice !== 'undefined' ){
+                    priceData.magePriceBox.changeBookingPrice(<?= $results['total_price'] ?>,0);
+                }
+            }
+            $('.booking-per-day span').html(perPrice);
+		}
+
+            lastMinute.showInformationLastMinute('#bk-checkin-checkout');
+	})	
+</script>

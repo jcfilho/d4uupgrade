@@ -1,0 +1,41 @@
+<?php 
+$bkPriceItems = $block->updateBkPriceItems();
+$jsonBkPriceItems = '{}';
+if(count($bkPriceItems))
+{
+	$jsonBkPriceItems = $block->getBkHelperDate()->getBkJsonEncode($bkPriceItems);
+}
+?>
+<script>
+require([
+			'jquery',
+		],
+	function ($){
+		var jsonBkPriceItems = JSON.parse('<?php echo $jsonBkPriceItems; ?>');
+		var updateItem = false;
+		if(jsonBkPriceItems)
+		{
+			for(var bkKey in jsonBkPriceItems)
+			{
+				if(!isNaN(bkKey))
+				{
+					var jsonBkPriceItem = jsonBkPriceItems[bkKey];
+					if($('#item_custom_price_'+bkKey).length)
+					{
+						var oldBkPrice = $('#item_custom_price_'+bkKey).val();
+						if(parseFloat(oldBkPrice) != parseFloat(jsonBkPriceItem))
+						{
+							$('#item_custom_price_'+bkKey).val(jsonBkPriceItem);
+							updateItem = true;
+						}
+					}
+				}
+			}
+			if(updateItem)
+			{
+				$('#order-items .order-discounts button.action-default').click();
+			}
+		}
+	}
+)
+</script>

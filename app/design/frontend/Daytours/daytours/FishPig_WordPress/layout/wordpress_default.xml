@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * This is the default layout for all WordPress content
+ *
+ */
+-->
+<page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="FishPig_WordPress/css/wordpress.css"/>
+	</head>
+  <body>
+	  <referenceContainer name="header.container.banner">
+		  <block class="Magento\Cms\Block\Block" name="banner.blog.home.page">
+			  <arguments>
+				  <argument name="block_id" xsi:type="string">banner_travel_blog</argument>
+			  </arguments>
+		  </block>
+	  </referenceContainer>
+	  <referenceContainer name="header.container.banner">
+		  <container name="menu.wordpress" before="-" htmlClass="content-menu-wordpress" htmlTag="div" after="banner.blog.home.page">
+			  <block class="FishPig\WordPress\Block\Sidebar\Widget\NavMenu" name="menu.top.wp" />
+		  </container>
+	  </referenceContainer>
+
+    <referenceContainer name="sidebar.main">
+		<block class="FishPig\WordPress\Block\Sidebar\Widget\Search" name="search.sidebar.bloc"  before="-"/>
+		<block class="Daytours\Wordpress\Block\RecentArticles" name="sidebar.recent"  template="Daytours_Wordpress::list-recent-articles.phtml" after="search.sidebar.bloc"/>
+		<block class="FishPig\WordPress\Block\Sidebar\Widget\Cloud" name="sidebar.tags"  template="FishPig_WordPress::sidebar/widget/cloud.phtml" after="sidebar.recent"/>
+		<block class="Magento\Cms\Block\Block" name="sidebar_blog_static" after="sidebar.tags">
+			<arguments>
+				<argument name="block_id" xsi:type="string">sidebar_blog</argument>
+			</arguments>
+		</block>
+    </referenceContainer>
+	  <referenceContainer name="sidebar.additional" remove="true" />
+  </body>
+</page>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Daytours4u_Provider::provider"
+             title="Providers"
+             module="Daytours_Provider"
+             sortOrder="1"
+             resource="Daytours_Provider::provider"
+             action="bookingprovider/index/index"
+             parent="Daytours4u_Theme::main"/>
+    </menu>
+</config>

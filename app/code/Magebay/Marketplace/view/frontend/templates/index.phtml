@@ -1,0 +1,126 @@
+<?php
+/**
+ * @Author      : Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+?>
+<script>
+	require(['jquery','mage/mage'],function($){
+	   $('.page-title-wrapper').remove();
+	})
+</script>
+<?php 
+    use Magento\Framework\UrlInterface;
+    $collection = $block->getSellers();
+?>
+<?php 
+    $multivendorlabel = $block->getMkConfig('marketplace/general/multivendorlabel'); 
+    $multivendorbutton = $block->getMkConfig('marketplace/general/multivendorbutton');
+    $multivendordescription = $block->getMkConfig('marketplace/general/multivendordescription');
+?>
+<div class="mst_mv_wrapper" style="padding-top: 10px;">
+	<div class="marketplace-session">
+		<div class="a-center main-title">
+			<h2><?php echo $multivendorlabel; ?></h2>
+			<span><?php echo $multivendordescription; ?></span>
+		</div>
+		<div class="a-center signup-p">
+			<div class="mk-row">
+				<div class="mk-xs-4">
+					<div class="img">
+						<a href="#"><img src="<?php echo $this->getViewFileUrl('Magebay_Marketplace::images/home/sign-up.png'); ?>" alt="<?php echo __('Sign up') ?>"></a>
+					</div>
+					<span class="i-text"><?php echo __('Sign up') ?></span>
+				</div>
+				<div class="mk-xs-4">
+					<div class="img">
+						<a href="#"><img src="<?php echo $this->getViewFileUrl('Magebay_Marketplace::images/home/create-icon.png'); ?>" alt="<?php echo __('Create') ?>"></a>
+					</div>
+					<span class="i-text"><?php echo __('Create') ?></span>
+				</div>
+				<div class="mk-xs-4">
+					<div class="img">
+						<a href="#"><img src="<?php echo $this->getViewFileUrl('Magebay_Marketplace::images/home/sell-icon.png'); ?>" alt="<?php echo __('Sell') ?>"></a>
+					</div>
+					<span class="i-text"><?php echo __('Sell') ?></span>
+				</div>
+				<div class="mk-xs-12">
+					<a class="btn bnt-bg btn-star" href="<?php echo $this->getUrl('customer/account/create?seller=register&page=account'); ?>"><?php echo $multivendorbutton; ?></a>
+				</div>
+			</div>
+		</div>
+		<div class="a-center how-it-work">
+			<h4><?php echo __('How It Work') ?></h4>
+			<div class="wrapper-icon">
+				<div class="inner">
+					<div class="item">
+						<div class="icon">
+							<img src="<?php echo $this->getViewFileUrl('Magebay_Marketplace::images/home/sign-up-free.png'); ?>" alt="<?php echo __('1. Sing Up-Free') ?>">
+						</div>
+						<span class="i-text"><?php echo __('1. Sing Up-Free') ?></span>
+					</div>
+					<div class="item">
+						<div class="icon">
+							<img src="<?php echo $this->getViewFileUrl('Magebay_Marketplace::images/home/create-product.png'); ?>" alt="<?php echo __('2. Create Product') ?>">
+						</div>
+						<span class="i-text"><?php echo __('2. Create Product') ?></span>
+					</div>
+					<div class="item">
+						<div class="icon">
+							<img src="<?php echo $this->getViewFileUrl('Magebay_Marketplace::images/home/share-it.png'); ?>" alt="<?php echo __('3. Share it') ?>">
+						</div>
+						<span class="i-text"><?php echo __('3. Share it') ?></span>
+					</div>
+					<div class="item">
+						<div class="icon">
+							<img src="<?php echo $this->getViewFileUrl('Magebay_Marketplace::images/home/make-sale.png'); ?>" alt="<?php echo __('4. Make A Sale') ?>">
+						</div>
+						<span class="i-text"><?php echo __('4. Make A Sale') ?></span>
+					</div>
+					<div class="item">
+						<div class="icon">
+							<img src="<?php echo $this->getViewFileUrl('Magebay_Marketplace::images/home/you-profit.png'); ?>" alt="<?php echo __('5. You Profit') ?>">
+						</div>
+						<span class="i-text"><?php echo __('5. You Profit') ?></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="list_seller_product seller-list">
+		<div class="label">
+			<?php echo __('Seller List'); ?>
+		</div>
+		<div class="section group">
+    		<?php if(count($collection)) : ?>			
+                <?php foreach($collection as $seller) : ?>
+    				<div class="col span_1_of_4">
+        				<?php
+                            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                            $image = $objectManager->create('Magebay\Marketplace\Model\Image');
+                            if (file_exists(  $image->getPathMedia().$seller->getLogoimg() ) and $seller->getLogoimg() != '' ) {
+                                $logo = $image->imageResize( $seller->getLogoimg() , 200, 200 );
+                            } else {
+                                $logo = $block->getViewFileUrl('Magebay_Marketplace::images/noimage.png');
+                            }
+        				?>
+        				<div class="seller_thumbnail" >
+                            <a href="<?php echo  $this->getUrl()."marketplace/seller/view/vendor/".$seller->getStoreurl(); ?>">
+                                <img alt="<?php echo $seller->getStoretitle() ?>" title="<?php echo $seller->getStoretitle() ?>" src="<?php echo $logo; ?>">
+                            </a>
+                        </div>
+        				<div class="mv_storename_hover">
+        					<a href="<?php echo  $this->getUrl()."marketplace/seller/view/vendor/".$seller->getStoreurl(); ?>">
+                                <span><?php echo $seller->getStoretitle(); ?></span>
+                            </a>
+        				</div>
+    				</div>
+    			<?php endforeach; ?> 
+    		<?php endif; ?>
+		</div>
+	</div>
+	<div class="clear" style="clear: both;"></div>
+</div>

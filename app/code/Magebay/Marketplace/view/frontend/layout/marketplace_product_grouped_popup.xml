@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <update handle="marketplace_product_grouped"/>
+    <container name="root">
+        <block class="Magebay\Marketplace\Block\Product\Widget\Grid\Container" name="marketplace_product_super_grid_popup_container" template="Magebay_Marketplace::product/widget/grid/empty.phtml"/>
+    </container>
+</layout>

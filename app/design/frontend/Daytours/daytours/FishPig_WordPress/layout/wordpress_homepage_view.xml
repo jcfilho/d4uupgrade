@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<update handle="wordpress_default" />
+	<body>
+		<referenceContainer name="content">
+			<block class="FishPig\WordPress\Block\Homepage\View" name="wp.homepage.view" template="post/list/wrapper.phtml">
+				<block class="FishPig\WordPress\Block\Post\ListPost" name="wp.post.list" template="post/list-home.phtml">
+					<block class="FishPig\WordPress\Block\Post\PostList\Pager" name="wp.post_list.pager" as="pager" />
+				</block>
+			</block>
+			<block class="Magento\Cms\Block\Block" name="blog_home_page_after_elements" after="wp.homepage.view">
+				<arguments>
+					<argument name="block_id" xsi:type="string">trending_activities_block</argument>
+				</arguments>
+			</block>
+			<referenceBlock name="breadcrumbs" remove="true" />
+		</referenceContainer>
+		<referenceContainer name="sidebar.main" remove="true"/>
+
+
+		<referenceContainer name="page.wrapper">
+			<container name="container.footer.blog" as="container_footer_blog" label="" htmlTag="div" htmlClass="container-block-footer before_footer" after="main.content" >
+				<block class="Magento\Cms\Block\Block" name="blog_footer_element" before="-">
+					<arguments>
+						<argument name="block_id" xsi:type="string">block_before_footer</argument>
+					</arguments>
+				</block>
+			</container>
+		</referenceContainer>
+		<referenceBlock name="page.main.title" remove="true" />
+	</body>
+</page>

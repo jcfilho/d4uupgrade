@@ -1,0 +1,63 @@
+<?php
+/**
+ * @Author      : Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+/**
+ * Copyright � 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $_order = $block->getOrder() ?>
+<div class="admin__table-wrapper">
+    <table class="data-table admin__table-primary edit-order-table sdfssf">
+        <thead>
+            <tr class="headings">
+<!--                <th class="col-product"><span>--><?php ///* @escapeNotVerified */ echo __('Product') ?><!--</span></th>-->
+                <th class="col-status"><span><?php /* @escapeNotVerified */ echo __('Item Status') ?></span></th>
+                <th class="col-price-original"><span><?php /* @escapeNotVerified */ echo __('Original Price') ?></span></th>
+                <th class="col-price"><span><?php /* @escapeNotVerified */ echo __('Price') ?></span></th>
+                <th class="col-ordered-qty"><span><?php /* @escapeNotVerified */ echo __('Qty') ?></span></th>
+                <th class="col-subtotal"><span><?php /* @escapeNotVerified */ echo __('Subtotal') ?></span></th>
+                <th class="col-tax-amount"><span><?php /* @escapeNotVerified */ echo __('Tax Amount') ?></span></th>
+                <th class="col-tax-percent"><span><?php /* @escapeNotVerified */ echo __('Tax Percent') ?></span></th>
+                <th class="col-discont"><span><?php /* @escapeNotVerified */ echo __('Discount Amount') ?></span></th>
+                <th class="col-total last"><span><?php /* @escapeNotVerified */ echo __('Row Total') ?></span></th>
+            </tr>
+        </thead>
+        <?php $_items = $block->getItemsCollection();?>
+        <?php $i = 0; foreach ($_items as $_item):?>
+            <?php if ($_item->getParentItem()) {
+                continue;
+            } else {
+                $i++;
+            }?>
+            <tbody class="<?php /* @escapeNotVerified */ echo $i%2 ? 'even' : 'odd' ?>">
+                <?php echo $block->getItemHtml($_item) ?>
+                <?php echo $block->getItemExtraInfoHtml($_item) ?>
+                <tr>
+                    <td colspan="10">
+                    	<?php $mkSalesHelper = $this->helper('Magebay\Marketplace\Helper\MkSales'); ?>
+                    	<?php if($mkSalesHelper->getSellerNameSalesOrder($_order->getId(),$_item->getProductId(),$_item->getBasePrice())): ?>
+                            <?php 
+                                $seller = $mkSalesHelper->getSellerNameSalesOrder($_order->getId(),$_item->getProductId(),$_item->getBasePrice());
+                            ?>
+                            	<div class="info-seller">
+                            		<div class="info-seller-title">
+                                		<strong><?php echo __('Seller: '); ?></strong> 
+                                        <?php echo $seller->getStoretitle() ?>
+                            		</div>
+                            	</div>
+                        <?php endif; ?>
+                     </td>
+                </tr>
+            </tbody>
+        <?php endforeach; ?>
+    </table>
+</div>

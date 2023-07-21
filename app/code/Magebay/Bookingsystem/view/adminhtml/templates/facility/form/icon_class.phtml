@@ -1,0 +1,21 @@
+<?php 
+$params = $block->getBkRequest();
+$id = isset($params['id']) ? $params['id'] : 0;
+$iconClass = '';
+if($id > 0)
+{
+	$facility = $block->getFacility();
+	$iconClass = $facility->getFacilityIconClass();
+}
+?>
+<div data-ui-id="adminhtml-facilities-edit-tab-info-0-fieldset-element-form-field-facility-icon-class" class="admin__field field field-facility_icon_class">
+   <label for="facilities_facility_title" class="label admin__field-label"><span><?php echo __('Use font icon instead image thumbnail?'); ?></span></label>
+   <div class="admin__field-control control">                            
+		<input type="text" class=" input-text admin__control-text _required" value="<?php echo $iconClass; ?>" data-ui-id="adminhtml-facilities-edit-tab-info-0-fieldset-element-text-facilities-facility-icon-class" name="facilities[facility_icon_class]" id="facility_icon_class">
+	<span class="note-booking">
+				<?php echo __('Example: ') ?><br>
+				<?php echo __('Input "fa-desktop" for') ?> <a href="http://fortawesome.github.io/Font-Awesome/icons/" target="_blank"><?php echo __('Fontawesome'); ?></a>,<br>
+				<?php echo __('Input "im-pool" for') ?> <a href="https://icomoon.io/" target="_blank"><?php echo __('Icomoon'); ?></a>,<br>
+				</span>
+   </div>
+</div>

@@ -1,0 +1,136 @@
+<!--/**
+ * @Author      : Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)a
+**/-->
+<?php 
+    $url_request = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+    $http_mode	= (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']==='on');
+    if($http_mode)$url_request = str_replace('http:', 'https:', $url_request);  
+?>
+<style>
+    #form-pay {
+        background: white none repeat scroll 0 0;
+        border-radius: 5px;
+        display: none;
+        float: left;
+        left: 50%;
+        margin-left: -30%;
+        padding: 20px;
+        position: fixed;
+        text-align: left;
+        top: 2%;
+        width: 60%;
+        z-index: 10001;
+    }
+    .form-top {
+        border-radius: 4px 4px 0 0;
+        padding: 0px 15px;
+    } 
+    .form-close {
+        font-size: 12px;
+        font-weight: bold;
+        position: absolute;
+        right: 10px;
+        text-transform: uppercase;
+        top: 6px;
+        cursor: pointer;
+    }
+    .form-dam {
+        font-size: 15px;
+        font-weight: bold;
+    }
+    #pay_seller_form {
+        display: inline-block;
+        width: 100%;
+    }
+    .form-content {
+        padding: 15px;
+        position: relative;
+        width: 100%;
+    }
+    .form-comment {
+        border: 1px solid silver;
+        border-radius: 5px;
+        width: 100%;
+    }
+    .form-footer {
+        padding: 5px 15px 15px;
+        text-align: right;
+    }
+    #control_overlay {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      z-index: 9998;
+      opacity: 0.65;
+      background: black;
+      display: none;
+    }
+    .loading-mask-pay {
+        background: rgba(255, 255, 255, 0.4) none repeat scroll 0 0;
+        bottom: 0;
+        left: 0;
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 2003;
+    }
+</style>
+<div id="form-pay" style="display: none;z-index: 99999"> 
+
+</div>
+<div id="control_overlay" style="display: none;"></div>
+<div data-role="loader" class="loading-mask-pay" style="display: none;">
+    <div class="popup popup-loading">
+        <div class="popup-inner">
+            <?php echo __('Please wait...') ?>
+        </div>
+    </div>
+</div>
+<?php 
+    $url = explode('admin',$this->getUrl());
+?>
+<script type="text/javascript">
+    require([
+        'jquery'
+    ], function ($) {
+        Magebay={
+            viewTransaction: function(tran_id){
+    			data = 'isAjax=1';
+                url = '<?php echo $url[0] ?>marketplace/index/ViewTransaction?tran_id='+tran_id;
+                $.ajax({
+        			url: url,
+        			type : 'post',
+        			data : data,
+                    cache: false,
+                    beforeSend:  function() {
+                        $('.loading-mask-pay').show();
+                    },
+        			success : function(data) {
+                        $('.loading-mask-pay').hide();
+        			    $('#control_overlay').show();
+                        $('#form-pay').html(data);
+                        $('#form-pay').show();
+                        $('.old_url').val('<?php echo $block->getBackUrl() ?>');
+        			}
+            	});
+            }
+        }
+        $('.form-close').click(function(e){
+            $('#control_overlay').hide();
+            $('#form-pay').hide();
+            e.preventDefault();
+        });
+        $('#control_overlay').click(function(e){
+            $('#control_overlay').hide();
+            $('#form-pay').hide();
+            e.preventDefault();
+        });
+    });
+</script>
+<?php echo $block->getGridHtml(); ?>

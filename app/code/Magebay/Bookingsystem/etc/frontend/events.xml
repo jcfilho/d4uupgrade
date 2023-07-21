@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/Event/etc/events.xsd">
+	 <event name="checkout_cart_product_add_after">
+        <observer name="bk_custom_price" instance="Magebay\Bookingsystem\Observer\Frontend\ChangePrice" />
+    </event>
+	<event name="controller_action_predispatch">
+	   <observer name="bk_load_page_before" instance="Magebay\Bookingsystem\Observer\Frontend\BkChangeStore" />
+   </event>
+   <event name="catalog_product_load_after">
+        <observer name="extraoption" instance="Magebay\Bookingsystem\Observer\Frontend\Extraoption" shared="false" />
+    </event>
+   <!--  <event name="controller_action_predispatch_stores_store_switch">
+	   <observer name="bk_load_page_before_store" instance="Magebay\Bookingsystem\Observer\Frontend\BkChangeStore" />
+   </event>  
+    <event name="controller_action_predispatch_directory_currency_switch">
+	   <observer name="bk_load_page_currency_before" instance="Magebay\Bookingsystem\Observer\Frontend\BkChangeStore" />
+   </event>
+   <event name="controller_action_predispatch_checkout_cart_updatePost">
+	   <observer name="bk_load_page_before_update_cart" instance="Magebay\Bookingsystem\Observer\Frontend\BkChangeStore" />
+   </event> -->
+</config>

@@ -1,0 +1,118 @@
+page_id,title,page_layout,meta_keywords,meta_description,identifier,content_heading,content,is_active,sort_order,layout_update_xml,custom_theme,custom_root_template,custom_layout_update_xml,custom_theme_from,custom_theme_to,meta_title,exclude_from_sitemap,store_id
+6,Welcome to our affiliate program,1column,,,affiliate-program,Welcome to our affiliate program,,1,0,"<referenceContainer name=""root"" htmlTag=""div"" htmlClass=""affiliate-programs-daytours"">
+</referenceContainer>
+<referenceContainer name=""header.container.banner"">
+            <block class=""Magento\Cms\Block\Block"" name=""banne_affiliate_banner"" before=""-"">
+                <arguments>
+                    <argument name=""block_id"" xsi:type=""string"">become-seller-banner</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
+        <referenceContainer name=""content"">
+            <container name=""main.container.affiliate"" as=""main_container_affiliate"" label="""" htmlTag=""div"" htmlClass=""container main-content-becom-seller"" >
+                <block class=""Magento\Cms\Block\Block"" name=""affiliate_content_main"" before=""-"">
+                    <arguments>
+                        <argument name=""block_id"" xsi:type=""string"">affiliate-content-main</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+
+        <referenceContainer name=""page.wrapper"">
+            <container name=""container.affiliate.block.black"" as=""container_affiliate_block_black"" label="""" htmlTag=""div"" htmlClass=""container-affiliate-block-black"" after=""main.content"" >
+                <container name=""container.affiliate.block.black.content"" as=""container_affiliate_block_black_content"" label="""" htmlTag=""div"" htmlClass=""container-affiliate-block-black-content"" >
+                    <block class=""Magento\Cms\Block\Block"" name=""affiliate_content_black"" before=""-"">
+                        <arguments>
+                            <argument name=""block_id"" xsi:type=""string"">affiliate-black-content</argument>
+                        </arguments>
+                    </block>
+                </container>
+            </container>
+            <container name=""container.affiliate.block.form"" as=""container_affiliate_block_form"" label="""" htmlTag=""div"" htmlClass=""container-affiliate-block-form"" after=""container.affiliate.block.black"" >
+                <container name=""container.affiliate.block.form.content"" as=""container_affiliate_block_form_content"" label="""" htmlTag=""div"" htmlClass=""container-affiliate-block-form-content"" >
+                    <block class=""Magento\Customer\Block\Form\Register"" name=""daytours.affiliate.register.configure"" template=""Daytours_Affiliate::account/register-configure.phtml"" cacheable=""false"" />
+                </container>
+            </container>
+        </referenceContainer>
+<move element=""messages"" destination=""container.affiliate.block.form.content"" after=""daytours.affiliate.register.configure""/>",,,,,,,0,"admin,english"
+17,Frequently Asked Questions,1column,,,frequently-asked-questions,Frequently Asked Questions,"<div id=""faqs-block"" class=""faqs-block"">
+<div class=""block block-collapsible-nav collapsible-custom"">
+<div id=""block-collapsible-nav"" class=""content block-collapsible-nav-content"">
+<ul class=""nav items"">
+<li class=""nav item current""><a href=""#tab-0"">{{trans ""General""}}</a></li>
+<li class=""nav item""><a href=""#tab-2"">{{trans ""Argentina""}}</a></li>
+<li class=""nav item""><a href=""#tab-3"">{{trans ""Brazil""}}</a></li>
+<li class=""nav item""><a href=""#tab-4"">{{trans ""Bolivia""}}</a></li>
+<li class=""nav item""><a href=""#tab-5"">{{trans ""Chile""}}</a></li>
+<li class=""nav item""><a href=""#tab-6"">{{trans ""Colombia""}}</a></li>
+<li class=""nav item""><a href=""#tab-7"">{{trans ""Paraguay""}}</a></li>
+<li class=""nav item""><a href=""#tab-8"">{{trans ""Peru""}}</a></li>
+<li class=""nav item""><a href=""#tab-9"">{{trans ""Uruguay""}}</a></li>
+</ul>
+</div>
+</div>
+<div class=""faq-tabs pull-right"">{{block class=""Magento\Cms\Block\Block"" block_id=""faq_general""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_argentina""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_brazil""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_bolivia""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_chile""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_colombia""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_paraguay""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_peru""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_uruguay""}}</div>
+</div>",1,0,"<referenceContainer name=""content"">
+     <referenceBlock name=""breadcrumbs"" remove=""true"" />
+</referenceContainer>",,,,,,,,"admin,english"
+,Preguntas mas Frecuentes,1column,,,frequently-asked-questions,Frequently Asked Questions,"<div id=""faqs-block"" class=""faqs-block"">
+<div class=""block block-collapsible-nav collapsible-custom"">
+<div id=""block-collapsible-nav"" class=""content block-collapsible-nav-content"">
+<ul class=""nav items"">
+<li class=""nav item current""><a href=""#tab-0"">{{trans ""General""}}</a></li>
+<li class=""nav item""><a href=""#tab-2"">{{trans ""Argentina""}}</a></li>
+<li class=""nav item""><a href=""#tab-3"">{{trans ""Brazil""}}</a></li>
+<li class=""nav item""><a href=""#tab-4"">{{trans ""Bolivia""}}</a></li>
+<li class=""nav item""><a href=""#tab-5"">{{trans ""Chile""}}</a></li>
+<li class=""nav item""><a href=""#tab-6"">{{trans ""Colombia""}}</a></li>
+<li class=""nav item""><a href=""#tab-7"">{{trans ""Paraguay""}}</a></li>
+<li class=""nav item""><a href=""#tab-8"">{{trans ""Peru""}}</a></li>
+<li class=""nav item""><a href=""#tab-9"">{{trans ""Uruguay""}}</a></li>
+</ul>
+</div>
+</div>
+<div class=""faq-tabs pull-right"">{{block class=""Magento\Cms\Block\Block"" block_id=""faq_general""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_argentina""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_brazil""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_bolivia""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_chile""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_colombia""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_paraguay""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_peru""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_uruguay""}}</div>
+</div>",1,0,"<referenceContainer name=""content"">
+     <referenceBlock name=""breadcrumbs"" remove=""true"" />
+</referenceContainer>",,,,,,,,spanish
+,Frequently Asked Questions Portuguese,1column,,,frequently-asked-questions,Frequently Asked Questions,"<div id=""faqs-block"" class=""faqs-block"">
+<div class=""block block-collapsible-nav collapsible-custom"">
+<div id=""block-collapsible-nav"" class=""content block-collapsible-nav-content"">
+<ul class=""nav items"">
+<li class=""nav item current""><a href=""#tab-0"">{{trans ""General""}}</a></li>
+<li class=""nav item""><a href=""#tab-2"">{{trans ""Argentina""}}</a></li>
+<li class=""nav item""><a href=""#tab-3"">{{trans ""Brazil""}}</a></li>
+<li class=""nav item""><a href=""#tab-4"">{{trans ""Bolivia""}}</a></li>
+<li class=""nav item""><a href=""#tab-5"">{{trans ""Chile""}}</a></li>
+<li class=""nav item""><a href=""#tab-6"">{{trans ""Colombia""}}</a></li>
+<li class=""nav item""><a href=""#tab-7"">{{trans ""Paraguay""}}</a></li>
+<li class=""nav item""><a href=""#tab-8"">{{trans ""Peru""}}</a></li>
+<li class=""nav item""><a href=""#tab-9"">{{trans ""Uruguay""}}</a></li>
+</ul>
+</div>
+</div>
+<div class=""faq-tabs pull-right"">{{block class=""Magento\Cms\Block\Block"" block_id=""faq_general""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_argentina""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_brazil""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_bolivia""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_chile""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_colombia""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_paraguay""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_peru""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_uruguay""}}</div>
+</div>",1,0,"<referenceContainer name=""content"">
+     <referenceBlock name=""breadcrumbs"" remove=""true"" />
+</referenceContainer>",,,,,,,,portuguese
+,Frequently Asked Questions French,1column,,,frequently-asked-questions,Frequently Asked Questions,"<div id=""faqs-block"" class=""faqs-block"">
+<div class=""block block-collapsible-nav collapsible-custom"">
+<div id=""block-collapsible-nav"" class=""content block-collapsible-nav-content"">
+<ul class=""nav items"">
+<li class=""nav item current""><a href=""#tab-0"">{{trans ""General""}}</a></li>
+<li class=""nav item""><a href=""#tab-2"">{{trans ""Argentina""}}</a></li>
+<li class=""nav item""><a href=""#tab-3"">{{trans ""Brazil""}}</a></li>
+<li class=""nav item""><a href=""#tab-4"">{{trans ""Bolivia""}}</a></li>
+<li class=""nav item""><a href=""#tab-5"">{{trans ""Chile""}}</a></li>
+<li class=""nav item""><a href=""#tab-6"">{{trans ""Colombia""}}</a></li>
+<li class=""nav item""><a href=""#tab-7"">{{trans ""Paraguay""}}</a></li>
+<li class=""nav item""><a href=""#tab-8"">{{trans ""Peru""}}</a></li>
+<li class=""nav item""><a href=""#tab-9"">{{trans ""Uruguay""}}</a></li>
+</ul>
+</div>
+</div>
+<div class=""faq-tabs pull-right"">{{block class=""Magento\Cms\Block\Block"" block_id=""faq_general""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_argentina""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_brazil""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_bolivia""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_chile""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_colombia""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_paraguay""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_peru""}} {{block class=""Magento\Cms\Block\Block"" block_id=""faq_uruguay""}}</div>
+</div>",1,0,"<referenceContainer name=""content"">
+     <referenceBlock name=""breadcrumbs"" remove=""true"" />
+</referenceContainer>",,,,,,,,french

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Daytours\PayPalButtons\Observer\SuccessAction" type="Daytours\PartialPayment\Observer\SuccessAction" />
+    <preference for="Daytours\PartialPayment\Api\PartialPaymentRepositoryInterface" type="Daytours\PartialPayment\Model\PartialPaymentRepository" />
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="add_custom_options" xsi:type="object">Daytours\PartialPayment\Console\Command\AddCustomOption</item>
+                <item name="remove_custom_options" xsi:type="object">Daytours\PartialPayment\Console\Command\RemoveCustomOption</item>
+            </argument>
+        </arguments>
+    </type> 
+</config>

@@ -1,0 +1,47 @@
+<?php
+/**
+ * @copyright Copyright © 2019 Onetree. All rights reserved.
+ * @author    Hector Perez Hernandez <hector.perez@onetree.com>
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+/** @var \Magento\Wishlist\Block\Customer\Wishlist\Items $block */
+$columns = $block->getColumns();
+?>
+
+<div class="products-grid wishlist">
+    <?php $iterator = 1; ?>
+    <?php if (count($block->getItems())): ?>
+    <ul class="list-product">
+        <?php foreach ($block->getItems() as $item): ?>
+        <?= /* @noEscape */ ($iterator++ == 1) ? '<li data-row="product-item" class="item product product-item" id="item_' . $block->escapeHtmlAttr($item->getId()) . '">' : '</li><li class="item product product-item" id="item_' . $block->escapeHtmlAttr($item->getId()) . '">' ?>
+            <div class="product-item-info" data-container="product-grid">
+                <?php foreach ($columns as $column): ?>
+                    <?php if($column->getNameInLayout() === 'customer.wishlist.item.image'): ?>
+                        <?php $column->setItem($item); echo $column->toHtml();  break; ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+
+                <div class="product-item-details">
+                    <?php foreach ($columns as $column): ?>
+                        <?php if($column->getNameInLayout() !== 'customer.wishlist.item.image'): ?>
+                            <?php $column->setItem($item); echo $column->toHtml(); ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        <?= ($iterator == count($block->getItems())+1) ? '</li>' : '' ?>
+        <?php endforeach; ?>
+    </ul>
+    <?php else: ?>
+        <div class="message info empty">
+            <span><?= $block->escapeHtml(__('This Wish List has no Items')) ?></span>
+        </div>
+    <?php endif; ?>
+</div>
+
+<?php foreach ($columns as $column): ?>
+    <?= $column->getAdditionalHtml() ?>
+<?php endforeach; ?>

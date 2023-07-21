@@ -1,0 +1,134 @@
+<?php 
+/**
+ * @Author      : Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+?>
+<?php
+    $partnerAmount = $block->getPartnerAmount();
+    $lastOrder = $block->getLastOrder();
+    $reviews = $block->getLatestReview();
+	$month_sale = $block->getMonthlysale();
+	$prodid = $this->getRequest()->getParam('id');
+?>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css"/>
+<div class="wrap-advanced-report mst_mv_wrapper">
+    <div class="time-report" style="margin: 0 0 20px;">
+    	<div class="time-report">
+        	<form action="" method="post" name="time-report-form" class="time-report-form">
+        		<div class="form-group">
+        			<select id="select_filter" class="select_filter" name="select_filter">
+        				<option value=""><?php echo __('') ?></option>
+        				<option value="today" <?php echo $this->getRequest()->getParam('select_filter') == 'today'?'selected=""':''; ?>><?php echo __('Today') ?></option>
+        				<option value="last 7 days" <?php echo $this->getRequest()->getParam('select_filter') == 'last 7 days'?'selected=""':''; ?>><?php echo __('Last 7 Days') ?></option>
+        				<option value="current month" <?php echo $this->getRequest()->getParam('select_filter') == 'current month'?'selected=""':''; ?>><?php echo __('Current month') ?></option>
+        				<option value="last month" <?php echo $this->getRequest()->getParam('select_filter') == 'last month'?'selected=""':''; ?>><?php echo __('Last month') ?></option>
+        				<option value="last week" <?php echo $this->getRequest()->getParam('select_filter') == 'last week'?'selected=""':''; ?>><?php echo __('Last Week') ?></option>
+        				<option value="current week" <?php echo $this->getRequest()->getParam('select_filter') == 'current week'?'selected=""':''; ?>><?php echo __('Current Week') ?></option>
+        				<option value="custom" <?php echo $this->getRequest()->getParam('select_filter') == 'custom'?'selected=""':''; ?>><?php echo __('Custom') ?></option>
+        				<!--<option name="today" value="today"><?php echo __('Today') ?></option>-->
+        			</select>
+        		</div>
+        		<div class="form-group">
+        			<input type="text" id="start-date" class="input-text" placeholder="<?php echo __("Start Date") ?>" name="start-date" value="<?php echo str_replace('00:00:00','',$block->getCurrentStartDate()) ?>"/>
+        		</div>
+        		<div class="form-group">
+        			<input type="text" id="end-date" class="input-text" name="end-date" placeholder="<?php echo __("End Date") ?>" value="<?php echo str_replace('23:59:59','',$block->getCurrentEndDate()) ?>"/>
+        		</div>
+        		<button type="submit" class="btn btn-default"><?php echo __('Update') ?></button>
+        		<div style="clear: both;"></div>
+        	</form>	
+    	</div>
+    </div>
+    <div class="seller-today-sales">       
+    	<div class="sales_bg">           
+    		<div class="today_info">
+        		<strong><?php echo __("Total Sales") ?></strong>
+        		<p><?php echo $block->getTotalProductSales($prodid); ?></p>
+    		</div> 
+    		<span class="icon"></span>
+    	</div> 
+    	<div class="total_orders_bg">
+    		<div class="today_info">
+        		<strong><?php echo __("Total Income") ?></strong>
+        		<p><?php echo $block->getMkPriceHelper()->currency($block->getTotalProductIncome($prodid),true,false); ?></p>
+    		</div>
+    		<span class="icon"></span>
+    	</div>  
+    </div>
+    <div class="seller-sales-chart">
+        <div class="box-title">
+            <span><?php echo __('Seller Sales'); ?></span>           
+        </div>
+        <div class="fieldset mst_mv_fieldset" style="letter-spacing: 0;">
+            <div style="">
+                <div id="saleschart" style="height: 250px;"></div>
+                <div class="clear" style="clear:both;"></div>
+            </div>
+        </div>
+        <div class="box-title">
+            <span><?php echo __('Product Views'); ?></span>           
+        </div>
+        <div class="fieldset mst_mv_fieldset" style="letter-spacing: 0;">
+            <div id="viewschart" style="height: 250px;"></div>
+            <div class="clear" style="clear:both;"></div>
+        </div>	
+    </div>
+    <script>
+        /* data stolen from http://howmanyleft.co.uk/vehicle/jaguar_'e'_type */
+        require([
+            "jquery",
+            "mage/mage",
+            "mage/calendar"
+        ], function($){
+            $("#start-date").calendar({'dateFormat':'mm/dd/yy'});
+            $("#end-date").calendar({'dateFormat':'mm/dd/yy'});	
+        });
+        require([
+            "jquery",
+            "//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js",
+            "//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"
+        ], function($){ 
+			lineChart();
+			lineChartView();
+			$(window).resize(function() {
+				window.lineChart.redraw();
+				window.lineChartView.redraw();
+			});
+			function lineChart() {         
+				var day_data = JSON.parse('<?php echo $block->getProductCustomsale($prodid, '', '',''); ?>');
+				window.lineChart = Morris.Line({
+					element: 'saleschart',
+					data: day_data,
+					xkey: 'period',
+					ykeys: ['sales'],
+					labels: ['Sales'],
+					parseTime: false,
+					hoverCallback: function (index, options, default_content, data) {
+						return default_content.replace("Sales", "<span style='color:#000;'>Earn Amount: " + data.earn + "</span><br>Sales: " );
+					},
+					xLabelMargin: 10,
+					integerYLabels: true
+					//ykeys: ['sales', 'sorned'],
+					//labels: ['Licensed', 'SORN']
+				}); 
+            }
+			function lineChartView() {
+				var product_views = JSON.parse('<?php echo $block->getProductReportView( $prodid ); ?>');
+				window.lineChartView = Morris.Line({
+					element: 'viewschart',
+					data: product_views,
+					xkey: 'period',
+					ykeys: ['sales'],
+					labels: ['Views'],
+					parseTime: false
+					//ykeys: ['sales', 'sorned'],
+					//labels: ['Licensed', 'SORN']
+				}); 
+			}
+        });	
+    </script>
+</div>

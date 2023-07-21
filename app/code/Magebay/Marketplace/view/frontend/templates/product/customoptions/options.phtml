@@ -1,0 +1,37 @@
+<?php 
+/**
+ * @Author      : haunv
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2017 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+?>
+<div class="field magebay__scope-old customoption" id="Custom_Options" >
+	<label class="label"><span><?php /* @escapeNotVerified */ echo __('Custom Options') ?></span></label>
+	<div class="control">
+		<div id="product-custom-options-wrapper" data-block="product-custom-options">
+            <div id="product_options_container" class="sortable-wrapper">
+                <div id="product_options_container_top"></div>
+                <?php echo $block->getChildHtml('magebay_options_box') ?>
+            </div>
+
+            <div class="actions">
+                <?php //echo $block->getChildHtml('import_button') ?>
+                <?php //echo $block->getAddButtonHtml() ?>
+				<button data-ui-id="admin-product-options-add-button" class="action-default scalable add" type="button" title="Add New Option" id="add_new_defined_option">
+					<span>Add New Option</span>
+				</button>				
+            </div>
+		</div>
+	</div>
+</div>
+<script>
+require(['jquery'], function($){
+    var priceType = $('#price_type');
+    var priceWarning = $('#dynamic-price-warning');
+    if (priceType && priceType.val() == 0 && priceWarning) {
+        priceWarning.show();
+    }
+});
+</script>

@@ -1,0 +1,63 @@
+<?php
+/**
+ * @Author      : Dream
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+?>
+<?php /*var Magebay\Marketplace\Block\Seller */ ?>
+<div class="clear" style="clear: both;" ></div>
+<?php 
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $customer = $objectManager->create('Magento\Customer\Model\Session');
+    $product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
+    $seller = $block->getSellerProfile();
+    $arKeyReview = array('price','value','quality');
+?>
+<?php if($seller) : ?>
+    <?php $reviews = $block->getMKsellerReview($seller->getUserId()); ?>
+    <?php $totalReview = 0; $i = 0; ?>
+    <?php 
+        if(count($reviews)){
+            foreach($reviews as $key => $review) {
+                if(in_array($key, $arKeyReview)) {
+                    $totalReview += $review;
+                    $i++;
+                }
+            }
+        }
+        if($totalReview > 0){
+            $totalReview = $totalReview / $i;
+        }
+    ?>
+    <div class="info-seller">
+        <div class="info-seller-title">
+            <strong><?php echo __('Seller: '); ?></strong> 
+            <a href="<?php echo $block->getUrl(); ?>marketplace/seller/view/vendor/<?php echo $seller->getStoreurl();?>" class="seller-name">
+                <?php echo $seller->getStoretitle() ?>
+            </a>
+        </div>
+        <!-- <div class="seller-address"><?php echo $seller->getAddress().', '.$seller->getAddress(). ','.$block->getStrCountry($seller->getCountry()); ?></div> -->
+        <p><a href="<?php echo $block->getUrl() ?>marketplace/seller/review/vendor/<?php echo $seller->getStoreurl(); ?>" class="positive-reviews"><strong> <?php echo round($totalReview,2); ?>%</strong> <?php echo __('Positive Reviews'); ?></a></p>
+        <?php if ( $customer->getId() > 0 ) { ?>
+            <p>
+                <span class="ask-question" >
+                    <?php echo __('Ask Question'); ?>
+                </span>
+            </p>
+        <?php } else { ?>
+            <p>
+                <a class="contact-me" href="<?php echo $block->getUrl() ?>customer/account/login/" >
+                    <?php echo __('Ask Question'); ?>
+                </a>
+            </p>
+        <?php } ?>
+        <p>
+            <a href="<?php echo $block->getUrl(); ?>marketplace/seller/view/vendor/<?php echo $seller->getStoreurl();?>">
+                <?php echo __('Contact Details'); ?>
+            </a>
+        </p>
+    </div>
+<?php endif; ?>

@@ -1,0 +1,17 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->create('Magento\Customer\Model\Session');
+$isuserLogged = 0;
+if($customerSession->isLoggedIn()){
+    $isuserLogged = 1;
+}
+?>
+<input type="hidden" id="isUserIsLogged" value="<?= $isuserLogged ?>" />
+<script type="text/x-magento-init">
+    {
+    "*":
+        {
+            "regenerate-customer-data": {}
+        }
+    }
+</script>

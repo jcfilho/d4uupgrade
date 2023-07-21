@@ -1,0 +1,103 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+
+/** @var \Magento\Framework\UrlInterface $urlInterface */
+$urlInterface = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\UrlInterface');
+$currentUrl = $urlInterface->getCurrentUrl();
+?>
+
+
+
+<?php if ($post = $this->getPost()): ?>
+    <?php $tagString = $post->getTermCollectionAsString('array_tags') ?>
+    <?php $categoryString = $post->getTermCollectionAsString('one_category'); ?>
+
+    <div class="post-view">
+        <a class="link-parent" href="<?php echo $categoryString['url'] ?>"><i class="fa fa-angle-left"></i><span><?php echo $categoryString['name'] ?></span></a>
+        <h1 class="post-title"><strong><?php echo $this->escapeHtml($post->getPostTitle()) ?></strong></h1>
+        <div class="post-meta post-meta-top">
+            <div class="post-date post-meta-item pull-left">
+                <img src="<?php echo $this->getViewFileUrl('images/icon-date.png') ?>"/>
+                <span><?php echo $post->getPostDate() ?></span>
+                <a href="<?php echo $post->getUser()->getUrl() ?>" class="author-link"><?php echo $post->getUser() ->getDisplayName() ?></a>
+            </div>
+            <div class="share_block pull-right">
+                <span class="text_left"><?php echo __('Share whith yours friends:') ?></span>
+                <div class="list_social_network">
+                    <a href="javascript:window.open('https://www.facebook.com/sharer/sharer.php?u=<?= $currentUrl ?>','daytours-facebook','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=600,height=300')" class="social facebook"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/fb-icon.png'); ?>"/></a>
+                    <a href="javascript:window.open('https://twitter.com/home?status=<?= $currentUrl ?>','daytours-twitter','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=600,height=300')" class="social google"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/google-icon.png'); ?>"/></a>
+                    <a href="javascript:window.open('https://plus.google.com/share?url=<?= $currentUrl ?>','daytours-plus-google','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=600,height=300')" class="social twitter"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/twitter-icon.png'); ?>"/></a>
+                    <!--
+                    Please note that it works only on mobile. For more information see here:
+                    https://developers.facebook.com/docs/sharing/messenger/web
+                    -->
+                    <a href="fb-messenger://share/?link=&app_id=<?= $currentUrl ?>" class="social messenger"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/messenger-icon.png'); ?>"/></a>
+                    <a href="whatsapp://send?text=<?= $currentUrl ?>"  id="viber-share" class="social viber"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/viber-icon.png'); ?>"/></a>
+
+                </div>
+            </div>
+        </div>
+        <div class="categories-post">
+            <span class="label"><?= __('Tags:') ?> </span>
+            <div class="list-tag">
+                <?php foreach ($tagString as $tag): ?>
+                    <div class="tag-post argentina"><?= $tag['name'] ?></div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <div class="post-entry">
+            <div class="post-content">
+                <?php if (($content = trim($post->getContent())) !== ''): ?>
+                    <?php echo $content ?>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="post-meta post-meta-bottom">
+            <div class="post-date post-meta-item pull-left">
+                <img src="<?php echo $this->getViewFileUrl('images/icon-date.png') ?>"/>
+                <span><?php echo $post->getPostDate() ?></span>
+                <a href="<?php echo $post->getUser()->getUrl() ?>" class="author-link"><?php echo $post->getUser() ->getDisplayName() ?></a>
+            </div>
+            <div class="share_block pull-right">
+                <span class="text_left">Share whith yours friends:</span>
+                <div class="list_social_network">
+                    <a href="javascript:window.open('https://www.facebook.com/sharer/sharer.php?u=<?= $currentUrl ?>','daytours-facebook','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=600,height=300')" class="social facebook"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/fb-icon.png'); ?>"/></a>
+                    <a href="javascript:window.open('https://twitter.com/home?status=<?= $currentUrl ?>','daytours-twitter','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=600,height=300')" class="social google"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/google-icon.png'); ?>"/></a>
+                    <a href="javascript:window.open('https://plus.google.com/share?url=<?= $currentUrl ?>','daytours-plus-google','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=600,height=300')" class="social twitter"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/twitter-icon.png'); ?>"/></a>
+                    <!--
+                    Please note that it works only on mobile. For more information see here:
+                    https://developers.facebook.com/docs/sharing/messenger/web
+                    -->
+                    <a href="fb-messenger://share/?link=&app_id=<?= $currentUrl ?>" class="social messenger"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/messenger-icon.png'); ?>"/></a>
+                    <a href="whatsapp://send?text=<?= $currentUrl ?>"  id="viber-share" class="social viber"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/viber-icon.png'); ?>"/></a>
+
+                </div>
+            </div>
+        </div>
+        <div class="categories-post">
+            <span class="label"><?= __('Tags:') ?> </span>
+            <div class="list-tag">
+                <?php foreach ($tagString as $tag): ?>
+                    <div class="tag-post argentina"><?= $tag['name'] ?></div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <div id="comments" class="comments-wrapper"></div>
+    </div>
+<script>
+    require(['jquery'],
+        function($){
+        // $(document).ready(function(){
+        //     var buttonID = "viber-share";
+        //     var text = "Check this out: ";
+        //     document.getElementById(buttonID)
+        //         .setAttribute('href', "https://3p3x.adj.st/?adjust_t=u783g1_kw9yml&adjust_fallback=https%3A%2F%2Fwww.viber.com%2F%3Futm_source%3DPartner%26utm_medium%3DSharebutton%26utm_campaign%3DDefualt&adjust_campaign=Sharebutton&adjust_deeplink=" + encodeURIComponent("viber://forward?text=" + encodeURIComponent(window.location.href)));
+        // })
+    })
+</script>
+<?php endif; ?>

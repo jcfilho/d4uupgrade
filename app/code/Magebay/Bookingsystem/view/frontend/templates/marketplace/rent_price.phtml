@@ -1,0 +1,37 @@
+<?php 
+/**
+ * @Author      : Magebay Team
+ * @package     Booking System Pro
+ * @copyright   Copyright (c) 2014 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+?>
+<?php 
+$bookingId = $block->getBookingId();
+$bookingType = $block->getBookingType();
+?>
+<?php $dataSend = array('booking_id'=>$bookingId, 'booking_type'=>$bookingType); ?>
+<div id="booking-light-box">
+	<div class="booking-popup-content">
+        <div class="popup-booking-intervals"></div>
+		<div class="clear"></div>
+		<div class="popup-booking-left">
+			<div id="booking-list-calendar-items" class="booking-table-items">
+				<?php /* show items calendars */ ?>
+				<?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Marketplace\Calendars')->setData($dataSend)->setTemplate('Magebay_Bookingsystem::marketplace/calendars/items.phtml')->toHtml(); ?>
+			</div>
+			<div class="clear"></div>
+			<?php /* show gird calendars */ ?>
+			<?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Marketplace\Calendars')->setData($dataSend)->setTemplate('Magebay_Bookingsystem::marketplace/calendars/calendar_grid.phtml')->toHtml(); ?>
+		</div>
+        <div class="popup-booking-right">
+            <div id="form-booking-calendar">
+            </div>
+        </div>
+		<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+</div>
+	
+

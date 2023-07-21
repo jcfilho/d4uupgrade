@@ -1,0 +1,27 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<ul class="opc-progress-bar hide">
+    <!-- ko foreach: { data: steps().sort(sortItems), as: 'item' } -->
+        <li class="opc-progress-bar-item" data-bind="css: item.isVisible() ? '_active' : ($parent.isProcessed(item) ? '_complete' : '')">
+            <span data-bind="i18n: item.title, click: $parent.navigateTo"></span>
+        </li>
+    <!-- /ko -->
+</ul>
+<div class="row content-title-checkout">
+    <div class="col-lg-6 col-md-6 col-xs-6 title-checkout">
+        <span data-bind="i18n: 'Checkout'"></span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-xs-6 security-checkout authorization-link-checkout">
+        <!--<li class="authorization-link" data-label="<?= $block->escapeHtmlAttr(__('or')) ?>">-->
+            <!--<a <?= /* @noEscape */ $block->getLinkAttributes() ?><?= /* @noEscape */ $dataPostParam ?>>-->
+            <!--<?= $block->escapeHtml($block->getLabel()) ?>-->
+            <!--</a>-->
+        <!--</li>-->
+        <span class="btn-secure-checkout" data-bind="i18n: 'Secure site'"></span>
+    </div>
+</div>
+

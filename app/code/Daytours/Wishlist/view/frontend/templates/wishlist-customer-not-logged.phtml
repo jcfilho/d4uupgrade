@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @var $block \Daytours\Wishlist\Block\WishlistNotLogged
+ */
+
+if( !$block->isCustomerIsLogged() ){
+    ?>
+
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "wishlistNotLogged": {}
+            }
+        }
+    </script>
+
+<?php
+}
+?>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+ 
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+   <update handle="formkey"/>
+   <update handle="bookingsystem_bookingorders_grid_block"/>
+   <body>
+       <referenceContainer name="content">
+			<block class="Magento\Backend\Block\Store\Switcher" name="store_switcher" before="magebay_bookingsystem_bookingorders.grid.container" template="Magebay_Bookingsystem::store/switcher_grid.phtml"/>
+           <block class="Magebay\Bookingsystem\Block\Adminhtml\Bookingorders" name="magebay_bookingsystem_bookingorders.grid.container" />
+       </referenceContainer>
+   </body>
+</page>

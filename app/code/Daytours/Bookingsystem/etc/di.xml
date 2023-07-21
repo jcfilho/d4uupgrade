@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magebay\Bookingsystem\Controller\Adminhtml\Booking\SetupRentPrice" type="Daytours\Bookingsystem\Controller\Adminhtml\Booking\SetupRentPrice" />
+    <preference for="Magebay\Bookingsystem\Controller\Adminhtml\Booking\CalendarEdit" type="Daytours\Bookingsystem\Controller\Adminhtml\Booking\CalendarEdit" />
+    <preference for="Magebay\Bookingsystem\Controller\Adminhtml\Booking\Calendars" type="Daytours\Bookingsystem\Controller\Adminhtml\Booking\Calendars" />
+    <preference for="Magebay\Bookingsystem\Controller\Adminhtml\Booking\CalendarSave" type="Daytours\Bookingsystem\Controller\Adminhtml\Booking\CalendarSave" />
+    <preference for="Magebay\Bookingsystem\Controller\Adminhtml\Booking\CalendarDelete" type="Daytours\Bookingsystem\Controller\Adminhtml\Booking\CalendarDelete" />
+    <preference for="Magebay\Bookingsystem\Model\Calendars" type="Daytours\Bookingsystem\Model\Calendars" />
+    <preference for="Magebay\Bookingsystem\Model\Intervalhours" type="Daytours\Bookingsystem\Model\Intervalhours" />
+    <preference for="Magebay\Bookingsystem\Block\Adminhtml\Calendars" type="Daytours\Bookingsystem\Block\Adminhtml\Calendars" />
+    <preference for="Magebay\Bookingsystem\Block\Adminhtml\RentPopup" type="Daytours\Bookingsystem\Block\Adminhtml\RentPopup" />
+
+    <preference for="Magebay\Bookingsystem\Controller\Booking\LoadCalendar" type="Daytours\Bookingsystem\Controller\Booking\LoadCalendar" />
+    <preference for="Magebay\Bookingsystem\Controller\Booking\Booking" type="Daytours\Bookingsystem\Controller\Booking\Booking" />
+    <preference for="Magebay\Bookingsystem\Controller\Booking\CalendarIntervals" type="Daytours\Bookingsystem\Controller\Booking\CalendarIntervals" />
+    <preference for="Magebay\Bookingsystem\Controller\Booking\Intervals" type="Daytours\Bookingsystem\Controller\Booking\Intervals" />
+    <preference for="Magebay\Bookingsystem\Controller\Booking\BookingIntervals" type="Daytours\Bookingsystem\Controller\Booking\BookingIntervals" />
+    <preference for="Magebay\Bookingsystem\Block\Booking" type="Daytours\Bookingsystem\Block\Booking" />
+    <preference for="Magebay\Bookingsystem\Block\Intervals" type="Daytours\Bookingsystem\Block\Intervals" />
+    <preference for="Magebay\Bookingsystem\Helper\RentPrice" type="Daytours\Bookingsystem\Helper\RentPrice" />
+    <preference for="Magebay\Bookingsystem\Helper\BkSimplePriceHelper" type="Daytours\Bookingsystem\Helper\BkSimplePriceHelper" />
+    <preference for="Magebay\Bookingsystem\Helper\IntervalsPrice" type="Daytours\Bookingsystem\Helper\IntervalsPrice" />
+    <preference for="Magebay\Bookingsystem\Helper\BkCustomOptions" type="Daytours\Bookingsystem\Helper\BkCustomOptions" />
+    <preference for="Magebay\Bookingsystem\Helper\BkOrderHelper" type="Daytours\Bookingsystem\Helper\BkOrderHelper" />
+
+    <preference for="Magebay\Bookingsystem\Observer\Frontend\ChangePrice" type="Daytours\Bookingsystem\Observer\Frontend\ChangePrice" />
+    <preference for="Magebay\Bookingsystem\Observer\Frontend\Extraoption" type="Daytours\Bookingsystem\Observer\Frontend\Extraoption" />
+    <preference for="Magebay\Bookingsystem\Observer\Frontend\SalesModelServiceQuoteSubmitBeforeObserver" type="Daytours\Bookingsystem\Observer\Frontend\SalesModelServiceQuoteSubmitBeforeObserver" />
+    <preference for="Magebay\Bookingsystem\Observer\Frontend\BkQuoteManagement" type="Daytours\Bookingsystem\Observer\Frontend\BkQuoteManagement" />
+    <preference for="Magebay\Bookingsystem\Observer\Frontend\BkChangeStore"  type="Daytours\Bookingsystem\Observer\Frontend\BkChangeStore"  />
+
+    <type name="Magebay\Bookingsystem\Helper\BkSimplePriceHelper">
+        <plugin name="validate_locked_specific_date" type="Daytours\Bookingsystem\Plugin\BkSimplePriceHelper" sortOrder="1" disabled="false" />
+    </type>
+    <type name="Daytours\Bookingsystem\Helper\BkSimplePriceHelper">
+        <plugin name="validate_locked_specific_date_calendar_two" type="Daytours\Bookingsystem\Plugin\BkSimplePriceHelperDaytours" sortOrder="1" disabled="false" />
+    </type>
+
+</config>

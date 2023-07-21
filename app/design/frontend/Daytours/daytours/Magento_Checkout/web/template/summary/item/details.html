@@ -1,0 +1,80 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<!-- ko foreach: getRegion('before_details') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+<!-- /ko -->
+<div class="product-item-details">
+
+    <div class="product-item-inner">
+        <div class="product-item-name-block">
+            <strong class="product-item-name" data-bind="text: $parent.name"></strong>
+            <div class="details-qty">
+                <span class="label"><!-- ko i18n: 'Qty' --><!-- /ko --></span>
+                <span class="value" data-bind="text: $parent.qty"></span>
+            </div>
+        </div>
+        <!-- ko foreach: getRegion('after_details') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+        <!-- /ko -->
+    </div>
+
+    <!-- ko if: (JSON.parse($parent.options).length > 0)-->
+    <div class="product options" data-bind="mageInit: {'collapsible':{'openedState': 'active'}}">
+        <span data-role="title" class="toggle"><!-- ko i18n: 'View Details' --><!-- /ko --></span>
+        <div data-role="content" class="content">
+            <strong class="subtitle"><!-- ko i18n: 'Options Details' --><!-- /ko --></strong>
+            <dl class="item-options" data-bind="foreach: { data: JSON.parse($parent.options), as: 'optionsP' }">
+                <div data-bind="if: optionsP.label != 'regular_services'">
+                    <dt class="label" data-bind="text: optionsP.label"></dt>
+                    <dd class="values aaa" data-bind="html: optionsP.value"></dd>
+                </div>
+                <div data-bind="if: optionsP.label == 'regular_services'">
+                    <!-- ko if: optionsP.full_view -->
+                        <div data-bind="if: optionsP.full_view != '' && optionsP.full_view != 'undefined' && optionsP.full_view != undefined">
+                            <div data-bind="if: JSON.parse(optionsP.full_view).length > 0">
+                                <div class="" data-bind="foreach: { data: JSON.parse(optionsP.full_view), as: 'optionsReg' }">
+                                    <div class="item-options-regular" data-bind="if: optionsReg.label != ''">
+                                        <span class="label" data-bind="text: optionsReg.label"></span>
+                                        <span class="values ">
+                                    <span data-bind="text: optionsReg.price"></span>
+                                    <span class="mini-cart-blue-text">
+                                        x
+                                    <span data-bind="text: optionsReg.qty"></span>
+                                    </span>
+                                </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- /ko -->
+                    <!-- ko ifnot: optionsP.full_view -->
+                        <!-- ko if: optionsP.value -->
+                            <div data-bind="if: optionsP.value != '' && optionsP.value != 'undefined' && optionsP.value != undefined">
+                                <div data-bind="if: JSON.parse(optionsP.value).length > 0">
+                                    <div class="" data-bind="foreach: { data: JSON.parse(optionsP.value), as: 'optionsReg' }">
+                                        <div class="item-options-regular" data-bind="if: optionsReg.label != ''">
+                                            <span class="label" data-bind="text: optionsReg.label"></span>
+                                            <span class="values ">
+                                        <span data-bind="text: optionsReg.price"></span>
+                                        <span class="mini-cart-blue-text">
+                                            x
+                                        <span data-bind="text: optionsReg.qty"></span>
+                                        </span>
+                                    </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- /ko -->
+                    <!-- /ko -->
+                </div>
+            </dl>
+        </div>
+    </div>
+    <!-- /ko -->
+</div>

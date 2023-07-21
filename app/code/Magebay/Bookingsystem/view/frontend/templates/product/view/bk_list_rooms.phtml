@@ -1,0 +1,169 @@
+<?php $rooms = $block->getBkRooms(); ?>
+<?php $roomTypeTitles = $block->getBkRoomTypeTitle(); ?>
+<?php $hotelId = $this->getRequest()->getParam('hotel_id',0); ?>
+<?php $itemId = $this->getRequest()->getParam('itemId',0); ?>
+<?php $arUrlAjax = $block->getRoomAjaxUrl($hotelId,0,$itemId); ?>
+<?php $urlDetail = $arUrlAjax['url_room_detail']; ?>
+<?php 
+$checkIn = $this->getRequest()->getParam('check_in','');
+$checkOut = $this->getRequest()->getParam('check_out','');
+$requesRoomId = 0;
+if($itemId > 0)
+{
+	$requestOptions = $block->getBkRoomRequestOptions($itemId,$hotelId);
+	$requesRoomId = isset($requestOptions['room_id']) ?  $requestOptions['room_id'] : 0;
+	$checkIn = isset($requestOptions['search_check_in']) ?  $requestOptions['search_check_in'] : 0;
+	$checkOut = isset($requestOptions['search_check_out']) ?  $requestOptions['search_check_out'] : 0;
+}
+?>
+<input type="hidden" name="search_check_in" value="<?php echo $checkIn ?>" />
+<input type="hidden" name="search_check_out" value="<?php echo $checkOut ?>" />
+
+<div class="col-xs-12">
+	<div class="popup-list-room">
+		<table class="data-table res-table1">
+			<thead>
+				<tr>
+					<th><?php echo __('Room Type'); ?></th>
+					<th><?php echo __('Max'); ?></th>
+					<th class="today-price"><?php echo __('Today\'s price') ?></th>
+					<th> <?php echo __('Nr. rooms'); ?> </th>
+					<th class="last"><?php echo __('Reservation'); ?> </th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php if($rooms) : ?>
+					<?php foreach($rooms as $value) : ?>
+						<?php $room = $value['room_data']; ?>
+						<?php $prices = $value['room_price']; ?>
+						<tr>
+							<td data-label="<?php echo __('Room Type'); ?>" class="item-img">
+								<div class="thumbnail-room">
+									<a class="img-room" data-toggle="modal" data-target="#room<?php echo $room->getId(); ?>">
+										<?php  $images = $block->getBkRoomImages($room->getId()); ?>
+										<?php $pathimage = ''; ?>
+										<?php if(count($images)) { foreach($images as $image) { $pathimage = $image->getBkimagePath(); break;} }?>
+										<?php if($pathimage != '') : ?>
+											<img src="<?php echo $block->imageResize($pathimage,120,120); ?>" />
+										<?php endif; ?>
+									</a>
+								</div>
+								<div class="info-room clearfix">
+									<div class="title-room">
+										<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+										<a class="room-item room-book-now" id="booking-item-<?php echo $room->getId(); ?>"><?php echo $roomTypeTitles[$room->getRoomType()]; ?></a>
+									</div>
+									<div class="des-room">
+										<?php $roomDes = $block->getBkHelperText()->showTranslateText($room->getRoomDescription(),$room->getRoomDesTranslate()); ?>
+										<?php echo $roomDes; ?>
+									</div>
+									<?php $facilities = $block->getBkFacilities($room->getId(),'room'); ?>
+									<?php if($facilities) : ?>
+										<div class="facilities-room" >
+										<ul class="booking-item-features booking-item-features-sign clearfix">
+											
+										<?php foreach($facilities as $facility) : ?>
+											<?php $title = $block->getBkHelperText()->showTranslateText($facility->getFacilityTitle(),$facility->getFacilityTitleTransalte()); ?>
+											<li class="item-faci" data-toggle="tooltip" data-placement="top" title="" data-original-title="<?php echo $title ;?>">
+												<?php if ( $facility->getFacilityIconClass() ) { ?>
+													<?php 
+													$icon_class = explode('-', $facility->getFacilityIconClass() );
+													$type_font = $icon_class[0];
+													?>
+													<i class="ace-icon <?php echo $type_font.' '.$facility->getFacilityIconClass(); ?>"></i>
+												<?php } else { ?>
+													<?php if($facility->getFacilityImage()) { ?>
+														<img src="<?php echo $block->getBkBaseUrl().'/'.$facility->getFacilityImage(); ?>" />
+													<?php } else { ?>
+														<?php echo $title;?>
+													<?php } ?>
+												<?php } ?>
+											</li>
+											
+										<?php endforeach;?>
+										</ul>
+										</div> 
+									<?php endif; ?>
+								</div>
+							</td>
+							<td class="max-people" data-label="<?php echo __('Max'); ?>">
+								<ul class="booking-item-features booking-item-features-sign clearfix">
+									<li class="item-max" data-toggle="tooltip" data-placement="top" title="" data-original-title="Adults Occupancy">
+									<i class="fa fa-male"></i><span class="booking-item-feature-sign">x <?php echo $room->getRoomMaxAdults() ?></span>
+									</li>
+									<li class="item-max" data-toggle="tooltip" data-placement="top" title="" data-original-title="Children Occupancy">
+									<i class="im im-children"></i><span class="booking-item-feature-sign">x <?php echo $room->getRoomMaxChildren() ?></span>
+									</li>
+								</ul>
+							</td>
+							<?php $price = $prices['total_price']; ?>
+							<?php $promo = $prices['total_promo']; ?>
+							<td class="today_price" data-label="<?php echo __('Today\'s price'); ?>">
+								<span class="<?php echo $promo > 0 ? 'room-old-price' : 'price'; ?>"><span><?php echo $block->getBkPriceHelper()->currency($price,true,false); ?></span></span>
+								<?php if($promo > 0) : ?>
+								<span class="price"><strong><?php echo $block->getBkPriceHelper()->currency($promo,true,false); ?></strong></span>
+								<?php endif; ?>
+							</td>
+							<td data-label="<?php echo __('Nr. rooms'); ?>">
+								<?php echo $prices['min_qty']; ?>
+							</td>
+							<td data-label="<?php echo __('Reservation'); ?>">
+							<?php $editBooking = false; ?>
+							<?php if(isset($params['edit_item_id']) && $params['edit_item_id'] > 0) { $editBooking = true; } ?>
+								<button type="button" class="room-book-now" id="btn-room-book-<?php echo $room->getId(); ?>"><?php echo $editBooking ? __('Edit Booking') : __('Book Now'); ?></button>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				<?php endif; ?>
+			</tbody>
+		</table>
+	</div>
+</div>
+<script>
+require([
+			'jquery',
+			'Magento_Ui/js/modal/modal',
+			'bk_bootstrap_min',
+		],
+	function ($,modal){
+	var urlDetail = '<?php echo $urlDetail; ?>';
+	var itemId = parseInt('<?php echo $itemId; ?>');
+	var requesRoomId = parseInt('<?php echo $requesRoomId; ?>');
+	if(itemId > 0 && requesRoomId > 0)
+	{
+		showRoomDetail(requesRoomId);
+	}
+	$('.room-book-now').click(function(e){
+		var roomId = $(this).attr('id');
+		var arRoomId = roomId.split('-');
+		var roomId = arRoomId[arRoomId.length-1];
+		var checkIn = $('#check-in').val();
+		var checkOut = $('#check-out').val();
+		showRoomDetail(roomId);
+		e.preventDefault();
+	});
+	$(function () { $('[data-toggle="tooltip"]').tooltip(); })
+	function showRoomDetail(roomId)
+	{
+		$('#booking-room-content').html('');
+		$('#booking-loader').css('display','block');
+		 $.ajax({
+			url : urlDetail,
+			dataType : 'json',
+			type : 'POST',
+			data : {room_id : roomId,data_search : $('#product_addtocart_form').serialize()},
+			success : function(res)
+			{
+				$('.magebay-booking-popup').css('display','block');
+				$('#booking-room-content').html(res.html_room_detail);
+				$("html, body").animate({ scrollTop: 0 }, "slow");
+				$('#booking-loader').css('display','none');
+			},
+			error : function()
+			{
+				
+			}
+		}); 
+	}
+});
+</script>

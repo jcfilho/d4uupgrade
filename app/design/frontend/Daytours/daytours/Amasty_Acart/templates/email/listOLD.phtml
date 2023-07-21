@@ -1,0 +1,128 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Acart
+ * @var $jsonHelper \Magento\Framework\Json\Helper\Data
+ * @var $imageHelper \Magento\Catalog\Helper\Image
+ * @var $_helper \Magento\Catalog\Helper\Output
+ */
+?>
+<?php
+
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$imageHelper = $this->helper('Magento\Catalog\Helper\Image');
+$jsonHelper = $this->helper('Magento\Framework\Json\Helper\Data');
+
+?>
+
+<?php if ($block->getQuote()): ?>
+    <table class="email-items">
+        <tbody>
+            <?php foreach ($block->getItems() as $index => $_item): ?>
+                <?php
+                $_product = $block->getProduct($_item);
+                $productImage = $imageHelper->init($_product, 'mini_cart_product_thumbnail')->getUrl();
+
+                $nameInQuote = /** @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getName(), 'name');
+                $priceInQuote = $block->formatPrice($_item->getPrice());
+
+                ?>
+            <?php if( $index < 2 ): ?>
+            <tr style="border-bottom: none;">
+                <td colspan="2" class="item-info item-info-name-price" >
+                    <p class="product-name"><?= $nameInQuote ?></p>
+                    <p class="item-price">
+                        <?= $priceInQuote ?>
+                    </p>
+                    <div class="clear"></div>
+                </td>
+
+            </tr>
+            <tr>
+                <td class="product-image">
+            <span style="background-image: url('<?=$productImage?>');
+                    background-position:center center;
+                    background-size:cover;
+                    width:93px;
+                    height:62px;
+                    display: block;
+                    padding: 0 10px 0 10px;
+                    -webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;">
+            </span>
+                </td>
+                <td class="item-info item-info-detail">
+
+                    <?php if ($block->showOptionList() &&
+                        $options = $_item->getProduct()->getTypeInstance(true)->getOrderOptions($_item->getProduct())): ?>
+                        <div class="options-items">
+                            <div class="options-items-left">
+                                <dl class="item-options">
+                                    <?php
+                                    if( isset($options['options'])){
+
+                                        foreach ($options['options'] as $option){
+                                            ?>
+                                            <dt><strong><em><?= /* @escapeNotVerified */  $option['label'] ?>:</em></strong></dt>
+                                            <dd>
+                                                <?= /* @escapeNotVerified */  nl2br($option['value']) ?>
+                                            </dd>
+                                            <div class="clear clearfix"></div>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </dl>
+                            </div>
+                            <div class="options-items-right">
+                                <dl class="item-options">
+                                    <?php
+                                    if( isset($options['info_buyRequest'])){
+                                        $infoBuyRequest = $options['info_buyRequest'];
+                                        if( isset($infoBuyRequest['extra_options_regular_services'])){
+                                            if( !empty($infoBuyRequest['extra_options_regular_services']) ){
+                                                $regularService = $jsonHelper->jsonDecode($infoBuyRequest['extra_options_regular_services']);
+                                                foreach ($regularService as $itemR) {
+                                                    echo '<dt><strong><em>'.$itemR['label'].':</em></strong></dt>';
+                                                    echo '<dd><span class="price-item">'.$itemR['price'].'</span> </span><span class="qty-item"> x '.$itemR['qty'].'</span></dd>';
+                                                    echo '<div class="clear clearfix"></div>';
+                                                }
+                                            }
+                                        }
+                                    }
+                                    ?>
+                                </dl>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    <?php endif; ?>
+                </td>
+
+            </tr>
+            <?php else: ?>
+            <tr>
+                <td class="product-image">
+                    <span style="background-image: url('<?=$productImage?>');
+                            background-position:center center;
+                            background-size:cover;
+                            width:93px;
+                            height:62px;
+                            display: block;
+                            padding: 0 10px 0 10px;
+                            -webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;">
+                    </span>
+                </td>
+                <td class="item-info item-info-name-price item-info-name-price-after-two-items" >
+                    <p class="product-name"><?= $nameInQuote ?></p>
+                    <p class="item-price">
+                        <?= $priceInQuote ?>
+                    </p>
+                    <div class="clear"></div>
+                </td>
+            </tr>
+            <?php endif; ?>
+
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php endif; ?>

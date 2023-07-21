@@ -1,0 +1,62 @@
+<?php
+/**
+ * @Author      : haunv
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2017 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+$_categories = $block->getCategoryById();
+$elementName = 'product[category_ids][]';
+$level = $block->getLevelSub();
+$_categoryArray = array();
+if($block->getDataChild()) {
+	$__categoryArray = array();
+	$_categoryArray = $block->getDataChild();
+	foreach($_categoryArray as $_itemCate) {
+		if($_itemCate) {
+			$_itemCategory = $block->getCategory($_itemCate);
+			$_pathParent = explode('/', $_itemCategory->getPath());
+			$__categoryArray[$_itemCate] = $_pathParent;		
+		}
+	}
+}
+foreach($_categories as $k=>$v){
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    if($objectManager->create('Magebay\Marketplace\Helper\Data')->getAllowedCategoriesForSeller() != 'all'){
+        $allow_category = explode(',',$objectManager->create('Magebay\Marketplace\Helper\Data')->getAllowedCategoriesForSeller());        
+        if (!in_array($v->getId(), $allow_category)) {
+            continue;
+        }
+    }
+	$_childHtml = '';
+	if (!$v->getIsActive()) {
+		continue;
+	}
+	$call_child = false;
+	$data_child = array();
+	if(isset($__categoryArray)) {
+		foreach($__categoryArray as $_key => $_pathParent) {
+			if($_pathParent) {
+				if(in_array($v->getId(), $_pathParent) && $v->getId() != $_pathParent[count($_pathParent)-1]) {
+					$call_child = true;
+					array_push($data_child, $_key);
+				}
+			}
+		}
+		if($call_child) {
+			$_childHtml = $block->getLayout()->createBlock('Magebay\Marketplace\Block\Product\Categories')->setTemplate('product/add/childcategories.phtml')->setCategoryId($v->getId())->setDataChild($data_child)->toHtml();
+		}	
+	}
+?>
+	<div class="category-block level">
+    	<span class="mst-patch"></span>
+    	<?php if($childrenCategories = $v->getChildrenCount()){ ?>
+    		<span class="<?php if($_childHtml){ ?>mst-pull <?php } else { ?>mst-push<?php } ?> level-<?php echo $level ?>" data-level="<?php echo $level ?>"></span>
+    	<?php } ?>
+    	<span class="mst-folder"></span>
+    	<span class="category-name"><?php echo $block->escapeHtml($v->getName()) ?></span>
+    	<input type="checkbox" name="<?php /* @escapeNotVerified */ echo $elementName ?>" value="<?php echo $v->getId() ?>" <?php if(in_array($v->getId(),$_categoryArray)) echo 'checked' ?> class="checkbox mst-checkbox" />
+		<?php echo $_childHtml ?>
+	</div>	
+<?php } ?>

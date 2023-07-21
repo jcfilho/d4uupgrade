@@ -1,0 +1,41 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+
+<?php /* @var $block \Magento\Catalog\Block\Product\View\Options\Type\Select */ ?>
+<?php
+$_option = $block->getOption();
+$class = ($_option->getIsRequire()) ? ' required' : '';
+
+$isMultiplier = '';
+if($_option->getIsMultiplier() == '1'){
+    $isMultiplier = 'option-multiplier';
+}
+
+?>
+<div class="field<?= /* @escapeNotVerified */ $class ?> <?= $isMultiplier ?> sdfsfsdf">
+    <label class="label" for="select_<?= /* @escapeNotVerified */ $_option->getId() ?>">
+        <span class="title-option"><?= $block->escapeHtml($_option->getTitle()) ?></span>
+        <?php if($_option->getIsMultiplier() == '1'): ?>
+            <span class="tooltip-box tooltip-multiplier show">
+                <span class="label-tooltip info-tooltip"></span>
+                <span class="tooltip info-tooltip-content">
+                    <?= $block->escapeHtml($_option->getTitle()) ?> + <span class="tt-option"></span> <span class="separator-option-tooltip">/</span> <?php echo __('Child') ?> + <span class="tt-child"></span> </span>
+            </span>
+        <?php endif; ?>
+    </label>
+    <div class="control">
+        <?= $block->getValuesHtml() ?>
+        <?php if ($_option->getIsRequire()): ?>
+            <?php if ($_option->getType() == \Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_TYPE_RADIO || $_option->getType() == \Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_TYPE_CHECKBOX): ?>
+                <span id="options-<?= /* @escapeNotVerified */ $_option->getId() ?>-container"></span>
+            <?php endif; ?>
+        <?php endif;?>
+    </div>
+</div>

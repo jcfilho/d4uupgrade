@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @Author      : Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/system_file.xsd">
+    <system>
+        <tab id="magebay" translate="label" sortOrder="1">
+            <label>Magebay.com</label>
+        </tab>
+        <section id="marketplace" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Marketplace</label>
+            <tab>magebay</tab>
+            <resource>Magebay_Marketplace::configuration</resource>
+            <group id="info" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <frontend_model>Magebay\Marketplace\Block\System\Config\Form\Field\Info</frontend_model>
+            </group>   
+			<group id="act" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Active License Key</label>
+                <field id="key" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>License Key</label>
+                    <backend_model>Magebay\Marketplace\Model\Config\Backend\Saveconfig</backend_model>
+                    <comment>Please check your license key in order details. Contact to provider when you would like to reset the license key to apply Multi Vendor Marketplace Pro for new domain.</comment>
+                </field>
+                <field id="actinfo" translate="label comment" type="text" sortOrder="15" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Active Status</label>
+                    <frontend_model>Magebay\Marketplace\Block\Adminhtml\Form\Renderer\Config\Activestatus</frontend_model>
+                </field>
+            </group>			
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <backend_model>Magento\Contact\Model\System\Config\Backend\Links</backend_model>
+                </field>
+                <field id="admin_email" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Admin Email</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="percent" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Commission In Percentage</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="product_type" translate="label comment" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Type</label>
+                    <source_model>Magebay\Marketplace\Model\System\Config\Vendor\ProductType</source_model>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="magebay_marketplace_block_position" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Attribute Set ID</label>
+                    <source_model>Magebay\Marketplace\Model\System\Config\Vendor\Position</source_model>
+                </field>
+                <field id="seller_approval" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Seller Approval Required</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="product_approval" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Approval Required</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="product_edit_approval" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Update Approval Required</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="review_approval" translate="label" type="select" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Review Approval Required</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="review_approval_order" translate="label" type="select" sortOrder="57" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Make a Review on only Order Purchase</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="seller_policy_approval" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Seller Policies Enable At Frontend</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="categoryids" translate="label comment" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allowed Categories For Seller To Add Products</label>
+                    <validate>required-entry</validate>
+                    <comment>Please enter category ids seperated by comma(,). Examample: 1,2,3,4 Or enter all if want display all categories</comment>
+                </field>
+                <field id="taxmanage" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Move Product Tax To Seller Account</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="multivendorlabel" translate="label comment" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Multi-Vendor Landing Page Label</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="multivendorbutton" translate="label comment" type="text" sortOrder="95" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Multi-Vendor Landing Page Button Label</label>
+                    <validate>required-entry</validate>
+                </field>
+				<field id="multivendordescription" translate="label comment" type="textarea" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>About Multi-Vendor</label>
+                    <validate>required-entry</validate>
+                </field>
+                <!--<field id="specificcountry" translate="label" type="multiselect" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment From Specific Countries</label>
+                    <source_model>Magebay\Marketplace\Model\System\Config\Vendor\Country</source_model>
+                </field>
+                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment From Applicable Countries</label>
+                    <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                </field>-->
+                <field id="trans_key" translate="label comment" type="obscure" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Transaction Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+				<field id="email_contact_vendor" translate="label comment" type="select" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+				    <label>Email Template For Contact Vendor</label>
+					<source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+				</field>
+                <field id="email_order_vendor" translate="label comment" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+				    <label>Email Template For Order Vendor</label>
+					<source_model>Magebay\Marketplace\Model\System\Config\Email\OrderVendor</source_model>
+				</field>
+                <field id="email_register_vendor" translate="label comment" type="select" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+				    <label>Email Template For Register Vendor</label>
+					<source_model>Magebay\Marketplace\Model\System\Config\Email\RegisterVendor</source_model>
+				</field>
+                <field id="email_approve_vendor" translate="label comment" type="select" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
+				    <label>Email Template For Approve Vendor</label>
+					<source_model>Magebay\Marketplace\Model\System\Config\Email\ApproveVendor</source_model>
+				</field>
+                <field id="email_unapprove_vendor" translate="label comment" type="select" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
+				    <label>Email Template For Unapprove Vendor</label>
+					<source_model>Magebay\Marketplace\Model\System\Config\Email\UnapproveVendor</source_model>
+				</field>
+                <field id="email_withdraw_vendor" translate="label comment" type="select" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
+				    <label>Email Template For Withdraw Vendor</label>
+					<source_model>Magebay\Marketplace\Model\System\Config\Email\WithdrawVendor</source_model>
+				</field>
+                <field id="email_withdraw_admin" translate="label comment" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+				    <label>Email Template For Withdraw Admin</label>
+					<source_model>Magebay\Marketplace\Model\System\Config\Email\WithdrawAdmin</source_model>
+				</field>
+                <field id="email_complete_withdraw_vendor" translate="label comment" type="select" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
+				    <label>Email Template For Complete Withdraw Vendor</label>
+					<source_model>Magebay\Marketplace\Model\System\Config\Email\CompleteWithdrawVendor</source_model>
+				</field>
+                <field id="email_complete_withdraw_admin" translate="label comment" type="select" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1">
+				    <label>Email Template For Complete Withdraw Admin</label>
+					<source_model>Magebay\Marketplace\Model\System\Config\Email\CompleteWithdrawAdmin</source_model>
+				</field>
+            </group>
+            <!--<group id="goldlife" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Commission Seller Setting</label>
+                <field id="commission_12" translate="label comment" type="text" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1">
+				    <label>Seller commission in percentage for first 12 months</label>
+					<validate>required-entry</validate>
+				</field>
+            </group>-->
+        </section>
+    </system>
+</config>

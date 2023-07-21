@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<!-- <preference for="Magento\Checkout\Controller\Cart\Add" type="Magebay\Bookingsystem\Controller\Rewrite\Checkout\Cart\Add" /> -->
+	<preference for="Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Product" type="Magebay\Bookingsystem\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Product" />
+	<!-- <preference for="Magento\Sales\Model\AdminOrder\Create" type="Magebay\Bookingsystem\Model\Sales\AdminOrder\Create" /> -->
+	 <type name="Magento\Catalog\Model\Product\Copier">
+        <plugin name="Magebay_Bookingsystem_Model_Product_Copier_Plugin"
+                type="Magebay\Bookingsystem\Model\Product\Copier\Plugin"
+                sortOrder="10"
+                disabled="false"/>
+    </type>
+	<!--add booking type when filter product in create new order in backend-->
+	<type name="Magento\Sales\Model\Config">
+        <plugin name="Magebay_Bookingsystem_Plugin_Sales_Model_Config"
+                type="Magebay\Bookingsystem\Plugin\Sales\Model\Config"
+                sortOrder="11"
+                disabled="false"/>
+    </type>
+	<type name="Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid">
+        <plugin name="Magebay_Bookingsystem_Plugin_Block_Adminhtml_Order_Create_Items_Grid"
+                type="Magebay\Bookingsystem\Plugin\Block\Adminhtml\Order\Create\Items\Grid"
+                sortOrder="12"
+                disabled="false"/>
+    </type>
+    <type name="Magento\Sales\Model\Order">
+        <plugin name="Booking_Sales_Model_Order"
+                type="Magebay\Bookingsystem\Plugin\Sales\Model\Order"
+                sortOrder="13"
+                disabled="false"/>
+    </type>
+</config>

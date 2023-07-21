@@ -1,0 +1,18 @@
+<!--@subject {{trans "%store_name post purchase completed" store_name=$store.getFrontendName()}} @-->
+<!--@vars {
+"var edit_url":"Order edit URL",
+} @-->
+
+
+<div style="padding-left:20px;padding-right: 20px;padding-top: 20px;padding-bottom: 20px; background: #FFFFFF; width:600px;margin:0 auto;">
+<table>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">{{trans "Hello Admin."}}</p>
+            <p>
+                {{trans "Order number %order_number was completed, please check your admin panel." order_number=$order.getIncrementId()}}
+            </p>
+        </td>
+    </tr>
+</table>
+</div>

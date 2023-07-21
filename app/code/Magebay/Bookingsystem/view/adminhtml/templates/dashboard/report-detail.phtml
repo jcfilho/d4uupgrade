@@ -1,0 +1,136 @@
+
+<?php
+/**
+ * @var $block \Magebay\Bookingsystem\Block\Adminhtml\Dashboard;
+ */
+
+?>
+<?php $item = $block->getOrderDetail(); ?>
+<table class="table dataTable booking-list-service" id="dynamic-table-xx">
+	<thead>
+		<tr>
+			<th colspan="1" rowspan="1" class="">
+				<a href="#"><?php echo __('Info Customer Shipping') ?></a>
+			</th>
+			<th colspan="1" rowspan="1" class="">
+				<a href="#"><?php echo __('Info booking Item') ?></a>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php if(count($item)) : ?>
+			<tr>
+				<td>
+				<?php if($item['customer_address']) : ?>
+					<?php $customerAddress = $item['customer_address']; ?>
+					<?php
+						$countries = $block->getBkCountriesOptions();
+						$strCountry = '';
+						 foreach($countries as $country)
+						{
+							if($country['value'] == $customerAddress->getCountryId())
+							{
+								$strCountry = $country['label'];
+								break;
+							}
+						}
+						$streets = $customerAddress->getStreet();
+						$strSteets = is_array($streets) ? $streets[0] : $streets;
+					?>
+					<?php echo __('Customer Name'); ?> : <?php echo $customerAddress->getFirstname(). ' '. $customerAddress->getLastname(); ?><br/>
+					<?php echo __('Phone: '); ?> : <?php echo $customerAddress->getTelephone(); ?><br/>
+					<?php echo __('Email: '); ?> : <?php echo $customerAddress->getEmail(); ?><br/>
+					<?php echo __('Address : '); ?> : <?php echo $strSteets .', '.$customerAddress->getPostcode().','.$customerAddress->getCity().', '.$strCountry; ?><br/>
+				<?php else : ?>
+					<span><?php echo __('No Infor Shiiping'); ?></span>
+				<?php endif; ?>
+				</td>
+				
+				<td>
+				<?php 
+					$defaulCurrency = $item['global_currency_code'];
+					$item['price'] =  $block->getBkCurrencyInterface()->getCurrency($defaulCurrency)->toCurrency($item['price']);
+				?>
+
+				<?php echo __('Booking Name'); ?> : <?php echo $item['name']; ?><br/>
+				<?php echo __('Price'); ?> : <?php echo $item['price']; ?><br/>
+				<?php echo __('Sku'); ?> : <?php echo $item['sku']; ?><br/>
+				<?php echo __('Check In'); ?> : <?php echo $item['check_in']; ?><br/>
+				<?php echo __('check Out'); ?> : <?php echo $item['check_out']; ?><br/>
+				<?php if($item['interval_hours'] != '') : ?>
+                    <?php if($item['booking_time'] == 3) : ?>
+                    <?php $strIntervals = ''; ?>
+					<?php $intervals = explode(',',$item['interval_hours']); ?>
+					<?php if(count($intervals)) : ?>
+                        <?php
+                            foreach($intervals as $intervalId)
+                            {
+                                $interval = $block->getBkIntervalById($intervalId);
+                                if(!$interval || ($interval && !$interval->getId())){
+                                    continue;
+                                }
+                                if($interval->getIntervalhoursBookingTime() == '')
+                                {
+                                    continue;
+                                }
+                                $arInterval = explode('_',$interval->getIntervalhoursBookingTime());
+                                $text1 = __('AM');
+                                $text2 = __('AM');
+                                if($arInterval[0] > 12)
+                                {
+                                    $arInterval[0] = $arInterval[0] - 12;
+                                    $text1 = __('PM');
+                                }
+                                if($arInterval[2] > 12)
+                                {
+                                    $arInterval[2] = $arInterval[2] - 12;
+                                    $text2 = __('PM');
+                                }
+                                if($strIntervals == '')
+                                {
+                                    $strIntervals = $arInterval[0] .': ' . $arInterval[1] . ': '.$text1.' - '.$arInterval[2].': '.$arInterval[3].': '.$text2;
+                                }
+                                else
+                                {
+                                    $strIntervals .= ', '.$arInterval[0] .': ' . $arInterval[1] . ': '.$text1.': '.$arInterval[2].': '.$arInterval[3].': '.$text2;
+                                }
+                            } ?>
+                        <?php endif; ?>
+                        <?php echo __('Hours Intervals'); ?> : <?php echo $strIntervals; ?><br/>
+                    <?php elseif($item['booking_time'] == 5) :  ?>
+                        <?php $arPersons = json_decode($item['interval_hours'],true); ?>
+                        <?php if(count($arPersons)) : ?>
+                            <?php foreach ($arPersons as $person) : ?>
+                                <span style="width: 100%; float: left;"><?php echo $person['label'] . ' : '. $person['value']; ?></span>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+					<?php endif; ?>
+				<?php endif; ?><br/>
+				<?php if($item['service_start'] != '') : ?>
+					<?php echo __('Service Start'); ?> : <?php echo $item['service_start']; ?><br/>
+				<?php endif; ?>
+				<?php if($item['service_end'] != '') : ?>
+					<?php echo __('Service End'); ?> : <?php echo $item['service_end']; ?><br/>
+				<?php endif; ?>
+				<?php if($item['total_days'] > 0) : ?>
+					<?php echo __('Total Days'); ?> : <?php echo $item['total_days']; ?><br/>
+				<?php endif; ?>
+				<?php if($item['total_hours'] > 0) : ?>
+					<?php echo __('Total Hours'); ?> : <?php echo $item['total_hours']; ?><br/>
+				<?php endif; ?>
+				<?php echo __('Qty'); ?> : <?php echo $item['qty']; ?><br/>
+				<?php echo __('Create at'); ?> : <?php echo $item['created_at']; ?><br/>
+				<?php $baseRowTotal = $block->getBkCurrencyInterface()->getCurrency($defaulCurrency)->toCurrency($item['base_row_total']); ?>
+				<?php echo __('Total Price'); ?> : <?php echo $baseRowTotal; ?>
+				<?php if($item['row_total'] != $item['base_row_total']) : ?>
+					<?php
+						$currencyCode = $item['order_currency_code'];
+						$item['row_total'] = $block->getBkCurrencyInterface()->getCurrency($currencyCode)->toCurrency($item['row_total']);
+					?>
+					[<?php echo $item['row_total']; ?>]
+				<?php endif; ?>
+				</td>
+			</tr>
+		<?php endif; ?>
+	</tbody>
+</table>

@@ -1,0 +1,39 @@
+
+<div id="form-add-multiple-users-container" data-bind="scope:'amu'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+<script type="text/x-magento-init">
+{
+    "#form-add-multiple-users-container":{
+        "Magento_Ui/js/core/app":{
+            "components":{
+                "amu":{
+                    "component":"Daytours_AddMultipleUsers/js/view/amu",
+                    "config":{
+                        "template":"Daytours_AddMultipleUsers/amu"
+                    }
+                }
+            }
+        }
+    }
+}
+</script>
+<!-- <form id="form-add-multiple-users" action="">
+    <b>Ingrese archivo XML</b><br>
+    <input type="file" id="input-file-add-multiple-users" name="archivoXml">
+    <br>
+    <button  type="submit">Procesar usuarios</button>
+</form>
+<script>
+    let form = document.querySelector("#form-add-multiple-users");
+    form.onSumit((e)=>{
+        e.preventDefault();
+        console.log("Formulario enviado");
+
+    })
+    document.querySelector("#input-file-add-multiple-users").onchange = function(event) {
+    var fileList = event.target.files;
+    console.log(fileList);
+    //TODO do something with fileList.  
+}
+</script> -->

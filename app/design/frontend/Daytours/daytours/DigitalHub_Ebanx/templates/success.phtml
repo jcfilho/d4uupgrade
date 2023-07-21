@@ -1,0 +1,101 @@
+
+<?php
+/** @var \Daytours\Checkout\Block\Onepage\Success $block */
+?>
+
+<div class="checkout-success">
+
+    <?php if( !$block->ifOrderIsNormal($block->getOrderId()) ) : ?>
+        <div class="page-title">
+            <?= __("Thank you %1 for your purchase.",$block->getOrderCustomerFirstname()) ?>
+        </div>
+        <?php if ($block->getOrderId()):?>
+            <?php if ($block->getCanViewOrder()) :?>
+                <p>
+                    <?= __("Your order <a class=\"order-number\" href=\"%1\">#%2</a> is in the process of confirmation.",$block->escapeHtml($block->getViewOrderUrl()),$block->escapeHtml($block->getOrderId())) ?>
+            <?php  else :?>
+                <p>
+                    <?= __("Your order #%1 is in the process of confirmation.",$block->escapeHtml($block->getOrderId())) ?>
+                </p>
+            <?php endif;?>
+        <?php endif;?>
+    <?php else: ?>
+        <div class="page-title">
+            <h2>
+                <?= (!is_null($block->getCustomerId())) ? $block->getOrderCustomerFirstname() . ', ' : '' ?><?= __('thank you for booking with') ?> <?= $block->getStoreName(); ?>!
+
+            </h2>
+        </div>
+
+        <?php if ($block->getOrderId()):?>
+            <?php if ($block->getCanViewOrder()) :?>
+                <p>
+                    <?= __('Your order') ?>
+                    <a href="<?= $block->escapeHtml($block->getViewOrderUrl()) ?>" class="order-number"><strong>#<?= $block->escapeHtml($block->getOrderId()) ?></strong></a>
+                    <?= __('has been created') ?>
+                </p>
+
+            <?php  else :?>
+                <p>
+                    <?= __('Your order') ?>
+                    <?= $block->escapeHtml($block->getOrderId()) ?>
+                    <?= __('has been created') ?>
+                </p>
+            <?php endif;?>
+        <?php endif;?>
+    <?php endif; ?>
+
+    <div class="digitalhub-ebanx-success-page">
+
+        <?php if($this->getOrderPaymentMethod() == 'digitalhub_ebanx_brazil_boleto'): ?>
+            <?php echo $this->getLayout()
+                ->createBlock('DigitalHub\Ebanx\Block\Success')
+                ->setTemplate('DigitalHub_Ebanx::success/brazil/boleto.phtml')->toHtml() ?>
+        <?php endif; ?>
+
+        <?php if($this->getOrderPaymentMethod() == 'digitalhub_ebanx_argentina_rapipago'): ?>
+            <?php echo $this->getLayout()
+                ->createBlock('DigitalHub\Ebanx\Block\Success')
+                ->setTemplate('DigitalHub_Ebanx::success/argentina/rapipago.phtml')->toHtml() ?>
+        <?php endif; ?>
+
+        <?php if($this->getOrderPaymentMethod() == 'digitalhub_ebanx_argentina_pagofacil'): ?>
+            <?php echo $this->getLayout()
+                ->createBlock('DigitalHub\Ebanx\Block\Success')
+                ->setTemplate('DigitalHub_Ebanx::success/argentina/pagofacil.phtml')->toHtml() ?>
+        <?php endif; ?>
+
+        <?php if($this->getOrderPaymentMethod() == 'digitalhub_ebanx_argentina_cupondepagos'): ?>
+            <?php echo $this->getLayout()
+                ->createBlock('DigitalHub\Ebanx\Block\Success')
+                ->setTemplate('DigitalHub_Ebanx::success/argentina/cupondepagos.phtml')->toHtml() ?>
+        <?php endif; ?>
+
+        <?php if($this->getOrderPaymentMethod() == 'digitalhub_ebanx_colombia_baloto'): ?>
+            <?php echo $this->getLayout()
+                ->createBlock('DigitalHub\Ebanx\Block\Success')
+                ->setTemplate('DigitalHub_Ebanx::success/colombia/baloto.phtml')->toHtml() ?>
+        <?php endif; ?>
+
+        <?php if($this->getOrderPaymentMethod() == 'digitalhub_ebanx_peru_pagoefectivo'): ?>
+            <?php echo $this->getLayout()
+                ->createBlock('DigitalHub\Ebanx\Block\Success')
+                ->setTemplate('DigitalHub_Ebanx::success/peru/pagoefectivo.phtml')->toHtml() ?>
+        <?php endif; ?>
+
+        <?php if($this->getOrderPaymentMethod() == 'digitalhub_ebanx_mexico_oxxo'): ?>
+            <?php echo $this->getLayout()
+                ->createBlock('DigitalHub\Ebanx\Block\Success')
+                ->setTemplate('DigitalHub_Ebanx::success/mexico/oxxo.phtml')->toHtml() ?>
+        <?php endif; ?>
+
+        <?php if($this->getOrderPaymentMethod() == 'digitalhub_ebanx_mexico_spei'): ?>
+            <?php echo $this->getLayout()
+                ->createBlock('DigitalHub\Ebanx\Block\Success')
+                ->setTemplate('DigitalHub_Ebanx::success/mexico/spei.phtml')->toHtml() ?>
+        <?php endif; ?>
+
+    </div>
+
+    <?= $block->getAdditionalInfoHtml() ?>
+</div>

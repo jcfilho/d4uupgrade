@@ -1,0 +1,75 @@
+
+<?php $results = $block->getBookingResult(); ?>
+<?php $bookingError  = 0; ?>
+<?php $totalPrice  = 0; ?>
+<?php $totalPromo  = 0; ?>
+<?php $floatTotalPrice  = 0; ?>
+<?php $floatTotalPromo  = 0; ?>
+<?php $okPromo  = 0; ?>
+<?php $bookingId = isset($results['booking_id']) ? $results['booking_id'] : 0; ?>
+<?php if($results['str_error'] == '') : ?>
+	<?php 
+	$totalPrice = $block->getBkPriceHelper()->currency($results['total_price'],true,false);
+	$totalPromo = $results['total_promo'] > 0 ? $results['total_promo'] : 0;
+	if($totalPromo > 0)
+	{
+		$okPromo = 1;
+	}
+	$totalPromo = $block->getBkPriceHelper()->currency($totalPromo,true,false);
+	$floatTotalPrice = $block->getBkPriceHelper()->currency($results['total_price'],false,false);
+	$floatTotalPromo = $block->getBkPriceHelper()->currency($results['total_promo'],false,false);
+	?>
+	<?php if($results['str_note'] != '') : ?>
+		<span class="booking-result-note"><?php echo $results['str_note']; ?> </span>
+	<?php endif; ?>
+	<span class="total-days"><?php echo __('Total Days') ?> <?php echo $results['total_days']; ?></span>
+	<?php if(isset($results['total_hours'])) : ?>
+	<span class="total-hours"><?php echo __('Total Hours') ?> <?php echo $results['total_hours']; ?></span>
+	<?php endif; ?>
+	<div class="price-box">
+		<?php if($results['total_promo'] > 0) : ?>
+			<p class="old-price">
+				<span class="price-label"><?php //echo __('Regular Price') ?></span>
+				<span class="price"><?php echo $block->getBkPriceHelper()->currency($results['total_price'],true,false); ?></span>
+			</p>
+			<p class="special-price">
+				<span class="price-label"><?php //echo __('Special Price'); ?></span>
+				<span class="price"><?php echo $block->getBkPriceHelper()->currency($results['total_promo'],true,false); ?></span>
+			</p>
+		<?php else :  ?>
+			<p>
+			<span class="price-label"><?php //echo __('Regular Price') ?></span>
+			<span class="regular-price"><span class="price"><?php echo $block->getBkPriceHelper()->currency($results['total_price'],true,false); ?></span></span>
+			</p>
+		<?php endif; ?>
+    </div>
+<?php else :  ?>
+<?php $bookingError = 1; ?>
+<span class="booking-result-error"><?php echo $results['str_error']; ?></span>
+<?php endif; ?>
+<script>
+require(['jquery'],
+	function ($){
+		var bookingError = '<?php echo $bookingError; ?>';
+		var bookingId = '<?php echo $bookingId; ?>';
+		var totalPrice = '<?php echo $totalPrice; ?>';
+		var totalPromo = '<?php echo $totalPromo; ?>';
+		var okPromo  = '<?php echo $okPromo ; ?>';
+		if(bookingError == '1')
+		{
+			$('#product_composite_configure_form #product_composite_configure_form_fields #bk-create-order-final-price-'+bookingId).val('');
+		}
+		else
+		{
+			if(okPromo == '1')
+			{
+				$('#product_composite_configure_form #product_composite_configure_form_fields #bk-create-order-final-price-'+bookingId).val('<?php echo $floatTotalPromo; ?>');
+			}
+			else
+			{
+				$('#product_composite_configure_form #product_composite_configure_form_fields #bk-create-order-final-price-'+bookingId).val('<?php echo $floatTotalPrice; ?>');
+			}
+		}
+		
+	})	
+</script>

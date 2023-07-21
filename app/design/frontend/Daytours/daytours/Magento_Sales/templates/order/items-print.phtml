@@ -1,0 +1,55 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Sales\Block\Order\Items $block */
+
+$orderHelper = $this->helper('Daytours\Sales\Helper\Data');
+?>
+<div class="table-wrapper order-items">
+
+    <div class="print-row header-titles">
+        <div class="print-col-sm-9" >
+            <strong><?= /* @escapeNotVerified */ __('Product Name') ?></strong>
+        </div>
+        <div class="print-col-sm-3 text-align-right">
+            <strong><?= /* @escapeNotVerified */ __('Subtotal') ?></strong>
+        </div>
+        <div class="clear-both-print"></div>
+    </div>
+
+
+    <?php $items = $block->getItems(); ?>
+    <?php
+        $i = 0;
+        $totalItems = count($items)
+    ?>
+
+    <?php foreach ($items as $item): ?>
+        <?php if ($item->getParentItem()) continue; ?>
+        <?php
+            $i++;
+            $class = '';
+            if($i == $totalItems):
+                $class = 'last-element';
+            endif;
+
+        ?>
+        <div class="<?= $class ?>">
+            <?= $block->getItemHtml($item) ?>
+        </div>
+    <?php endforeach; ?>
+
+
+    <div class="print-row ">
+        <div class="print-col-sm-12 footer-totals">
+            <?= $block->getChildHtml('order_totals') ?>
+        </div>
+        <div class="clear-both-print"></div>
+    </div>
+
+</div>

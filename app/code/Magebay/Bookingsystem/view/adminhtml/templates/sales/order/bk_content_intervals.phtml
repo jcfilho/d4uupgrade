@@ -1,0 +1,411 @@
+<?php $booking = $block->getBkBookingItem(); ?>
+
+<?php /* js for booking intervals */ ?>
+<?php $bookingId = $booking->getId(); ?>
+<?php $request = $this->getBkRequestOption(); ?>
+<?php $itemId = $block->getBkQuoteItemId(); ?>
+<?php $oldOrderItemId  = isset($request['bk_order_item_id']) ? $request['bk_order_item_id'] : 0; ?>
+<?php $arUrl = $this->getBkUrlAjax($bookingId,$itemId,$oldOrderItemId);?>
+<?php $urlcalendar = $arUrl['url_calendar']; ?>
+<?php $urlBooking = $arUrl['url_booking']; ?>
+<?php $urlIntervals = $arUrl['url_intervals']; ?>
+<?php $formatDateLabel = $block->getBkHelperDate()->getFormatDateLabel(); ?>
+<?php $bookingTime = $booking->getBookingTime(); ?>
+<?php $bookingType = $booking->getBookingType(); ?>
+<?php $showQtyAvaliable = $booking->getShowQtyAvaliable();?>
+<?php //$symbol = $block->getBkCurrencySymboy() ?> 
+<?php $symbol = $block->getBkPriceHelper()->currency(0,true,false); $symbol = str_replace('0.00','',$symbol); ?>
+<?php $bkIntCurrentTime = $block->getBkTmpTime(); ?>
+<?php $strCurrentTime = date('Y-m-d',$bkIntCurrentTime); ?>
+<?php $showCalendar = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/show_calendar') ?>
+<?php $facilities = $block->getBkFacilities($booking->getId(),'per_day');?>
+<?php $enableAddress = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/booking_address') ?>
+<div id="booking-calendar-<?php echo $booking->getId(); ?>"></div>
+<input type="hidden" id="bk-quote-item-<?php echo $bookingId; ?>" value="<?php echo $itemId ?>" />
+<div class="row booking-product-infor">
+		<div role="tabpanel" class="tab-info-book" style="padding:20px 0;">
+		  <!-- Nav tabs -->
+			<ul class="nav nav-tabs booking-nav-tabs" role="tablist">
+				<?php if(count($facilities)) : ?>
+					<li class="booking-infor-tab active"><a href="#facilities"><?php echo __('Facilities'); ?></a></li>
+				<?php endif; ?>
+			</ul>
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<?php  if($facilities) : ?>
+					<div class="tab-pane active" id="facilities">
+						<table class="data-table">
+							<colgroup>
+								<col width="25%"><col width="25%"><col width="50%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="title-td"><?php echo __('Title') ?></th>
+									<th class="image-td"><?php echo __('Image') ?></th>
+									<th class="description-td"><?php echo __('Description') ?></th>
+								</tr>
+							</thead>
+							<tbody>
+							<?php foreach($facilities as $facility) : ?>
+								<tr class="first odd">
+								<?php $title = $block->getBkHelperText()->showTranslateText($facility->getFacilityTitle(),$facility->getFacilityTitleTransalte()); ?>
+									<td class="title-td"><?php echo $title;?></td>
+									<td class="image-td">
+										<?php if ( $facility->getFacilityIconClass() ) { ?>
+											<?php 
+											$icon_class = explode('-', $facility->getFacilityIconClass() );
+											$type_font = $icon_class[0];
+											?>
+											<i class="ace-icon <?php echo $type_font.' '.$facility->getFacilityIconClass(); ?> size-icon"></i>
+										<?php } else { ?>
+											<?php if($facility->getFacilityImage()) : ?>
+												<img src="<?php echo $block->imageResize($facility->getFacilityImage(),100,100); ?>" />
+											<?php endif; ?>
+										<?php } ?>
+									</td>
+									<?php $description = $block->getBkHelperText()->showTranslateText($facility->getFacilityDescription(),$facility->getFacilityDesTranslate()); ?>
+									<td class="description-td"><?php echo $description;?></td>
+								</tr>
+							<?php endforeach;?>
+							</tbody>
+						</table>
+					</div>
+				<?php endif; ?>
+			</div>
+		</div>
+	</div>
+<script>
+require([
+			'jquery',
+			"jquery/ui",
+			'Magento_Ui/js/modal/alert',
+			'bk_calendar_intervals_order'
+		],
+	function ($,jqueryUi,alert,bkCalendar){
+		var showCalendar = '<?php echo $showCalendar; ?>';
+		var symbol = '<?php echo $symbol; ?>';
+		var urlBooking = '<?php echo $urlBooking; ?>';
+		var urlIntervals = '<?php echo $urlIntervals; ?>';
+		var showQtyAvaliable  = '<?php echo $showQtyAvaliable; ?>';
+		var textJqueryCalendar = new magebayTextJqueryCalendar();
+		/* var dateHelper = new helperDate(); */
+		var strFormatDate = '<?php echo $formatDateLabel ?>';
+		var bookingId = '<?php echo $bookingId; ?>';
+		var bookingType = '<?php echo $bookingType; ?>';
+		var bookingTime = '<?php echo $bookingTime; ?>';
+		var strCurrentTime = '<?php echo $strCurrentTime; ?>';
+		//if load
+		getIntervals();
+		$('form#product_composite_configure_form div#product_composite_configure_form_fields fieldset#product_composite_configure_fields_qty').css('display','none');
+		var currenrtQty = $('form#product_composite_configure_form div#product_composite_configure_form_fields input#product_composite_configure_input_qty').val();
+		console.log(currenrtQty);
+		if(currenrtQty != '' && !isNaN(currenrtQty))
+		{
+			$('#product_composite_configure_form #product_composite_configure_form_fields #bk-create-order-quy-'+bookingId).val(currenrtQty);
+		}
+		//end load
+			//jquery date
+		$('#product_composite_configure_form #product_composite_configure_form_fields input#check-in-'+bookingId).on('click', function () {
+           $(this).removeClass('hasDatepicker').datepicker({
+				changeMonth: true,
+				numberOfMonths: 1,
+				minDate:  new Date(strCurrentTime),
+				dateFormat: strFormatDate,
+				closeText: "<?php echo __('Done'); ?>", // Display text for close link
+				prevText: "<?php echo __('Prev'); ?>", // Display text for previous month link
+				nextText: "<?php echo __('Next'); ?>", // Display text for next month link
+				currentText: "<?php echo __('Today'); ?>", // Display text for current month link
+				monthNames: textJqueryCalendar.getMonthNames(), // Names of months for drop-down and formatting
+				monthNamesShort: textJqueryCalendar.getShortMonth(), // For formatting
+				dayNames: textJqueryCalendar.getdayNames(), // For formatting
+				dayNamesShort: textJqueryCalendar.getdayNamesShort(), // For formatting
+				dayNamesMin: textJqueryCalendar.getdayNamesMin(),
+				onSelect: function( selectedDate, inst) {
+					var date = jQuery.datepicker.parseDate(inst.settings.dateFormat || jQuery.datepicker._defaults.dateFormat, selectedDate, inst.settings);
+					var dateText = jQuery.datepicker.formatDate("yy-mm-dd", date, inst.settings);
+					$('#temp-check-in-'+bookingId).val(dateText);
+					getIntervals();
+				}
+			}).focus();
+		});
+		$('#product_composite_configure_form #product_composite_configure_form_fields #bk-create-order-quy-'+bookingId).on("change",function(){
+			if(!isNaN($(this).val()))
+			{
+				$('form#product_composite_configure_form div#product_composite_configure_form_fields input#product_composite_configure_input_qty').val($(this).val());
+				getResults();
+			}
+		})
+		//check / uncheck all
+		if($('#product_composite_configure_form #product_composite_configure_form_fields .txt-addons-item-'+bookingId).length)
+		{
+			$('#product_composite_configure_form #product_composite_configure_form_fields .txt-addons-item-'+bookingId).change(function(){
+				getResults();
+			})
+		}
+		if($('#product_composite_configure_form #product_composite_configure_form_fields .select-addons-item-'+bookingId).length)
+		{
+			$('#product_composite_configure_form #product_composite_configure_form_fields .select-addons-item-'+bookingId).change(function(){
+				getResults();
+			})
+		}
+		if($('#product_composite_configure_form #product_composite_configure_form_fields .bk-addon-radio-checkbox-'+bookingId).length)
+		{
+			$('#product_composite_configure_form #product_composite_configure_form_fields .bk-addon-radio-checkbox-'+bookingId +' input').on("click",function(){
+				getResults();
+			});
+			$('#product_composite_configure_form #product_composite_configure_form_fields .bk-addon-radio-checkbox-'+bookingId+ ' span.bk-addon-title').on("click",function(){
+				if($(this).prev('input').is(":checked"))
+				{
+					$(this).prev('input').prop('checked',false);
+				}
+				else
+				{
+					$(this).prev('input').prop('checked',true);
+				}
+				getResults();
+			})
+		}
+		function getResults()
+		{
+			var checkInter = false;
+			$('#product_composite_configure_form #product_composite_configure_form_fields #time-intervals-hours-'+bookingId+' .txt-hour-intervals').each(function(){
+				if($(this).is(":checked"))
+				{
+					checkInter = true;
+					return false;
+				}
+			});
+			if(!checkInter)
+			{
+				return false;
+			}
+			var checkIn = $('#product_composite_configure_form #product_composite_configure_form_fields #check-in-'+bookingId).val(); 
+			if($.trim(checkIn) == '')
+			{
+				return false;
+			}
+			if(!checkRequiredAddons())
+			{
+				return false;
+			}
+			$('#booking-loader').css('display','block');
+			$('#product_composite_configure_form #product_composite_configure_form_fields .booking-results').html('');
+			$.ajax({
+				url : urlBooking,
+				dataType : 'json',
+				type : 'POST',
+				data : $('#product_composite_configure_form').serialize(),
+				success : function(res)
+				{
+					$('.booking-results').html(res.html_result);
+					var tempCheckIn = $('#product_composite_configure_form #product_composite_configure_form_fields #temp-check-in-'+bookingId).val();
+					$('#product_composite_configure_form #product_composite_configure_form_fields #temp-current-check-in-'+bookingId).val(tempCheckIn);
+					selectedDays(tempCheckIn,tempCheckIn);
+					$('#booking-loader').css('display','none');
+				},
+				error : function()
+				{
+					
+				}
+			});
+			
+		}
+		//get hours intervals
+		function getIntervals()
+		{
+			var checkIn = $('#product_composite_configure_form #product_composite_configure_form_fields #temp-check-in-'+bookingId).val();
+			if($.trim(checkIn) == '')
+			{
+				return false;
+			}
+			var strCurrentIntervals = $('#product_composite_configure_form #product_composite_configure_form_fields #temp-list-intervals-'+bookingId).val();
+			var strCurrentCheckIn = $('#product_composite_configure_form #product_composite_configure_form_fields #temp-current-check-in-'+bookingId).val();
+			var bkOrderItemId = $('#product_composite_configure_form #product_composite_configure_form_fields #bk-old-order-item-id-'+bookingId).val();
+			$('#product_composite_configure_form #product_composite_configure_form_fields #time-intervals-hours-'+bookingId).html('');
+				$('#booking-loader').css('display','block');
+				$.ajax({
+					url : urlIntervals,
+					dataType : 'json',
+					type : 'POST',
+					data : {booking_id : bookingId, str_day : checkIn,str_current_intervals : strCurrentIntervals,bk_order_item_id : bkOrderItemId,current_check_in : strCurrentCheckIn},
+					success : function(res)
+					{
+						$('#product_composite_configure_form #product_composite_configure_form_fields #time-intervals-hours-'+bookingId).html(res.html_intervals);
+						$('#booking-loader').css('display','none');
+						
+					},
+					error : function()
+					{
+						
+					}
+				});
+		}
+		if(showCalendar == '1')
+		{
+			
+			//get calendar
+			var objData = {
+				'data_url' : '<?php echo $urlcalendar; ?>',
+				'booking_id': bookingId,
+				'booking_type' : bookingType,
+				'url_booking' : urlBooking,
+				'url_intervals' : urlIntervals,
+				'booking_time' : bookingTime,
+				'currency': symbol,
+				'str_current_date': strCurrentTime,
+				'booking_label' : '<?php echo __('Booking Calendar'); ?>',
+				'obj_status_text' : {
+						'available': '<?php echo __('Available'); ?>',
+						'special': '<?php echo __('Available'); ?>',
+						'block': '<?php echo __('Block'); ?>',
+						'unavailable': '<?php echo __('Unavailable'); ?>',
+					},
+					'name_day_th' : [
+											'<?php echo __('Sunday'); ?>',
+											'<?php echo __('Monday'); ?>',
+											'<?php echo __('Tuesday'); ?>',
+											'<?php echo __('Wednesday'); ?>',
+											'<?php echo __('Thursday'); ?>',
+											'<?php echo __('Friday'); ?>',
+											'<?php echo __('Saturday'); ?>'
+									],
+					'name_day_short_th' : [
+												'<?php echo __('Mon'); ?>',
+												'<?php echo __('Tue'); ?>',
+												'<?php echo __('Wed'); ?>',
+												'<?php echo __('Thu'); ?>',
+												'<?php echo __('Fri'); ?>',
+												'<?php echo __('Sat'); ?>',
+												'<?php echo __('Sun'); ?>'
+											],
+					'name_day_shortest_th' : [
+											'<?php echo __('Su'); ?>',
+											'<?php echo __('Mo'); ?>',
+											'<?php echo __('Tu'); ?>',
+											'<?php echo __('We'); ?>',
+											'<?php echo __('Th'); ?>',
+											'<?php echo __('Fi'); ?>',
+											'<?php echo __('Sa'); ?>',
+											],
+				'add_text' : '<?php echo __('Add'); ?>',
+				'remove_text' : '<?php echo __('Remove'); ?>',
+				'next_text' : '<?php echo __('Next'); ?>',
+				'pre_text' : '<?php echo __('Prev'); ?>',
+				'format_date' : strFormatDate,
+				'show_qty' : showQtyAvaliable
+			};
+			$('#product_composite_configure_form #product_composite_configure_form_fields #booking-calendar-'+bookingId).MagebayAnyBookingIntervals(objData);
+		}
+		$('#product_composite_configure').parent().prev('.modal-header').find('.page-main-actions').find('button.action-primary').on("click",function(){
+			var finalPrice = $('#bk-create-order-final-price-'+bookingId).val();
+			var quoteItemId = parseInt($('#bk-quote-item-'+bookingId).val());
+			/* console.log('#bk-create-order-final-price-'+bookingId);
+			if($.trim(finalPrice) == '')
+			{
+				alert({
+						title: '',
+						content: '<?php echo __('Please enter collect information!') ?>'
+					});
+				return false;
+			} */
+			if(quoteItemId > 0)
+			{
+				var bkQty = parseInt($('#bk-create-order-quy-'+bookingId).val());
+				finalPrice = finalPrice / bkQty;
+				$('#item_custom_price_'+quoteItemId).val(finalPrice);
+			}
+			else
+			{
+				
+			}
+		})
+		function checkRequiredAddons()
+		{
+			var okAddons = true;
+			if($('#product_composite_configure_form #product_composite_configure_form_fields .txt-addons-item-'+bookingId).length)
+			{
+				$('#product_composite_configure_form #product_composite_configure_form_fields .txt-addons-item-'+bookingId).each(function(){
+					var strClass = $(this).attr('class');
+					if(strClass.indexOf('required-empty') > -1 && ($.trim($(this).val()) == '' || isNaN($(this).val())))
+					{
+						okAddons = false;
+						return false;
+					}
+				});
+			}
+			if(okAddons && $('#product_composite_configure_form #product_composite_configure_form_fields .select-addons-item-'+bookingId).length)
+			{
+				$('#product_composite_configure_form #product_composite_configure_form_fields .select-addons-item-'+bookingId).each(function(){
+					var strClass = $(this).attr('class');
+					if(strClass.indexOf('required-empty') > -1 && ($.trim($(this).val()) == ''))
+					{
+						okAddons = false;
+						return false;
+					}
+				});
+			}
+			if(okAddons && $('#product_composite_configure_form #product_composite_configure_form_fields .bk-addon-radio-checkbox-'+bookingId).length)
+			{
+				$('#product_composite_configure_form #product_composite_configure_form_fields .bk-addon-radio-checkbox-'+bookingId).each(function(){
+					var strClass = $(this).attr('class');
+					var strCkId = $(this).attr('id');
+					if(strClass.indexOf('required-empty') > -1)
+					{
+						var tempCkOk = false;
+						$('#'+strCkId +' input').each(function(){
+							if($(this).is(":checked"))
+							{
+								tempCkOk = true;
+								return false;
+							}
+						});
+						if(tempCkOk == false)
+						{
+							okAddons = false;
+							return false;
+						}
+					}
+				});
+			}
+			return okAddons;
+		}
+		function selectedDays(date1,date2)
+		{
+			$('.day-selected').removeClass('day-selected');
+			if(date2 == '')
+				return false;
+			var date1 = new Date(date1);
+			var date2 = new Date(date2);
+			var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+			var oneDay = 1000 * 3600 * 24;
+			var day1 = date1.getTime();
+			var day2 = date2.getTime();
+			if(date1.getTime() > date2.getTime())
+			{
+				day1 = date2.getTime();
+				day2 = date1.getTime();
+			}
+			while(day1 <= day2)
+			{
+				var objDate = new Date(day1);
+				var month = objDate.getMonth() + 1;
+				month = month >= 10 ? month : '0'+month;
+				strDay = objDate.getDate() >= 10 ? objDate.getDate() : '0'+objDate.getDate();
+				var strDate = objDate.getFullYear()+'-'+month+'-'+strDay;
+				if($('#0_'+strDate).length)
+				{
+					$('#0_'+strDate).addClass('day-selected');
+				}
+				if($('#2_'+strDate).length)
+				{
+					$('#2_'+strDate).addClass('day-selected');
+				}
+				if($('#1_'+strDate).length)
+				{
+					$('#1_'+strDate).addClass('day-selected');
+				}
+				day1 += oneDay;
+			}
+		}
+	});
+</script>

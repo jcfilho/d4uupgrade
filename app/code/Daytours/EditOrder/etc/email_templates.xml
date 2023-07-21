@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="daytours_editorder_missing_data_template" label="Missing order data" file="order_missing_data.html" type="html" module="Daytours_EditOrder" area="frontend"/>
+    <template id="daytours_editorder_information_complete" label="Information complete" file="information_complete.html" type="html" module="Daytours_EditOrder" area="frontend"/>
+</config>

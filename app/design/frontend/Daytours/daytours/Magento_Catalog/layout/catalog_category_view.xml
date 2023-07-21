@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="breadcrumbs" remove="true" />
+        <referenceBlock name="amasty_affiliate.social_buttons.category" remove="true" />
+        <referenceContainer name="page.wrapper">
+            <block class="Magento\Cms\Block\Block" name="banner_category" before="main.content">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">banner_category</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
+        <referenceBlock name="page.main.title" remove="true"/>
+        <referenceBlock name="catalog.leftnav">
+            <block class="Magento\Framework\View\Element\Template" name="filterprice" as="filterprice" cacheable="false" template="Magento_Catalog::filter-price.phtml" />
+        </referenceBlock>
+
+        <referenceContainer name="div.sidebar.additional" remove="true"/>
+
+        <move element="div.sidebar.main" destination="columns" before="main" />
+
+        <referenceContainer name="main">
+            <block name="heading_content" before="-" template="Magento_Catalog::heading_product_list.phtml"/>
+        </referenceContainer>
+
+        <referenceContainer name="columns">
+            <block name="heading_content_mobile" before="-" template="Magento_Catalog::heading_product_list_mobile.phtml"/>
+        </referenceContainer>
+
+        <referenceContainer name="category.view.container">
+            <referenceBlock name="category.image" remove="true"/>
+        </referenceContainer>
+
+    </body>
+</page>

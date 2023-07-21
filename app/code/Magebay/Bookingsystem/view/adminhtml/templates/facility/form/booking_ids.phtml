@@ -1,0 +1,47 @@
+<?php 
+$facility = $block->getFacility();
+$bookingIds = '';
+$bookingType = 'per_day';
+if($facility->getId())
+{
+	$bookingIds = $facility->getFacilityBookingIds();
+	$bookingType = $facility->getFacilityBookingType();
+}
+$arAjaxUrl = $block->getArAjaxUrl();
+$urlLoadBooking = $arAjaxUrl['url_load_booking'];
+$storeId = $block->getBkRequest()->getParam('store',0);
+$dataSend = array('booking_type'=>$bookingType,'bk_store_id'=>$storeId,'bk_booking_ids'=>$bookingIds);
+?>
+<div class="admin__field field field-facility_bookingids">
+   <label for="facilities_facility_bookingids" class="label admin__field-label"><span><?php echo __('Booking Items'); ?></span></label>
+	<input type="hidden" name="booking_check_ids" id="booking-ids" value="<?php echo $bookingIds; ?>"  />
+	<div class="admin__field-control control" id="bk-list-bookings">
+		<?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Adminhtml\Facilities')->setData($dataSend)->setTemplate('Magebay_Bookingsystem::facility/form/booking-items.phtml')->toHtml();  ?>
+    </div>
+</div>
+<script>
+require(['jquery'],
+	function($) {
+		var urlLoadBooking = '<?php echo $urlLoadBooking; ?>&isAjax=true';
+		var storeId = '<?php echo $storeId; ?>';
+	   $('#facilities_facility_booking_type').change(function(){
+			var bookingType = $(this).val();
+			var bookingIds = $('#booking-ids').val();
+			 $.ajax({
+				url : urlLoadBooking,
+				dataType : 'json',
+				type : 'POST',
+				data : {booking_type : bookingType, booking_ids : bookingIds,store_id : storeId},
+				success : function(res)
+				{
+					$('#bk-list-bookings').html(res.html_bookings);
+				},
+				error : function()
+				{
+					
+				}
+			});
+	   });
+	}
+);
+</script>

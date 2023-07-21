@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="set_partial_payment" instance="Daytours\PartialPayment\Observer\SuccessAction"/>
+    </event>
+    <!-- <event name="checkout_cart_product_add_after">
+        <observer name="set_item_cart_price" instance="Daytours\PartialPayment\Observer\AddItemCart"/>
+    </event> -->
+</config>

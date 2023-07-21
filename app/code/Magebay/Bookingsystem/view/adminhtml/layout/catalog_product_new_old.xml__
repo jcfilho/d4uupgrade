@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+		<css src="Magebay_Bookingsystem::css/backend-style-calendar.css" />
+		<css src="Magebay_Bookingsystem::css/bk-global.css" />
+		<css src="Magebay_Bookingsystem::css/booking-product-tab.css" />
+		<css src="Magebay_Bookingsystem::css/backend-booking-popup.css" />
+	</head>
+	<body>
+        <referenceBlock name="product_tabs">
+            <block class="Magebay\Bookingsystem\Block\Adminhtml\Product\Edit\Tab" name="product.booking.system">
+                <arguments>
+                    <argument name="label" xsi:type="string" translate="true">Booking System</argument>
+                    <argument name="group_code" xsi:type="string">basic</argument>
+                </arguments>
+            </block>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">product-booking-system</argument>
+                <argument name="block" xsi:type="string">product.booking.system</argument>
+            </action>
+        </referenceBlock>
+		
+		<!-- Code for version 2.1 -->
+		<referenceBlock name="product_form">
+            <block class="Magebay\Bookingsystem\Block\Adminhtml\Product\Edit\From" name="product.booking.system.from">
+                <arguments>
+                    <argument name="config" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Booking System</item>
+                        <item name="collapsible" xsi:type="boolean">true</item>
+                        <item name="opened" xsi:type="boolean">false</item>
+                        <item name="sortOrder" xsi:type="string">20</item>
+                        <item name="canShow" xsi:type="boolean">true</item>
+                        <item name="componentType" xsi:type="string">fieldset</item>
+                    </argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+		<referenceContainer name="before.body.end">
+			<block class="Magebay\Bookingsystem\Block\Adminhtml\Booking" template="Magebay_Bookingsystem::bk-global.phtml" />
+		</referenceContainer>
+    </body>
+</page>

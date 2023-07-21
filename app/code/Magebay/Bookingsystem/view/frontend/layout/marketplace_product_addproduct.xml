@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">	
+    <head>
+		<css src="Magebay_Bookingsystem::css/font-awesome.min.css" />
+		<css src="Magebay_Bookingsystem::css/global_style.css" />
+		<css src="Magebay_Bookingsystem::css/marketplace/style.css" />
+		<css src="Magebay_Bookingsystem::css/marketplace/backend-style-calendar.css" />
+		<css src="Magebay_Bookingsystem::css/marketplace/backend-booking-popup.css" />
+	</head>
+</page>

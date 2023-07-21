@@ -1,0 +1,33 @@
+<!--
+/**
+ * Copyright © 2017 Mageside. All rights reserved.
+ * See MS-LICENSE.txt for license details.
+ */
+-->
+<!-- ko if: visible -->
+    <div class="field checkout-newsletter-checkbox">
+        <div class="control">
+            <!-- ko if: changeable -->
+                <input class="input-text"
+                       type="checkbox"
+                       data-bind="
+                                    textInput: 1,
+                                    checked: checked"
+                       name="newsletter-subscribe"
+                       id="newsletter-subscribe1" />
+                <label class="label label-checkbox" for="newsletter-subscribe1">
+                    <span class="label-checkout-span" data-bind="i18n: checkoutLabel"></span>
+                </label>
+            <!-- /ko -->
+            <!-- ko ifnot: changeable -->
+                <input type="checkbox"
+                       id="newsletter-subscribe-disabled"
+                       disabled="disabled"
+                       checked="checked"/>
+                <label class="label  label-checkbox" for="newsletter-subscribe-disabled">
+                    <span class="label-checkout-span" data-bind="i18n: checkoutLabel"></span>
+                </label>
+            <!-- /ko -->
+        </div>
+    </div>
+<!-- /ko -->

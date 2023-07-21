@@ -1,0 +1,88 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$product = $objectManager->get('\Magento\Framework\Registry');
+/** @var \Magento\Catalog\Model\Product $_product */
+$_product = $product->registry('product');
+?>
+<div class="product-fixedbar">
+    <div class="product-fixedbar-top">
+        <div class="top-container">
+            <h2 class="product-name"><?= $_product->getName(); ?></h2>
+            <div class="fixedbar-addtocart">
+                <a href="#">
+                    <span><?= __('Book now'); ?></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="product-fixedbar-bottom">
+        <div class="top-container">
+            <ul>
+                <li><a href="#maincontent" class="active"><?= __('Overview'); ?></a></li>
+            </ul>
+            <div class="actions">
+                <a href="#" class="action towishlist">
+                    <span><?= __('Add to Wish List'); ?></span>
+                </a>
+                <span class="btn-prdShare"><?= __('Share with friends'); ?></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        'use strict';
+
+        $(".product.attribute.description .block-product-des--collapsible").each(function(){
+            $('<li><a href="#'+$(this).attr('id')+'">'+$(this).children('.product-des-title').text()+'</a></li>').appendTo('.product-fixedbar ul');
+        });
+        if($('#customer-reviews').length==1){
+            $('<li><a href="#customer-reviews"><?= __('Reviews'); ?></a></li>').appendTo('.product-fixedbar ul');
+        }
+        /* Header fixed */
+        if($(window).width() >= 768){
+            $(window).scroll(function(){
+                if( $('.block-whydaytours4u').length ){
+                    if($(window).scrollTop() >= $('.block-whydaytours4u').offset().top){
+                        $('.product-fixedbar').fadeIn('slow');
+                        $('.product-fixedbar').fadeIn('slow');
+                        $('header.page-header').fadeOut('fast');
+                    }
+                    else {
+                        $('.product-fixedbar').fadeOut('fast');
+                        $('header.page-header').fadeIn('slow');
+                    }
+                }else{
+                    $('.product-fixedbar').fadeOut('fast');
+                    $('header.page-header').fadeIn('slow');
+                }
+
+            });
+        }
+
+        /* price fixed bottom */
+
+        $('.product-fixedbar .fixedbar-addtocart a').click(function (e) {
+            e.preventDefault();
+            var booknow = $('.book-product-addtocart').offset().top;
+            booknow = booknow - 150;
+            $('html,body').animate({
+                scrollTop: booknow
+            });
+        });
+
+        $('a[href^="#"]').click(function (e){
+            var id = $(this).attr('href');
+            var $id = $(id);
+            if ($id.length === 0) { return; }
+            e.preventDefault();
+            var pos = $id.offset().top -150;
+            $('body, html').animate({
+                scrollTop: pos
+            });
+        });
+    })
+</script>

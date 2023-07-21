@@ -1,0 +1,355 @@
+<?php
+$roomId = 0;
+$roomType =  '';
+$description = '';
+$maxAdult = 0;
+$maxChild = 0;
+$maxDays = 0;
+$minDays = 0;
+$position = 0;
+$status = 1;
+$roomBookingId = $block->getRoomBookingId();
+$qty = 0;
+$room = $this->getBkRoom();
+$roomTypes = $this->getBkRoomTypes();
+$useDefault = 1;
+$storeId = $block->getBkStoreId();
+$arAjaxUrl = $block->getArrayAjaxUrl();
+$urlSaveRoom = $arAjaxUrl['url_save_room'];
+$newOptionUrl = $arAjaxUrl['url_new_option'];
+$newDiscountUrl = $arAjaxUrl['new_discount_url'];
+$urlUploadImage = $arAjaxUrl['url_upload_image'];
+
+if($room->getId())
+{
+	$roomId = $room->getId();
+	$roomType = $room->getRoomType();
+	$maxAdult = $room->getRoomMaxAdults();
+	$maxChild = $room->getRoomMaxChildren();
+	$maxDays = $room->getRoomMaximumDay();
+	$minDays = $room->getRoomMinimumDay();
+	$position = $room->getRoomPosition();
+	$status = $room->getRoomStatus();
+	$qty = $room->getRoomQuantity();
+	$arDesText = $block->getBkArTextByStoreId($room->getRoomDescription(),$room->getRoomDesTranslate(),$storeId);
+	$description = isset($arDesText['value']) ? $arDesText['value'] : '';
+	$useDefault = isset($arDesText['use_default']) ? $arDesText['use_default'] : 1;
+	
+}
+$roomTypeOfHotel = $block->getRoomTypeOfHotel($roomBookingId,$roomId);
+//date for tab price
+$dataSend = array('booking_id'=>$roomId, 'booking_type'=>'hotel');
+?>
+<div id="booking-light-box">
+	<div class="booking-popup-header">
+        <button id="booking-room-close" class="action-default primary booking-button" type="button"><?php echo __('Close'); ?></button>
+		<button id="booking-room-save" class="action-default primary booking-button" type="button"><?php echo __('Save'); ?></button>
+	</div>	
+	<div class="booking-popup-content">
+		<div class="booking-room-content">
+			<div id="bk-tabs-container">
+				<ul class="bk-tabs-menu">
+					<li class="current"><a href="#tab-1"><?php echo __('Basic Room Info'); ?></a></li>
+					<?php if($roomId > 0) : ?>
+						<li><a href="#tab-2"><?php echo __('Room Pricing'); ?></a></li>
+						<li><a href="#tab-3"><?php echo __('Room Facilities'); ?></a></li>
+						<li><a href="#tab-4"><?php echo __('Room Photos'); ?></a></li>
+						<li><a href="#tab-5"><?php echo __('Room Discount'); ?></a></li>
+						<li><a href="#tab-6"><?php echo __('Addons & Cross-sells'); ?></a></li>
+					<?php endif; ?>
+				</ul>
+				<div class="tab">
+					<form id="form-bookking-room" method="post" method="post" enctype="multipart/form-data" action="/">
+						<input type="hidden" value="<?php echo $this->getBkFormKey(); ?>" name="form_key">
+						<div id="tab-1" class="bk-tab-content">
+							<div class="filed-room-type">
+								<input type="hidden" name="store_id" value="<?php echo $storeId; ?>" />
+								<input type="hidden" name="room_id" value="<?php echo $roomId; ?>" />
+								<input type="hidden" name="room_booking_id" value="<?php echo $roomBookingId; ?>" />
+								<div class="room-field">
+									<label for="title"><?php echo __('Room Type'); ?></label>
+									<select id="room-type-id" name="room_type">
+									<?php if(count($roomTypes)) : ?>
+										<?php foreach($roomTypes as $key => $value) : ?>
+											<?php if(in_array($key,$roomTypeOfHotel)) continue; ?>
+											<option <?php if($roomType == $key) echo 'selected="selected"'; ?> value="<?php echo $key; ?>"><?php echo $value; ?></option>
+										<?php endforeach; ?>
+									<?php endif; ?>
+									</select>
+								</div>
+								<?php 
+									$strDisableDay = $room->getDisableDays();
+									$arDisableDay = array();
+									if($strDisableDay != '')
+									{
+										$arDisableDay = explode(',',$strDisableDay);
+									}
+									$disableDays = array(
+										0=>__('Sunday'),
+										1=>__('Monday'),
+										2=>__('Tuesday'),
+										3=>__('Wednesday'),
+										4=>__('Thursday'),
+										5=>__('Friday'),
+										6=>__('Saturday')
+										);
+								?>
+								<div class="room-field">
+									<label for="room_status"><?php echo __('Disable Days'); ?></label>
+									<select id="disable-days" multiple name="disable_days[]"  style="height: unset;">
+										<?php foreach($disableDays as $keyDay => $disableDay) : ?>
+											<option <?php if(in_array($keyDay,$arDisableDay)) { echo 'selected="selected"'; } ?>value="<?php echo $keyDay; ?>"><?php echo $disableDay; ?></option>
+										<?php endforeach; ?>
+									</select>
+								</div>
+								<div class="room-field">
+									<label for="room_status"><?php echo __('Status'); ?></label>
+									<select name="room_status">
+										<option value="1"><?php echo __('Enable'); ?></option>
+										<option <?php if($status == '2') echo 'selected="selected"'; ?> value="2"><?php echo __('Disable') ?></option>
+									</select>
+								</div>
+								<div class="room-field">
+									<label for="room_max_adults"><?php echo __('Max Adults'); ?></label>
+									<input type="text" name="room_max_adults" value="<?php echo $maxAdult; ?>" />
+								</div>
+								<div class="room-field">
+									<label for="room_max_children"><?php echo __('Max Children'); ?></label>
+									<input type="text" name="room_max_children" value="<?php echo $maxChild; ?>" />
+								</div>
+								<div class="room-field">
+									<label for="room_minimum_day"><?php echo __('Minimum Days'); ?></label>
+									<input type="text" name="room_minimum_day" value="<?php echo $minDays; ?>" />
+								</div>
+								<div class="room-field">
+									<label for="room_maximum_day"><?php echo __('Maximum Days'); ?></label>
+									<input type="text" name="room_maximum_day" value="<?php echo $maxDays; ?>" />
+								</div>
+								<div class="room-field">
+									<label for="room_position"><?php echo __('Position'); ?></label>
+									<input type="text" name="room_position" value="<?php echo $position; ?>" />
+								</div>
+								<div class="room-field">
+									<label for="room_description"><?php echo __('Description'); ?></label>
+									<div>
+										<textarea style="float : left;" id="room-description" name="room_description" <?php if($roomId > 0 && $storeId > 0 && $useDefault == 1) echo 'disabled="disabled"'; ?>><?php echo $description; ?></textarea>
+										<?php if($roomId > 0 && $storeId > 0) : ?>
+											<div style="display: none">
+												<input id="des-use-default" type="checkbox" name="des_use_default" value="1"/>
+											</div>
+										<?php endif; ?>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="tab-2" class="bk-tab-content">
+							<div id="form-booking-calendar"></div>
+							<div id="booking-list-calendar-items" class="booking-table-items">
+								<?php /* show items calendars */ ?>
+								<?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Marketplace\Calendars')->setData($dataSend)->setTemplate('Magebay_Bookingsystem::marketplace/calendars/items.phtml')->toHtml(); ?>
+							</div>
+							<div class="clear"></div>
+							<?php /* show gird calendars */ ?>
+							<?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Marketplace\Calendars')->setData($dataSend)->setTemplate('Magebay_Bookingsystem::marketplace/calendars/calendar_grid.phtml')->toHtml(); ?>
+						</div>
+						<div id="tab-3" class="bk-tab-content">
+							<?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Marketplace\Booking')->setData(array('booking_type'=>'room','booking_id'=>$roomId,'bk_store_id'=>$storeId))->setTemplate('Magebay_Bookingsystem::marketplace/rooms/facilities.phtml')->toHtml();  ?>
+						</div>
+						<div id="tab-4" class="bk-tab-content">
+								<div class="room-field">
+									<label for="room-image"><?php echo __('Upload Image'); ?></label>
+									<input id="bk-room-image" type="file" name="room_image">
+									<input type="hidden" name="room_id" value="<?php echo $roomId; ?>" />
+								</div>
+							<div id="bk-room-list-images" class="list-temporary-image">
+								<?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Marketplace\RoomsPopup')->setData(array('bk_data_id'=>$roomId,'bk_data_type'=>'room'))->setTemplate('Magebay_Bookingsystem::marketplace/rooms/images.phtml')->toHtml(); ?>
+							</div>
+						</div>
+						<div id="tab-5" class="bk-tab-content">
+							<button id="bk-room-add-discount" title="Addons &amp; Cross-sells" class="action-default primary" type="button">
+								<span><?php echo __('New'); ?></span>
+							</button>
+							<div id="bk-room-discounts-content">
+								<?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Marketplace\Booking')->setData(array('booking_id'=>$roomId,'booking_type'=>'hotel'))->setTemplate('Magebay_Bookingsystem::marketplace/rooms/list-discounts.phtml')->toHtml();;  ?>
+							</div>
+						</div>
+						<div id="tab-6" class="bk-tab-content">
+							<button id="bk-room-add-option" title="Addons &amp; Cross-sells" class="action-default primary" type="button">
+								<span><?php echo __('New'); ?></span>
+							</button>
+							<div id="bk-room-options-content">
+								<?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Marketplace\Booking')->setData(array('booking_id'=>$roomId,'booking_type'=>'hotel'))->setTemplate('Magebay_Bookingsystem::marketplace/rooms/list-options.phtml')->toHtml();;  ?>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+require([
+	'jquery',
+	'Magento_Ui/js/modal/alert',
+],function($,alert){
+	/* tab selection */
+    $(".bk-tabs-menu a").click(function(event) {
+        event.preventDefault();
+        $(this).parent().addClass("current");
+        $(this).parent().siblings().removeClass("current");
+        var tab = $(this).attr("href");
+        $(".bk-tab-content").not(tab).css("display", "none");
+        $(tab).fadeIn();
+    });	
+	//get valiable
+	var roomBookingId = '<?php echo $roomBookingId; ?>';
+	var roomId = '<?php echo $roomId; ?>';
+	var urlSaveRoom = '<?php echo $urlSaveRoom; ?>';
+	var newOptionUrl = '<?php echo $newOptionUrl; ?>';
+	var newDiscountUrl = '<?php echo $newDiscountUrl; ?>';
+	var urlUploadImage = '<?php echo $urlUploadImage; ?>';
+	var storeId = '<?php echo $storeId; ?>';
+	//save booking rooms
+	$('#booking-room-save').click(function(){
+		if (!$('#form-bookking-room').valid()) {
+            return false;
+          }
+		$('#booking-loader').css('display','block');
+		var roomType = $('#room-type-id').val();
+		if($.trim(roomType) != '')
+		{
+			
+		}
+		else
+		{
+			 alert({
+					title: '<?php echo __('Note: ') ?>',
+					content: '<?php echo __('Please Select room type!') ?>'
+				});
+			$('#booking-loader').css('display','none');
+			return false;
+		}
+		$.ajax({
+			url : urlSaveRoom,
+			dataType : 'json',
+			type : 'POST',
+			data : $('#form-bookking-room').serialize(),
+			success : function(res)
+			{
+				// $('#bk-popup-modal-room').html(res.html_room);
+				$('#bk-popup-modal-room .bk-popup-modal-room-content').html(res.html_room);
+				$('#bk-list-rooms fieldset').html(res.html_rooms);
+				var strMessage = '<?php echo __('Room have been saved success'); ?>';
+				if(res.status == false)
+				{
+					strMessage = '<?php echo __('System are errors, Please check again!'); ?>'
+				}
+				alert({
+					title: '',
+					content: strMessage
+				});
+				$('#booking-loader').css('display','none');
+			},
+			error : function()
+			{
+				alert({
+					title: '',
+					content: '<?php echo __('System are errors, Please check again!') ?>'
+				});
+				$('.bk-loading-mask').css('display','none');
+			}
+		});
+	});
+	$('#booking-room-close').click(function () {
+        $('#bk-popup-modal-room').css('display','none');
+    })
+	//upload image
+	$('#bk-room-image').on("change",function(){
+		var formData = new  FormData($('#form-bookking-room')[0]);
+		$('#booking-loader').css('display','block');
+		$.ajax({
+			url : urlUploadImage,
+			dataType : 'json',
+			type : 'POST',
+			data : formData,
+			async: false,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success : function(res)
+			{
+				if(res.status == true)
+				{
+					$('#bk-room-list-images').html(res.html_images)
+				}
+				else
+				{
+					alert({
+						title: '',
+						content: '<?php echo __('System are errors, Please check again!') ?>'
+					});
+				}
+				$('#booking-loader').css('display','none');
+			},
+			error : function()
+			{
+				alert({
+					title: '',
+					content: '<?php echo __('System are errors, Please check again!') ?>'
+				});
+				$('#booking-loader').css('display','none');
+			}					
+		})
+	});
+	//addons & sells
+	$('#bk-room-add-option').click(function(){
+		$('#booking-loader').css('display','block');
+		$.ajax({
+			url : newOptionUrl,
+			dataType : 'json',
+			type : 'POST',
+			data : {store_id : storeId, kind_of_option : 'hotel'},
+			success : function(res)
+			{
+				$('#bk-room-options-content').append(res.html_option);
+				$('#booking-loader').css('display','none');
+			},
+			error : function()
+			{
+				
+			}
+		}); 
+	});
+	//add discount
+	$('#bk-room-add-discount').click(function(){
+		$('#booking-loader').css('display','block');
+		$.ajax({
+			url : newDiscountUrl,
+			dataType : 'json',
+			type : 'POST',
+			data : {kind_of_discount : 'hotel'},
+			success : function(res)
+			{
+				$('#bk-room-discounts-content').append(res.html_discount);
+				$('#booking-loader').css('display','none');
+			},
+			error : function()
+			{
+				
+			}
+		}); 
+	})
+	$('#des-use-default').click(function(){
+		if($(this).is(":checked"))
+		{
+			$('#room-description').prop('disabled',true);
+		}
+		else
+		{
+			$('#room-description').prop('disabled',false);
+		}
+	})
+	$.validator.setDefaults({ ignore: '' });
+})
+
+</script>

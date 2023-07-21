@@ -1,0 +1,288 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+use Magento\Framework\App\Action\Action;
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ */
+?>
+<?php
+$_productCollection = $block->getLoadedProductCollection();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+?>
+<?php if (!$_productCollection->count()): ?>
+    <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
+<?php else: ?>
+    <?= $block->getToolbarHtml() ?>
+    <?= $block->getAdditionalHtml() ?>
+    <?php
+    if ($block->getMode() == 'grid') {
+        $viewMode = 'grid';
+        $image = 'category_page_grid';
+        $showDescription = false;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    } else {
+        $viewMode = 'list';
+        $image = 'category_page_list';
+        $showDescription = true;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
+    }
+    /**
+     * Position for actions regarding image size changing in vde if needed
+     */
+    $pos = $block->getPositioned();
+    ?>
+
+<!--    Grid Mode-->
+    <?php if ($block->getMode() == 'grid') { ?>
+    <div class="products wrapper <?= /* @escapeNotVerified */ $viewMode ?> products-<?= /* @escapeNotVerified */ $viewMode ?>">
+        <?php $iterator = 1; ?>
+        <ul class="list-product">
+            <?php /** @var $_item \Magento\Catalog\Model\Product */ ?>
+            <?php foreach ($_productCollection as $_item): ?>
+                <?= /* @escapeNotVerified */ ($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
+                <div class="product-item-info">
+                    <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>" class="product-item-photo">
+                        <div style="background-image: url(<?= $block->getImage($_item, $image)->getImageUrl(); ?>)"></div>
+                    </a>
+                    <div class="product-item-details">
+                        <strong class="product-item-name">
+                            <a title="<?= $block->escapeHtml($_item->getName()) ?>"
+                               href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                               class="product-item-link">
+                                <?= $block->escapeHtml($_item->getName()) ?>
+                            </a>
+
+                            <?php if ($templateType): ?>
+                                <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
+                            <?php endif; ?>
+                        </strong>
+                        <div class="info-product-bottom">
+                            <div class="block-price">
+                                <span class="label-price"><?php echo __('from') ?></span>
+                                <?= /* @escapeNotVerified */ $block->getProductPrice($_item) ?>
+                            </div>
+                            <div class="product-item-actions">
+                                <div class="actions-primary">
+                                    <?php if ($_item->isSaleable()): ?>
+                                        <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
+                                            <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>" class="action tocart primary"  title="<?= $block->escapeHtmlAttr(__('Book Now')) ?>">
+                                                <span><?= $block->escapeHtml(__('Book Now')) ?></span>
+                                            </a>
+                                        <?php else: ?>
+                                            <?php
+                                            $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
+                                            $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()])
+                                            ?>
+                                            <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>" class="action tocart primary"  title="<?= $block->escapeHtmlAttr(__('Book Now')) ?>">
+                                                <span><?= $block->escapeHtml(__('Book Now')) ?></span>
+                                            </a>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <?php if ($_item->getIsSalable()): ?>
+                                            <div class="stock available"><span><?= $block->escapeHtml(__('In stock')) ?></span></div>
+                                        <?php else: ?>
+                                            <div class="stock unavailable"><span><?= $block->escapeHtml(__('Out of stock')) ?></span></div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="actions-secondary add-wishlist" data-role="add-to-links">
+                                    <a href="#"
+                                       data-post='<?= /* @noEscape */ $block->getAddToWishlistParams($_item) ?>' class="action towishlist" data-action="add-to-wishlist" title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>">
+                                        <span class="icon-wishlist"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?= ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+
+    <?php }else{ ?>
+<!--    List Mode-->
+    <div class="products wrapper <?= /* @escapeNotVerified */ $viewMode ?> products-<?= /* @escapeNotVerified */ $viewMode ?>">
+        <?php $iterator = 1; ?>
+        <ul class="list-product">
+            <?php /** @var $_item \Magento\Catalog\Model\Product */ ?>
+            <?php foreach ($_productCollection as $_item): ?>
+                <?= /* @escapeNotVerified */ ($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
+                <div class="product-item-info">
+                    <div class="product-item-photo">
+                        <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>">
+                            <div style="background-image: url(<?= $block->getImage($_item, $image)->getImageUrl(); ?>)"></div>
+                        </a>
+                        <div class="action-wishlist-list hide-mobile" data-role="add-to-links">
+                            <a href="#"
+                               data-post='<?= /* @noEscape */ $block->getAddToWishlistParams($_item) ?>' class="action towishlist" data-action="add-to-wishlist" title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>">
+                                <span class="icon-wishlist"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-item-details">
+                        <strong class="product-item-name">
+                            <a title="<?= $block->escapeHtml($_item->getName()) ?>"
+                               href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                               class="product-item-link">
+                                <?= $block->escapeHtml($_item->getName()) ?>
+                            </a>
+
+                            <?php if ($templateType): ?>
+                                <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
+                            <?php endif; ?>
+                        </strong>
+                        <?php if ($showDescription):?>
+                        <div class="description">
+                            <?= /* @escapeNotVerified */ $_helper->productAttribute($_item, $_item->getShortDescription(), 'short_description') ?>
+                        </div>
+                        <?php endif; ?>
+                        <div class="info-product-bottom">
+                            <div class="durantion-block">
+                                <span class="icon-duration"><img src="<?php echo $this->getViewFileUrl('images/duration-icon.png')?>"/></span>
+                                <div class="box-right">
+                                    <label>Duration:</label>
+                                    <span class="content">4 hours approx.</span>
+                                </div>
+                            </div>
+                            <div class="product-item-actions hide-mobile">
+                                <div class="actions-primary">
+                                    <?php if ($_item->isSaleable()): ?>
+                                        <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
+                                            <button class="action tocart primary" data-mage-init='{"redirectUrl":{"url":"<?= $block->escapeUrl($block->getAddToCartUrl($_item)) ?>"}}' type="button" title="<?= $block->escapeHtmlAttr(__('Book Now')) ?>">
+                                                <span><?= $block->escapeHtml(__('Book Now')) ?></span>
+                                            </button>
+                                        <?php else: ?>
+                                            <?php
+                                            $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
+                                            $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()])
+                                            ?>
+                                            <button class="action tocart primary" data-post='<?= /* @noEscape */ $postData ?>' type="button" title="<?= $block->escapeHtmlAttr(__('Book Now')) ?>">
+                                                <span><?= $block->escapeHtml(__('Book Now')) ?></span>
+                                            </button>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <?php if ($_item->getIsSalable()): ?>
+                                            <div class="stock available"><span><?= $block->escapeHtml(__('In stock')) ?></span></div>
+                                        <?php else: ?>
+                                            <div class="stock unavailable"><span><?= $block->escapeHtml(__('Out of stock')) ?></span></div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
+
+                            </div>
+                            <div class="block-price aasd">
+                                <span class="label-price"><?= __('from');  ?></span>
+                                <?= /* @escapeNotVerified */ $block->getProductPrice($_item) ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-item-actions show-mobile">
+                    <div class="actions-primary">
+                        <?php if ($_item->isSaleable()): ?>
+                            <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
+                                <button class="action tocart primary" data-mage-init='{"redirectUrl":{"url":"<?= $block->escapeUrl($block->getAddToCartUrl($_item)) ?>"}}' type="button" title="<?= $block->escapeHtmlAttr(__('Book Now')) ?>">
+                                    <span><?= $block->escapeHtml(__('Book Now')) ?></span>
+                                </button>
+                            <?php else: ?>
+                                <?php
+                                $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
+                                $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()])
+                                ?>
+                                <button class="action tocart primary" data-post='<?= /* @noEscape */ $postData ?>' type="button" title="<?= $block->escapeHtmlAttr(__('Book Now')) ?>">
+                                    <span><?= $block->escapeHtml(__('Book Now')) ?></span>
+                                </button>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <?php if ($_item->getIsSalable()): ?>
+                                <div class="stock available"><span><?= $block->escapeHtml(__('In stock')) ?></span></div>
+                            <?php else: ?>
+                                <div class="stock unavailable"><span><?= $block->escapeHtml(__('Out of stock')) ?></span></div>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </div>
+                    <div class="actions-secondary add-wishlist" data-role="add-to-links">
+                        <a href="#"
+                           data-post='<?= /* @noEscape */ $block->getAddToWishlistParams($_item) ?>' class="action towishlist" data-action="add-to-wishlist" title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>">
+                            <span class="icon-wishlist"></span>
+                            <span class="text show-mobile"><?= $block->escapeHtml(__('Add to wishlist')) ?></span>
+                        </a>
+                    </div>
+                </div>
+                <?= ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <?php } ?>
+
+    <?= $block->getChildBlock('toolbar')->setIsBottom(true)->toHtml() ?>
+
+    <script>
+        require(['jquery'],
+            function($){
+                var AppMoveToolbar = function () {};
+                AppMoveToolbar.prototype = {
+                    selectors: {
+                        firstToolbar : '.column.main .toolbar.toolbar-products:eq(0)',
+                        firstToolbarOnSidebar : '.sidebar.sidebar-main .toolbar.toolbar-products:eq(0)',
+                        sidebarMain : '.sidebar.sidebar-main',
+                        columnMain : '.columns .column.main',
+                        authenticationPopup : '.column.main #authenticationPopup'
+                    },
+                    init: function(){
+                        var self = this;
+                        self.moveToolbar();
+                        self.resizeWindow();
+                    },
+                    moveToolbar : function(){
+                        var self = this;
+                        if( $(window).width() > 768 ){
+                            if( $(self.selectors.firstToolbarOnSidebar).length ){
+                                $( self.selectors.firstToolbarOnSidebar ).insertAfter( $( self.selectors.authenticationPopup ) );
+                            }
+                        }else{
+                            if( !$( self.selectors.firstToolbarOnSidebar ).length ){
+                                $(self.selectors.firstToolbar).appendTo(self.selectors.sidebarMain);
+                            }
+
+                        }
+                    },
+                    resizeWindow : function(){
+                        var self = this;
+                        $(window).resize(function(){
+                            self.moveToolbar();
+                        });
+                    }
+                };
+
+                $(document).ready(function(){
+                   var App = new AppMoveToolbar();
+                   App.init();
+                });
+            })
+    </script>
+
+    <?php if (!$block->isRedirectToCartEnabled()) : ?>
+        <script type="text/x-magento-init">
+        {
+            "[data-role=tocart-form], .form.map.checkout": {
+                "catalogAddToCart": {
+                    "product_sku": "<?= /* @NoEscape */ $_item->getSku() ?>"
+                }
+            }
+        }
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
+

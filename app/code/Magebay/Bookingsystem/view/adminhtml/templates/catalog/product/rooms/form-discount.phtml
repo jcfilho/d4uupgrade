@@ -1,0 +1,109 @@
+<?php $discountId = $block->getMaxDiscountId(); ?>
+<div id="parent-bk-room-discount-<?php echo $discountId; ?>" class="mt-sm bk-room-option-content">
+    <input type="hidden" class="" name="discounts[<?php echo $discountId; ?>][discount_id]" value="0">
+  <div class="fieldset-wrapper-title">
+	  <div class="actions">
+		 <button id="id-bk-room-discount-delete-<?php echo $discountId; ?>" class="action-default primary" title="<?php echo __('Delete'); ?>" type="button">
+		 <span><?php echo __('Delete Discount'); ?></span>
+		 </button>
+	  </div>
+   </div>
+   <div id="bk-discount-content-<?php echo $discountId; ?>" class="">
+	  <fieldset class="fieldset">
+		 <fieldset id="bk_room_discount_<?php echo $discountId; ?>" class="p_content">
+			<div class="row">
+				<div class="col-l-4 col-m-6 col-xs-12 fields field-room-discount-input-type">
+					<label for="bk_room_discount_<?php echo $discountId; ?>_title" class="label"><?php echo __('Discount Type') ?></label>
+					<div class="control">
+						<select title="" class="select" id="bk_room_discount_<?php echo $discountId; ?>_type" name="discounts[<?php echo $discountId; ?>][discount_type]">
+							<option value="1"><?php echo __('Last minute'); ?></option>
+							<option value="2"><?php echo __('First moment'); ?></option>
+							<option value="3"><?php echo __('Length of reservation'); ?></option>
+						</select>
+					</div>
+				</div>
+				<div class="col-l-4 col-m-6 col-xs-12 fields field-room-discount-input-type field-room-discount-input-type-condition">
+					<label for="bk_room_discount_<?php echo $discountId; ?>_condition" class="label"><?php echo __('Condition') ?>
+						<span id="bk-room-discount-message-<?php echo $discountId; ?>"><?php echo __('(booked nearest in )'); ?></span>
+					</label>
+					<div class="control">
+						<input type="text" value="0" class="input-text required-entry validate-zero-or-greater" name="discounts[<?php echo $discountId; ?>][discount_period]" >
+						<span id="bk-room-discount-message-2-<?php echo $discountId; ?>"><?php echo __('days') ?></span>
+					</div>
+				</div>
+				<div class="col-l-4 col-m-6 col-xs-12 fields field-room-discount-input-type">
+					<label for="bk_room_discount_<?php echo $discountId; ?>_title" class="label"><?php echo __('Amount Type') ?></label>
+					<div class="control">
+						<select title="" class="select" name="discounts[<?php echo $discountId; ?>][discount_amount_type]">
+							<option value="1"><?php echo __('Percentage'); ?></option>
+							<option value="2"><?php echo __('Fixed amount'); ?></option>
+						</select>
+					</div>
+				</div>
+				<br/>
+				<div class="col-l-4 col-m-6 col-xs-12 fields field-room-discount-input-type">
+					<label for="bk_room_discount_<?php echo $discountId; ?>_amount" class="label"><?php echo __('Amount') ?></label>
+					<div class="control">
+						<input type="text" value="0" class="input-text required-entry validate-zero-or-greater" name="discounts[<?php echo $discountId; ?>][discount_amount]" >
+					</div>
+				</div>
+				<div class="col-l-4 col-m-6 col-xs-12 fields field-room-discount-input-type">
+					<label for="bk_room_discount_<?php echo $discountId; ?>_max_items" class="label"><?php echo __('Max Items') ?></label>
+					<div class="control">
+						<input type="text" value="0" class="input-text required-entry validate-zero-or-greater" name="discounts[<?php echo $discountId; ?>][discount_max_items]" >
+					</div>
+				</div>
+				<div class="col-l-4 col-m-6 col-xs-12 fields field-room-discount-input-type">
+					<label for="bk_room_discount_<?php echo $discountId; ?>_priority" class="label"><?php echo __('Priority') ?></label>
+					<div class="control">
+						<input type="text" value="0" class="input-text required-entry validate-zero-or-greater" name="discounts[<?php echo $discountId; ?>][discount_priority]" >
+					</div>
+				</div>
+                <?php
+                $customerGroups = $block->getBkCustomerGroup();
+                ?>
+                <div class="col-xl-4 col-m-6 col-xs-12 fields field-discount-input-type required">
+                    <label for="booking_discount_<?php echo $discountId; ?>_priority" class="label"><?php echo __('Customer Group') ?></label>
+                    <div class="control">
+                        <select multiple name="discounts[<?php echo $discountId; ?>][discount_group][]" style="height: unset;">
+                            <?php if(count($customerGroups)) : ?>
+                                <?php foreach ($customerGroups as $customerGroup) : ?>
+                                    <?php if($customerGroup['value'] == '') { continue; } ?>
+                                    <option value="<?php echo $customerGroup['value'];  ?>"><?php echo $customerGroup['label']; ?></option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                    </div>
+                </div>
+			</div>
+		 </fieldset>
+	  </fieldset>
+   </div>
+</div>
+<script type="text/javascript">
+require(['jquery'],
+	function($) {
+		var discountId = '<?php echo $discountId; ?>';
+		$('#id-bk-room-discount-delete-'+discountId).click(function(){
+			$('#parent-bk-room-discount-'+discountId).remove();
+		})
+		$('#bk_room_discount_'+discountId+'_type').change(function(){
+		if($(this).val() == '1')
+		{
+			$('#bk-room-discount-message-'+discountId).html('<?php echo __('(booked nearest in) '); ?>');
+			$('#bk-room-discount-message-2-'+discountId).html('<?php echo __('days'); ?>');
+		}
+		else if($(this).val() == '2')
+		{
+			$('#bk-room-discount-message-'+discountId).html('<?php echo __('(booked at least far in)'); ?>');
+			$('#bk-room-discount-message-2-'+discountId).html('<?php echo __('days'); ?>');
+		}
+		else
+		{
+			$('#bk-room-discount-message-'+discountId).html('<?php echo __('(Minimal Quantity is)'); ?>');
+			$('#bk-room-discount-message-2-'+discountId).html('<?php echo __('Session/day'); ?>');
+		}
+		});
+	})
+</script>
+	

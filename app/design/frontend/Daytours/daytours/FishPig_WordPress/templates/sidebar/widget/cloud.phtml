@@ -1,0 +1,21 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+?>
+<?php if ($tags = $this->getTags()): ?>
+	<?php $tagCount = count($tags) ?>
+<div class="popular-tags">
+    <div class="content-inner">
+        <div class="title"><?php echo __('Popular Tags') ?></div>
+        <ul class="list-popular">
+            <?php foreach ($tags as $tag): ?>
+                <li class="item"><a href="<?php echo $tag->getUrl() ?>"><?php echo $this->escapeHtml($tag->getName()) ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>
+<?php endif; ?>

@@ -1,0 +1,126 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\CatalogWidget\Block\Product\ProductsList $block */
+?>
+<?php if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())): ?>
+    <?php
+    $type = 'widget-product-grid';
+
+    $mode = 'grid';
+
+    $image = 'new_products_content_widget_grid';
+    $items = $block->getProductCollection()->getItems();
+
+    $showWishlist = true;
+    $showCompare = true;
+    $showCart = true;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::DEFAULT_VIEW;
+    $description = false;
+
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $currencysymbol= $objectManager
+        ->get('Magento\Store\Model\StoreManagerInterface');
+    $currencyCodeBase = $currencysymbol->getStore()->getCurrentCurrencyCode();
+    $currency  = $objectManager
+        ->create('Magento\Directory\Model\CurrencyFactory')
+        ->create()->load($currencyCodeBase);
+    $currencySymbol= $currency->getCurrencySymbol();
+    ?>
+    <div class="block widget block-products-list <?= /* @noEscape */ $mode ?>">
+        <?php if ($block->getTitle()): ?>
+            <div class="block-title">
+                <strong><?= $block->escapeHtml(__($block->getTitle())) ?></strong>
+            </div>
+        <?php endif ?>
+        <div class="block-content">
+            <?= /* @noEscape */ '<!-- ' . $image . '-->' ?>
+            <div class="products-<?= /* @noEscape */ $mode ?> <?= /* @noEscape */ $mode ?>">
+                <ol class="product-items <?= /* @noEscape */ $type ?>">
+                    <?php $iterator = 1; ?>
+                    <?php foreach ($items as $_item): ?>
+                    <?php if ($iterator++ != 1): ?></li><?php endif ?>
+                    <li class="product-item">
+                        <div class="product-item-info">
+                            <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>" class="product-item-photo">
+                                <div style="background-image: url(<?= $block->getImage($_item, $image)->getImageUrl(); ?>)"></div>
+                            </a>
+                            <div class="product-item-details">
+                                <strong class="product-item-name">
+                                    <a title="<?= $block->escapeHtml($_item->getName()) ?>"
+                                       href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                                       class="product-item-link"
+                                       style="height: 48px;overflow: hidden;display: block;max-height: 48px;">
+                                        <?= $block->escapeHtml($_item->getName()) ?>
+                                    </a>
+                                    <?php
+                                    $reviewFactory = $objectManager->create('Magento\Review\Model\Review');
+                                    $product = $objectManager->create('Magento\Catalog\Model\Product')->load($_item->getId());
+                                    $storeManager  = $objectManager->create('\Magento\Store\Model\StoreManagerInterface');
+                                    $storeId = $storeManager->getStore()->getStoreId();
+                                    $reviewFactory->getEntitySummary($product, $storeId);
+
+                                    $ratingSummary = $product->getRatingSummary()->getRatingSummary();
+                                    $reviewCount = $product->getRatingSummary()->getReviewsCount();
+                                    ?>
+                                    <?php if($ratingSummary): ?>
+                                    <div class="product-rating">
+                                        <div class="rating" style="background-image: url(<?php echo $this->getViewFileUrl('Magento_Email::images/rating-miss.png') ?>)">
+                                            <div class="has-rate" style="background-image: url(<?php echo $this->getViewFileUrl('Magento_Email::images/rating.png') ?>); width: <?php echo $ratingSummary . '%'; ?>;"></div>
+                                        </div>
+                                        <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>" class="rating-count" style="color: #4f4f4f;"><span>(<?php echo $reviewCount; ?>)</span></a>
+                                    </div>
+                                    <?php endif; ?>
+                                </strong>
+
+                                <div class="info-product-bottom">
+                                    <div class="block-price">
+                                        <span class="label-price" style="color: #1d2e3c;"><?php echo __('from') ?></span>
+                                        <span class="price-container"><span class="currency_code"><span class="currency_symbol"><?= $currencySymbol ?></span></span><span class="price"><?php echo number_format($_item['price'], 0)?></span></span>
+                                    </div>
+
+                                    <?php if ($showCart): ?>
+                                        <div class="product-item-actions">
+                                            <?php if ($showCart): ?>
+                                                <div class="actions-primary">
+                                                    <?php if ($_item->isSaleable()): ?>
+                                                        <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
+                                                            <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>" class="action tocart primary" type="button" title="<?= $block->escapeHtmlAttr(__('Book now')) ?>">
+                                                                <span><?= $block->escapeHtml(__('Book now')) ?></span>
+                                                            </a>
+                                                        <?php else: ?>
+                                                            <?php
+                                                            $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
+                                                            $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()])
+                                                            ?>
+                                                            <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>" class="action tocart primary" type="button" title="<?= $block->escapeHtmlAttr(__('Book now')) ?>">
+                                                                <span><?= $block->escapeHtml(__('Book now')) ?></span>
+                                                            </a>
+                                                        <?php endif; ?>
+                                                    <?php else: ?>
+                                                        <?php if ($_item->getIsSalable()): ?>
+                                                            <div class="stock available"><span><?= $block->escapeHtml(__('In stock')) ?></span></div>
+                                                        <?php else: ?>
+                                                            <div class="stock unavailable"><span><?= $block->escapeHtml(__('Out of stock')) ?></span></div>
+                                                        <?php endif; ?>
+                                                    <?php endif; ?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?= ($iterator == count($items)+1) ? '</li>' : '' ?>
+                        <?php endforeach ?>
+                </ol>
+            </div>
+            <?= $block->getPagerHtml() ?>
+        </div>
+    </div>
+<?php endif;?>

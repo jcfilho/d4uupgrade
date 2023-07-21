@@ -1,0 +1,22 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$_outputhelper    = $this->helper('Magento\Catalog\Helper\Output');
+
+/** @var \Daytours\Catalog\Block\Subcategories $block */
+
+$categories = $block->getSubcategories($block->getData('id_category_parent'));
+?>
+<div class="row-list">
+    <?php foreach ($categories as $item) : ?>
+        <?php
+            $category = $objectManager->create('Magento\Catalog\Model\Category')->load($item->getId());
+            $_imgHtml   = '';
+            $_imgUrl = $category->getImageUrl();
+        ?>
+        <a href="<?= $item->getUrl(); ?>" class="col-item">
+            <div class="item lazy" style="background-image: url('<?php echo $_imgUrl; ?>');">
+                <div class="name-cat"><span class="category-name-label"><?= $item->getName(); ?></span></div>
+            </div>
+        </a>
+    <?php endforeach; ?>
+</div>

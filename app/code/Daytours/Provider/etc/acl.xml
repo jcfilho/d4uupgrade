@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Daytours_Provider::provider" title="Providers" sortOrder="51">
+                    <resource id="Daytours_Provider::save" title="Save provider" sortOrder="10"/>
+                    <resource id="Daytours_Provider::delete" title="Save provider" sortOrder="11"/>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

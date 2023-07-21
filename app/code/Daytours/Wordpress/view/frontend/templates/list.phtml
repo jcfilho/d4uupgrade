@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * @var $dateTimeFormatter \Magento\Framework\Stdlib\DateTime\TimezoneInterface
+ */
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$dateTimeFormatter = $objectManager->get('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
+
+
+/** @var \Daytours\Wordpress\Block\CategoryList $block */
+
+$posts = $block->getPosts($block->getData('id_category'),$block->getData('count_item'));
+?>
+
+<div class="planing-block">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 title-planing">
+                <h3 class="title"><?= $block->getData('title') ?></h3>
+            </div>
+            <?php foreach($posts as $post): ?>
+                <div class="col-blog">
+                    <div class="content">
+                        <?php $image = $post->getImage(); ?>
+                        <div class="blog-image" style="background-image: url(<?php echo $image->getData('guid').'.webp'; ?>); background-position: center; background-size: cover;">
+                            <a href="<?php echo $post->getUrl() ?>"></a>
+                        </div>
+                        <div class="blog-information">
+                            <?php
+//                            $staticDate = $post->getData('post_date');
+//                            $convertedDate = $dateTimeFormatter->date(new DateTime($staticDate))->format('M d, y');
+                            ?>
+                            <div class="date"><i class="icon-date"></i> <?php echo $post->getPostDate('M d, y'); ?></div>
+                            <div class="blog-name">
+                                <a href="<?php echo $post->getUrl() ?>">
+                                    <?php echo $this->escapeHtml($post->getPostTitle()) ?>
+                                </a>
+                            </div>
+                            <a href="<?php echo $post->getUrl() ?>" class="read-blog"><?php echo __('Read More') ?></a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+

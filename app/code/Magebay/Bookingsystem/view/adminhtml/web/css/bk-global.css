@@ -1,0 +1,23 @@
+/* global style for backend */
+.bk-loading-mask {
+    display: none;
+    background: rgba(255, 255, 255, 0.4) none repeat scroll 0 0;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 2003;
+}
+.bk-loading-mask .popup-loading .popup-inner img
+{
+    display: none;
+}
+.fieldset-wrapper #booking-options-content .admin__collapsible-block-wrapper .fieldset-wrapper-title .actions { top:0; }
+/* David */
+.bk-config-task  a, .bk-config-task  a { text-decoration: none; }
+.bk-config-task ul li:hover { background: #ccc; }
+.bk-config-task ul li { border-right: 1px solid #fff; }
+.bk-config-task ul li:last-child { border-right: 1px solid #ccc; }
+
+/* End David */

@@ -1,0 +1,42 @@
+<!--@subject {{trans "%store_name missing data order" store_name=$store.getFrontendName()}} @-->
+<!--@vars {
+"var edit_url":"Order edit URL",
+"template config_path=\"design\/email\/footer_template\"":"Email Footer Template",
+"template config_path=\"design\/email\/header_template\"":"Email Header Template"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+<div style="padding-left:20px;padding-right: 20px">
+<table>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">{{trans "Hi, %customer_name," customer_name=$order.getCustomerName()}}</p>
+            <p>
+                {{trans "Thanks for booking with %store_name." store_name=$store.getFrontendName()}}
+            </p>
+            <p>
+                {{trans "You are one step away from having an unforgettable experience. You just need to fill out the form with the personal information required for each companion."}}
+            </p>
+            <p>
+                {{trans "This information is essential to confirm your reservation and send the corresponding vouchers or passages. The personal information requested, is a requirement of the local authorities; for this reason, the passenger is responsible for the accuracy of this information as well as for any errors or omissions in the data."}}
+            </p>
+            <p>
+                <a href="{{var edit_url|raw}}">{{trans "To fill out your data, please click here"}}</a>
+            </p>
+            {{if $countdown >= 0}}
+            <p>
+                {{trans "%countdown days remaining" countdown=$countdown |raw}}
+            </p>
+            {{/if}}
+            <p>
+                {{trans "If you already filled out the form after your purchase, in a maximum of 48 hours you will receive the vouchers of your trips."}}
+            </p>
+            <p>
+                {{trans "Questions? please contact our support team by replying to this email."}}
+            </p>
+
+        </td>
+    </tr>
+</table>
+</div>
+{{template config_path="design/email/footer_template"}}

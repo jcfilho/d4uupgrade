@@ -1,0 +1,366 @@
+<?php 
+/**
+ * @Author      : Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+?>
+<?php
+    $partnerAmount = $block->getPartnerAmount();
+    $lastOrder = $block->getLastOrder();
+    $reviews = $block->getLatestReview();
+	$month_sale = $block->getMonthlysale();
+?>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="my-drashboard" style="">
+            <div class="mst_mv_wrapper">       
+            	<div class="seller-today-sales">       
+            		<div class="sales_bg">           
+            			<div class="today_info">
+                			<strong><?php echo __("Today's Sales") ?></strong>
+                			<p><?php echo $block->getTodaySales(); ?></p>
+            			</div> 
+            			<span class="icon"></span>
+            		</div> 
+            		<div class="total_orders_bg">
+            			<div class="today_info">
+                			<strong><?php echo __("Today's Orders") ?></strong>
+                			<p><?php echo $block->getMkPriceHelper()->currency($block->getTodayAmount(),true,false); ?></p>
+                		</div>
+            			<span class="icon"></span>
+            		</div>  
+            	</div>
+            	<div class="seller-your-income">
+                	<div class="box-title">	
+                		<span><?php echo __('Your Income') ?></span>
+                	</div>	
+                	<div class="fieldset mst_mv_fieldset">
+                		<div class="content_wr">
+                			<ul class="marketplace_total_income">
+                				<li>
+                					<p><?php echo $block->getMkPriceHelper()->currency($block->getWeekAmount(),true,false); ?></p>
+                					<strong><?php echo __('Week'); ?></strong>
+                				</li>
+                				<li>
+                					<p><?php echo $block->getMkPriceHelper()->currency($block->getMonthAmount(),true,false); ?></p>
+                					<strong><?php echo __('Month'); ?></strong>
+                				</li>
+                				<li>
+                					<p><?php echo $block->getMkPriceHelper()->currency($block->getYearAmount(),true,false); ?></p>
+                					<strong><?php echo __('Year'); ?></strong>
+                				</li>
+                			</ul>
+                		</div>
+                		<div class="content_wr totalsale">
+                			<ul class="marketplace_totalsale">
+                				<li class="remaining_amount">
+                					<p><?php echo __('Remaining Amount'); ?> - <?php echo $block->getMkPriceHelper()->currency($partnerAmount['amountremain'],true,false); ?></p>
+                				</li>
+                				<li class="total_payout">
+                					<p><?php echo __('Total Payout'); ?> - <?php echo $block->getMkPriceHelper()->currency($partnerAmount['amountreceived'],true,false); ?></p>
+                				</li>
+                			</ul>
+                		</div>
+                	</div>
+            	</div>
+            	<div class="seller-sales-chart">
+            		<div class="box-title">
+            			<span><?php echo __('Orders'); ?></span>           
+            		</div>
+            		<div class="fieldset mst_mv_fieldset" style="letter-spacing: 0;">
+                        <div style="">
+                            <div class="col span_2_of_4">
+                                <ul class="report_orders">
+                                    <li style="color: #cd5052;"><?php echo __('Total') ?>: <span><?php echo  $block->getOrderStatus( 'all' ) ?></span></li>
+                                    <li style="color: #9cca68;"><?php echo __('Complete') ?>: <span><?php echo  $block->getOrderStatus( 'complete' ) ?></span></li>
+                                    <li style="color: #6c96d0;"><?php echo __('Pending') ?>: <span><?php echo  $block->getOrderStatus( 'pending' ) ?></span></li>
+                                    <li style="color: #949fb1;"><?php echo __('Processing') ?>: <span><?php echo  $block->getOrderStatus( 'processing' ) ?></span></li>
+                                    <li style="color: #7c7c7c;"><?php echo __('Canceled') ?>: <span><?php echo  $block->getOrderStatus( 'canceled' ) ?></span></li>
+                                    <li style="color: #f7464a;"><?php echo __('On Hold') ?>: <span><?php echo  $block->getOrderStatus( 'holded' ) ?></span></li>
+                                </ul>
+                            </div>
+                            <div class="col span_2_of_4">
+                                <div id="sales-status-chart" style="height: 250px; width: 250px;"></div>
+                            </div>
+                            <div class="clear" style="clear:both;"></div>
+                        </div>
+                	</div>
+            	</div>	
+            	<div class="seller-sales-chart">
+            		<div class="box-title">
+            			<span><?php echo __('Sales Report'); ?></span>           
+            			<div class="wp_seller_sales_report">
+            				<form class="seller_sales_report" name="orders" method="post" action="">
+                				<select name="select_filter" class="select_filter" id="select_filter">
+                					<option name="lastmonth" value="current month" <?php echo $this->getRequest()->getParam('select_filter') == 'current month'?'selected=""':''; ?>><?php echo __('Current month'); ?></option>
+                					<option name="lastmonth" value="last month" <?php echo $this->getRequest()->getParam('select_filter') == 'last month'?'selected=""':''; ?>><?php echo __('Last month'); ?></option>
+                					<option name="lastweek" value="last week" <?php echo $this->getRequest()->getParam('select_filter') == 'last week'?'selected=""':''; ?>><?php echo __('Last Week'); ?></option>
+                					<option name="lastweek" value="current week" <?php echo $this->getRequest()->getParam('select_filter') == 'current week'?'selected=""':''; ?>><?php echo __('Current Week'); ?></option>
+                					<option name="custom" value="custom" <?php echo $this->getRequest()->getParam('select_filter') == 'custom'?'selected=""':''; ?>><?php echo __('Custom'); ?></option>
+                					<!--<option name="today" value="today" <?php echo $this->getRequest()->getParam('select_filter') == 'today'?'selected=""':''; ?>><?php echo __('Today'); ?></option>-->
+                				</select>			
+                				<input type="text" name="date_from" class="input-text" id="date_from" value="<?php echo $this->getRequest()->getParam('date_from') ?>"/>
+                				<input type="text" name="date_to" class="input-text" id="date_to" value="<?php echo $this->getRequest()->getParam('date_to') ?>"/>
+                				<button type="submit" class="button multi_submit" title="<?php echo __('Submit'); ?>" name="filter_submit" id="multi_submit"><?php echo __('Submit'); ?></button>
+            				    <script>
+                                    require([
+                                        "jquery",
+                                        "mage/mage",
+                                        "mage/calendar"
+                                    ], function($){
+                                        $("#date_from").calendar({'dateFormat':'mm/dd/yy'});
+                                        $("#date_to").calendar({'dateFormat':'mm/dd/yy'});	
+                                    });
+                                </script>
+                            </form>
+            			</div>
+            		</div>
+            		<div class="fieldset mst_mv_fieldset">
+            			<div class="sale-chart">
+                			<?php 
+                    			if ( $this->getRequest()->getPost('select_filter') ) {
+                    				$select_filter = $this->getRequest()->getPost('select_filter');
+                        			switch ( $this->getRequest()->getPost('select_filter') ) {
+                        				case "last month":
+                        					$date_from = date("Y-m-d", strtotime("first day of previous month"));
+                        					$date_to = date("Y-m-d", strtotime("last day of previous month"));
+                        					$custom_sale = $block->getCustomsale( $select_filter, $date_from , $date_to );
+                        					break;
+                        				case "current month":
+                        					$date_from = date("Y-m-d", strtotime("first day of this month"));
+                        					$date_to = date("Y-m-d", strtotime("last day of this month"));
+                        					$custom_sale = $block->getCustomsale( $select_filter, $date_from , $date_to );
+                        					break;	
+                        				case "last week":
+                        					$date_from = date("Y-m-d", strtotime("monday last week"));
+                        					$date_to = date("Y-m-d", strtotime("sunday last week"));
+                        					$custom_sale = $block->getCustomsale( $select_filter, $date_from , $date_to );
+                        					break;
+                        				case "current week":
+                        					$date_from = date("Y-m-d", strtotime("monday this week"));
+                        					$date_to = date("Y-m-d", strtotime("sunday this week"));
+                        					$custom_sale = $block->getCustomsale( $select_filter, $date_from , $date_to );
+                        					break;	
+                        				case "custom":
+                        					$date_from = $this->getRequest()->getPost('date_from');
+                        					$date_to = $this->getRequest()->getPost('date_to');
+                        					$custom_sale = $block->getCustomsale( $select_filter, $date_from , $date_to );
+                        					break;
+                        				case "today":
+                        					$date_from = $this->getRequest()->getPost('date_from');
+                        					$date_to = $this->getRequest()->getPost('date_to');
+                        					$custom_sale = $block->getCustomsale( $select_filter, $date_from , $date_to );
+                        					break;	
+                        				default:
+                        					$date_from = date("Y-m-d", strtotime("first day of this month"));
+                        					$date_to = date("Y-m-d", strtotime("last day of this month"));
+                        					$custom_sale = $block->getCustomsale( $select_filter, $date_from , $date_to );
+                        			}	
+                    			}else {
+                    				$date_from = date("Y-m-d", strtotime("first day of this month"));
+                    				$date_to = date("Y-m-d", strtotime("last day of this month"));
+                    				$custom_sale = $block->getCustomsale( '' , $date_from , $date_to );
+                    			}
+                			?>
+                			<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css"/>
+                			<div class="fieldset mst_mv_fieldset" style="letter-spacing: 0;">
+                				<div style="">
+                					<div id="saleschart" style="height: 250px;"></div>
+                					<div class="clear" style="clear:both;"></div>
+                				</div>
+                			</div>
+            			</div>
+            			<script> 
+                			require([
+                				"jquery"
+                			], function($){  
+								require([ "//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js", "//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js" ], function() {
+    								lineChart();
+                    				$(window).resize(function() {
+                    					window.lineChart.redraw();
+                    				});
+                    				function lineChart() {
+                    					var day_data = JSON.parse('<?php echo $custom_sale; ?>');
+                    					window.lineChart =  Morris.Line({
+                    						element: 'saleschart',
+                    						data: day_data,
+                    						xkey: 'period',
+                    						ykeys: ['sales'],
+                    						labels: ['Sales'],
+                    						parseTime: false,
+                    						hoverCallback: function (index, options, default_content, data) {
+                                                return default_content.replace("Sales", "<span style='color:#000;'>Earn Amount: " + data.earn + "</span><br>Sales: " );
+                    						},
+                    						xLabelMargin: 10,
+                    						integerYLabels: true
+                    						//ykeys: ['sales', 'sorned'],
+                    						//labels: ['Licensed', 'SORN']
+                    					}); 					
+                    				}
+                    				Morris.Donut({
+                    					element: 'sales-status-chart',
+                    					data: [
+                    						{value: <?php echo  $block->getOrderStatus( 'complete' ) ?>, label: 'Complete'},
+                    						{value: <?php echo  $block->getOrderStatus( 'pending' ) ?>, label: 'Pending'},
+                    						{value: <?php echo  $block->getOrderStatus( 'processing' ) ?>, label: 'Processing'},
+                    						{value: <?php echo  $block->getOrderStatus( 'canceled' ) ?>, label: 'Canceled'},
+                    						{value: <?php echo  $block->getOrderStatus( 'holded' ) ?>, label: 'On Hold'}
+                    					],
+                    					backgroundColor: '#ccc',
+                    					labelColor: '#060',
+                    					colors: [
+                    						'#9cca68',
+                    						'#6c96d0',
+                    						'#949fb1',
+                    						'#7c7c7c',
+                    						'#f7464a'
+                    					],
+                    					formatter: function (x) { return x + ""}
+                    				});
+								});
+                			});	
+            			</script>
+                        <div style="clear: both;"></div>
+            		</div>
+            	</div>
+            </div>
+            <!-- Tabs -->
+            <div id="tabs-container">
+                <ul class="tabs-menu">
+                    <li class="current"><a href="#tab-1"><?php echo __('Last Orders'); ?></a></li>
+                    <li><a href="#tab-2"><?php echo __('Best Seller'); ?></a></li>
+                    <li><a href="#tab-3"><?php echo __('Latest Reviews'); ?></a></li>
+                </ul>
+                <div class="tab">
+            		<div id="tab-1" class="tab-content">
+                		<table class="data table table-report-orders" id="report-orders">
+                    		<caption class="table-caption"><?php echo __('Orders'); ?></caption>
+                    		<thead>
+                    			<tr>
+                    				<th scope="col" class="order-id"><?php echo __('ID'); ?></th>
+                    				<th scope="col" class="purchased-date"><?php echo __('Purchased Date'); ?></th>
+                    				<th scope="col" class="customer"><?php echo __('Customer'); ?></th>
+                    				<th scope="col" class="grand-total"><?php echo __('Subtotal'); ?></th>
+                    				<th scope="col" class="status"><?php echo __('Status'); ?></th>
+                    				<th scope="col" class="actions"><?php echo __('Action'); ?></th>
+                    			</tr>
+                    		</thead>
+                        	<tbody>
+                        		<?php if(count($lastOrder)) : ?>
+                        			<?php foreach($lastOrder as $order) : ?>
+                            			<tr>
+                            				<td scope="col" class="order-id"><?php echo __('#'); ?><a href="<?php echo $block->getUrl() ?>marketplace/seller/vieworder/order_id/<?php echo $order->getId(); ?>/"><?php echo $order->getIncrementId() ?></a></td>
+                            				<td scope="col" class="purchased-date"><?php echo $order->getCreatedAt(); ?></th>
+                            				<td scope="col" class="customer"><?php echo $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname(); ?></td>
+                            				<td scope="col" class="grand-total"><?php echo $block->getMkPriceHelper()->currency( $order->getTotalamount() ,true,false); ?></td>
+                            				<td scope="col" class="status"><?php echo $order->getStatus(); ?></td>
+                            				<td scope="col" class="actions"><a href="<?php echo $block->getUrl() ?>marketplace/seller/vieworder/order_id/<?php echo $order->getId(); ?>/"><?php echo __('View'); ?></a></td>
+                            			</tr>
+                        			<?php endforeach; ?>
+                        		<?php endif; ?>
+                    		</tbody>
+                		</table>
+                    </div>
+                    <div id="tab-2" class="tab-content">
+            			<table class="data table table-report-products" id="report-products">
+            				<caption class="table-caption"><?php echo __('Orders'); ?></caption>
+            				<thead>
+            					<tr>
+            						<th scope="col" class="prod-id"><?php echo __('ID'); ?></th>
+            						<th scope="col" class="product"><?php echo __('Product'); ?></th>
+            						<th scope="col" class="Price"><?php echo __('Price'); ?></th>
+            						<th scope="col" class="Quantity"><?php echo __('Quantity'); ?></th>
+            						<th scope="col" class="actions">&nbsp;</th>
+            					</tr>
+            				</thead>
+            				<tbody>
+                				<?php $bestsale = $block->getBestSellerProducts(); ?>
+                				<?php if(count($bestsale)) : ?>
+                					<?php foreach($bestsale as $product) : ?>
+                    					<tr>
+                    						<td scope="col" class="prod-id"><?php echo $product->getId() ?></td>
+                    						<td scope="col" class="product"><?php echo $product->getName() ?></td>
+                    						<td scope="col" class="Price"><?php echo $block->getMkPriceHelper()->currency( $product->getFinalPrice() ,true,false); ?></td>
+                    						<td scope="col" class="Quantity"><?php echo (int)$product->getQtyOrdered() ?></td>
+                    						<td scope="col" class="actions">&nbsp;</td>
+                    					</tr>
+                					<?php endforeach; ?>
+                				<?php endif; ?>
+            				</tbody>
+            			</table>
+                    </div>
+                    <div id="tab-3" class="tab-content">
+                        <table class="data table table-report-products" id="report-products">
+            				<caption class="table-caption"><?php echo __('Orders'); ?></caption>
+            				<thead>
+            					<tr>
+                                    <th scope="col" class="prod-id"><?php echo __('ID'); ?></th>
+            						<th scope="col" class="time"><?php echo __('Time'); ?></th>
+            						<th scope="col" class="product"><?php echo __('Product'); ?></th>
+            						<th scope="col" class="rating"><?php echo __('Rating'); ?></th>
+            						<th scope="col" class="review"><?php echo __('Review'); ?></th>
+            					</tr>
+            				</thead>
+            				<tbody>
+                				<?php if(count($reviews)) : ?>
+                					<?php foreach($reviews as $review) : ?>
+                    					<tr>
+                                            <td scope="col" class="prod-id"><?php echo $review->getId(); ?></td>
+                    						<td scope="col" class="time"><?php echo $review->getCreatedate(); ?></td>
+                    						<td scope="col" class="product"><?php echo $review->getFirstname().' '.$review->getLastname(); ?></td>
+                    						<td scope="col" class="rating">
+                    							<div class="mst-review-details">
+                                                    <div class="value-review">
+                                                        <div class="price">
+                                                            <span class="reviews_label mst_span"><?php echo __('Price'); ?></span><span class="reviews_label">:</span>
+                                                            <div class="wrapp-rating">
+                                                                <div style="width:<?php echo $review->getPrice(); ?>%;" class="rating"></div>
+                                                            </div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                        <div class="value">
+                                                            <span class="reviews_label mst_span"><?php echo __('Value'); ?></span><span class="reviews_label">:</span>
+                                                            <div class="wrapp-rating">
+                                                                <div style="width:<?php echo $review->getValue(); ?>%;" class="rating"></div>
+                                                            </div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                        <div class="quality">
+                                                            <span class="reviews_label mst_span"><?php echo __('Quality'); ?></span><span class="reviews_label">:</span>
+                                                            <div class="wrapp-rating">
+                                                                <div style="width:<?php echo $review->getQuality(); ?>%;" class="rating"></div>
+                                                            </div>
+                                                            <div class="mst_clear"></div>
+                                                        </div>
+                                                    </div>
+                    							</div>
+                    						</td>
+                    						<td scope="col" class="review"><?php echo $review->getReview(); ?></td>
+                    					</tr>
+                					<?php endforeach; ?>
+                				<?php endif; ?>
+            				</tbody>
+            			</table>
+                    </div>
+                </div>
+            </div>
+            <script>
+                require([
+            		"jquery",
+            	], function($){  
+            		$(".tabs-menu a").click(function(event) {
+            			event.preventDefault();
+            			$(this).parent().addClass("current");
+            			$(this).parent().siblings().removeClass("current");
+            			var tab = $(this).attr("href");
+            			$(".tab-content").not(tab).css("display", "none");
+            			$(tab).fadeIn();
+            		});
+                });
+            </script>
+        </div>
+    </div>
+</div>

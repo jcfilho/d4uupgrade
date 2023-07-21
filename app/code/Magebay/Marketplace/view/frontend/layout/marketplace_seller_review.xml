@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="Magebay_Marketplace::css/mst_block.css" />
+		<css src="Magebay_Marketplace::css/style.css" />
+	</head>
+	<body>
+        <referenceContainer name="content">
+            <block class="Magebay\Marketplace\Block\Sellers" name="marketplace.seller.review" template="seller/review.phtml" />
+		</referenceContainer>	
+    </body>
+</page>

@@ -1,0 +1,210 @@
+<?php
+/**
+ *@var $block \Magebay\Bookingsystem\Block\Booking
+ * @var \Daytours\Bookingsystem\Helper\Data $helperBooking
+ * */
+?>
+<?php $params = $this->getRequest()->getParams(); ?>
+<?php $formatDate  = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/format_date'); ?>
+<?php $results = $block->getBookingResult(); ?>
+<?php $tempCheckIn = $results['check_in']; ?>
+<?php $tempCheckOut = $results['check_out']; ?>
+<?php $checkIn = date($formatDate,strtotime($results['check_in'])); ?>
+<?php $checkOut = date($formatDate,strtotime($results['check_out'])); ?>
+<?php $bookingError  = 0; ?>
+<?php $totalPrice  = 0; ?>
+<?php $totalPromo  = 0; ?>
+<?php $okPromo  = 0; ?>
+<?php $bookingId = isset($results['booking_id']) ? $results['booking_id'] : 0; ?>
+<?php $perPrice = 0; ?>
+
+<?php $booking = $block->getBkProductById($bookingId); ?>
+<?php $baseDoble = $booking->getRegulares() ?>
+<?php $helperBooking = $this->helper('Daytours\Bookingsystem\Helper\Data'); ?>
+
+<?php if($results['str_error'] == '') : ?>
+    <?php
+
+    /****  RANGE PRICE  ****/
+    $results['total_price'] = $helperBooking->getPriceByRange($bookingId,$params['qty'],$results['total_price']);
+    $results['total_promo'] = $helperBooking->getPriceByRange($bookingId,$params['qty'],$results['total_promo']);
+
+    /****  BASE DOBLE  *****/
+    if( $baseDoble == '1' && $params['qty'] == '1'){
+        $results['total_price'] *= 2;
+        $results['total_promo'] *= 2;
+    }
+    /*------------*/
+
+    $totalPrice = $block->getBkPriceHelper()->currency($results['total_price'],true,false);
+    $totalPromo = $results['total_promo'] > 0 ? $results['total_promo'] : 0;
+    $perPrice = $results['total_days'] > 0 ? $results['total_price'] / $results['total_days'] : $perPrice;
+    if($totalPromo > 0)
+    {
+        $okPromo = 1;
+        $perPrice = $results['total_days'] > 0 ? $totalPromo / $results['total_days'] : $perPrice;
+    }
+    $totalPromo = $block->getBkPriceHelper()->currency($totalPromo,true,false);
+
+    $results['total_price'] = $block->getBkPriceHelper()->currency($results['total_price'],false,false);
+    $results['total_promo'] = $block->getBkPriceHelper()->currency($results['total_promo'],false,false);
+
+
+    ?>
+    <?php if($results['str_note'] != '') : ?>
+        <span class="booking-result-note"><?php echo $results['str_note']; ?> </span>
+    <?php endif; ?>
+    <?php if($results['booking_time'] != 5) : ?>
+        <span class="total-days"><?php echo __('Total Days') ?> <?php echo $results['total_days'] > 0 ? $results['total_days'] : ''; ?></span>
+        <?php if($results['booking_time'] == 2) : ?>
+            <?php $perPrice = $results['number_times'] > 0 ? $results['total_price'] / $results['number_times'] : $perPrice;  ?>
+            <?php $perPrice = ($okPromo && $results['number_times'] > 0) ? $results['total_promo'] / $results['number_times'] : $perPrice; ?>
+            <?php $serviceStart = $results['service_start']; $intTimeStart = strtotime($serviceStart); ?>
+            <?php $serviceEnd = $results['service_end']; $intTimeEnd = strtotime($serviceEnd); ?>
+            <span class="service-time-result"><?php echo __('Service Start') ?> : <?php echo $block->getBkHelperDate()->getTextTimeHours($intTimeStart); ?></span>
+            <span class="service-time-result"><?php echo __('Service End') ?> : <?php echo $block->getBkHelperDate()->getTextTimeHours($intTimeEnd); ?></span>
+        <?php endif; ?>
+        <div class="price-box">
+            <?php if($results['total_promo'] > 0) : ?>
+                <p class="old-price">
+                    <span class="price-label"><?php //echo __('Regular Price') ?></span>
+                    <span class="price"><?php echo $totalPrice; ?></span>
+                </p>
+                <p class="special-price">
+                    <span class="price-label"><?php //echo __('Special Price'); ?></span>
+                    <span class="price"><?php echo $totalPromo; ?></span>
+                </p>
+            <?php else :  ?>
+                <p>
+                    <span class="price-label"><?php //echo __('Regular Price') ?></span>
+                    <span class="regular-price"><span class="price"><?php echo $totalPrice; ?></span></span>
+                </p>
+            <?php endif; ?>
+        </div>
+    <?php else : ?>
+        <div class="price-box">
+            <label><?php echo __('Tour Detail: ') ?></label>
+            <div class="price-box-item">
+                <label><?php echo __('Start Date: ') ?></label>
+                <span><?php echo $checkIn; ?></span>
+            </div>
+            <div class="price-box-item">
+                <label><?php echo __('End Date: ') ?></label>
+                <span><?php echo $checkOut; ?></span>
+            </div>
+            <?php if($results['total_promo'] > 0) : ?>
+                <p class="price-box-item old-price">
+                    <span class="price-label"><?php echo __('Regular Price') ?></span>
+                    <span class="price"><?php echo $block->getBkPriceHelper()->currency($results['total_price'],true,false); ?></span>
+                </p>
+                <p class="price-box-item special-price">
+                    <span class="price-label"><?php echo __('Special Price'); ?></span>
+                    <span class="price"><?php echo $block->getBkPriceHelper()->currency($results['total_promo'],true,false); ?></span>
+                </p>
+            <?php else :  ?>
+                <p class="price-box-item">
+                    <span class="price-label"><?php echo __('Regular Price') ?></span>
+                    <span class="regular-price"><span class="price"><?php echo $block->getBkPriceHelper()->currency($results['total_price'],true,false); ?></span></span>
+                </p>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+    <?php $perPrice = $block->getBkPriceHelper()->currency($perPrice,true,false); ?>
+<?php else :  ?>
+    <?php $bookingError = 1; ?>
+    <span class="booking-result-error"><?php echo $results['str_error']; ?></span>
+<?php endif; ?>
+<script>
+    require(['jquery','priceBox','lastMinuteOperations'],
+        function ($,priceBox,lastMinute){
+
+            var bookingError = '<?php echo $bookingError; ?>';
+            var bookingId = '<?php echo $bookingId; ?>';
+            var totalPrice = '<?php echo $totalPrice; ?>';
+            var totalPromo = '<?php echo $totalPromo; ?>';
+            var okPromo  = '<?php echo $okPromo ; ?>';
+            var tempcheckIn  = '<?php echo $tempCheckIn ; ?>';
+            var checkIn  = '<?php echo $checkIn ; ?>';
+            var tempcheckOut  = '<?php echo $tempCheckOut ; ?>';
+            var checkOut  = '<?php echo $checkOut ; ?>';
+            var perPrice  = '<?php echo $perPrice ; ?>';
+            if($('#temp-check-load').length)
+            {
+                $('#temp-check-load').val(1);
+            }
+            if(bookingError == '1'){
+                if($('#product-addtocart-button').length){
+                    $('#product-addtocart-button').prop('disabled',true);
+                }else{
+                    $('#product-updatecart-button').prop('disabled',true);
+                }
+            }else{
+                if($('#product-addtocart-button').length){
+                    $('#product-addtocart-button').prop('disabled',false);
+                }else{
+                    $('#product-updatecart-button').prop('disabled',false);
+                }
+
+
+                var priceData = $('[data-role="priceBox"]').data();
+                $('.main-form .total .old-price').remove(); //remove if exist
+                if(okPromo == '1')
+                {
+                    priceData.magePriceBox.createHtmlToOldPrice(0);
+                    priceData.magePriceBox.changeBookingPrice(<?= $results['total_promo'] ?>,<?= $results['total_price'] ?>);
+                }
+                else
+                {
+                    if( typeof priceData.magePriceBox !== 'undefined' && typeof priceData.magePriceBox.changeBookingPrice !== 'undefined' ){
+                        priceData.magePriceBox.changeBookingPrice(<?= $results['total_price'] ?>,0);
+                    }
+                }
+                $('#check-in').val(checkIn);
+                $('#check-out').val(checkOut);
+                $('#temp-check-in').val(tempcheckIn);
+                $('#temp-check-out').val(tempcheckOut);
+                $('.booking-per-day-hour span').html(perPrice);
+                selectedDays(tempcheckIn,tempcheckOut);
+            }
+            function selectedDays(date1,date2)
+            {
+                $('.day-selected').removeClass('day-selected');
+                if(date2 == '')
+                    return false;
+                var date1 = new Date(date1);
+                var date2 = new Date(date2);
+                var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+                var oneDay = 1000 * 3600 * 24;
+                var day1 = date1.getTime();
+                var day2 = date2.getTime();
+                if(date1.getTime() > date2.getTime())
+                {
+                    day1 = date2.getTime();
+                    day2 = date1.getTime();
+                }
+                while(day1 <= day2)
+                {
+                    var objDate = new Date(day1);
+                    var month = objDate.getMonth() + 1;
+                    month = month >= 10 ? month : '0'+month;
+                    strDay = objDate.getDate() >= 10 ? objDate.getDate() : '0'+objDate.getDate();
+                    var strDate = objDate.getFullYear()+'-'+month+'-'+strDay;
+                    if($('#0_'+strDate).length)
+                    {
+                        $('#0_'+strDate).addClass('day-selected');
+                    }
+                    if($('#2_'+strDate).length)
+                    {
+                        $('#2_'+strDate).addClass('day-selected');
+                    }
+                    if($('#1_'+strDate).length)
+                    {
+                        $('#1_'+strDate).addClass('day-selected');
+                    }
+                    day1 += oneDay;
+                }
+            }
+
+            lastMinute.showInformationLastMinute('#bk-checkin-checkout');
+        })
+</script>

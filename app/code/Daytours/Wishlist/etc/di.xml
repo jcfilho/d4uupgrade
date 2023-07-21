@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+
+    <preference for="Magento\Wishlist\Controller\Index\Cart" type="Daytours\Wishlist\Controller\Index\Cart" />
+    <preference for="\Magento\Wishlist\Model\Item" type="\Daytours\Wishlist\Model\Item" />
+    <preference for="\Magento\Wishlist\Model\ItemCarrier" type="\Daytours\Wishlist\Model\ItemCarrier" />
+    <preference for="Magento\Wishlist\Controller\Index\Add" type="\Daytours\Wishlist\Controller\Index\Add" />
+
+    <type name="Magento\Wishlist\Model\Wishlist">
+        <plugin name="wishlist-add-booking-options" type="Daytours\Wishlist\Plugin\Model\Wishlist" sortOrder="1" />
+    </type>
+    <type name="Magento\Wishlist\Helper\Data">
+        <plugin name="wishlist-helper-data" type="Daytours\Wishlist\Plugin\Helper\Data" sortOrder="1" />
+    </type>
+    <type name="\Magento\Wishlist\Block\Customer\Wishlist\Item\Options">
+        <plugin name="wishlist-get-custom-options-booking" type="\Daytours\Wishlist\Plugin\Block\Customer\Wishlist\Item\Options" sortOrder="1" />
+    </type>
+
+
+
+</config>

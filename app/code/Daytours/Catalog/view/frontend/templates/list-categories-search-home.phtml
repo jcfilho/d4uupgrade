@@ -1,0 +1,18 @@
+<?php
+
+/** @var \Daytours\Catalog\Block\CategoriesToSearchHome $block */
+
+$categories = $block->getSubcategories($block->getData('id_category_parent'));
+$categoryParentURL = $block->getCategoryParentURL($block->getData('id_category_parent'));
+?>
+<li
+        data-id="0"
+        data-url="<?= $categoryParentURL ?>"><span><?= __('All destinations') ?></span></li>
+<?php foreach ($categories as $item) : ?>
+    <li
+        data-id="<?php echo $item->getId() ?>"
+        data-url="<?= $item->getUrl() ?>"
+    >
+        <span><?= $item->getName() ?></span>
+    </li>
+<?php endforeach; ?>

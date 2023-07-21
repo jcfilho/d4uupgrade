@@ -1,0 +1,252 @@
+<?php 
+/**
+* @Author      : Kien
+* @package     Marketplace
+* @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+* @terms  http://www.magebay.com/terms
+* @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+**/
+$_productCollection = $block->getLoadedProductCollection();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$params = $this->getRequest()->getPost();
+$productId = isset($params['product_id']) ? $params['product_id'] : '';
+$fromDate = isset($params['from_date']) ? $params['from_date'] : '';
+$toDate = isset($params['to_date']) ? $params['to_date'] : '';
+$productStatus = isset($params['product_status']) ? $params['product_status'] : '';
+$limit = $this->getRequest()->getParam('limit',5);
+?>
+<?php if (!$_productCollection->count()): ?>
+    <div class="message info empty"><div><?php /* @escapeNotVerified */ echo __('We can\'t find products matching the selection.') ?></div></div>
+<?php else: ?>
+    <div class="mst_mv_wrapper">
+        <div class="fieldset mst_mv_fieldset">
+            <div class="grid">
+                <div class="wrap-mv-content">
+                    <form method="post" action="<?php echo $block->getUrl() ?>marketplace/seller/myProducts">
+                        <table cellspacing="0" class="border mst-table-style">
+                            <thead>
+                                <tr id="mst_mv_tr_heading">                            
+                                    <th><span><?php echo __('Product Id'); ?></span></th>
+                                    <th><span><?php echo __('Date'); ?></span></th>
+                                    <th><span><?php echo __('Product Status'); ?></span></th>
+                                    <th><span>&nbsp;</span></th>
+                                </tr>
+                            </thead>
+                            <tbody class="mst-table-content">
+                                <tr>
+                                    <td>
+                                        <input type="text" style="width:99%;" value="<?php echo $productId; ?>" placeholder="<?php echo __('Search by Product Id'); ?>" name="product_id" class="input-text">
+                                    </td>
+                                    <td>
+                                        <span class="mst_mv_td_span">
+                                            <input type="text" value="<?php echo $fromDate; ?>" class="input-text" id="special_from_date" name="from_date" placeholder="<?php echo __('From'); ?>" >
+                                        </span>				    			
+                                        <span class="mst_mv_td_span">
+                                            <input type="text" value="<?php echo $toDate; ?>" class="input-text" id="special_to_date" name="to_date" placeholder="<?php echo __('To'); ?>" >
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <select class="" name="product_status">
+                                            <option value="">
+                                                <?php echo __('--- All ---'); ?>
+                                            </option>
+                                            <option value="1" <?php if($productStatus == '1') { echo 'selected'; } ?>>
+                                                <?php echo __('Approved'); ?>	
+                                            </option>
+                                            <option value="0" <?php if($productStatus == '0') { echo 'selected'; } ?>>
+                                                <?php echo __('Unapproved'); ?>	
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button type="submit" id="submit_btn" title="Save" class="button">
+                                            <span><?php echo __('Submit'); ?></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <form method="post" id="massDeleteProduct" class="" action="<?php echo $block->getUrl('marketplace/product/massDelete') ?>">
+                        <button id="delete-allproduct" style="float: left;padding: 5px 5px 5px 0;margin:10px 0;" type="button" title="<?php echo __('Delete Products') ?>" class="button">
+                            <span><span><?php echo __('Delete Products') ?></span></span>
+                        </button>
+                        <table cellspacing="0" class="border mst-table-style mst-wrap-table products-table">
+                            <thead>
+                                <tr class="mst_content">
+                                    <th><input type="checkbox" name="selecteallproduct" class="checkbox" /></th>
+                                    <th><?php echo __('ID'); ?></th>
+                                    <th><?php echo __('Products'); ?></th>
+                                    <th><?php echo __('Name'); ?></th>
+                                    <th><?php echo __('Sku'); ?></th>
+                                    <th><?php echo __('Price'); ?></th>
+                                    <th><?php echo __('Status'); ?></th>
+                                    <th><?php echo __('QTY'); ?></th>
+                                    <!--<th><?php echo __('Earn Amount'); ?></th>-->
+                                    <th><?php echo __('# '); ?></th>                       
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($_productCollection as $product) : ?>
+                                    <tr class="item">
+                                        <td>
+                                            <input type="checkbox" class="checkbox" name="product_selected[]" value="<?php echo $product->getId(); ?>" />
+                                        </td>
+                                        <td>
+                                            #<?php echo $product->getId(); ?>	
+                                        </td>
+                                        <td>
+                                            <span class="mst_label">
+                                                <div style="">
+                                                    <a href="<?php /* @escapeNotVerified */ echo $product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
+                                                        <?php echo $block->getImage($product, 'category_page_grid')->toHtml(); ?>
+                                                    </a>
+                                                </div>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="mst_label">
+                                                <?php echo $product->getName(); ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="mst_label">
+                                                <?php echo $product->getSku(); ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="mst_label">
+                                                <?php echo \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\Pricing\Helper\Data')->currency(number_format($product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(),2),true,false); ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="mst_label">
+                                                <?php 
+                                                    if ($product->getMkproductstatus()) {
+                                                        echo '<span class="grid-severity-notice"><span>Approved</span></span>';
+                                                    } else {
+                                                        echo '<span class="grid-severity-critical"><span>Disapproved</span></span>';
+                                                    }
+                                                ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="mst_label">
+                                                <?php echo \Magento\Framework\App\ObjectManager::getInstance()->get('\Magento\CatalogInventory\Api\StockStateInterface')->getStockQty( $product->getId(), $product->getStore()->getWebsiteId()); ?>
+                                            </span>
+                                        </td>
+                                        <!--<td>
+                                            <span class="mst_label">100$</span>
+                                        </td>-->
+                                        <td>
+                                            <span class="mst_label"><a href="<?php echo $block->getUrl('marketplace/product/addProduct',array('id'=>$product->getId())) ?>"><?php echo __('edit') ?></a></span>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+            <?php if ($block->getPagerHtml()): ?>
+                <div class="toolbar bottom" style="margin-top: 20px">
+                    <?php echo $block->getPagerHtml(); ?>
+                </div>
+            <?php endif ?>
+            <div class="clear"></div>
+        </div>
+        <div class="buttons-set">
+            <p class="back-link">
+                <a class="left" onclick="javascript: window.history.back();" href="javascript:;"><?php echo __('Back'); ?></a>
+            </p>
+        </div>
+    </div>
+<?php endif; ?>
+<script>
+    require([
+        "jquery",
+        'Magento_Ui/js/modal/confirm',
+        'Magento_Ui/js/modal/alert',
+        "mage/calendar"
+    ], function($,confirmation,alert){
+        $("#special_from_date").calendar({
+            buttonText:"<?php echo __('Select Date') ?>",
+            dateFormat: 'yy-mm-dd',
+        });
+        $("#special_to_date").calendar({
+            buttonText:"<?php echo __('Select Date') ?>",
+            dateFormat: 'yy-mm-dd',
+        });
+        $('#number-page-order').change(function(){
+            var strUlr = $(this).val();
+            window.location.href = strUlr;
+        });
+        $('input[type=checkbox][name=selecteallproduct]').on('click',function(){
+            if(this.checked==true){
+                $('input[type=checkbox][name^=product_selected]').each(function(){
+                    this.checked=true;
+                });		
+            }else{
+                $('input[type=checkbox][name^=product_selected]').each(function(){
+                    this.checked=false;
+                });			
+            }
+        });
+        $('button#delete-allproduct').on('click',function(){
+            var _flag=0;
+            $('input[type=checkbox][name^=product_selected]').each(function(){
+                if(this.checked==true){
+                    _flag=1;
+                    return false;
+                }
+            });
+            if(!_flag){
+                alert({
+                    title:'<?php echo __('Attention') ?>',
+                    content:"<?php echo __("You haven't selected any items!") ?>",
+                    actions:{
+                        always: function(){}
+                    }
+                });
+            }else{
+                confirmation({
+                    title:'<?php echo __('Delete Product') ?>',
+                    content:'<?php echo __("Delete selected items?") ?>',
+                    actions:{
+                        confirm:function(){
+                            $('form#massDeleteProduct').submit();
+                        },
+                        cancel: function(){},
+                        always: function(){}
+                    }
+                });		
+            }	
+        });	
+    });
+</script>
+<style>
+	.grid-severity-notice {
+		background: #d0e5a9 none repeat scroll 0 0;
+		border: 1px solid #5b8116;
+		color: #185b00;
+		display: block;
+		font-weight: bold;
+		line-height: 17px;
+		padding: 0 3px;
+		text-align: center;
+		text-transform: uppercase;
+		float: left;
+	}
+	.grid-severity-critical {
+		background: #f9d4d4 none repeat scroll 0 0;
+		border: 1px solid #e22626;
+		color: #e22626;
+		display: block;
+		font-weight: bold;
+		line-height: 17px;
+		padding: 0 3px;
+		text-align: center;
+		text-transform: uppercase;
+		float: left;
+	}
+</style>

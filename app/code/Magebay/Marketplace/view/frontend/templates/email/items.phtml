@@ -1,0 +1,176 @@
+<?php use Magento\Store\Model\ScopeInterface ?>
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $_order = $block->getOrder() ?>
+<?php if ($_order): ?>
+    <?php $_items = $_order->getAllItems(); ?>
+    <table class="email-items">
+        <thead>
+            <tr>
+                <th class="item-info">
+                    <?= /* @escapeNotVerified */  __('Items'); ?>
+                </th>
+                <th class="item-qty">
+                    <?= /* @escapeNotVerified */  __('Qty'); ?>
+                </th>
+                <th class="item-price">
+                    <?= /* @escapeNotVerified */  __('Price'); ?>
+                </th>
+            </tr>
+        </thead>
+        <?php $_sellerId = $block->getSellerId() ?>
+        <?php $_type = $block->getType() ?>
+        <?php if($_type == 'seller_email'){ ?>
+            <?php 
+                $totalPaid = 0;
+                $actualparterprocost = 0;
+            ?>
+            <?php foreach ($_items as $_item): ?>
+                <?php
+                    if ($_item->getParentItem()) {
+                        continue;
+                    }
+                ?>
+                <tbody>
+                    <?php 
+                        $mkProductCollection = \Magento\Framework\App\ObjectManager::getInstance()->create('\Magebay\Marketplace\Model\Products')
+                                                                                                  ->getCollection()
+                                                                                                  ->addFieldToFilter('product_id',$_item->getProductId())
+                                                                                                  ->addFieldToFilter('status',1);
+                                                
+                        //Kien 19/5/2016 - update filter seller approve        
+                        $tableMKuser = \Magento\Framework\App\ObjectManager::getInstance()->create('\Magento\Framework\App\ResourceConnection')->getTableName('multivendor_user');
+                        $mkProductCollection->getSelect()->joinLeft(array('mk_user'=>$tableMKuser),'main_table.user_id = mk_user.user_id',array())
+                                            ->where('mk_user.userstatus = 1'); 
+                                            
+                        //Assign product                                                                                         
+            			$sellerId = 0;
+                        $productOption = $_item->getProductOptions();
+                        $infoBuyRequest = $productOption['info_buyRequest'];
+                        if(@$infoBuyRequest['assignproduct_id']){
+                            $SellerAssignProduct = \Magento\Framework\App\ObjectManager::getInstance()->create('\Magebay\SellerAssignProduct\Model\SellerAssignProduct')->load($infoBuyRequest['assignproduct_id']);
+                            $sellerId = $SellerAssignProduct->getSellerId();
+                            $multivendor_assign_product_id = $infoBuyRequest['assignproduct_id'];                    
+                        }else{
+            				if(count($mkProductCollection))
+            				{
+            					foreach($mkProductCollection as $mkProductCollect)
+            					{
+            						$sellerId = $mkProductCollect->getUserId();
+                                    $multivendor_assign_product_id = 0;                            
+            						break;
+            					}
+            				}
+                        }
+                    ?>
+                    <?php 
+                        if($sellerId != $_sellerId){
+                            continue;
+                        }
+                        $_product = $_item->getProduct();
+                        $percentCommision = \Magento\Framework\App\ObjectManager::getInstance()->create('\Magento\Framework\App\Config\ScopeConfigInterface')->getValue('marketplace/general/percent',ScopeInterface::SCOPE_STORE); 
+                        $moduleManager = \Magento\Framework\App\ObjectManager::getInstance()->create('Magento\Framework\Module\Manager');	
+                		if($moduleManager->isEnabled('Magebay_AdvancedCommission')){
+                            $advanced_commissions = \Magento\Framework\App\ObjectManager::getInstance()->create('Magebay\AdvancedCommission\Helper\Data')
+                                                                                                       ->getCommission($_product);
+                        }else{
+                            $advanced_commissions = null;
+                        }
+                        $seller = \Magento\Framework\App\ObjectManager::getInstance()->create('Magebay\Marketplace\Model\Sellers')->getCollection()->addFieldToFilter('user_id',$sellerId)->getFirstItem();
+                        $seller_commission = $seller['commission'];
+                        
+                        if($advanced_commissions){
+                            $percentCommision = $advanced_commissions;
+                        }else{
+                            if($seller_commission){
+                                $percentCommision = $seller_commission;
+                            }else{
+                                $percentCommision = $percentCommision;
+                            }
+                        } 
+                        $totalPaid += $_item->getBaseRowTotal();
+        				$totalcommision = ($_item->getBaseRowTotal() * $percentCommision) / 100;
+        				$actualparterprocost += ($_item->getBaseRowTotal() - $totalcommision);
+                    ?>
+                    <?= $block->getItemHtml($_item) ?>
+                </tbody>
+            <?php endforeach; ?>
+            <tfoot class="order-totals">
+                <tr class="subtotal">
+                    <th colspan="2" scope="row">
+                        <?php echo __('Subtotal') ?>
+                    </th>
+                    <td>
+                        <span class="price"><?php echo \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\Pricing\Helper\Data')->currency($totalPaid,true,false) ?></span>                    
+                    </td>
+                </tr>
+                <tr class="total_orderd_amount">
+                    <th colspan="2" scope="row">
+                        <?php echo __('Total Orderd Amount') ?>
+                    </th>
+                    <td>
+                        <span class="price"><?php echo \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\Pricing\Helper\Data')->currency($totalPaid,true,false) ?></span>                    
+                    </td>
+                </tr>
+                <tr class="total_seller_amount">
+                    <th colspan="2" scope="row">
+                        <strong><?php echo __('Total Seller Amount') ?></strong>
+                    </th>
+                    <td>
+                        <strong>
+                            <span class="price"><?php echo \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\Pricing\Helper\Data')->currency($actualparterprocost,true,false) ?></span>
+                        </strong>
+                    </td>
+                </tr>
+                <tr class="total_admin_commission">
+                    <th colspan="2" scope="row">
+                        <strong><?php echo __('Total Admin Commission') ?></strong>
+                    </th>
+                    <td>
+                        <strong>
+                            <span class="price"><?php echo \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\Pricing\Helper\Data')->currency($totalPaid-$actualparterprocost,true,false) ?></span>
+                        </strong>
+                    </td>
+                </tr>
+            </tfoot>
+        <?php }else{ ?>
+            <?php foreach ($_items as $_item): ?>
+                <?php
+                    if ($_item->getParentItem()) {
+                        continue;
+                    }
+                ?>
+                <tbody>
+                    <?= $block->getItemHtml($_item) ?>
+                </tbody>
+            <?php endforeach; ?>
+            <tfoot class="order-totals">
+                <?= $block->getChildHtml('order_totals') ?>
+            </tfoot>
+        <?php } ?>
+    </table>
+    <?php if ($this->helper('Magento\GiftMessage\Helper\Message')->isMessagesAllowed('order', $_order, $_order->getStore()) && $_order->getGiftMessageId()): ?>
+        <?php $_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage($_order->getGiftMessageId()); ?>
+        <?php if ($_giftMessage): ?>
+            <br />
+            <table class="message-gift">
+                <tr>
+                    <td>
+                        <h3><?= /* @escapeNotVerified */  __('Gift Message for this Order') ?></h3>
+                        <strong><?= /* @escapeNotVerified */  __('From:'); ?></strong> <?= $block->escapeHtml($_giftMessage->getSender()) ?>
+                        <br /><strong><?= /* @escapeNotVerified */  __('To:'); ?></strong> <?= $block->escapeHtml($_giftMessage->getRecipient()) ?>
+                        <br /><strong><?= /* @escapeNotVerified */  __('Message:'); ?></strong>
+                        <br /><?= $block->escapeHtml($_giftMessage->getMessage()) ?>
+                    </td>
+                </tr>
+            </table>
+        <?php endif; ?>
+    <?php endif; ?>
+<?php endif; ?>

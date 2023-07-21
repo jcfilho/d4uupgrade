@@ -1,0 +1,121 @@
+<?php 
+$rooms = $this->getBkRooms();
+$roomTypes = $this->getBkRoomTypes();
+$storeId = $block->getBkStoreId();
+$roomBookingId = $block->getBookingId();
+?>
+<div id="booking-list-room-items" class="booking-table-items">
+	<div class="booking-list-items-header">
+		<span class="booking-label"><?php echo __('Room Type'); ?></span>
+		<span class="booking-label booking-label-description"><?php echo __('Description'); ?></span>
+		<span class="booking-label"><?php echo __('Max Child'); ?></span>
+		<span class="booking-label"><?php echo __('Max Adult'); ?></span>
+		<span class="booking-label"><?php echo __('Edit'); ?></span>
+		<span class="booking-label"><?php echo __('Delete'); ?></span>
+	</div>
+	<div class="booking-list-items-content">
+	<?php if(count($rooms)) : ?>
+		<?php foreach($rooms as $room) : ?>
+			<div class="bk-list-item">
+				<?php if(!isset($roomTypes[$room->getRoomType()])) { continue; } ?>
+				<?php $roomtType = $roomTypes[$room->getRoomType()]; ?>
+				<span class="booking-data"><?php echo $roomtType; ?></span>
+				<?php $description = $block->getTextTranslate($room->getRoomDescription(),$room->getRoomDesTranslate(),$storeId); ?>
+				<span class="booking-data booking-data-description"><?php echo $description; ?></span>
+				<span class="booking-data"><?php echo $room->getRoomMaxChildren(); ?></span>
+				<span class="booking-data"><?php echo $room->getRoomMaxAdults(); ?></span>
+				<span class="booking-data">
+					<button id="bk-room-edit-<?php echo $room->getId(); ?>" title="<?php echo __('Edit'); ?>" class="action-default primary bk-room-edit" type="button">
+						<span><?php echo __('Edit'); ?></span>
+					</button>
+				</span>
+				<span class="booking-data">
+					<button id="bk-room-dell-<?php echo $room->getId(); ?>" title="<?php echo __('Delete'); ?>" class="action-default primary bk-room-dell" type="button">
+						<span><?php echo __('Delete'); ?></span>
+					</button>
+				</span>
+			</div>
+		<?php endforeach; ?>
+		<?php 
+			$arUrlAjax = $block->getArrayAjaxUrl();
+			$urlEditRoom = $arUrlAjax['url_edit_room'];
+			$urlDellRoom = $arUrlAjax['url_dell_room'];
+		?>
+		<script>
+		require([
+				'jquery',
+				'Magento_Ui/js/modal/modal',
+				'Magento_Ui/js/modal/alert'
+			],
+			function($, modal,alert) {
+			var urlEditRoom = '<?php echo $urlEditRoom; ?>';
+			var urlDellRoom = '<?php echo $urlDellRoom; ?>';
+			var storeId = '<?php echo $storeId ?>';
+			var roomBookingId = '<?php echo $roomBookingId; ?>';
+			$('.bk-room-edit').click(function(){
+				$('#booking-loader').css('display','block');
+			   var bookingType = $('#booking_type').val();
+			   var elementId = $(this).attr('id');
+			   var arRoomId = elementId.split('-');
+			   var roomId = arRoomId[3];
+			   if($.trim(bookingType) != 'hotel')
+				{
+					return false;
+				}
+				$.ajax({
+					url : urlEditRoom,
+					dataType : 'json',
+					type : 'POST',
+					data : {bk_room_id : roomId,store_id : storeId,room_booking_id : roomBookingId},
+					success : function(res)
+					{	
+						$('#bk-popup-modal-room .bk-popup-modal-room-content').html(res.html_room);
+						$('#bk-popup-modal-room').css('display','block');
+						//$('.bk-popup-modal-contenter').css('display','none');
+						$('#booking-loader').css('display','none');
+					},
+					error : function()
+					{
+					
+					}
+				});
+		   });
+		   $('.bk-room-dell').click(function(){
+			   $('#booking-loader').css('display','block');
+				var elementId = $(this).attr('id');
+				var arRoomId = elementId.split('-');
+				var roomId = arRoomId[3];
+				$.ajax({
+					url : urlDellRoom,
+					dataType : 'json',
+					type : 'POST',
+					data : {room_id : roomId,store_id : storeId,room_booking_id : roomBookingId},
+					success : function(res)
+					{
+						var strMessage = '<?php echo __('Room have been deleted success'); ?>';
+						$('#bk-list-rooms fieldset').html(res.html_rooms);
+						if(res.status == false)
+						{
+							strMessage = '<?php echo __('Systems are errors, please checke again!'); ?>'
+						}
+						alert({
+							title: '',
+							content: strMessage
+						});
+						$('#booking-loader').css('display','none');
+					},
+					error : function()
+					{
+						alert({
+							title: '',
+							content: '<?php echo __('Systems are errors, please checke again!') ?>'
+						});
+						$('#booking-loader').css('display','none');
+					}
+				});
+		   })
+		});
+		</script>
+	<?php endif; ?>
+	</div>
+</div>

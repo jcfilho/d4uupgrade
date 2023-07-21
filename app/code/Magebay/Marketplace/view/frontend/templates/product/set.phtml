@@ -1,0 +1,123 @@
+<?php
+/**
+ * @Author      : haunv
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2017 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+$setOptionArray=$block->getOptionSetGroup();
+?>
+<div class="block block-newproduct ">
+	<div class="block block-content">
+		<form method="post" action="<?php echo $block->getUrl('marketplace/product/saveProductType') ?>" data-form="edit-product" class="form form-addnew-product" id="form-seller-attr-newproduct" enctype="multipart/form-data" >
+			<?php echo $block->getBlockHtml('formkey')?>
+			<fieldset id="associate-product" class="fieldset info">
+				<?php 
+                    $moduleManager = \Magento\Framework\App\ObjectManager::getInstance()->create('Magento\Framework\Module\Manager');
+                    //Membership 
+                    if($moduleManager->isEnabled('Magebay_SellerMembership') && \Magento\Framework\App\ObjectManager::getInstance()->create('Magebay\Marketplace\Helper\Data')->getSellerMembershipIsEnabled()){
+                        $membershipData = \Magento\Framework\App\ObjectManager::getInstance()->create('Magebay\SellerMembership\Model\SellerMembership')
+                                                                                             ->getCollection()
+                                                                                             ->addFieldToFilter('seller_id',\Magento\Framework\App\ObjectManager::getInstance()->create('Magento\Customer\Model\Session')->getId())
+                                                                                             ->getFirstItem();
+                ?>
+                        <?php if($membershipData['id']){ ?>
+				            <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Add New Product - You are allowed only '.$membershipData['remaining_number_product'].'(products) to add still '.date("Y-m-d", strtotime($membershipData['experi_date']))) ?></span></legend>
+                        <?php }else{ ?>
+                            <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Add New Product - Please purchase new membership to create new product') ?></span></legend>
+                        <?php } ?>
+                <?php }else{ ?>
+                        <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Add New Product') ?></span></legend>
+                <?php } ?>	
+				<div class="fieldset form-list">
+					<div class="field required attributeset">
+						<label class="label" ><span><?php echo __('Attribute Set : ') ?></span></label>
+						<div class="control">							
+							<select name="set" class="required-entry" aria-required="true">
+                                <!-- kien -->
+                                <?php
+                                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                                    $product_attribute = explode(',',$objectManager->create('Magebay\Marketplace\Helper\Data')->getAttributeSetID());                                    
+                                ?>                                                                                            
+								<?php foreach($setOptionArray as $key=>$value){ ?>
+                                    <?php if(!in_array($value['value'],$product_attribute)) continue; ?>                                
+								    <option value="<?php echo $value['value']?>" <?php echo ($value['value']==4)?'selected="selected"':''?> ><?php echo $value['label'] ?></option>
+								<?php } ?>
+                                <!-- end kien -->
+							</select>
+						</div>
+					</div>			
+					<div class="field required producttype">
+						<label class="label"><span><?php echo __('Product Type') ?></span></label>
+						<div class="control">
+							<select name="type" class="required-entry" aria-required="true">
+                                <!-- kien -->
+                                <?php 
+                                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                                    $product_type = explode(',',$objectManager->create('Magebay\Marketplace\Helper\Data')->getProductType());
+                                    foreach($product_type as $pt){
+                                        if($pt == 'simple'){
+                                        ?>
+                                            <option value="<?php echo \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE ?>"><?php echo __('Simple') ?></option>
+                                        <?php
+                                        }
+                                        if($pt == 'download'){
+                                        ?>
+                                            <option value="<?php echo \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE ?>"><?php echo __('Downloadable') ?></option>
+                                        <?php
+                                        }
+                                        if($pt == 'virtual'){
+                                        ?>
+                                            <option value="<?php echo \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL ?>"><?php echo __('Virtual') ?></option>
+                                        <?php
+                                        }
+                                        if($pt == 'configurable'){
+                                        ?>
+                                            <option value="<?php echo \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE ?>"><?php echo __('Configurable') ?></option>
+                                        <?php
+                                        }
+                                        if($pt == 'grouped'){
+                                        ?>
+                                            <option value="<?php echo \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE ?>"><?php echo __('Grouped') ?></option>
+                                        <?php
+                                        }
+                                        if($pt == 'bundle'){
+                                        ?>
+                                            <option value="<?php echo \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE ?>"><?php echo __('Bundle') ?></option>
+                                        <?php
+                                        }
+                                        if($pt == 'booking'){
+                                            ?>
+                                            <option value="<?php echo \Magebay\Bookingsystem\Model\Product\Type\Booking::TYPE_CODE ?>"><?php echo __('Booking') ?></option>
+                                            <?php
+                                        }
+                                    }
+                                ?>	
+                                <!-- end kien -->
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="field block-button">
+					<label class="label"><span>&nbsp;</span></label>
+					<div class="control">
+    					<button type="submit" class="action continue primary" title="<?php echo __('Continue') ?>" >
+    						<span><span><?php echo __('Continue') ?></span></span>
+    					</button>
+					</div>
+				</div>				
+			</fieldset>
+		</form>
+	</div>
+</div>
+<script>
+    require([
+        "jquery",
+        "mage/mage"
+    ], function($){
+        var dataForm = $('#form-seller-attr-newproduct');
+        dataForm.mage('validation', {});
+		var _action = dataForm.attr('action');
+    });
+</script>

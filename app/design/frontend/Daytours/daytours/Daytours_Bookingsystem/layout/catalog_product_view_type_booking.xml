@@ -1,0 +1,73 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="css/slick.css" />
+        <css src="Daytours_Bookingsystem::css/calendars-over.css" />
+        <css src="Daytours_Bookingsystem::css/style-booking.css" />
+    </head>
+    <body>
+        <referenceBlock name="page.top">
+            <block class="Magento\Framework\View\Element\Template" name="product.info.product_share.content" template="Magento_Catalog::product/product-share-content.phtml"/>
+            <block name="product.booking.media.image" template="Daytours_Bookingsystem::product/view/media-booking.phtml" before="-"/>
+            <block name="share.and.wishlist.after.gallery" template="Daytours_Bookingsystem::product/view/share-wishlist-after-gallery-mobile.phtml" after="product.booking.media.image"/>
+        </referenceBlock>
+        <referenceBlock name="content">
+            <block name="product.fixed_bar" template="Daytours_Bookingsystem::product/view/fixed-bar.phtml" before="-"  cacheable="false"/>
+            <block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_review_list" template="Magento_Review::product/view/list.phtml" cacheable="false"/>
+        </referenceBlock>
+        <referenceBlock name="div.sidebar.main">
+            <block class="Magento\Cms\Block\Block" name="footer-newletter" after="-">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">whydaytours4u</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+        <referenceContainer name="product.info.extrahint">
+            <block class="Magento\Framework\View\Element\Template" name="product.info.product_share" template="Magento_Catalog::product/product-share.phtml" after="product.info.social"/>
+        </referenceContainer>
+        <referenceBlock name="div.sidebar.main">
+            <block name="product.book_tours" template="Daytours_Bookingsystem::product/book-tours.phtml" before="-" cacheable="false"/>
+            <block class="Daytours\Bookingsystem\Block\RountripPrice" name="product.rountrip.price.data" template="Daytours_Bookingsystem::product/view/roundtrip-price-data.phtml" after="product.book_tours" cacheable="false"/>
+            <block class="Daytours\LastMinute\Block\LastMinuteData" name="product.last.minute.data" template="Daytours_LastMinute::product/last-minute-data.phtml" after="product.book_tours" cacheable="false"/>
+
+        </referenceBlock>
+        <container name="product.info.main.content" htmlTag="div" htmlClass="product-info-main"/>
+        <referenceBlock name="product.info.main" >
+            <block name="product.book.price" template="Daytours_Bookingsystem::product/view/book-price.phtml" after="-"  cacheable="false"/>
+            <block
+                    class="Daytours\Catalog\Block\SubTotales"
+                    name="product.book.price.subtotales"
+                    template="Daytours_Bookingsystem::product/view/sub-total.phtml"
+                    before="product.book.price"
+                    cacheable="false"/>
+            <block
+                    name="product.book.lastminute.disclaimer"
+                    template="Daytours_Bookingsystem::product/view/lastminute-disclaimer.phtml"
+                    after="product.book.price"/>
+            <block
+                    class="Magento\Framework\View\Element\Template"
+                    name="product.book.post.order"
+                    template="Daytours_EditOrder::product/view/important.phtml"
+                    before="product.book.lastminute.disclaimer"/>
+        </referenceBlock>
+
+        <move element="product.form.wrapper" destination="product.book_tours"/>
+        <move element="breadcrumbs" destination="content" before="-"/>
+        <move element="page.main.title" destination="product.info.main.content" />
+        <move element="product.info.review" destination="product.info.main.content" after="page.main.title"/>
+        <move element="product.info.overview" destination="product.info.main.content" after="product.info.review"/>
+        <move element="product.info.main.content" destination="content" after="breadcrumbs"/>
+        <move element="product.info.extrahint" destination="product.form.wrapper.content" after="-"/>
+        <move element="product.info.description" destination="content" before="product.info.product_review_list"/>
+        <move element="content.aside" destination="page.wrapper" after="main.content"/>
+        <move element="product.price.final" destination="product.book.price" />
+        <move element="product.info.addtocart.additional" destination="product.info.main" after="product.book.lastminute.disclaimer" />
+        <move element="reviews.tab" destination="content" after="product.info.product_review_list"/>
+
+        <referenceBlock name="product.info.addtocart" remove="true"/>
+        <referenceBlock name="product.info.media" remove="true"/>
+        <referenceBlock name="product.info.stock.sku" remove="true"/>
+        <referenceBlock name="view.addto.compare" remove="true"/>
+        <referenceBlock name="product.info.mailto" remove="true"/>
+        <!--<referenceBlock name="reviews.tab" remove="true"/>-->
+    </body>
+</page>

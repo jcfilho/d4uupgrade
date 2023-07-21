@@ -1,0 +1,140 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$helperImport   = $objectManager->get('\Magento\Catalog\Helper\Image');
+$order_id = $block->getOrderId();
+$order = $objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($order_id);
+$orderItems = $order->getAllItems();
+$currencysymbol = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
+$currencyCodeBase = $currencysymbol->getStore()->getCurrentCurrencyCode();
+$currency  = $objectManager
+    ->create('Magento\Directory\Model\CurrencyFactory')
+    ->create()->load($currencyCodeBase);
+$currencySymbol = $currency->getCurrencySymbol();
+
+/**
+ * @var $helperSummary \Daytours\Checkout\Helper\Summary
+ */
+$helperSummary = $this->helper("Daytours\Checkout\Helper\Summary");
+?>
+<div class="summary_cart_success">
+    <div class="content">
+        <h3 class="title"><?php echo __('Your booking(s):') ?></h3>
+        <div class="list_product">
+            <?php foreach ($orderItems as $item): ?>
+
+            <div class="product">
+                <?php
+
+                $imageUrl = $helperImport
+                    ->init($item->getProduct(), 'mini_cart_product_thumbnail')
+                    ->setImageFile($item->getProduct()->getFile())
+                    ->getUrl();
+                ?>
+                <div class="product-image" style="background-image: url('<?php echo $imageUrl ?>')">
+
+                </div>
+                <div class="detail">
+                    <span class="product-name"><?= $item->getName(); ?></span>
+                    <div class="price">
+                        <?= $helperSummary->formatPriceSummary($item->getPrice(),$currencySymbol); ?>
+                        </div>
+                    <?php
+                    $productOptions = $item->getProductOptions();
+
+                    if( isset($productOptions['options']) && isset($productOptions['additional_options']) ){
+                        $options = array_merge($productOptions['options'],$productOptions['additional_options']);
+                    }else if(isset($productOptions['options'])){
+                        $options = $productOptions['options'];
+                    }else if(isset($productOptions['additional_options'])){
+                        $options = $productOptions['additional_options'];
+                    }else{
+                        $options = [];
+                    }
+
+                    ?>
+
+                    <?php if( count($options) > 0 ): ?>
+                        <div class="product_options">
+                            <div class="label"><?= __('See details') ?> <i class="icon-arrow"></i></div>
+
+                            <?php $regularService = ''; ?>
+                            <div class="values">
+                                <?php foreach ($options as $_option): ?>
+                                    <?php if($_option['label'] == 'regular_services'): ?>
+                                        <?php $regularService = $_option['value']; ?>
+                                    <?php else: ?>
+                                        <div class="value">
+                                            <label><?php echo $_option['label'] ?>:</label>
+                                            <span class="val"><?php echo $_option['value'] ?></span>
+                                        </div>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                                <?php
+                                if( !empty($regularService) ){
+                                    $regularService = json_decode($regularService);
+                                    foreach ($regularService as $itemR){ ?>
+                                        <div class="value">
+                                            <label><?= $itemR->label ?>:</label>
+                                            <span class="val"><?= $itemR->price ?>  <span class="qty">x <?= $itemR->qty ?></span></span>
+                                        </div>
+                                    <?php }
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="order_subtotal">
+            <div class="containg-info">
+                <div class="order_subtotal_price_label">
+                    <label><?= __('Subtotal') ?></label>
+                </div>
+                <div class="order_subtotal_price">
+                    <span class="price"><?= $helperSummary->formatPriceSummary($order['subtotal'],$currencySymbol);?></span>
+                </div>
+            </div>
+            <?php if( $order->getTaxAmount() > 0 ): ?>
+            <div class="containg-info">
+                <div class="order_subtotal_price_label">
+                    <label><?= __('Tax') ?></label>
+                </div>
+                <div class="order_subtotal_price">
+                    <span class="price"><?= $helperSummary->formatPriceSummary($order->getTaxAmount(),$currencySymbol);?></span>
+                </div>
+            </div>
+            <?php endif; ?>
+            <?php if( $order->getDiscountAmount() < 0 ): ?>
+                <div class="containg-info">
+                    <div class="order_subtotal_price_label">
+                        <label><?= __('Discount') ?> <?= $helperSummary->formatPriceSummary($order->getDiscountDescription(),$currencySymbol) ?></label>
+                    </div>
+                    <div class="order_subtotal_price">
+                        <span class="price"><?= $helperSummary->formatPriceSummary($order->getDiscountAmount(),$currencySymbol);?></span>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <div class="order_totals">
+            <div class="order_price_label">
+                <label><?= __('Total') ?></label>
+            </div>
+            <div class="order_price">
+                <span class="price"><?= $helperSummary->formatPriceSummary($order->getGrandTotal(),$currencySymbol);?></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    fbq('track', 'Purchase', {
+        value: '<?= $helperSummary->formatPriceSummaryWithoutSymbol($order->getGrandTotal()); ?>',
+        currency: '<?= $currencyCodeBase ?>'
+    });
+</script>

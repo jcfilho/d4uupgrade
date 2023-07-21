@@ -1,0 +1,67 @@
+name,url_key,path,active,is_anchor,include_in_menu,position,display_mode,custom_layout_update,id_on_magento1,category_css_class
+Lentes de Contacto,lentes-de-contacto,"",1,1,1,1,PRODUCTS,,,menu-lp-lentes-de-contacto
+Condición visual,condicion-visual,Lentes de Contacto,1,1,1,1,PRODUCTS,,,menu-lp-title-section menu-lp-title-section-condicion-visual
+Miopía e Hipermetropía,miopia-hipermetropia,Lentes de Contacto/Condición visual,1,1,1,1,PRODUCTS,,,
+Astigmatismo (Tóricos),astigmatismo,Lentes de Contacto/Condición visual,1,1,1,2,PRODUCTS,,,
+Astigmatismo y miopía,astigmatismo-miopia,Lentes de Contacto/Condición visual,1,1,1,3,PRODUCTS,,,
+Presbicia (Multifocales),presbicia,Lentes de Contacto/Condición visual,1,1,1,4,PRODUCTS,,,
+Lentes cosméticos,cosmeticos,Lentes de Contacto/Condición visual,1,1,1,5,PRODUCTS,,,
+Halloween,halloween,Lentes de Contacto/Condición visual,1,1,1,6,PRODUCTS,,104,
+Todos los lentes,todos-los-lentes,Lentes de Contacto/Condición visual,1,1,1,7,PRODUCTS,,,menu-lp-todos-los-lentes
+Tiempo de uso,tiempo-de-uso,Lentes de Contacto,1,1,1,2,PRODUCTS,,,menu-lp-title-section menu-lp-title-section-tiempo-de-uso
+Diarios,diario,Lentes de Contacto/Tiempo de uso,1,1,1,1,PRODUCTS,,,
+Mensuales,mensual,Lentes de Contacto/Tiempo de uso,1,1,1,2,PRODUCTS,,,
+Quincenales,quincenal,Lentes de Contacto/Tiempo de uso,1,1,1,3,PRODUCTS,,,
+Anuales,anual,Lentes de Contacto/Tiempo de uso,1,1,1,4,PRODUCTS,,,
+Por marca,lentes-por-marca,Lentes de Contacto,1,1,1,3,PRODUCTS,,,menu-lp-title-section menu-lp-title-section-lp-por-marcas
+Acuvue,acuvue,Lentes de Contacto/Por marca,1,1,1,1,PRODUCTS,,,
+Air optix,air-optix,Lentes de Contacto/Por marca,1,1,1,2,PRODUCTS,,,
+Biofinity,biofinity,Lentes de Contacto/Por marca,1,1,1,3,PRODUCTS,,,
+Freshlook,freshlook,Lentes de Contacto/Por marca,1,1,1,4,PRODUCTS,,,
+Pure Vision,pure-vision,Lentes de Contacto/Por marca,1,1,1,5,PRODUCTS,,,
+Proclear,proclear,Lentes de Contacto/Por marca,1,1,1,6,PRODUCTS,,,
+Soflens,soflens,Lentes de Contacto/Por marca,1,1,1,7,PRODUCTS,,,
+Avaira,avaira,Lentes de Contacto/Por marca,1,1,1,8,PRODUCTS,,,
+Miru,miru,Lentes de Contacto/Por marca,1,1,1,9,PRODUCTS,,,
+Open,open,Lentes de Contacto/Por marca,1,1,1,10,PRODUCTS,,,
+Color Vision,pfortner,Lentes de Contacto/Por marca,1,1,1,11,PRODUCTS,,,
+Clariti,clariti,Lentes de Contacto/Por marca,1,1,1,12,PRODUCTS,,,
+Hidrosoft,hidrosoft,Lentes de Contacto/Por marca,1,1,1,13,PRODUCTS,,,
+Lunare,lunare,Lentes de Contacto/Por marca,1,1,1,14,PRODUCTS,,,
+Optima,optima,Lentes de Contacto/Por marca,1,1,1,15,PRODUCTS,,,
+Expressions,expressions,Lentes de Contacto/Por marca,1,1,1,16,PRODUCTS,,,
+Biomedics,biomedics,Lentes de Contacto/Por marca,1,1,1,17,PRODUCTS,,,
+Dailies,dailies,Lentes de Contacto/Por marca,1,1,1,18,PRODUCTS,,,
+Aveo,aveo,Lentes de Contacto/Por marca,1,1,1,19,PRODUCTS,,,
+Basic,basic,Lentes de Contacto/Por marca,1,1,1,20,PRODUCTS,,,
+Ultra,ultra,Lentes de Contacto/Por marca,1,1,1,21,PRODUCTS,,,
+Por laboratorio,lentes-por-laboratorio,Lentes de Contacto,1,1,1,4,PRODUCTS,,,menu-lp-title-section menu-lp-title-section-lp-por-fabricante
+Alcon,alcon,Lentes de Contacto/Por laboratorio,1,1,1,1,PRODUCTS,,,
+Bausch &amp; Lomb,bausch-lomb,Lentes de Contacto/Por laboratorio,1,1,1,2,PRODUCTS,,,
+CooperVision,cooper-vision,Lentes de Contacto/Por laboratorio,1,1,1,3,PRODUCTS,,,
+Johnson &amp; Johnson,johnson-johnson,Lentes de Contacto/Por laboratorio,1,1,1,4,PRODUCTS,,,
+Soluciones,soluciones,"",1,1,1,2,PRODUCTS,,,menu-lp-soluciones
+Por marca,por-marca-soluciones,Soluciones,1,1,1,1,PRODUCTS,,,menu-lp-title-section menu-lp-title-section-solu-por-marca
+Biotrue,biotrue,Soluciones/Por marca,1,1,1,1,PRODUCTS,,59,
+Opti free,opti-free,Soluciones/Por marca,1,1,1,2,PRODUCTS,,61,
+Renu,renu,Soluciones/Por marca,1,1,1,3,PRODUCTS,,65,
+Aosept,aosept,Soluciones/Por marca,1,1,1,4,PRODUCTS,,,
+Natura,natura,Soluciones/Por marca,1,1,1,5,PRODUCTS,,,
+All in one,all-in-one,Soluciones/Por marca,1,1,1,6,PRODUCTS,,,
+Open Reload,open-reload,Soluciones/Por marca,1,1,1,7,PRODUCTS,,,
+Fusionsol,fusionsol,Soluciones/Por marca,1,1,1,8,PRODUCTS,,,
+Todas las soluciones,todas-las-soluciones,Soluciones/Por marca,1,1,1,9,PRODUCTS,,,menu-lp-todas-las-soluciones
+"Gotas hidratantes",gotas-hidratantes,"",1,1,1,3,PRODUCTS,,,menu-lp-gotas
+Por marca,gotas-por-marca,Gotas hidratantes,1,1,1,1,PRODUCTS,,,menu-lp-title-section menu-lp-title-section-gotas-por-marca
+Renu,renu,Gotas hidratantes/Por marca,1,1,1,1,PRODUCTS,,169,
+Safe-gel,safe-gel,Gotas hidratantes/Por marca,1,1,1,2,PRODUCTS,,,
+Artelac,artelac,Gotas hidratantes/Por marca,1,1,1,3,PRODUCTS,,,
+Opti-free,opti-free,Gotas hidratantes/Por marca,1,1,1,4,PRODUCTS,,162,
+Freegen,freegen,Gotas hidratantes/Por marca,1,1,1,5,PRODUCTS,,,
+Hialtears,hialtears,Gotas hidratantes/Por marca,1,1,1,6,PRODUCTS,,,
+Hyabak,hyabak,Gotas hidratantes/Por marca,1,1,1,7,PRODUCTS,,,
+Todas las gotas,todas-las-gotas,Gotas hidratantes/Por marca,1,1,1,8,PRODUCTS,,,menu-lp-todas-las-gotas
+Cuidado y Belleza,cuidado-y-belleza,"",1,1,1,4,PRODUCTS,,,menu-lp-cuidado-belleza
+Test de visión online,test-de-vision-online,"",1,1,1,5,PRODUCTS,,,menu-lp-test-de-vision-online
+Prueba tus lentes gratis,prueba-tus-lentes-gratis,"",1,1,0,5,PRODUCTS,,,menu-lp-prueba-tus-lentes-gratis
+Todos los productos,todos-los-productos,"",1,1,1,6,PRODUCTS,,,menu-mp-todos-los-productos

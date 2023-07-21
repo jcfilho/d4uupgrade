@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<update handle="customer_account"/>
+	<head>
+		<css src="Magebay_Marketplace::css/mst_block.css" />
+		<css src="Magebay_Marketplace::css/style.css" />
+        <css src="css/marketplace-become.css" />
+	</head>
+    <body>
+
+        <referenceContainer name="header.container.banner">
+            <block class="Magento\Cms\Block\Block" name="banne_affiliate_banner" before="-">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">become-seller-banner</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
+        <referenceContainer name="content">
+            <container name="main.container.affiliate" as="main_container_affiliate" label="" htmlTag="div" htmlClass="container main-content-becom-seller" >
+                <block class="Magento\Cms\Block\Block" name="affiliate_content_main" before="-">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">affiliate-content-main</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+
+        <referenceContainer name="page.wrapper">
+            <container name="container.affiliate.block.black" as="container_affiliate_block_black" label="" htmlTag="div" htmlClass="container-affiliate-block-black" after="main.content" >
+                <container name="container.affiliate.block.black.content" as="container_affiliate_block_black_content" label="" htmlTag="div" htmlClass="container-affiliate-block-black-content" >
+                    <block class="Magento\Cms\Block\Block" name="affiliate_content_black" before="-">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">affiliate-black-content</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magebay\Marketplace\Block\SellerBecome" name="magebay_marketplace.seller_become" template="seller/become.phtml" cacheable="false" />
+                </container>
+            </container>
+            <container name="container.affiliate.block.form" as="container_affiliate_block_form" label="" htmlTag="div" htmlClass="container-affiliate-block-form" after="container.affiliate.block.black" >
+                <container name="container.affiliate.block.form.content" as="container_affiliate_block_form_content" label="" htmlTag="div" htmlClass="container-affiliate-block-form-content" >
+                    <block class="Magebay\Marketplace\Block\SellerBecome" name="magebay_marketplace.seller_become" template="seller/become.phtml" cacheable="false" />
+                </container>
+            </container>
+        </referenceContainer>
+
+    </body>
+</page>

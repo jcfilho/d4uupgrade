@@ -1,0 +1,167 @@
+
+<link media="all" href="<?php echo $block->getViewFileUrl('Magebay_Bookingsystem::css/bootstrap.min.css'); ?>" type="text/css" rel="stylesheet">
+<link media="all" href="<?php echo $block->getViewFileUrl('Magebay_Bookingsystem::css/font-awesome.min.css'); ?>" type="text/css" rel="stylesheet">
+<link media="all" href="<?php echo $block->getViewFileUrl('Magebay_Bookingsystem::css/daterangepicker.css'); ?>" type="text/css" rel="stylesheet">
+<link media="all" href="<?php echo $block->getViewFileUrl('Magebay_Bookingsystem::css/style_search.css'); ?>" type="text/css" rel="stylesheet">
+<link media="all" href="<?php echo $block->getViewFileUrl('Magebay_Bookingsystem::css/global_style.css'); ?>" type="text/css" rel="stylesheet">
+<?php
+$numberItems = $block->getBkHelperDate()->getFieldSetting('bookingsystem/search_setting/number_items');
+$enableAddress = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/booking_address');
+$strCurrentDate = $block->getBkCurrentDate();
+?>
+<?php $formatDateLabel = $block->getBkHelperDate()->getFormatDateLabel(); ?> 
+<?php $rootCategory = $block->getBkRootCategoryId(); ?>
+<?php $formatDate = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/format_date'); ?>
+<?php $checkIn = ''; ?>
+<?php $checkOut = ''; ?>
+<?php $strAllowCategories = $block->getBkHelperDate()->getFieldSetting('bookingsystem/search_setting/allow_categories'); ?>
+<?php $mapApyKey = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/map_apy_key'); ?>
+<?php $symbol = $block->getBkCurrencySymbol(); ?>
+<?php $startDay =  $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/start_day'); ?>
+<?php $formatDateLabel = $block->getBkHelperDate()->getLongFormatDateLabel(); ?>
+<div class="search-page" >
+	<form id="booking-search" method="post" action="<?php echo $block->getUrl() ?>bookingsystem">
+		<div data-date-format="M d, D" class="input-daterange">
+			<div class="row">
+				<?php if($enableAddress == 1) : ?>
+					<div class="col-md-3">
+						<div id="autu_rent" class="twitter-typeahead booking-autocomplete-input" style="position: relative; display: block; direction: ltr; float: left;">
+							<div class="form-group form-group-lg form-group-icon-left">
+								<i class="fa fa-map-marker input-icon"></i>
+								<label><?php echo __('Where are you going?'); ?></label>
+								<input class="autocomplete form-control" placeholder="Enter your address" type="text" name="text_rent_auto_complete" value="">
+							</div>
+							<div style="display : none">
+								<!-- Street address-->
+								<input class="street_number" name="address_bk" value="" ></input>
+								<!-- Street address-->
+								<input class="route" name="route" value=""></input>
+								<!-- City -->
+								<input class="locality" name="city_bk" value=""></input>
+								<!-- State -->
+								<input class="administrative_area_level_1" name="state_bk_bk" value=""></input>
+								<!--Zip code-->
+								<input class="postal_code" name="post_code_bk" value=""></input>
+								<!-- Country -->
+								<input class="country" name="country_bk" value=""></input>
+							</div>
+						</div>
+					</div>
+					<?php endif; ?>
+				<div class="col-md-3">
+                    <div class="form-group form-group-lg form-group-icon-left"><i id="check-in-button" class="fa fa-calendar input-icon input-icon-highlight"></i>
+                        <label><?php echo __('From - To'); ?></label>
+                        <input type="text"  id="bk-checkin-checkout" name="bk_checkin_checkout" value="" class="form-control" onfocus="blur();">
+                        <input type="hidden" id="bk-check-in" name="check_in" value="" class="form-control">
+                        <input type="hidden" id="bk-check-out" name="check_out" value="" class="form-control">
+                    </div>
+				</div>
+				<?php if($strAllowCategories != '') : ?>
+					<div class="col-md-3">
+						<div class="form-group form-group-lg">
+							<label><?php echo __('Category'); ?></label>
+							<select id="booking-category" name="booking_category"  class="form-control" >
+								<option value="0"><?php echo __('Chose Category') ?></option>
+									<?php $categories = $block->getBkProductHelper()->getBookingCategories($rootCategory,$strAllowCategories); ?>
+									<?php if(count($categories)) : ?>
+										<?php foreach($categories as $key => $value) : ?>
+											<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+										<?php endforeach; ?>
+									<?php endif; ?>
+							</select>
+						</div>
+					</div>
+				<?php endif; ?>
+			</div>
+		</div>
+		<button type="submit" id="booking-button-search" class="btn btn-primary btn-lg"><?php echo __('Search'); ?></button>
+	</form>
+</div>
+<?php if($enableAddress == 1) : ?>
+<?php if(trim($mapApyKey) != '') : ?>
+ <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $mapApyKey; ?>&v=3.exp&libraries=places"></script>
+ <?php else : ?>
+ <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+ <?php endif; ?>
+<script type="text/javascript">
+require([
+			'jquery',
+		],
+	function ($){
+	var autocomplete = {};
+	var autocompletesWraps = ['autu_rent'];
+	var autu_rent_form = { street_number: 'short_name', route: 'long_name', locality: 'long_name', administrative_area_level_1: 'short_name', country: 'long_name', postal_code: 'short_name' };
+		$.each(autocompletesWraps, function(index, name) {
+		if($('#'+name).length == 0) {
+			return;
+		}
+
+		autocomplete[name] = new google.maps.places.Autocomplete($('#'+name+' .autocomplete')[0], { types: ['geocode'] });
+			
+		google.maps.event.addListener(autocomplete[name], 'place_changed', function() {
+			
+			var place = autocomplete[name].getPlace();
+			var form = eval(name+'_form');
+
+			for (var component in form) {
+				$('#'+name+' .'+component).val('');
+				$('#'+name+' .'+component).attr('disabled', false);
+			}
+			
+			for (var i = 0; i < place.address_components.length; i++) {
+				var addressType = place.address_components[i].types[0];
+				if (typeof form[addressType] !== 'undefined') {
+				  var val = place.address_components[i][form[addressType]];
+				  $('#'+name+' .'+addressType).val(val);
+				}
+			}
+		});
+	});	
+})
+</script>
+<?php endif; ?>
+<script>
+require([
+			'jquery',
+			"jquery/ui",
+             'bk_calendar_rage'
+		],
+	function ($){
+	var textJqueryCalendar = new magebayTextJqueryCalendar();
+	var strFormatDate = '<?php echo strtoupper($formatDateLabel) ?>';
+    var startDay = parseInt('<?php echo $startDay; ?>');
+    var strCurrentDate = '<?php echo $strCurrentDate; ?>';
+        var applyLabel = '<?php echo __('Apply') ?>';
+        var cancelLabel = '<?php echo __('Clear') ?>';
+        $('#bk-checkin-checkout').daterangepicker(
+            {
+                locale: {
+                    format: strFormatDate,
+                    firstDay: startDay,
+                    daysOfWeek : textJqueryCalendar.getdayNamesMin(),
+                    monthNames: textJqueryCalendar.getShortMonth(),
+                    applyLabel : applyLabel,
+                    cancelLabel: cancelLabel,
+                },
+                minDate : strCurrentDate,
+                /*isInvalidDate: function(date){
+                 return (date.day() == 0 || date.day() == 6);
+                 }*/
+            }
+        );
+        $('#bk-checkin-checkout').val('');
+        $('input[name="bk_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
+            var checkIn = picker.startDate.format(strFormatDate);
+            var checkOut = picker.endDate.format(strFormatDate);
+            $(this).val(checkIn + ' - ' +checkOut);
+            $('#bk-check-in').val(checkIn);
+            $('#bk-check-out').val(checkOut);
+        });
+        $('input[name="bk_checkin_checkout"]').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+            $('#bk-check-in').val('');
+            $('#bk-check-out').val('');
+        });
+})
+</script>
+<?php echo $this->getLayout()->createBlock('Magento\Framework\View\Element\Template')->setTemplate('Magebay_Bookingsystem::booking-global.phtml')->toHtml();  ?>

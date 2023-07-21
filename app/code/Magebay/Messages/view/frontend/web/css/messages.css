@@ -1,0 +1,218 @@
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+#inbox * {  box-sizing: border-box; }
+.categoryTitle {
+color: #000000;
+font-size: 16pt;
+font-style: normal;
+font-weight: bold;
+list-style-type: disc;
+}
+.newqueform {
+font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+#quecustomform {
+padding: 0 0px 0px 5px;
+margin: 0;
+}
+.proddesc {
+color: #000000;
+font-size: 10pt;
+list-style-type: disc;
+outline: medium none;
+}
+.newqueform tbody>tr>td {width:10%;}
+.newqueform tbody td{ padding:5px; }
+.blue{
+background: none repeat scroll 0 0 #3399cc;
+border: 0 none;
+color: #ffffff;
+cursor: pointer;
+margin: 0;
+overflow: visible;
+padding: 5px 7px;
+text-decoration:none;
+}
+.q-a {
+padding: 10px !important;
+background-clip: padding-box;
+background-color: #F5FAFC;
+background-image: -moz-linear-gradient(left center, #FFFFFF, #F5FAFC);
+border: 1px solid #CCCCCC;
+border-radius: 6px 6px 6px 6px;
+box-shadow: 0 0 4px #CDE8F1;
+margin: 0.875em 0 1.5em;
+padding: 0 1em;
+}
+.qa-title {
+float: left;
+font-size: 1em;
+font-weight: bold;
+padding: 0 0.75em 0 0;
+text-align: right;
+width: 3%;
+}
+.qa-info {
+float: left;
+width: 93%;
+}
+.question-title {
+color: #48C1F9;
+font-weight: bold;
+font-size: 20px;
+margin-bottom: 20px;
+}
+.tab-col-left {
+float: left;
+}
+.clear-line {
+clear: both ;
+}
+.q-a p > .right { float: right; padding: 0 10px; }
+.q-a alternate p > .right { float: right; padding: 0 10px; }
+#questions-header{ 
+background: none repeat scroll 0 0 #fff;
+border: 1px solid #bbb;
+padding: 10px;
+}
+.highlight{ background:#48c1f9; color:#fff}
+.q-a .fa{ color: #48c1f9; float: right; font-size: 20px; margin: 5px; cursor:pointer}
+.q-a > p{ clear:both; }
+.q-a .fa-thumbs-up:hover{color:#3399cc}
+.q-a .fa-thumbs-down:hover{color:#3399cc}
+.likecount{ position: relative;
+color: #000;
+background: #ddd;
+height: 15px;
+line-height: 15px;
+text-align: center;
+border-radius: 6px;
+float:right;
+padding:5px 10px;
+margin:5px;
+}
+.likecount:after {
+content: '';
+position: absolute;
+top: 50%;
+right: 100%;
+margin-top: -6px;
+width: 0; height: 0;
+border-right: 6px solid #ddd;
+border-top: 6px solid transparent;
+border-bottom: 6px solid transparent;
+}
+a.tooltips {
+position: relative;
+display: inline;
+float:right;
+color:inherit;
+text-decoration:none;
+}
+a.tooltips span {
+position: absolute;
+width:100%;
+color: #FFFFFF;
+background: #000000;
+line-height: 30px;
+text-align: center;
+visibility: hidden;
+border-radius: 6px;
+left:0;
+padding:10px;
+}
+#dislike.tooltips span{ width:auto !important;} 
+a.tooltips span:after {
+content: '';
+position: absolute;
+top: 100%;
+left: 50%;
+margin-left: -8px;
+width: 0; height: 0;
+border-top: 8px solid #000000;
+border-right: 8px solid transparent;
+border-left: 8px solid transparent;
+}
+#dislike:hover.tooltips span {
+visibility: visible;
+opacity: 0.8;
+bottom: 30px;
+margin-left: -10px;
+margin-bottom:5px;
+padding:5px;
+z-index: 999;
+}
+#like:hover.tooltips span {
+visibility: visible;
+opacity: 0.8;
+bottom: 30px;
+margin-bottom:5px;
+padding:5px;
+z-index: 999;
+}
+a:hover.tooltips span {
+visibility: visible;
+opacity: 0.8;
+bottom: 30px;
+margin-bottom:5px;
+padding:5px;
+z-index: 999;
+}
+
+/* customize */
+.panel-header {
+    color: #565a5c;
+    font-size: 16px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #dce0e0;
+}
+.thread--read {
+    background: #f5f5f5;
+}
+/* customize */
+.content-messages .threads ul { padding: 0; }
+.content-messages .threads li { list-style: outside none none; }
+.content-messages .threads div[class*="col"] { padding: 0 10px; }
+.content-messages .threads .col-md-3 {width: 20%; float: left;}
+.content-messages .threads .col-md-9 {width: 80%; float: left;}
+.content-messages .threads .col-xs-5 {width: 41.6%; float: left;}
+.content-messages .threads .thread-avatar { display: none;}
+.content-messages .threads li {border-bottom: 1px solid #ddd;padding: 20px; margin: 0; }
+.content-messages .threads .thread-name , .threads .thread-name a { color: #ff5a5f; }
+.content-messages .threads .thread-date { color : #999; }
+.content-messages .threads .thread-date { }
+.content-messages .reply-box { border: 1px solid #ddd; margin: 0 0 15px; padding: 10px; }
+.content-messages #message_inquiry { overflow: hidden; word-wrap: break-word; resize: none; height: 62px; border-radius: 5px; }
+.content-messages .send-messages { margin: 10px 0 0; }
+.content-messages .send-messages .btn { border: 1px solid #c4c4c4 ; color: #fff; }
+.content-messages .send-messages .btn.btn-primary { background: #ff5a5f none repeat scroll 0 0;border-color: #ff5a5f #ff5a5f #e00007;border-radius: 2px; font-size: 14px;font-weight: bold;line-height: 1.2;margin-bottom: 0;padding: 6px 12px;text-align: center;vertical-align: middle; }
+
+/* New Layout */
+.content-messages .block-title strong { margin-right: 25px; } 
+.content-messages .col.action { width: 50px; }
+.content-messages .unread { }
+.content-messages .unread td { background: #ebf2f5; }
+

@@ -1,0 +1,20 @@
+Orders,Ordres
+"Order Number","Numéro de commande"
+Date,Date
+"Full Name","Nom complet"
+Email,Email
+"Due Amount","Montant dû"
+Currency,Devise
+Actions,Actions
+"No data yet","Pas encore de données"
+"Partial payment","Paiement partiel"
+"Guarantee your reservation with a partial payment","Garantir votre réservation avec un paiement partiel"
+"Pay Partially","Payer partiellement"
+"Login Required","Connexion requise"
+"Order #","Commande #"
+"All amounts has been converted to USD currency","All amounts has been converted to USD currency"
+"Paid Amount","Montant payé"
+Total,"Le total"
+Cancel,Annuler
+Continue,Continuez
+"Partial Payments","Paiements partiels"

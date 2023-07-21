@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <!-- <link src_type="url" rel="stylesheet" src="https://fonts.googleapis.com/icon?family=Material+Icons" /> -->
+        <!-- <link src_type="url" rel="stylesheet" src="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"/> -->
+        <link rel="stylesheet" src="Daytours_ErrorLogs::css/error-logs.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+                <block class="Daytours\ErrorLogs\Block\ErrorLogs" template="Daytours_ErrorLogs::error-logs.phtml"/>
+                <!-- <iuComponent name="errorlogs_error_listing" /> -->
+        </referenceContainer>
+    </body>
+</page>

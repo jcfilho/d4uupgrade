@@ -1,0 +1,43 @@
+
+<?php
+
+
+/**
+ * @var $dateTimeFormatter \Magento\Framework\Stdlib\DateTime\TimezoneInterface
+ */
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$dateTimeFormatter = $objectManager->get('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
+
+/** @var \Daytours\Wordpress\Block\RecentArticles $block */
+
+$posts = $block->getPosts();
+?>
+
+<div class="recent_articles">
+    <div class="content-inner">
+        <div class="title"><?php echo __('Recent Articles') ?></div>
+        <ul class="list-recent">
+<?php foreach($posts as $post): ?>
+
+    <li class="item">
+        <div class="post-image">
+            <?php $image = $post->getImage(); ?>
+            <a href="<?php echo $post->getUrl() ?>">
+                <img class="lazy" src="https://www.argentina4u.com/pub/media/wysiwyg/Loader.gif" data-original="<?php echo $image->getData('guid').'.webp'; ?>" alt="<?php echo $this->escapeHtml($post->getPostTitle()) ?>">
+            </a>
+        </div>
+        <?php
+//        $staticDate = $post->getData('post_date');
+//        $convertedDate = $dateTimeFormatter->date(new DateTime($staticDate))->format('M d, y');
+        ?>
+        <div class="post-info">
+            <div class="post-name"><a href="<?php echo $post->getUrl() ?>"><?php echo $this->escapeHtml($post->getPostTitle()) ?></a></div>
+            <div class="post-date"><?php echo $post->getPostDate('M d, y'); ?></div>
+        </div>
+    </li>
+
+<?php endforeach; ?>
+        </ul>
+    </div>
+</div>

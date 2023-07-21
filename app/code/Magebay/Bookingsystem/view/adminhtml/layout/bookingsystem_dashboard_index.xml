@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+ 
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+  <head>
+		<css src="Magebay_Bookingsystem::css/manage_booking/bootstrap.mixed.css" />
+		<css src="Magebay_Bookingsystem::css/manage_booking/bootstrap.vertical-tabs.css" />
+		<css src="Magebay_Bookingsystem::css/manage_booking/fullcalendar.min.css" />
+		<css src="Magebay_Bookingsystem::css/manage_booking/font-awesome/4.3.0/css/font-awesome.min.css" />
+		<css src="Magebay_Bookingsystem::css/bk-global.css" />
+		<css src="Magebay_Bookingsystem::css/manage_booking/bkp.css" />
+		<css src="Magebay_Bookingsystem::css/manage_booking/magebay_style.css" />
+	</head>
+  <body>
+       <referenceContainer name="content">
+           <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher" before="magebay_bookingsystem_bookings.grid.container" template="Magento_Backend::store/switcher.phtml"/>
+		   <block class="Magebay\Bookingsystem\Block\Adminhtml\Dashboard" name="magebay_bookingsystem_dashboard" template="Magebay_Bookingsystem::dashboard/dashboard.phtml" />
+       </referenceContainer>
+	   <referenceContainer name="before.body.end">
+			<block class="Magebay\Bookingsystem\Block\Adminhtml\Booking" template="Magebay_Bookingsystem::bk-global.phtml" />
+		</referenceContainer>
+   </body>
+</page>

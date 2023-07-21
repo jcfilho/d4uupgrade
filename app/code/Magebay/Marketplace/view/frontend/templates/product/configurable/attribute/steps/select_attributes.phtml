@@ -1,0 +1,40 @@
+<?php
+/**
+ * @Author      : haunv
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2017 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+?>
+<div class="select-attributes-block" data-role="select-attributes-step">
+    <div class="select-attributes-actions" data-type="skipKO">
+        
+    </div>
+    <h2 class="steps-wizard-title"><?php echo $block->escapeHtml(
+            __('Step 1: Select Attributes')
+        ); ?></h2>
+    <div class="selected-attributes" data-bind="scope: 'variation-steps-wizard_step1'">
+        <?php echo $block->escapeHtml(
+            __('Selected Attributes:')
+        ); ?>
+        <span data-bind="text: selectedAttributes() || '--'"></span>
+    </div>
+</div>
+<?= $block->getChildHtml(); ?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "variation-steps-wizard_step1": {
+                        "component": "Magebay_Marketplace/js/variations/steps/select_attributes",
+                        "multiselectName": "<?= /* @noEscape */ $block->getData('config/multiselectName') ?>",
+                        "providerName": "<?= /* @noEscape */ $block->getData('config/providerName') ?>",
+                        "appendTo": "variation-steps-wizard"
+                    }
+                }
+            }
+        }
+    }
+</script>

@@ -1,0 +1,198 @@
+.error-logs .form-filters{
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 10px;
+    background: rgb(222 222 222);
+}
+
+.error-logs .form-filters .control {
+    /* padding: 10px; */
+    padding: 15px;
+    color: #363636;
+}
+
+.error-logs .form-filters .control label {
+    /* padding: 10px; */    
+    color: #363636;
+    font-size: 16px;
+}
+
+.error-logs .form-filters .control select {
+    /* padding: 10px; */
+    color: #363636;
+    padding: 4px;
+}
+
+/* .error-logs select {
+    background: rgb(235, 235, 235);
+    padding: 10px;
+    color: #363636;
+} */
+
+.error-logs .table {
+    background-color: #fff;
+    color: #363636;
+}
+.error-logs table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+
+.table th {
+    color: #363636;
+}
+.table td, .table th {
+    border: 1px solid #dbdbdb;
+    border-width: 0 0 1px;
+    padding: 0.5em 0.75em;
+    vertical-align: top;
+}
+
+.table tbody tr:last-child td, .table tbody tr:last-child th {
+    border-bottom-width: 0;
+}
+
+table td:not([align]), table th:not([align]) {
+    text-align: inherit;
+}
+.table td, .table th {
+    border: 1px solid #dbdbdb;
+    border-width: 0 0 1px;
+    padding: 0.5em 0.75em;
+    vertical-align: top;
+}
+
+a {
+    color: #485fc7;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #363636;
+    text-decoration: underline;
+}
+
+a:active, a:hover {
+    outline: 0;
+}
+
+#invoice-details{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #0000003a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+
+#invoice-details .details{
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* --------------- Card Styles ----------------------- */
+.card {
+    background-color: #fff;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 2%);
+    color: #4a4a4a;
+    max-width: 100%;
+    position: relative;
+}
+
+.card-header-icon {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: 0 0;
+    border: none;
+    color: currentColor;
+    font-family: inherit;
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+}
+
+.card-header {
+    background-color: transparent;
+    align-items: stretch;
+    box-shadow: 0 0.125em 0.25em rgb(10 10 10 / 10%);
+    display: flex;
+}
+
+.card-header-title {
+    align-items: center;
+    color: #363636;
+    display: flex;
+    flex-grow: 1;
+    font-weight: 700;
+    padding: 0.75rem 1rem;
+}
+
+.card-content:last-child, .card-footer:last-child, .card-header:last-child {
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.card-content {
+    background-color: transparent;
+    padding: 1.5rem;
+}
+
+.title.is-4 {
+    font-size: 1.5rem;
+}
+
+.block:not(:last-child), .box:not(:last-child), .breadcrumb:not(:last-child), .content:not(:last-child), .level:not(:last-child), .message:not(:last-child), .notification:not(:last-child), .pagination:not(:last-child), .progress:not(:last-child), .subtitle:not(:last-child), .table-container:not(:last-child), .table:not(:last-child), .tabs:not(:last-child), .title:not(:last-child) {
+    margin-bottom: 1.5rem;
+}
+.title {
+    color: #363636;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.125;
+}
+.subtitle, .title {
+    word-break: break-word;
+}
+
+.title:not(.is-spaced)+.subtitle {
+    margin-top: -1.25rem;
+}
+.subtitle.is-6 {
+    font-size: 1rem;
+}
+.subtitle {
+    color: #4a4a4a;
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.25;
+}
+
+.subtitle, .title {
+    word-break: break-word;
+}
+
+/* --------------- END Card Styles ----------------------- */
+
+.hide{
+    display: none !important;
+}
+
+
+
+

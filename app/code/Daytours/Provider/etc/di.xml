@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Daytours\Provider\Api\Data\ProviderInterface" type="Daytours\Provider\Model\Provider" />
+    <preference for="Daytours\Provider\Api\Data\ProviderSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Daytours\Provider\Api\ProviderRepositoryInterface" type="Daytours\Provider\Model\ProviderRepository" />
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="daytours_provider_listing_data_source" xsi:type="string">Daytours\Provider\Model\ResourceModel\Provider\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Daytours\Provider\Model\ResourceModel\Provider\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">booking_provider</argument>
+            <argument name="resourceModel" xsi:type="string">Daytours\Provider\Model\ResourceModel\Provider</argument>
+        </arguments>
+    </virtualType>
+
+</config>

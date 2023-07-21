@@ -1,0 +1,4 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="OlegKoval\RegenerateUrlRewrites\Model\RegenerateCategoryRewrites" type="Daytours\URLRewriteByLanguageSite\Model\RegenerateCategoryRewrites"/>
+    <preference for="OlegKoval\RegenerateUrlRewrites\Model\RegenerateProductRewrites" type="Daytours\URLRewriteByLanguageSite\Model\RegenerateProductRewrites"/>
+</config>

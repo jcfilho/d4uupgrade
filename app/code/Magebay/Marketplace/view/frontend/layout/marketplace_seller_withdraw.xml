@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<update handle="customer_account"/>
+	<head>
+		<css src="Magebay_Marketplace::css/mst_block.css" />
+		<css src="Magebay_Marketplace::css/style.css" />
+	</head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magebay\Marketplace\Block\Transactionlist" name="magebay_marketplace.seller_withdraw" template="seller/withdraw.phtml" cacheable="false" />
+        </referenceContainer>
+    </body>
+</page>

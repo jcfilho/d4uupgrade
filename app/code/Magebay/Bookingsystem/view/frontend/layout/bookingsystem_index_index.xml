@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+     <head>
+		<css src="Magebay_Bookingsystem::css/bootstrap.min.css" />
+		<css src="Magebay_Bookingsystem::css/font-awesome.min.css" />
+		<css src="Magebay_Bookingsystem::css/daterangepicker.css" />
+		<css src="Magebay_Bookingsystem::css/style_finder.css" />
+		<css src="Magebay_Bookingsystem::css/style_search.css" />
+		<css src="Magebay_Bookingsystem::css/global_style.css" />
+
+	</head>
+	<body>
+        <referenceContainer name="content">
+            <block class="Magebay\Bookingsystem\Block\Search" name="bookingsystem.search" template="Magebay_Bookingsystem::search/search.phtml" />
+		</referenceContainer>
+    </body>
+</page>

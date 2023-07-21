@@ -1,0 +1,134 @@
+<?php
+/**
+ * @Author      : haunv
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2017 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+?>
+<div class="block block-attribute ">
+	<div class="block block-content">
+		<form method="post" action="<?php echo $block->getUrl('marketplace/product_attribute/save') ?>" class="form form-addnew-attribute" id="form-seller-attr-new" enctype="multipart/form-data" >
+			<?php echo $block->getBlockHtml('formkey')?>
+			<fieldset id="createattribute-product" class="fieldset info">
+				<legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Create Attribute for Configurable Products') ?></span></legend>			
+				<div id="customopt" class="fieldset form-list">
+					<div class="field required attributecode">
+						<label class="label" ><span><?php echo __('Attribute Code : ') ?></span></label>
+						<div class="control">
+							<input type="text" id="" name="attribute_code" class="validate-code validate-length maximum-length-30 input-text required-entry" aria-required="true">
+						</div>
+					</div>			
+					<div class="field required attributecode">
+						<label class="label" ><span><?php echo __('Attribute Label : ') ?></span></label>
+						<div class="control">
+							<input type="text" id="" name="attribute_label" class="validate-label validate-length maximum-length-30 input-text required-entry" aria-required="true">
+						</div>
+					</div>
+					<div class="field required cataloginputtype">
+						<label class="label"><span><?php echo __('Catalog Input Type : ') ?></span></label>
+						<div class="control">
+							<select class="select" id="typeinput" name="frontend_input" title="<?php echo __('Catalog Input Type') ?>" aria-required="true" >
+								<option value=""><?php echo __('Please Select') ?></option>
+								<option value="select"><?php echo __('Dropdown') ?></option>
+							</select>
+						</div>
+					</div>
+					<div class="field required valrequired">
+						<label class="label"><span><?php echo __('Values Required : ') ?></span></label>
+						<div class="control">
+							<select name="is_required" class="select" aria-required="true" title="<?php echo __('Values Required') ?>" >
+								<option value="1" ><?php echo __('Yes') ?></option>
+								<option value="0"><?php echo __('No') ?></option>
+							</select>
+						</div>
+					</div>					
+				</div>
+				<div class="field block-button">
+					<button type="submit" class="button" title="<?php echo __('Save Attribute') ?>" >
+						<span><span><?php echo __('Save Attribute') ?></span></span>
+					</button>
+				</div>				
+			</fieldset>
+		</form>
+	</div>
+</div>
+<script>
+require([
+	"jquery",
+	"mage/mage"
+], function(jQuery){
+	jQuery.noConflict();
+	var dataForm = jQuery('#form-seller-attr-new');
+	dataForm.mage('validation', {});
+
+	var __count=0;
+	var __count1=0;
+	var optionsObj=0,select=0;
+	jQuery("#typeinput").click( function() {
+		if(optionsObj!=0 && select!=1){
+			optionsObj=jQuery(".option-product-box").clone();			
+		}
+	});
+	
+	jQuery("#typeinput").change( function() { 		
+		jQuery('.is_required').show();
+		jQuery(".option-product-box").remove();
+		if(jQuery("#typeinput").val()== "multiselect" || jQuery("#typeinput").val() == "select")		{
+			if(optionsObj==0){
+				 var _html='<ul class="opthead ul_first">'+
+							'<li>Admin</li>'+
+							'<li>Default Store View</li>'+
+							'<li>Position</li>'+
+							'<li>Is Default</li>'+
+							'<li><button type="button" value="Add Option" class="addOption button"><span><span>Add Option</span></span></button></li>'+
+				 '</ul>';
+				var _html1=jQuery('<div/>').addClass("option-product-box").append(_html);							
+				jQuery('#customopt').append(_html1);
+				jQuery(".addOption").trigger("click");
+				optionsObj++;
+			}else{
+				jQuery('#customopt').append(jQuery('<div/>').addClass("option-product-box").append(optionsObj.html()));
+			}			
+		}	
+		else{
+			select=1;
+		}
+	});	
+
+	jQuery("#createattribute-product").delegate(".deletecusopt","click",function(){
+		jQuery(this).parents(".opthead").remove();
+	});
+
+	jQuery("#createattribute-product").delegate(".addOption","click",function(){
+		var _checked=__count==0?'checked':'';		
+		var _htmlLi='<li><input type="text" class="required-entry cusoptinput" name="attroptions['+__count+'][admin]" /></li>'+
+					'<li><input type="text" class="cusoptinput" name="attroptions['+__count+'][store]" /></li>'+
+					'<li><input type="text" class="cusoptinput" name="attroptions['+__count+'][position]" /></li>'+
+					'<li><input type="radio" class="cusoptinput1" value="'+__count+'" name="isdefault[]" '+_checked+' /></li>'+
+					'<li><button type="button" value="Delete Row" title="Delete Row" class="deletecusopt button"><span><span>Delete</span></span></button></li>';
+		var custHtml = jQuery('<ul>').addClass('opthead').append(_htmlLi);						
+		jQuery('.option-product-box').append(custHtml);
+		__count++;
+	});	
+	
+	jQuery(document).on('change','.cusoptinput',function(){
+		var vl = jQuery(this).val();
+		var regex = /(<([^>]+)>)/ig;
+		var vl2 = vl.replace(regex, "");
+		jQuery(this).val(vl2);	
+	});
+	
+	jQuery("#createattribute-product").delegate('.opthead input','focusout',function(){
+		jQuery(this).attr('value',jQuery(this).val());
+	});
+	
+	jQuery("#createattribute-product").delegate('.opthead input[type="checkbox"]','focusout',function(){
+		if(jQuery(this).is(":checked"))
+			jQuery(this).attr('checked','checked');
+		else
+			jQuery(this).removeAttr("checked");
+	});	
+});
+</script>

@@ -1,0 +1,53 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!--@subject {{trans "Your %store_name order confirmation - Last Minute" store_name=$store.getFrontendName()}} @-->
+<!--@vars {
+"var formattedBillingAddress|raw":"Billing Address",
+"var order.getEmailCustomerNote()":"Email Order Note",
+"var order.increment_id":"Order Id",
+"layout handle=\"sales_email_order_items\" order=$order area=\"frontend\"":"Order Items Grid",
+"var payment_html|raw":"Payment Details",
+"var formattedShippingAddress|raw":"Shipping Address",
+"var order.getShippingDescription()":"Shipping Description",
+"var shipping_msg":"Shipping message",
+"template config_path=\"design\/email\/footer_template\"":"Email Footer Template",
+"template config_path=\"design\/email\/header_template\"":"Email Header Template"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+
+<table id="order_confirm_email">
+    <tr class="thank-you" align="center">
+        <td align="center" style="padding: 0;">
+            <div class="wrapper-banner" style="background: url({{view url='images/banner_new_order.jpg'}}) center no-repeat;">
+                <img src="{{view url='images/thankyou_order.png'}}"/>
+
+                <h1 class="title">{{trans "Thanks %customer_name for your order" customer_name=$order.getCustomerName()}}</h1>
+
+                <p>{{trans 'Your order <a href="%account_url" style="font-weight: 600;">#%increment_id</a> has been created' increment_id=$order.increment_id |raw account_url=$this.getUrl($store,'customer/account/',[_nosid:1]) |raw}}</p>
+            </div>
+        </td>
+    </tr>
+    <tr class="email-summary" style="padding: 0 25px;margin-top: 25px;display: block">
+        <td>
+            <h3 class="title-block" style="padding-bottom: 20px;border-bottom: 1px solid #e8e8e8;">{{trans 'Your Purchased'}}</h3>
+            <div class="summary_order">
+                {{layout handle="sales_email_order_items" order=$order area="frontend"}}
+            </div>
+        </td>
+    </tr>
+    {{layout area="frontend" handle="email_template_complete_order" order=$order}}
+    <tr class="you-may-also-like" style="padding: 0 18.5px;margin-bottom: 40px;display: block">
+        <td>
+            <h3 class="title-block" style="padding: 0 7.5px;">{{trans "You may also like"}}</h3>
+            {{block class="Magento\Cms\Block\Block" area='frontend' block_id="list_product_also_like"}}
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

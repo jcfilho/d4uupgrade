@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+ 
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/system_file.xsd">
+    <system>
+        <tab id="magebay" translate="label" sortOrder="1">
+            <label>Magebay.com</label>
+        </tab>
+        <section id="bookingsystem" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Booking System Settings</label>
+            <tab>magebay</tab>
+            <resource>Magebay_Bookingsystem::system_config</resource>
+            <group id="act" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Active License Key</label>
+                <field id="key" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>License Key</label>
+                    <backend_model>Magebay\Bookingsystem\Model\Config\Backend\Saveconfig</backend_model>
+                    <comment>Please check your license key in order details. Contact to provider when you would like to reset the license key to apply Booking System Pro for new domain.</comment>
+                </field>
+                <field id="actinfo" translate="label comment" type="text" sortOrder="15" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Active Status</label>
+                    <frontend_model>Magebay\Bookingsystem\Block\Adminhtml\Form\Renderer\Config\Activestatus</frontend_model>
+                </field>
+            </group>
+			<group id="setting" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="enable" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable in frontend</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <!-- <field id="use_custom_option" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Use Price of Custom option</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field> -->
+				<field id="max_booking" translate="label comment" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Maximum booking</label>
+                    <comment>Maximum booking</comment>
+                    <validate>required-entry</validate>
+                </field>
+				<field id="default_price" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Use Default Price</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+				<!-- <field id="booking_time" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Use Default Price</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field> -->
+				<field id="checkout_action" translate="label comment" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Check Out Action</label>
+                    <comment>Enter Action which you use on the site. For Example: checkout_index_index</comment>
+                    <validate>required-entry</validate>
+                </field>
+				<field id="booking_address" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Booking Address</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+				<field id="show_calendar" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Calendar</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+				<field id="enable_shipping" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Shipping</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+				<field id="map_zoom" translate="label comment" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Map Zoom</label>
+                    <depends>
+                        <field id="booking_address">1</field>
+                    </depends>
+                </field>
+				<field id="map_apy_key" translate="label comment" type="text" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Google API Key</label>
+                    <comment>You can get api key on link https://developers.google.com/maps/documentation/javascript/get-api-key</comment>
+                    <depends>
+                        <field id="booking_address">1</field>
+                    </depends>
+                </field>
+                <field id="format_date" translate="label" type="select" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Format Date</label>
+                    <source_model>Magebay\Bookingsystem\Model\System\Config\FormatDate</source_model>
+                </field>
+				<field id="time_mode" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Change Time mode</label>
+                    <source_model>Magebay\Bookingsystem\Model\System\Config\TypeTime</source_model>
+                </field>
+                <field id="start_day" translate="label" type="select" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Start Day</label>
+                    <source_model>Magebay\Bookingsystem\Model\System\Config\Startday</source_model>
+                    <comment>Start Day in Week</comment>
+                </field>
+            </group>
+			<group id="search_setting" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Search Settings</label>
+				<field id="enable_search" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Search</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+				<field id="show_link_on_top_link" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Link on top</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+				<field id="allow_categories" translate="label comment" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Booking Cagegory ID</label>
+                    <comment>Enter Booking Cagegory Id. Example : 2,3,4 </comment>
+                </field>
+				<field id="number_items" translate="label comment" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Number Items</label>
+                    <comment>Enter Number Items In booking Search page </comment>
+                    <validate>required-entry</validate>
+                </field>
+				<field id="max_price" translate="label comment" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Max Price</label>
+                    <comment>Enter Max Price </comment>
+                    <validate>required-entry</validate>
+                </field>
+				  <field id="booking_attibute" translate="label" type="multiselect" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Attribute</label>
+                    <source_model>Magebay\Bookingsystem\Model\System\Config\Product\Attributes</source_model>
+                </field>
+				<field id="use_map_search" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Filter Google Maps</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment>Use For Enterprise package</comment>
+                    <depends>
+                        <field id="booking_address">1</field>
+                    </depends>
+                </field>
+				<field id="icon_google_map" translate="label comment" type="image" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Select Image</label>
+					<backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+					<upload_dir config="system/filesystem/media" scope_info="1">bookingsystem</upload_dir>
+					<base_url type="media" scope_info="1">bookingsystem</base_url>
+					<comment>Use For Enterprise package</comment>
+				</field>
+                <field id="use_map_distance" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Distance Filter Google Maps</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Use For Enterprise package</comment>
+                </field>
+				<!-- <field id="search_load_jquery" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Booking Address</label>
+					<comment>Select No if the jQuery libraries already exist to remove jQuery conflicts. Select Yes to load jquery library from this module</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field> -->
+			</group>
+        </section>
+    </system>
+</config>

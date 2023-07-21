@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+ 
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Core/etc/config.xsd">
+    <default>
+        <bookingsystem>
+            <setting>
+				<enable>1</enable>
+				<use_custom_option>0</use_custom_option>
+				<format_date>d/m/Y</format_date>
+				<max_booking>5</max_booking>
+				<default_price>0</default_price>
+				<checkout_action>checkout_index_index</checkout_action>
+				<booking_address>1</booking_address>
+				<show_calendar>1</show_calendar>
+				<enable_shipping>1</enable_shipping>
+				<map_zoom>5</map_zoom>
+            </setting>
+			<search_setting>
+				<enable_search>1</enable_search>
+				<show_link_on_top_link>1</show_link_on_top_link>
+				<allow_categories></allow_categories>
+				<number_items>5</number_items>
+				<max_price>10000</max_price>
+				<booking_attibute></booking_attibute>
+				<use_map_search>0</use_map_search>
+				<icon_google_map></icon_google_map>
+			</search_setting>
+        </bookingsystem>
+    </default>
+</config>

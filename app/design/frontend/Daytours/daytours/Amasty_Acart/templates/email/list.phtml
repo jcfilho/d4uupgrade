@@ -1,0 +1,23 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2023 Amasty (https://www.amasty.com)
+ * @package Abandoned Cart Email Base for Magento 2
+ */
+/**
+ * @var \Amasty\Acart\Block\Email\Items $block
+ * @var \Magento\Catalog\Api\Data\ProductInterface $product
+ * @var \Amasty\Acart\ViewModel\Email\ProductViewModel $viewModel
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$viewModel = $block->getData('viewModel');
+?>
+<?php if ($block->getItems()): ?>
+    <table class="email-items">
+        <tbody>
+            <?php foreach ($block->getItems() as $item): ?>
+                <?= $block->getItemBlockHtml($item); ?>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php endif; ?>

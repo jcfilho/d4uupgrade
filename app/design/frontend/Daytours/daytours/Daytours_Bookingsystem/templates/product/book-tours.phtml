@@ -1,0 +1,28 @@
+<div class="book-tours book-product-addtocart">
+    <div class="loading-mask" id="booking-loader" style="display : none">
+        <div class="loader">
+            <img style="position: absolute;" alt="<?php echo __('Please wait....'); ?>" src="<?php echo $block->getViewFileUrl('images/loader-1.gif'); ?>">
+        </div>
+    </div>
+    <div class="book-tours-wrapper">
+        <h3 class="book-tours-title book-tours-title-desktop"><?php echo __("Let's get started") ?></h3>
+        <h3 class="book-tours-title book-tours-title-mobile"><?php echo __('Book now') ?></h3>
+        <div class="book-tours-form">
+            <?php echo $block->getChildHtml('product.form.wrapper'); ?>
+        </div>
+    </div>
+</div>
+
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        // customize radio button
+        $('.book-tours-form .options-list .radio').each(function () {
+            $('<label class="label-radio" for="' + $(this).attr('id') + '"></label>').insertAfter(this);
+        });        // remove price part
+        $('.book-tours-form .options-list .label').each(function () {
+            $(this).html($(this).find('span').first());
+        });
+    });
+</script>

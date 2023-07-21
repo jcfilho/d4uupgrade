@@ -1,0 +1,51 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+?>
+<?php $posts = $this->getPosts() ?>
+<div class="blog_result">
+    <h2 class="page-title">
+        <span><strong><?php echo $posts->getSize() ?></strong></span>
+        <span><?php echo __('Search Result for') ?> <?= $this->getRequest()->getParam('s') ?></span>
+    </h2>
+    <div class="page-content">
+
+    <?php if (count($posts) > 0): ?>
+        <div class="list_result">
+            <ul>
+
+            <?php foreach($posts as $post): ?>
+                <?php if ($renderedPostHtml = $this->renderPost($post)): ?>
+                    <li class="item">
+                        <?php $image = $post->getImage(); ?>
+                        <?php $categoryString = $post->getTermCollectionAsString('one_category'); ?>
+                        <div class="post-image" style="background-image: url('<?php echo $image->getData('guid') . '.webp' ?>')">
+                            <div class="tag-post inspiration"><?php echo $categoryString['name']; ?></div>
+                            <a class="link-post" href="<?php echo $post->getUrl() ?>"></a>
+                        </div>
+                        <div class="post-info">
+                            <div class="post-date"><img src="<?php echo $this->getViewFileUrl('images/icon-date.png') ?>"/> <?php echo $post->getPostDate() ?></div>
+                            <h3 class="post-name">
+                                <a href="<?php echo $post->getUrl() ?>">
+                                    <?php echo $this->escapeHtml($post->getName()) ?>
+                                </a>
+                            </h3>
+                            <p class="post-des"><?php echo $post->getExcerpt(40) ?></p>
+                            <div><a class="read-post"  href="<?php echo $post->getUrl() ?>"><?= __("Read More")?></a></div>
+                        </div>
+                    </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+
+            </ul>
+        </div>
+            <?php echo $this->getPagerHtml() ?>
+
+    <?php endif; ?>
+
+    </div>
+</div>

@@ -1,0 +1,57 @@
+block_id,title,is_active,identifier,content,store_id
+,Category | Tours | body | english,1,tours,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Daytours4u</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""53""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Daytours</div>
+<a class=""view-all"" href=""#"">All activities in Daytours4u <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_tours""}}</div>","admin,english"
+,Category | Tours | body | spanish,1,tours,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Daytours4u</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""53""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Daytours</div>
+<a class=""view-all"" href=""#"">All activities in Daytours4u <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_tours""}}</div>",spanish
+,Category | Tours | body | portuguese,1,tours,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Daytours4u</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""53""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Daytours</div>
+<a class=""view-all"" href=""#"">All activities in Daytours4u <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_tours""}}</div>",portuguese
+,Category | Tours | body | french,1,tours,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Daytours4u</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""53""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Daytours</div>
+<a class=""view-all"" href=""#"">All activities in Daytours4u <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_tours""}}</div>",french

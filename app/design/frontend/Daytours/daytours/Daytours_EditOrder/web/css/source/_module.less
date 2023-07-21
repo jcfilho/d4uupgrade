@@ -1,0 +1,58 @@
+& when (@media-common = true) {
+  .edit-order-page{
+    .page-title{
+      .lib-css(margin-top, 0);
+    }
+    .form-post-purchase{
+      .lib-css(margin-bottom,60px);
+      fieldset{
+        &.fieldset{
+          .lib-css(margin-bottom, 0);
+
+          .field{
+            .select-hours{
+              .lib-css(width,auto);
+            }
+            input::-webkit-input-placeholder,
+            input::-moz-placeholder,
+            input:-ms-input-placeholder,
+            input:-moz-placeholder{
+              color: #ccc;
+            }
+
+            .calendar-date-post-purchase,
+            .arrival-date,
+            .departing-date
+            {
+              .lib-css(cursor, pointer);
+              .lib-css(background-image, url("../images/input-bg-calendar.png"));
+              .lib-css(background-size, auto);
+              .lib-css(background-repeat, no-repeat);
+              .lib-css(background-position, top right);
+            }
+          }
+        }
+        &.register-customer{
+          .lib-css(margin-bottom,30px);
+
+          .checkbox-register-customer,
+          .label-checkbox-register-customer{
+            .lib-css(cursor,pointer);
+          }
+        }
+      }
+    }
+  }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+  .edit-order-page{
+    .form-post-purchase{
+      fieldset{
+        &.fieldset{
+          .lib-css(margin-bottom, 15px);
+        }
+      }
+    }
+  }
+}

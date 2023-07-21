@@ -1,0 +1,242 @@
+<?php 
+/**
+* @Author      : Kien
+* @package     Marketplace
+* @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+* @terms  http://www.magebay.com/terms
+* @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+**/
+$_transactionCollection = $block->getTransactions();
+$_transactionDetail = $block->getDetailTransaction();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$params = $this->getRequest()->getPost();
+$transactionId = isset($params['transaction_id']) ? $params['transaction_id'] : '';
+$fromDate = isset($params['from_date']) ? $params['from_date'] : '';
+$toDate = isset($params['to_date']) ? $params['to_date'] : '';
+$limit = $this->getRequest()->getParam('limit',5);
+$paymentmethodCollection = $block->getPaymentMethods()
+?>
+<!-- Withdrawal Request -->
+<div class="mst_mv_wrapper mvblock">
+	<div class="box-title">
+		<span><?php echo __('Withdrawal Request'); ?></span>           
+	</div>
+	<div class="fieldset mst_mv_fieldset">
+		<div class="content-withdrawal" >
+    		<p>
+    			<strong><?php echo __('Your balance'); ?>:</strong> 
+    			<b class="value" style="color: #ff3333;">
+    				<?php echo $block->getPrice($_transactionDetail['amountremain']-$block->getPendingAmount(\Magento\Framework\App\ObjectManager::getInstance()->create('Magento\Customer\Model\Session')->getId())) ?>
+    			</b>
+    		</p>
+    		<table summary="Withdrawal Request" id="withdrawal-request" class="data table withdrawal-request">
+    			<caption class="table-caption"><?php echo __('Withdrawal Request'); ?></caption>
+                <?php 
+                    if($paymentmethodCollection->count()){
+                ?>
+            			<thead>
+                            <tr>
+                                <th class="" style="width: 20%;"><?php echo __('Method'); ?></th>
+                                <th class="" style="width: 60%;"><?php echo __('Description'); ?></th>
+                                <th class="" style="width: 20%;"><?php echo __('Fee'); ?></th>
+                            </tr>
+                        </thead>
+            			<tbody>
+                            <?php foreach($paymentmethodCollection as $payment){ ?>
+                            <tr>
+                                <td>
+                                    <a href="<?php echo $this->getUrl('marketplace/seller/withdraw/payment_id/'.$payment->getId()) ?>" class="payment_method_<?php echo $payment->getId() ?>"><?php echo $payment->getName() ?></a>
+                                </td>
+                                <td><?php echo $payment->getDescription() ?></td>
+                                <td><?php echo $payment->getFee() ?></td>
+                            </tr>
+                            <?php } ?>
+            			</tbody>
+                <?php } ?>
+    		</table>	
+		</div>
+	</div>
+</div>	
+<!-- End Withdrawal Request -->
+
+<!-- Transaction History -->
+<div class="mst_mv_wrapper mvblock">	
+	<div class="box-title">
+		<span><?php echo __('Withdrawals History'); ?></span>           
+	</div>
+    <div class="fieldset mst_mv_fieldset">
+        <div class="grid">
+            <div class="detail-transaction">
+				<p>
+                    <div style="float: left;margin-bottom: 30px;">
+                        <strong><?php echo __('Total Amount Received'); ?>:</strong> 
+                        <b class="value">
+                             <?php echo $block->getPrice($_transactionDetail['amountreceived']) ?>
+                        </b>
+                    </div>
+                    <div style="float: right;">
+                        <strong><?php echo __('Total Amount Pending'); ?>:</strong> 
+                        <b class="value">
+                             <?php echo $block->getPrice($block->getPendingAmount(\Magento\Framework\App\ObjectManager::getInstance()->create('Magento\Customer\Model\Session')->getId())) ?>
+                        </b>   
+                    </div>                 
+                </p>
+			</div>
+            <div class="wrap-mv-content">
+                <form method="post" action="<?php echo $block->getUrl() ?>marketplace/seller/myTransactions">
+                    <table cellspacing="0" class="border mst-table-style">
+                        <thead>
+                            <tr id="mst_mv_tr_heading">                            
+                                <th><span><?php echo __('Transaction Id'); ?></span></th>
+                                <th><span><?php echo __('Date'); ?></span></th>
+                                <th><span>&nbsp;</span></th>
+                            </tr>
+                        </thead>
+                        <tbody class="mst-table-content">
+                            <tr>
+                                <td>
+                                    <input type="text" style="width:99%;" value="<?php echo $transactionId; ?>" placeholder="<?php echo __('Search by Transaction Id'); ?>" name="transaction_id" class="input-text" />
+                                </td>
+                                <td>
+                                    <span class="mst_mv_td_span">
+                                        <input type="text" value="<?php echo $fromDate; ?>" class="input-text" id="special_from_date" name="from_date" placeholder="<?php echo __('From'); ?>" />
+                                    </span>				    			
+                                    <span class="mst_mv_td_span">
+                                        <input type="text" value="<?php echo $toDate; ?>" class="input-text" id="special_to_date" name="to_date" placeholder="<?php echo __('To'); ?>" />
+                                    </span>
+                                </td>
+                                <td>
+                                    <button type="submit" id="submit_btn" title="<?php echo __('Save'); ?>" class="button">
+                                        <span><?php echo __('Submit'); ?></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+                <table cellspacing="0" class="border mst-table-style mst-wrap-table">
+                    <thead>
+                        <tr class="mst_content">
+                            <th><?php echo __('ID'); ?></th>
+                            <th><?php echo __('Transaction ID'); ?></th>
+                            <th><?php echo __('Payment Method'); ?></th>
+                            <th><?php echo __('Amount'); ?></th>
+                            <th><?php echo __('Admin Comment'); ?></th>
+                            <th><?php echo __('Created'); ?></th>      
+                            <th><?php echo __('Status'); ?></th>      
+                            <th><?php echo __('View'); ?></th>               
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if(count($_transactionCollection)) : ?>                    
+                            <?php foreach($_transactionCollection as $transaction) : ?>
+                                <tr class="item">
+                                    <td>
+                                        #<?php echo $transaction->getId() ?>	
+                                    </td>
+                                    <td>
+                                        <span class="mst_label">
+                                            <?php echo $transaction->getTransactionIdOnline()?$transaction->getTransactionIdOnline():$transaction->getTransactionId() ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="mst_label">
+                                            <?php 
+                                                if($transaction->getTransactionIdOnline()){
+                                                    echo __('Marketplace Paypal Adaptive');
+                                                }else{
+                                                    $paymentDetail = $block->getPaymentMethodById($transaction['payment_id']);
+                                                    echo $paymentDetail['name'];
+                                                }
+                                            ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="mst_label">
+                                            <?php echo $block->getPrice($transaction->getTransactionAmount()) ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="mst_label">
+                                            <?php echo $transaction->getAdminComment() ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="mst_label">
+                                            <?php echo $transaction->getCreatedAt() ?>
+                                        </span>
+                                    </td>
+									<td>
+                                        <span class="mst_label">
+                                            <?php if ($transaction->getPaidStatus() == 1) echo '<span class="status_yellow">'.__('Pending').'</span>' ?>
+                                            <?php if ($transaction->getPaidStatus() == 2) echo '<span class="status_green">'.__('Completed').'</span>' ?>
+                                            <?php if ($transaction->getPaidStatus() == 3) echo '<span class="status_gray">'.__('Canceled').'</span>' ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="mst_label">
+                                            <a href="<?php echo $block->getUrl() ?>marketplace/seller/viewTransaction/id/<?php echo $transaction->getId() ?>">View</a>
+                                        </span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <?php if ($block->getPagerHtml()): ?>
+            <div class="toolbar bottom" style="margin-top: 20px">
+                <?php echo $block->getPagerHtml(); ?>
+            </div>
+        <?php endif ?>
+        <div class="clear"></div>
+    </div>
+    <div class="buttons-set">
+        <p class="back-link">
+            <a class="left" onclick="javascript: window.history.back();" href="javascript:;"><?php echo __('Back'); ?></a>
+        </p>
+    </div>
+</div>
+<script>
+    require([
+        "jquery",
+        'Magento_Ui/js/modal/confirm',
+        'Magento_Ui/js/modal/alert',
+        "mage/calendar"
+    ], function($,confirmation,alert){
+        $("#special_from_date").calendar({
+            buttonText:"<?php echo __('Select Date') ?>",
+            dateFormat: 'yy-mm-dd',
+        });
+        $("#special_to_date").calendar({
+            buttonText:"<?php echo __('Select Date') ?>",
+            dateFormat: 'yy-mm-dd',
+        });
+        $('#number-page-transaction').change(function(){
+            var strUlr = $(this).val();
+            window.location.href = strUlr;
+        });
+    });
+</script>
+<style>
+    .status_green, .status_yellow, .status_gray {
+        border-radius: 15px;
+        color: #ffffff;
+        display: block;
+        font-weight: bold;
+        padding: 2px 5px;
+        text-align: center;
+        width: 100px;
+    }
+    .status_gray {
+        background-color: #999999;
+    }
+    .status_green {
+        background-color: #468847;
+    }
+    .status_yellow{
+        background-color: #f89406;
+    }
+</style>
+<!-- End Transaction History -->

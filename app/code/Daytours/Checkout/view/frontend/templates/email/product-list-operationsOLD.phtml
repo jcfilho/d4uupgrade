@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * @var $viewModel \Daytours\Checkout\ViewModel\ProductListToOperations
+ * @var $order \Magento\Sales\Model\Order
+ */
+
+$viewModel = $block->getViewModel();
+$order = $viewModel->getOrderByIncrementId($this->getOrderNumber());
+$listProduct = $order->getItems();
+
+?>
+
+<table>
+<?php
+    foreach ($listProduct as $item):
+        $product = $item->getProduct();
+        ?>
+        <tr>
+            <td><strong>Nombre:</strong></td>
+            <td><?= $product->getName(); ?></td>
+        </tr>
+        <tr>
+            <td><strong>SKU:</strong></td>
+            <td><?= $product->getSku(); ?></td>
+        </tr>
+    <?php
+        $itemOptions = $item->getProductOptions();
+        $productOptions = $viewModel->getAllOptions($itemOptions);
+        if( $productOptions ){
+    ?>
+            <tr>
+                <td colspan="2"><strong>Opciones:</strong></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <table>
+                        <?php foreach ($productOptions as $option): ?>
+                            <?php if( $option['label'] == 'regular_services' ): ?>
+                                <?php $regularService = json_decode($option['value']); ?>
+                                <?php if( count($regularService) > 0 ): ?>
+                                    <?php foreach ($regularService as $itemR): ?>
+                                        <tr>
+                                            <td><strong><?= $itemR->label ?>:</strong></td>
+                                            <td><?= $itemR->price ?> x <?= $itemR->qty ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td><strong><?= $option['label'] ?>:</strong></td>
+                                    <td><?= $option['value'] ?></td>
+                                </tr>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">---------------------------------------</td>
+            </tr>
+    <?php
+        }
+    endforeach;
+?>
+</table>

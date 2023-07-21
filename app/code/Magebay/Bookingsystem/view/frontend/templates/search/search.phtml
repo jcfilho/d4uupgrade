@@ -1,0 +1,316 @@
+<?php
+$numberItems = $block->getBkHelperDate()->getFieldSetting('bookingsystem/search_setting/number_items');
+$maxPrice = $block->getBkHelperDate()->getFieldSetting('bookingsystem/search_setting/max_price');
+$enableAddress = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/booking_address');
+$fromPrice = $block->getBkPriceHelper()->currency(0,true,false);
+$toPrice = $block->getBkPriceHelper()->currency($maxPrice,true,false);
+$txtRange = "{$fromPrice} - {$toPrice}";
+$url = $block->getBkAjaxUrl();
+$params = $block->getBkRequest()->getParams();
+?>
+<?php $formatDateLabel = $block->getBkHelperDate()->getLongFormatDateLabel(); ?>
+<?php $rootCategory = $block->getBkRootCategoryId(); ?>
+<?php $formatDate = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/format_date'); ?>
+<?php $startDay =  $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/start_day'); ?>
+<?php $checkIn = ''; ?>
+<?php $checkOut = ''; ?>
+<?php $strAllowCategories = $block->getBkHelperDate()->getFieldSetting('bookingsystem/search_setting/allow_categories'); ?>
+<?php $checkIn = isset($params['check_in']) ? $params['check_in'] : $checkIn;
+$checkOut = isset($params['check_out']) ? $params['check_out'] : $checkOut;
+$textAddress = isset($params['text_rent_auto_complete']) ? $params['text_rent_auto_complete'] : '';
+$addressBk = isset($params['address_bk']) ? $params['address_bk'] : '';
+$route = isset($params['route']) ? $params['route'] : '';
+$cityBk = isset($params['city_bk']) ? $params['city_bk'] : '';
+$state = isset($params['state_bk_bk']) ? $params['state_bk_bk'] : '';
+$postCode = isset($params['post_code_bk']) ? $params['post_code_bk'] : '';
+$country = isset($params['country_bk']) ? $params['country_bk'] : '';
+$checkedCatId = isset($params['booking_category']) ? $params['booking_category'] : 0;
+$strCurrentDate = $block->getBkCurrentDate();
+$bkCheckInCheckOut = $this->getRequest()->getParam('bk_checkin_checkout','');
+?>
+<?php $mapApyKey = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/map_apy_key'); ?>
+<?php $symbol = $block->getBkCurrencySymbol(); ?>
+<div class="search-page" >
+	<form id="booking-search" method="post" action="/">
+		<div data-date-format="M d, D" class="input-daterange">
+			<div class="row">
+				<?php if($enableAddress == 1) : ?>
+					<div class="col-md-3">
+						<div id="autu_rent" class="twitter-typeahead booking-autocomplete-input" style="position: relative; display: block; direction: ltr; float: left;">
+							<div class="form-group form-group-lg form-group-icon-left">
+								<i class="fa fa-map-marker input-icon"></i>
+								<label><?php echo __('Where are you going?'); ?></label>
+								<input class="autocomplete form-control" placeholder="Enter your address" type="text" name="text_rent_auto_complete" value="<?php echo $textAddress; ?>">
+							</div>
+							<div style="display : none">
+								<!-- Street address-->
+								<input class="street_number" name="address_bk" value="<?php echo $addressBk; ?>" ></input>
+								<!-- Street address-->
+								<input class="route" name="route" value="<?php echo $route; ?>"></input>
+								<!-- City -->
+								<input class="locality" name="city_bk" value="<?php echo $cityBk; ?>"></input>
+								<!-- State -->
+								<input class="administrative_area_level_1" name="state_bk_bk" value="<?php echo $state; ?>"></input>
+								<!--Zip code-->
+								<input class="postal_code" name="post_code_bk" value="<?php echo $postCode; ?>"></input>
+								<!-- Country -->
+								<input class="country" name="country_bk" value="<?php echo $country; ?>"></input>
+							</div>
+						</div>
+					</div>
+					<?php endif; ?>
+				<div class="col-md-3">
+					<div class="form-group form-group-lg form-group-icon-left"><i id="check-in-button" class="fa fa-calendar input-icon input-icon-highlight"></i>
+                        <label><?php echo __('From - To'); ?></label>
+                        <input type="text"  id="bk-checkin-checkout" name="bk_checkin_checkout" value="<?php echo $bkCheckInCheckOut; ?>" class="form-control" onfocus="blur();">
+                        <input type="hidden" id="bk-check-in" name="check_in" value="<?php echo $checkIn; ?>" class="form-control">
+                        <input type="hidden" id="bk-check-out" name="check_out" value="<?php echo $checkOut; ?>" class="form-control">
+					</div>
+				</div>
+				<?php if($strAllowCategories != '') : ?>
+					<div class="col-md-3">
+						<div class="form-group form-group-lg">
+							<label><?php echo __('Category'); ?></label>
+							<select id="booking-category" name="booking_category"  class="form-control" >
+								<option value="0"><?php echo __('Chose Category') ?></option>
+									<?php $categories = $block->getBkProductHelper()->getBookingCategories($rootCategory,$strAllowCategories); ?>
+									<?php if(count($categories)) : ?>
+										<?php foreach($categories as $key => $value) : ?>
+											<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+										<?php endforeach; ?>
+									<?php endif; ?>
+							</select>
+						</div>
+					</div>
+				<?php endif; ?>
+				<input type="hidden" id="booking-max-price" name="booking_max_price" value="1" />
+				<input type="hidden" id="rent-sort-order" name="rent_sort_order" value="ASC" />
+				<input type="hidden" id="rent-sort-by" name="rent_sort_by" value="price" />
+			</div>
+		</div>
+		<button type="button" id="booking-button-search" class="btn btn-primary btn-lg"><?php echo __('Search'); ?></button>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="booking-filters text-white">
+						<h3><?php echo __('Filter By:') ?></h3>
+						<ul class="list booking-filters-list">
+							<li>
+								<h5 class="booking-filters-title"><?php echo __('Price') ?></h5>
+								<div class="price-box">
+									<p>
+									  <label class="title-price-filter" for="amount"><?php echo __('Price range:'); ?></label>
+									  <input type="text" id="rent-amount-price" value="<?php echo $txtRange; ?>" readonly style="border:0; color:#f6931f; font-weight:bold;">
+									  <input type="hidden" name="rent_from_price" value="0" id="rent-from-price"/>
+									  <input type="hidden" name="rent_to_price" value="<?php echo $maxPrice; ?>" id="rent-to-price" readonly />
+									</p>
+									<div id="rent-price-slider-range"></div>					
+								</div>
+							</li>
+						</ul>
+						<ul id="booking-search-sidebar" class="list booking-filters-list">
+							
+						</ul>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div class="sort_top">
+					<ul class="nav nav-pills">
+					 <li class=""><a href="#"><?php echo __('Sort By'); ?></a></li>
+					 <li class="rent-sort-filter active"><a class="rent-sort" id="rent-price-low-to-height" href="#"><?php echo __('Price [low to high]'); ?></a></li>
+					 <li class="rent-sort-filter"><a class="rent-sort" id="rent-price-height-to-low" href="#"><?php echo __('Price [hight to low]'); ?></a></li>
+					 <li class="rent-sort-filter"><a class="rent-sort" id="rent-stars-height-to-low" href="#"><?php echo __('Stars [5 to 1]'); ?></a></li>
+					 <li class="rent-sort-filter"><a class="rent-sort" id="rent-stars-low-to-height" href="#"><?php echo __('Stars [1 to 5]'); ?></a></li>
+					 </ul>
+				</div>
+				<div class="main-col" id="booking-rent-contents">
+					
+				</div>
+				<div id="booking-range-price-ka">
+				
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<?php if($enableAddress == 1) : ?>
+<?php if(trim($mapApyKey) != '') : ?>
+ <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $mapApyKey; ?>&v=3.exp&libraries=places"></script>
+ <?php else : ?>
+ <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+ <?php endif; ?>
+<script type="text/javascript">
+require([
+			'jquery',
+		],
+	function ($){
+	var autocomplete = {};
+	var autocompletesWraps = ['autu_rent'];
+	var autu_rent_form = { street_number: 'short_name', route: 'long_name', locality: 'long_name', administrative_area_level_1: 'short_name', country: 'long_name', postal_code: 'short_name' };
+		$.each(autocompletesWraps, function(index, name) {
+		if($('#'+name).length == 0) {
+			return;
+		}
+
+		autocomplete[name] = new google.maps.places.Autocomplete($('#'+name+' .autocomplete')[0], { types: ['geocode'] });
+			
+		google.maps.event.addListener(autocomplete[name], 'place_changed', function() {
+			
+			var place = autocomplete[name].getPlace();
+			var form = eval(name+'_form');
+
+			for (var component in form) {
+				$('#'+name+' .'+component).val('');
+				$('#'+name+' .'+component).attr('disabled', false);
+			}
+			
+			for (var i = 0; i < place.address_components.length; i++) {
+				var addressType = place.address_components[i].types[0];
+				if (typeof form[addressType] !== 'undefined') {
+				  var val = place.address_components[i][form[addressType]];
+				  $('#'+name+' .'+addressType).val(val);
+				}
+			}
+		});
+	});	
+})
+</script>
+<?php endif; ?>
+<script>
+require([
+			'jquery',
+			"jquery/ui",
+             'bk_calendar_rage'
+		],
+	function ($){
+	var textJqueryCalendar = new magebayTextJqueryCalendar();
+	var checkedCatId = '<?php echo $checkedCatId; ?>'
+	var symbol = '<?php echo $symbol; ?>';
+	var maxPrice = parseInt('<?php echo $maxPrice; ?>');
+	$('#booking-category').val(checkedCatId);
+	var strFormatDate = '<?php echo strtoupper($formatDateLabel); ?>';
+	var startDay = parseInt('<?php echo $startDay; ?>');
+	var strCurrentDate = '<?php echo $strCurrentDate; ?>';
+    var applyLabel = '<?php echo __('Apply') ?>';
+    var cancelLabel = '<?php echo __('Clear') ?>';
+    var currnetCheckInOut = '<?php echo $bkCheckInCheckOut; ?>';
+    $('#bk-checkin-checkout').daterangepicker(
+        {
+            locale: {
+                format: strFormatDate,
+                firstDay: startDay,
+                daysOfWeek : textJqueryCalendar.getdayNamesMin(),
+                monthNames: textJqueryCalendar.getShortMonth(),
+                applyLabel : applyLabel,
+                cancelLabel: cancelLabel,
+            },
+            minDate : strCurrentDate,
+            /*isInvalidDate: function(date){
+                return (date.day() == 0 || date.day() == 6);
+            }*/
+        }
+    );
+    $('#bk-checkin-checkout').val(currnetCheckInOut);
+    $('input[name="bk_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
+        var checkIn = picker.startDate.format(strFormatDate);
+        var checkOut = picker.endDate.format(strFormatDate);
+        $(this).val(checkIn + ' - ' +checkOut);
+        $('#bk-check-in').val(checkIn);
+        $('#bk-check-out').val(checkOut);
+        searchRentBooking();
+    });
+    $('input[name="bk_checkin_checkout"]').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+        $('#bk-check-in').val('');
+        $('#bk-check-out').val('');
+    });
+	$('#check-in-button').click(function(){
+		$("#check-in" ).datepicker("show");
+	});
+	$('#check-out-button').click(function(){
+		$( "#check-out" ).datepicker("show");
+	});
+	var checkIn = $.trim($('#check-in').val());
+	var checkOut = $.trim($('#check-out').val());
+	var urlSearch = '<?php echo $url; ?>';
+	searchRentBooking()
+	//sort order
+	$('#rent-price-low-to-height').click(function(e){
+		$('#rent-sort-by').val('price');
+		$('#rent-sort-order').val('ASC');
+		$('.rent-sort-filter').removeClass('active');
+		$(this).parent().addClass('active');
+		searchRentBooking();
+		e.preventDefault();
+		
+	});
+	$( "#rent-price-slider-range" ).slider({
+		range: true,
+		min: 0,
+		max: maxPrice,
+		values: [ 0, maxPrice ],
+		slide: function( event, ui ) {
+			$("#rent-amount-price" ).val( symbol + ui.values[ 0 ] + " -"+symbol + ui.values[ 1 ] );
+			$("#rent-from-price").val(ui.values[0]);
+			$("#rent-to-price").val(ui.values[1]);
+		},
+		stop: function(event, ui) {
+			searchRentBooking();
+		}
+	}); 
+	$('#rent-price-height-to-low').click(function(e){
+		$('#rent-sort-by').val('price');
+		$('#rent-sort-order').val('DESC');
+		$('.rent-sort-filter').removeClass('active');
+		$(this).parent().addClass('active');
+		searchRentBooking();
+		e.preventDefault();
+	});
+	$('#rent-stars-height-to-low').click(function(e){
+		$('#rent-sort-by').val('stars');
+		$('#rent-sort-order').val('DESC');
+		$('.rent-sort-filter').removeClass('active');
+		$(this).parent().addClass('active');
+		searchRentBooking();
+		e.preventDefault();
+	});
+	$('#rent-stars-low-to-height').click(function(e){
+		$('#rent-sort-by').val('stars');
+		$('#rent-sort-order').val('ASC');
+		$('.rent-sort-filter').removeClass('active');
+		$(this).parent().addClass('active'); 
+		searchRentBooking();
+		e.preventDefault();
+	});
+	$('#booking-button-search').click(function(){
+		searchRentBooking();
+	});
+	$('#booking-category').change(function(){
+		searchRentBooking();
+	});
+	
+	function searchRentBooking()
+	{
+		$('#booking-loader').css('display','block');
+		// $('#booking-rent-contents').html('');
+		$.ajax({
+			url : urlSearch,
+			dataType : 'json',
+			type : 'POST',
+			data: $('#booking-search').serialize(),
+			success : function(res)
+			{
+				$('#booking-loader').css('display','none');
+				$('#booking-rent-contents').html(res.html_items);
+				$('#booking-search-sidebar').html(res.html_sidebar);
+			},
+			error : function()
+			{
+				$('#booking-loader').css('display','none');
+			}
+		});
+	}
+});
+
+</script>
+<?php echo $this->getLayout()->createBlock('Magento\Framework\View\Element\Template')->setTemplate('Magebay_Bookingsystem::booking-global.phtml')->toHtml();  ?>
+	

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<update handle="customer_account"/>
+	<head>
+		<css src="Magebay_Marketplace::css/mst_block.css" />
+		<css src="Magebay_Marketplace::css/style.css" />
+        <css src="Magebay_Marketplace::css/marketplace_new.css" />
+	</head>
+    <body>
+        <referenceContainer name="content">
+            <container htmlTag="div" htmlClass="mk-container-admin seller-dashboard">		
+				<uiComponent name="magebay_order_listing_front" />
+			</container>
+			<!-- <block class="Magebay\Marketplace\Block\Sellerlist" name="magebay_marketplace.seller_list_order" template="seller/list_orders.phtml" cacheable="false" /> -->
+        </referenceContainer>
+    </body>
+</page>

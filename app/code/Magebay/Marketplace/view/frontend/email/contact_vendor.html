@@ -1,0 +1,23 @@
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!--@subject You have new contact email @-->
+<!--@vars {
+"var this.getUrl($store, 'customer/account/')":"Customer Account URL",
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<!--<p>{{trans "Welcome to %store_name." store_name=$store.getFrontendName()}}</p>-->
+<p class="greeting">{{trans "Hello"}} <strong>{{trans "%vendor_name" vendor_name=$vendor_name }}</strong> {{trans "You have new contact email"}}</p>
+<p>{{trans "Email: %customer_email" customer_email=$customer_email}}</p>
+<p>{{trans "Subject: %customer_subject" customer_subject=$customer_subject}}</p>
+<p>{{trans "Content: %customer_content" customer_content=$customer_content}}</p>
+{{depend content_related}}
+      <p>{{trans "%content_related" content_related=$content_related}}</p>      
+{{/depend}}
+
+{{template config_path="design/email/footer_template"}}

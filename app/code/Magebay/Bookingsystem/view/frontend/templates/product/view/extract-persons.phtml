@@ -1,0 +1,30 @@
+<?php
+/**
+* @var $block \Magebay\Bookingsystem\Block\Booking;
+ */
+$extractPersons = $block->getBkPricePersons();
+$bkRequest = $block->getBkRequestPersons();
+?>
+<?php if(count($extractPersons)) : ?>
+    <?php foreach ($extractPersons as $key => $extractPerson) : $extractPerson = $extractPerson; ?>
+        <?php if(!isset($extractPerson['title']) || (isset($extractPerson['title']) && $extractPerson['title'] == '')) { continue; } ?>
+        <?php $price = $block->getBkPriceHelper()->currency($extractPerson['price'],true, false); ?>
+        <label class="number-person-lable"><?php echo $extractPerson['title']; ?> (<?php echo __('Max %1 Free %2 Price %3',$extractPerson['max'], $extractPerson['free'], $price) ?>)</label>
+        <input type="number" value="<?php echo isset($bkRequest['number_persons'][$key]) ? $bkRequest['number_persons'][$key] : 0; ?>" name="number_persons[<?php echo $key; ?>]" class="input-text number-persions" max="<?php echo $extractPerson['max']; ?>" min="0">
+    <?php endforeach; ?>
+    <script>
+        require(['jquery'],function ($) {
+            $('.number-persions').change(function () {
+                var totalQty = 0;
+                $('.number-persions').each(function () {
+                    var mValue = parseInt($(this).val());
+                    if(mValue > 0)
+                    {
+                        totalQty += mValue;
+                    }
+                })
+                $("#re-load-bk-rice").click();
+            })
+        })
+    </script>
+<?php endif; ?>

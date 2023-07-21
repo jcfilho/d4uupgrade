@@ -1,0 +1,92 @@
+<?php
+    use Magento\Framework\App\Action\Action;
+    $_messagesCollection = $block->getCollection();
+?>
+<div class=" block content-messages" >
+    <legend class="legend">
+        <span><?php echo __('All Messages'); ?></span>
+    </legend>
+    <div class="table-wrapper ">
+        <table id="my-orders-table" class="data table table-order-items history">
+            <caption class="table-caption">Orders</caption>
+            <thead>
+                <tr>
+                    <th class="col" scope="col action">#</th>
+                    <th class="col" scope="col"><?php echo __('Date'); ?></th>
+                    <th class="col" scope="col"><?php echo __('Sender'); ?></th>
+                    <th class="col" scope="col"><?php echo __('Subject'); ?></th>
+                    <th class="col" scope="col"><?php echo __('Last Message'); ?></th>
+                    <th class="col" scope="col">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($_messagesCollection->count()) { ?>
+                    <?php
+                        foreach($_messagesCollection as $item){
+                            $createdat = date('M-d',strtotime( $item->getCreatedAt() ));
+                            $message_createdat = str_replace('-',', ',preg_replace('/-/',' ',$createdat,1));	
+                            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                            $from_user_id = $block->getFromUserId( $item->getMessagesId() );
+    						$customer = $objectManager->create('Magento\Customer\Model\Customer')->load(  $from_user_id );
+                            $customer_name = $customer->getData('firstname').' '.$customer->getData('lastname');
+    						$status = json_decode(  $item->getStatus(), true); 
+                    ?>
+                            <tr class="<?php echo $status[ $block->getCurentUserId() ] ?>" >
+                                <td class="col" data-th="#"><?php echo $item->getMessagesId() ?></td>
+                                <td class="col" data-th="Date"><?php echo $message_createdat; ?></td>
+                                <td class="col" data-th="From"><?php echo $customer_name; ?></td>
+                                <td class="col" data-th="Subject">
+    								<div class="message_title"><?php echo $item->getTitle() ?></div>
+    								<?php if (  $item->getProductId() > 0 or $item->getOrderId() > 0 ) { ?>
+        								<div class="detail_Subject" >
+        									<?php 
+            									if (  $item->getProductId() > 0 ) { 
+            										$product_detail = $objectManager->create('Magento\Catalog\Model\Product')->load(  $item->getProductId() );
+            										echo __('Product Name:').' <a href="'.$product_detail->getProductUrl().'" >'.$product_detail->getName().'</a>';
+            									} else {
+            										$order_detail = $objectManager->create('Magento\Sales\Model\Order')->load(  $item->getOrderId() );
+            										$url_order = $this->getUrl('').'sales/order/view/order_id/'.$item->getOrderId();
+            										$mkHelper =  $this->helper('Magebay\Marketplace\Helper\MkSales');
+            										$is_seller = $mkHelper->checkSellerOrder( $item->getOrderId() , $block->getCurentUserId() );
+            										if ( $is_seller > 0 ) { 
+            											$url_order = $this->getUrl('').'marketplace/seller/vieworder/order_id/'.$item->getOrderId();
+            										}
+            										echo __('Order Id:').' <a href="'.$url_order.'" >'.$order_detail->getIncrementId().'</a>';
+            									}
+        									?>
+        								</div>
+    								<?php } ?>
+    							</td>
+                                <td class="col" data-th="Description">
+                                    <?php echo $block->getLastestReply($item->getMessagesId()) ?>
+    							</td>
+                                <td class="col" data-th="Actions">
+                                    <a class="action view" href="<?php echo $this->getUrl('messages/index/view').'id/'.$item->getId() ?>">
+                                        <span><?php echo __('View'); ?></span>
+                                    </a>
+                                </td>
+                            </tr>
+                    <?php } ?>
+                <?php } else { ?>
+                    <tr>
+                        <td colspan="6">
+                    		<div class="message notice">
+                    			<div><?php echo __("You don't have any subscriptions at this time."); ?></div>
+                    		</div>
+                        </td>
+                    </tr>
+        		<?php } ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($block->getPagerHtml()): ?>
+    	<div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml();?></div>
+    <?php endif ?>
+</div>
+<script>
+    require([
+        "jquery"
+    ], function($){
+        $('.messages').addClass('current');
+    });
+</script>

@@ -1,0 +1,6 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Daytours\BookingLocked\Api\Data\BookingLockedInterface" type="Daytours\BookingLocked\Model\BookingLocked" />
+    <preference for="Daytours\BookingLocked\Api\Data\BookingLockedSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Daytours\BookingLocked\Api\BookingLockedRepositoryInterface" type="Daytours\BookingLocked\Model\BookingLockedRepository" />
+</config>

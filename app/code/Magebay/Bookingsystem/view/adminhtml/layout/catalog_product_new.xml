@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+		<css src="Magebay_Bookingsystem::css/icomoon.css" />
+		<css src="Magebay_Bookingsystem::css/font-awesome.min.css" />
+		<css src="Magebay_Bookingsystem::css/backend-style-calendar.css" />
+		<css src="Magebay_Bookingsystem::css/bk-global.css" />
+		<css src="Magebay_Bookingsystem::css/booking-product-tab.css" />
+		<css src="Magebay_Bookingsystem::css/backend-booking-popup.css" />
+	</head>
+	<body>
+		<!-- Code for version 2.1 -->
+
+		<referenceContainer name="before.body.end">
+			<block class="Magebay\Bookingsystem\Block\Adminhtml\Booking" template="Magebay_Bookingsystem::bk-global.phtml" />
+		</referenceContainer>
+    </body>
+</page>

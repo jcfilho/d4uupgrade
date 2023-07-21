@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <!--Bottom checkout-->
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="cms_block_config_provider" xsi:type="object">Daytours\Checkout\Model\ConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Daytours\Checkout\Model\ConfigProvider">
+        <arguments>
+            <argument name="blockId" xsi:type="string">after_my_payment</argument>
+        </arguments>
+    </type>
+
+    <!--Sidebar checkout-->
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="cms_block_sidebar_config_provider_sidebar_checkout" xsi:type="object">Daytours\Checkout\Model\ConfigProviderSidebarCheckout</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Daytours\Checkout\Model\ConfigProviderSidebarCheckout">
+        <arguments>
+            <argument name="blockId" xsi:type="string">sidebar_checkout</argument>
+        </arguments>
+    </type>
+
+</config>

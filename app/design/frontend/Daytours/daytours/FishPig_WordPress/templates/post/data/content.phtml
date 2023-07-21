@@ -1,0 +1,41 @@
+<?php
+/**
+ *
+**/
+?>
+
+<?php if ($post = $this->getPost()): ?>
+	<?php if (($content = trim($post->getContent())) !== ''): ?>
+		<div class="post-content"><?php 
+		        $_img_matches = [];
+				$conditionalJsPatternImg = '/<img[^>]* src=\"([^\"]*)\"[^>]*>/';
+				preg_match_all($conditionalJsPatternImg, $content, $_img_matches);
+				foreach($_img_matches[0] as $img){ 
+					$newImg = $img;
+					if(strpos($img,"class")){
+						$str = $newImg;
+						$patternPicos = '/[<|>]/'; // < >
+						$patternClass = '/class=([^=]*)([^(a-z|A-Z|0-9|\-|_)])*("|([^(a-z|A-Z|0-9|\-|_)]).*")/';
+						$patterFinalClass = '/["|\']$/i';
+						$class = "";
+						$str = preg_replace($patternPicos,'',$str); //Quito los picos < >
+						preg_match($patternClass ,$str,$clase);//Otengo la clase
+						if(strlen($class) != 0 && !strpos($class,'lazy')){
+							$clase[0] = preg_replace($patterFinalClass,' lazy"',$clase[0]);//Modifico la clase
+							$newImg = preg_replace($patternClass,$clase[0],$str);//Sustuyo la clase modificada en el string
+							$newImg = str_replace('src=','data-original=',$newImg);
+							$newImg = str_replace('<img ','<img src="https://www.daytours4u.com/pub/media/wysiwyg/Loader.gif" ',$newImg);
+						}
+					}
+					else{
+						$newImg = str_replace('src=','data-original=',$newImg);
+						$newImg = str_replace('<img ','<img class="lazy" src="https://www.daytours4u.com/pub/media/wysiwyg/Loader.gif" ',$newImg);
+					}
+					echo $newImg;
+					$content = str_replace($img,$newImg,$content);
+				}
+			echo str_replace('.png','.png.webpasd', $content);
+			//echo $content;
+			?></div>
+	<?php endif; ?>
+<?php endif; ?>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @Author      : haunv
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2017 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<update handle="customer_account"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magebay\Marketplace\Block\Product\NewProduct" name="magebay_marketplace.seller_product_create_new" template="product/set.phtml" cacheable="false" />
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Onetree_ImportDataFixtures" setup_version="0.1.1">
+        <sequence>
+            <module name="Magento_Store"/>
+            <module name="Magento_Config"/>
+            <module name="Magento_Sales"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Cms"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_CatalogWidget"/>
+            <module name="Magento_Widget"/>
+            <module name="Magento_Theme"/>
+            <module name="Magento_MediaStorage"/>
+            <module name="Magento_CmsUrlRewrite"/>
+            <module name="Magento_Directory"/>
+            <module name="Magento_Eav"/>
+            <module name="Magento_Deploy"/>
+            <module name="Magento_Rule"/>
+            <module name="Magento_CatalogRule"/>
+            <module name="Magento_Indexer"/>
+            <module name="Magento_Setup"/>
+        </sequence>
+    </module>
+</config>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <remove src="Magebay_Marketplace::css/marketplace.css"/>
+        <remove src="jquery/fileUploader/css/jquery.fileupload-ui.css"/>
+        <css src="Magento_Customer::css/customer.css" />
+    </head>
+    <body>
+        <referenceBlock name="customer-account-navigation-downloadable-products-link" remove="true"/>
+        <referenceBlock name="wishlist_sidebar" remove="true"/>
+        <referenceBlock name="catalog.compare.sidebar" remove="true"/>
+        <referenceBlock name="sale.reorder.sidebar" remove="true"/>
+        <referenceBlock name="magebay.customer_account_navigation" remove="true"/>
+        <referenceBlock name="amasty-affiliate-account-navigation-widget" remove="true"/>
+    </body>
+</page>

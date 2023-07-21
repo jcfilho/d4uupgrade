@@ -1,0 +1,187 @@
+<?php 
+/**
+* @Author      : Kien + Dream
+* @package     Marketplace
+* @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+* @terms  http://www.magebay.com/terms
+* @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+**/
+$orders = $block->getSellerOrders();
+$params = $this->getRequest()->getPost();
+$orderId = isset($params['order_id']) ? $params['order_id'] : '';
+$fromDate = isset($params['from_date']) ? $params['from_date'] : '';
+$toDate = isset($params['to_date']) ? $params['to_date'] : '';
+$orderStatus = isset($params['order_status']) ? $params['order_status'] : '';
+$limit = $this->getRequest()->getParam('limit',5);
+?>
+<div class="mst_mv_wrapper">
+    <div class="fieldset mst_mv_fieldset">
+        <div class="grid">
+            <div class="wrap-mv-content">
+                <form method="post" action="<?php echo $block->getUrl() ?>marketplace/seller/myOrders">
+                    <table cellspacing="0" class="border mst-table-style table-filter">
+                        <thead>
+                            <tr id="mst_mv_tr_heading">
+                                <th><span><?php echo __('Order Id'); ?></span></th>
+                                <th><span><?php echo __('Date'); ?></span></th>
+                                <th><span><?php echo __('Order Status'); ?></span></th>
+                                <th><span>&nbsp;</span></th>
+                            </tr>
+                        </thead>
+                        <tbody class="mst-table-content">
+                            <tr>
+                                <td>
+                                    <input type="text" style="width:99%;" value="<?php echo $orderId; ?>" placeholder="<?php echo __('Search by Order Id'); ?>" name="order_id" class="input-text">
+                                </td>
+                                <td>
+                                    <span class="mst_mv_td_span">
+                                        <input type="text" value="<?php echo $fromDate; ?>" class="input-text" id="special_from_date" name="from_date" placeholder="<?php echo __('From'); ?>" >
+                                    </span>				    			
+                                    <span class="mst_mv_td_span">
+                                        <input type="text" value="<?php echo $toDate; ?>" class="input-text" id="special_to_date" name="to_date" placeholder="<?php echo __('To'); ?>" >
+                                    </span>
+                                </td>
+                                <td>
+                                    <select class="" name="order_status">
+                                        <option value=""><?php echo __('--- All ---'); ?></option>
+                                        <option value="canceled" <?php if($orderStatus == 'canceled') { echo 'selected'; } ?>>
+                                            <?php echo __('Canceled'); ?>	
+                                        </option>
+                                        <option value="closed" <?php if($orderStatus == 'closed') { echo 'selected'; } ?>>
+                                            <?php echo __('Closed'); ?>	
+                                        </option>
+                                        <option value="complete" <?php if($orderStatus == 'complete') { echo 'selected'; } ?>>
+                                            <?php echo __('Complete'); ?>	
+                                        </option>
+                                        <option value="fraud" <?php if($orderStatus == 'fraud') { echo 'selected'; } ?>>
+                                            <?php echo __('Suspected Fraud'); ?>	
+                                        </option>
+                                        <option value="holded" <?php if($orderStatus == 'holded') { echo 'selected'; } ?>>
+                                            <?php echo __('Suspected Fraud'); ?>	
+                                        </option>
+                                        <option value="payment_review" <?php if($orderStatus == 'payment_review') { echo 'selected'; } ?>>
+                                            <?php echo __('Payment Review'); ?>	
+                                        </option>
+                                        <option value="paypal_canceled_reversal" <?php if($orderStatus == 'paypal_canceled_reversal') { echo 'selected'; } ?>>
+                                            <?php echo __('PayPal Canceled Reversal'); ?>	
+                                        </option>
+                                        <option value="paypal_reversed" <?php if($orderStatus == 'canceled') { echo 'selected'; } ?>>
+                                            <?php echo __('PayPal Reversed'); ?>	
+                                        </option>
+                                        <option value="pending" <?php if($orderStatus == 'pending') { echo 'selected'; } ?>>
+                                            <?php echo __('Pending'); ?>	
+                                        </option>
+                                        <option value="pending_payment" <?php if($orderStatus == 'pending_payment') { echo 'selected'; } ?>>
+                                            <?php echo __('Pending Payment'); ?>	
+                                        </option>
+                                        <option value="pending_paypal" <?php if($orderStatus == 'pending_paypal') { echo 'selected'; } ?>>
+                                            <?php echo __('Pending PayPal'); ?>	
+                                        </option>
+                                        <option value="processing" <?php if($orderStatus == 'processing') { echo 'selected'; } ?>>
+                                            <?php echo __('Processing'); ?>	
+                                        </option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button type="submit" id="submit_btn" title="Save" class="button">
+                                        <span><?php echo __('Submit'); ?></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+				
+				<table class="data table table-report-products" id="report-products">
+				<caption class="table-caption">Orders</caption>
+				<thead>
+					<tr>
+						<th scope="col" class=" order-id"><?php echo __('ORDER #'); ?></th>
+						<th scope="col" class=" products"><?php echo __('Products'); ?></th>
+						<th scope="col" class=" date"><?php echo __('Date'); ?></th>
+						<th scope="col" class=" customer"><?php echo __('Customer'); ?></th>
+						<th scope="col" class=" order-total"><?php echo __('ORDER TOTAL'); ?></th>
+						<th style="text-align: center;" class="status" ><?php echo __('STATUS'); ?></th>
+					</tr>
+				</thead>
+				<tbody>
+
+				<?php if(count($orders)) : ?>
+					<?php foreach($orders as $order) : ?>
+					<?php $totalAmount = $order->getActualparterprocost(); ?>
+					<tr>
+						<td scope="col" class=" order-id">#<a class="mk-link" href="<?php echo $block->getUrl() ?>marketplace/seller/vieworder/order_id/<?php echo $order->getId(); ?>/" ><?php echo $order->getIncrementId() ?></a></td>
+						<td scope="col" class=" products">
+							<div class="mst_itembox_content1">
+								<div class="mst_itembox_details">
+									<div class="name">
+										<?php $items = $order->getAllVisibleItems(); ?>
+										<?php if(count($items)) : ?>
+											<?php foreach($items as $item) : ?>
+												<?php $_product = $item->getProduct(); ?>
+												<?php $saleList = $block->getSalelist($order->getId(),$_product->getId()); ?>
+												<?php if($saleList && $saleList->getId()) : ?>
+													<p style="margin: 0 0 5px;"><a target="blank" href="<?php echo $_product->getProductUrl() ?>"><?php echo $_product->getName(); ?></a> X <?php echo round($item->getQtyOrdered(),0); ?></p>
+												<?php endif; ?>
+											<?php endforeach; ?>
+										<?php endif; ?>
+									</div>
+								</div>
+							</div>
+						</td>
+						<td scope="col" class=" date">
+							<div class="mst_itembox_details">
+								<span class="mst_label"><?php echo $order->getCreatedAt(); ?></span>
+							</div>
+						</td>
+						<td scope="col" class=" customer"><span class="mst_label"><?php echo $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname(); ?></span>&nbsp;&nbsp;</td>
+						<td scope="col" class=" order-total">
+							<div class="mst_itembox_total">
+								<span class="mst_label"><strong><span class="price"><?php echo $block->getMkPriceHelper()->currency($totalAmount,true,false); ?></span></strong></span>
+							</div>
+						</td>
+						<td scope="col" class="status" >
+						<label for="name">
+						   <div class="order_status <?php echo strtolower( str_replace(' ','_',trim($order->getStatus()))) ?>"><?php echo $order->getStatus(); ?> </div>
+						</label>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				<?php endif; ?>
+				</tbody>
+			</table>
+			
+            </div>
+        </div>
+        <?php if ($block->getPagerHtml()): ?>
+            <div class="toolbar bottom" style="margin-top: 20px">
+                <?php echo $block->getPagerHtml(); ?>
+            </div>
+        <?php endif ?>
+        <div class="clear"></div>
+    </div>
+    <div class="buttons-set">
+        <p class="back-link">
+            <a class="left" onclick="javascript: window.history.back();" href="javascript:;"><?php echo __('Back'); ?></a>
+        </p>
+    </div>
+</div>
+<script>
+    require([
+        "jquery",
+        "mage/calendar"
+    ], function($){
+        $("#special_from_date").calendar({
+            buttonText:"<?php echo __('Select Date') ?>",
+            dateFormat: 'yy-mm-dd',
+        });
+        $("#special_to_date").calendar({
+            buttonText:"<?php echo __('Select Date') ?>",
+            dateFormat: 'yy-mm-dd',
+        });
+        $('#number-page-order').change(function(){
+            var strUlr = $(this).val();
+            window.location.href = strUlr;
+        });
+    });
+</script>

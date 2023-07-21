@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <fieldset name="design">
+        <field name="dt_custom_layout" sortOrder="220" formElement="textarea">
+            <settings>
+                <dataType>string</dataType>
+                <label translate="true">DT custom layout</label>
+            </settings>
+        </field>
+        <field name="custom_layout_update" sortOrder="230" formElement="textarea">
+            <settings>
+                <dataType>string</dataType>
+                <label translate="true">Layout Update XML</label>
+                <imports>
+                    <link name="disabled">ns = ${ $.ns }, index = custom_use_parent_settings :checked</link>
+                </imports>
+            </settings>
+        </field>
+
+    </fieldset>
+</form>

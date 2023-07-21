@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="\Magento\Catalog\Model\Product">
+        <plugin name="wishlist-catalog-model-product-custom-op" type="\Daytours\Catalog\Plugin\Model\Product" sortOrder="1" />
+    </type>
+    <type name="Magento\Wishlist\Model\Item">
+        <plugin name="wishlist-catalog-model-item-day" type="\Daytours\Catalog\Plugin\Model\Item" sortOrder="1" />
+    </type>
+
+    <type name="\Magento\Catalog\Block\Product\View\Options\Type\Select">
+        <plugin name="daytours-select-options-constructor" type="\Daytours\Catalog\Plugin\Block\Product\View\Options\Type\Select" />
+    </type>
+    <type name="\Magento\Catalog\Block\Product\View\Options">
+        <plugin name="daytours-product-view-optios" type="\Daytours\Catalog\Plugin\Block\Product\View\Options" />
+    </type>
+<!--    <type name="Magento\Catalog\Block\Product\ProductList\Toolbar">-->
+<!--        <plugin sortOrder="1" name="daytoursCatalogToolbar" type="Daytours\Catalog\Plugin\Block\Product\ProductList\ToolbarPlugin"/>-->
+<!--    </type>-->
+    <type name="Magento\Catalog\Model\Product\Url">
+        <plugin name="afterGetUrlProduct" type="Daytours\Catalog\Plugin\Model\Product\Url" />
+    </type>
+    <type name="Magento\Catalog\Model\Category">
+        <plugin name="afterGetUrlProduct" type="Daytours\Catalog\Plugin\Model\Category" />
+    </type>
+<!--    <preference for="Magento\Catalog\Controller\Product\View" type="Daytours\Catalog\Rewrite\Product\View" />-->
+<!--    <preference for="Magento\Catalog\Controller\Category\View" type="Daytours\Catalog\Rewrite\Category\View" />-->
+</config>

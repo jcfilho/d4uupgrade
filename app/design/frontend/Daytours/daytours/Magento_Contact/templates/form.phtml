@@ -1,0 +1,69 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+/** @var \Magento\Contact\Block\ContactForm $block */
+?>
+<form class="form contact"
+      action="<?= $block->escapeUrl($block->getFormAction()) ?>"
+      id="contact-form"
+      method="post"
+      data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+      data-mage-init='{"validation":{}}'>
+    <fieldset class="fieldset">
+        <div class="title-fieldset col-xs-12"><?= $block->escapeHtml(__('Get in touch')) ?></div><br />
+        <div class="field note no-label col-xs-12">
+            <?= $block->escapeHtml(__('We are happy to offer personalised assistance regarding your bookings and we endeavour to respond to any enquiries as quickly as possible, so feel free to put forward any questions via the channels available here. We speak English, Spanish, Portuguese and French.')) ?>
+        </div>
+            <div class="field name required col-md-6 col-sm-6 col-xs-12">
+                <label class="label" for="name"><span><?= $block->escapeHtml(__('Name & Surname:')) ?></span></label>
+                <div class="control">
+                    <input name="name" id="name" title="<?= $block->escapeHtmlAttr(__('Name & Surname')) ?>" value="<?= $block->escapeHtmlAttr($this->helper('Magento\Contact\Helper\Data')->getPostValue('name') ?: $this->helper('Magento\Contact\Helper\Data')->getUserName()) ?>" class="input-text" type="text" data-validate="{required:true}"/>
+                </div>
+            </div>
+            <div class="field email required col-md-6 col-sm-6 col-xs-12">
+                <label class="label" for="email"><span><?= $block->escapeHtml(__('E-mail')) ?></span></label>
+                <div class="control">
+                    <input name="email" id="email" title="<?= $block->escapeHtmlAttr(__('E-mail')) ?>" value="<?= $block->escapeHtmlAttr($this->helper('Magento\Contact\Helper\Data')->getPostValue('email') ?: $this->helper('Magento\Contact\Helper\Data')->getUserEmail()) ?>" class="input-text" type="email" data-validate="{required:true, 'validate-email':true}"/>
+                </div>
+            </div>
+            <div class="field telephone col-md-6 col-sm-6 col-xs-12">
+                <label class="label" for="telephone"><span><?= $block->escapeHtml(__('Contact Number:')) ?></span></label>
+                <div class="control">
+                    <input name="telephone" id="telephone" title="<?= $block->escapeHtmlAttr(__('Contact Number')) ?>" value="<?= $block->escapeHtmlAttr($this->helper('Magento\Contact\Helper\Data')->getPostValue('telephone')) ?>" class="input-text" type="text" />
+                </div>
+            </div>
+            <div class="field related-to required col-md-6 col-sm-6 col-xs-12">
+                <label class="label" for="related-to"><span><?= $block->escapeHtml(__('Your Enquiry is Related to:')) ?></span></label>
+                <div class="control">
+                    <div class="wrapper-select">
+                        <select id="related-to" class="select-custom" name="related-to">
+                            <option selected value="customer_support"><?= $block->escapeHtml(__('Customer Support')) ?></option>
+                        </select>
+                        <span class="icon-dropdown"></span>
+                    </div>
+                </div>
+            </div>
+        <div class="field comment required col-xs-12">
+            <label class="label" for="comment"><span><?= $block->escapeHtml(__('Write your Message:')) ?></span></label>
+            <div class="control">
+                <textarea name="comment" id="comment" title="<?= $block->escapeHtmlAttr(__('Write your Message')) ?>" class="input-text" cols="5" rows="3" data-validate="{required:true}"><?= $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getPostValue('comment')) ?></textarea>
+            </div>
+        </div>
+        <?= $block->getChildHtml('form.additional.info') ?>
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <input type="hidden" name="hideit" id="hideit" value="" />
+            <button type="submit" title="<?= $block->escapeHtmlAttr(__('Send')) ?>" class="action submit primary">
+                <span><?= $block->escapeHtml(__('Send')) ?></span>
+            </button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    fbq('track', 'Contact');
+</script>

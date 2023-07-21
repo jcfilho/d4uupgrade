@@ -1,0 +1,894 @@
+<?php
+/**
+ * @var $block \Magebay\Bookingsystem\Block\Adminhtml\Calendars
+ */
+$startDate = '';
+$endDate = '';
+$status = '';
+$qty = '';
+$price = '';
+$promo = '';
+$groupDay = '';
+$defaultValue = '';
+$description = '';
+$calendarJson = '{}';
+$bookingId = $block->getBookingId();
+$calendarId = 0;
+$bookingType = $block->getBookingType();
+$calendar = $this->getBkItem();
+$defaultValue = 2;
+$formatDate = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/format_date',false);
+$tempStartDate = '';
+$tempEndDate = '';
+$bkCurrentDate = $block->getBkCurrentDate();
+//if request date from calendars
+$reStrChecIn = $this->getBkRequest()->getParam('check_in','');
+$reStrChecOut = $this->getBkRequest()->getParam('check_out','');
+$okCalendar = 0;
+$bkInfor = $block->getBkInfor($bookingId,$bookingType);
+$strDisableDays = '';
+$bookingTime = 1;
+$arExtractPersons = array();
+$typeTime = $block->getBkConfig('bookingsystem/setting/time_mode');
+$bookingTourType = 1;
+if($bkInfor && $bkInfor->getId())
+{
+	$strDisableDays = $bkInfor->getDisableDays();
+    $bookingTime = $bkInfor->getBookingTime();
+    $bookingTourType = $bkInfor->getBookingTourType();
+}
+if($bookingTime == 3)
+{
+    $qty = 1;
+    $price = 1;
+}
+if($calendar)
+{
+	$startDate = ($calendar->getCalendarStartdate() != '0000-00-00' && $calendar->getCalendarStartdate() != '') ?  date($formatDate,strtotime($calendar->getCalendarStartdate())) : '';
+	$endDate =  ($calendar->getCalendarEnddate() != '0000-00-00' && $calendar->getCalendarEnddate() != '') ?  date($formatDate,strtotime($calendar->getCalendarEnddate())) : '';
+	$tempStartDate = ($calendar->getCalendarStartdate() != '0000-00-00' && $calendar->getCalendarStartdate() != '') ?  $calendar->getCalendarStartdate() : '';
+	$tempEndDate =  ($calendar->getCalendarEnddate() != '0000-00-00' && $calendar->getCalendarEnddate() != '') ?  $calendar->getCalendarEnddate() : '';
+	if($reStrChecIn != '' && $reStrChecOut != '')
+	{
+		$startDate = date($formatDate,strtotime($reStrChecIn));
+		$endDate =  date($formatDate,strtotime($reStrChecOut));
+		$tempStartDate = $reStrChecIn;
+		$tempEndDate =  $reStrChecOut;
+		$okCalendar  = 1;
+	}
+	$status = $calendar->getCalendarStatus();
+	$qty = $calendar->getCalendarQty();
+	$price = $calendar->getCalendarPrice();
+	$promo = $calendar->getCalendarPromo();
+	$defaultValue = $calendar->getCalendarDefaultValue();
+	$description =  $calendar->getCalendarDescription();
+	$bookingId =  $calendar->getCalendarBookingId();
+	$calendarId =  $calendar->getId();
+	$bookingType =  $calendar->getCalendarBookingType();
+	if($bookingTime == 5)
+    {
+        $textExtraPersons = $calendar->getExtractPersons();
+        if($textExtraPersons != '')
+        {
+            $arExtractPersons = json_decode($textExtraPersons,true);
+            $arExtractPersons = $arExtractPersons;
+        }
+    }
+}
+elseif($reStrChecIn != '' && $reStrChecOut != '')
+{
+	$startDate = date($formatDate,strtotime($reStrChecIn));
+	$endDate =  date($formatDate,strtotime($reStrChecOut));
+	$tempStartDate = $reStrChecIn;
+	$tempEndDate =  $reStrChecOut;
+	$okCalendar  = 1;
+}
+$strFormatDate = $block->getBkHelperDate()->getFormatDateLabel(false);
+$defaultValueDisable = 2;
+//get all calendar from booking
+$calendars = $this->getBkCalendars();
+if(count($calendars))
+{
+    $arCalendars = array();
+	foreach($calendars as $key => $calendar)
+	{
+        $arCalendars[$key] = $calendar->getData();
+        $arCalendars[$key]['extract_persons'] = '';
+		if($calendar->getCalendarDefaultValue() == 1 && $calendar->getId() != $calendarId)
+		{
+			$defaultValueDisable = 1;
+			//break;
+		}
+	}
+	//$arCalendars = $calendars->getData();
+	$calendarJson = $block->getBkHelperDate()->getBkJsonEncode($arCalendars);
+}
+$bkSymbol = $this->getBkCurrencySymbol();
+$isInterDefault = $this->getRequest()->getParam('is_inter_default',0);
+if($bookingTourType == 1 && $bookingTime == 5)
+{
+    $defaultValue = 1;
+}
+?>
+<form id="booking-update-calendar" method="post" action="/">
+	<div class="bk-base-calendar-info">
+        <input type="hidden" name="booking_id" value="<?php echo $bookingId; ?>" />
+        <input id="calendar-id" type="hidden" name="calendar_id" value="<?php echo $calendarId; ?>" />
+        <input type="hidden" name="booking_type" value="<?php echo $bookingType; ?>" />
+        <input type="hidden" name="ok_calendar" value="<?php echo $okCalendar; ?>" />
+        <input type="hidden" name="booking_time" value="<?php echo $bookingTime; ?>" />
+        <input type="hidden" name="bk_time_mode" id="bk-time-mode" value="<?php echo $typeTime; ?>" />
+        <input type="hidden" id="is-inter-default" name="is_inter_default" value="<?php echo $isInterDefault; ?>" />
+		<input type="hidden" id="calendar-number" name="calendar_number" value="<?php echo $block->getCalendarNumber() ?>" />
+        <div class="add-calendar-field" <?php if($bookingTourType == 1 && $bookingTime == 5) { echo 'style="display: none"'; } ?>>
+            <label><?php echo __('Start Date'); ?></label>
+            <input id="item-day-start-date" type="text" name="item_day_start_date" value="<?php echo $startDate; ?>" />
+        </div>
+        <div class="add-calendar-field" <?php if($bookingTourType == 1 && $bookingTime == 5) { echo 'style="display: none"'; } ?>>
+            <label><?php echo __('End Date'); ?></label>
+            <input id="item-day-end-date" type="text" name="item_day_end_date" value="<?php echo $endDate; ?>" />
+        </div>
+        <input id="temp-start-date" type="hidden" name="temp_start_date" value="<?php echo $tempStartDate; ?>" />
+        <input id="temp-end-date" type="hidden" name="temp_end_date" value="<?php echo $tempEndDate; ?>" />
+
+        <div class="add-calendar-field">
+            <label><?php echo __('Status'); ?></label>
+            <select id="item-day-status" name="item_day_status">
+                <option <?php echo $status == 'available' ? 'selected="selected"' : ''; ?> value="available"><?php echo __('Available'); ?></option>
+                <option <?php echo $status == 'special' ? 'selected="selected"' : ''; ?> value="special"><?php echo __('Special'); ?></option>
+                <option <?php echo $status == 'block' ? 'selected="selected"' : ''; ?> value="block"><?php echo __('Booked'); ?></option>
+                <option <?php echo $status == 'unavailable' ? 'selected="selected"' : ''; ?> value="unavailable"><?php echo __('Unavailable'); ?></option>
+            </select>
+        </div>
+        <div class="add-calendar-field" <?php echo $bookingTime == 3 ? 'style="display: none;"' : ''; ?>>
+            <label><?php echo __('Qty'); ?></label>
+            <input id="item-day-qty" type="text" name="item_day_qty" value="<?php echo $qty; ?>" />
+        </div>
+        <div class="add-calendar-field" <?php echo $bookingTime == 3 ? 'style="display: none;"' : ''; ?>>
+            <label><?php echo __('Price'); ?></label>
+            <input id="item-day-price" type="text" name="item_day_price" value="<?php echo $price; ?>" />
+        </div>
+        <div class="add-calendar-field" <?php echo $bookingTime == 3 ? 'style="display: none;"' : ''; ?>>
+            <label><?php echo __('Special Price'); ?></label>
+            <input id="item-day-promo" type="text" name="item_day_promo" value="<?php echo $promo; ?>" />
+        </div>
+        <div class="add-calendar-field" <?php if($bookingTime == 5) { echo 'style="display: none;"'; } ?>>
+            <label><?php echo __('Default Value'); ?></label>
+            <input id="item-day-default-value" type="checkbox" name="item_day_default_value" value="1" <?php echo $defaultValue == 1 ? 'checked="checked"' : ''; ?> />
+        </div>
+        <div class="add-calendar-field" style="display : none">
+            <label><?php echo __('Description'); ?></label>
+            <textarea name="item_day_description"><?php echo $description; ?></textarea>
+        </div>
+        <div class="add-calendar-field">
+            <button	id="save-calendar" class="action-default primary" type="button"><?php echo $calendarId > 0 ? __('Update Item') : __('Add new Item'); ?></button>
+            <button type="button" class="action-default primary " id="form-update-calendar-close"><?php echo __('Close'); ?> </button>
+        </div>
+    </div>
+    <div class="kb-extract-calendar-info">
+        <?php if($bookingTime == 5) : ?>
+            <h2><?php echo __('Extract Persons'); ?></h2>
+            <span class="kb-extract-person-content-btn"><button type="button" class="action-default primary kb-extract-person-btn-add"><?php echo __('Add New') ?></button></span>
+            <span class="kb-extract-person-header">
+                 <span class="kb-extract-person-title"><?php echo __('Title') ?></span>
+                 <span class="kb-extract-person-max"><?php echo __('Max') ?></span>
+                 <span class="kb-extract-person-free"><?php echo __('Free') ?></span>
+                 <span class="kb-extract-person-free"><?php echo __('Price') ?></span>
+                 <span class="kb-extract-person-action"><?php echo __('Action') ?></span>
+            </span>
+            <span class="kb-extract-person-content">
+                <?php $totalPersons = 0; ?>
+                <?php if(count($arExtractPersons)) : ?>
+                    <?php foreach ($arExtractPersons as $arExtractPerson) :  $totalPersons++; ?>
+                        <?php $arExtractPerson = $arExtractPerson; ?>
+                        <?php if(!isset($arExtractPerson['title'])) { continue; } ?>
+                        <span class="kb-extract-person-item">
+                            <span class="kb-extract-txt kb-extract-txt-fist"><input class="input-text required-entry" name="extract_person[<?php echo $totalPersons; ?>][title]" value="<?php echo $arExtractPerson['title']; ?>" placeholder="<?php echo __('Child 5-11'); ?>"></span>
+                            <span class="kb-extract-txt"><input type="number" class="input-text required-entry" name="extract_person[<?php echo $totalPersons; ?>][max]" value="<?php echo $arExtractPerson['max'] ?>" placeholder="10"></span>
+                            <span class="kb-extract-txt"><input type="number" class="input-text required-entry" name="extract_person[<?php echo $totalPersons; ?>][free]" value="<?php echo $arExtractPerson['free'] ?>" placeholder="2"></span>
+                            <span class="kb-extract-txt"><input type="number" class="input-text required-entry" name="extract_person[<?php echo $totalPersons; ?>][price]" value="<?php echo $arExtractPerson['price'] ?>" placeholder="50"></span>
+                            <span class="kb-extract-txt kb-extract-txt-last"><button type="button" class="action-default primary kb-extract-person-btn-action"><?php echo __('Dell') ?></button></span>
+                        </span>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                <input type="hidden" id="bk-total-person" value="<?php echo $totalPersons; ?>">
+            </span>
+        <?php endif; ?>
+        <?php if($bookingTime == 3) : ?>
+            <?php
+            $intervals = $block->getTimeSlots();
+            //get current values
+            //$checkIn =
+            ?>
+            <h2><?php echo __('Time Slot'); ?></h2>
+            <span class="bk-time-slot-btn"><button type="button" id="time-slot-add-new" class="action-default primary "><?php echo __('Add New') ?></button> </span>
+            <span class="time-time-slot-header">
+                <span class="bk-time-slot-label bk-time-slot-label-time"><?php echo __('Start Time') ?></span>
+                <span class="bk-time-slot-label bk-time-slot-label-time"><?php echo __('End Time') ?></span>
+                <span class="bk-time-slot-label"><?php echo __('Qty') ?></span>
+                <span class="bk-time-slot-label"><?php echo __('Price') ?>
+                    <br>
+                    <span class=""><?php echo __('S. Price') ?></span>
+                </span>
+                <span class="bk-time-slot-label bk-time-slot-label-day"><?php echo __('Day Of week') ?></span>
+                <span class="bk-time-slot-label"><?php echo __('Dell') ?></span>
+            </span>
+            <?php $totalTimeSlot = 0; ?>
+            <span class="bk-time-slot-content">
+               <?php if(count($intervals)) : ?>
+                    <?php foreach ($intervals as $tlKey => $interval) : ?>
+                       <?php
+                       $totalTimeSlot++;
+                       $textTime = $interval['intervalhours_booking_time'] != '' ? explode('_',$interval['intervalhours_booking_time']) : array();
+                       $textTime1 = '';
+                       $textTime2 = '';
+                       $okTime = false;
+                       $pm1 = 1;
+                       $pm2 = 1;
+                       if(count($textTime) > 3)
+                       {
+                           $okTime = true;
+                           $textTime1 = $textTime[0].':'.$textTime[1];
+                           $textTime2 = $textTime[2].':'.$textTime[3];
+                       }
+                       ?>
+                       <span class="bk-time-slot-item">
+                            <span class="bk-time-slot-item-time">
+                                <select class="time-slot-start-hour" id="time-slot-start-hour-<?php echo $tlKey ?>" name="time_slot[<?php echo $tlKey; ?>][start_time_hour]">
+                                    <?php if($typeTime == 2) : ?>
+                                        <?php for($h1 = 0; $h1 <= 23; $h1++) : ?>
+                                            <?php $textH1 = $h1 < 10 ? '0'.$h1: $h1; ?>
+                                            <option <?php echo ($okTime && (int)$textTime[0] == $h1) ? 'selected="selected"' : ''; ?> value="<?php echo $h1 ?>"><?php echo $textH1 ?></option>
+                                        <?php endfor; ?>
+                                    <?php else : ?>
+                                        <?php for($h1 = 0; $h1 <= 23; $h1++) : ?>
+                                            <?php $textH1 = $h1 > 12 ? $h1 - 12 : $h1; ?>
+                                            <?php $textH1 = $textH1 < 10 ? '0'.$textH1: $textH1; ?>
+                                            <option <?php echo ($okTime && (int)$textTime[0] == $h1) ? 'selected="selected"' : ''; ?> value="<?php echo $h1 ?>"><?php echo $textH1 ?></option>
+                                        <?php endfor; ?>
+                                    <?php endif; ?>
+                                </select>
+                                <select name="time_slot[<?php echo $tlKey; ?>][start_time_minute]">
+                                    <?php for($m1 = 0; $m1 < 59; $m1++) : ?>
+                                        <?php $textM1 =  $m1 < 10 ? '0'.$m1 : $m1; ?>
+                                        <option <?php if($okTime && $textTime[1] == $textM1) echo 'selected="selected"'; ?> value="<?php echo $textM1; ?>"><?php echo $textM1; ?></option>
+                                    <?php endfor; ?>
+                                </select>
+                                <span id="time-slot-start-label-<?php echo $tlKey; ?>"<?php if($typeTime == 2) { echo ' style="display: none;"'; } ?>><?php echo ($okTime && (int)$textTime[0] >= 12) ? __('PM') : __('AM'); ?></span>
+                            </span>
+                            <span class="bk-time-slot-item-time">
+                                <select class="time-slot-end-hour" id="time-slot-end-hour-<?php echo $tlKey ?>" name="time_slot[<?php echo $tlKey; ?>][end_time_hour]">
+                                    <?php if($typeTime == 2) : ?>
+                                        <?php for($h2 = 0; $h2 <= 23; $h2++) : ?>
+                                            <?php $textH2 = $h2 < 10 ? '0'.$h2 : $h2; ?>
+                                            <option <?php echo ($okTime && (int)$textTime[2] == $h2) ? 'selected="selected"' : '' ?> value="<?php echo $h2 ?>"><?php echo $textH2 ?></option>
+                                        <?php endfor; ?>
+                                    <?php else : ?>
+                                        <?php for($h2 = 0; $h2 <= 23; $h2++) : ?>
+                                            <?php $textH2 =  $h2 > 12 ? $h2 - 12 : $h2; ?>
+                                            <?php $textH2 = $textH2 < 10 ? '0'.$textH2 : $textH2; ?>
+                                            <option <?php echo ($okTime && (int)$textTime[2] == $h2) ? 'selected="selected"' : '' ?> value="<?php echo $h2 ?>"><?php echo $textH2 ?></option>
+                                        <?php endfor; ?>
+                                    <?php endif; ?>
+                                </select>
+                                <select name="time_slot[<?php echo $tlKey; ?>][end_time_minute]">
+                                     <?php for($m2 = 0; $m2 < 59; $m2++) : ?>
+                                         <?php $textM2 =  $m2 < 10 ? '0'.$m2 : $m2; ?>
+                                         <option <?php if($okTime && $textTime[3] == $textM2) echo 'selected="selected"'; ?> value="<?php echo $textM2; ?>"><?php echo $textM2; ?></option>
+                                     <?php endfor; ?>
+                                </select>
+                                <span id="time-slot-end-label-<?php echo $tlKey; ?>"<?php if($typeTime == 2) { echo ' style="display: none;"'; } ?>><?php echo ($okTime && (int)$textTime[2] >= 12) ? __('PM') : __('AM'); ?></span>
+                            </span>
+                           <span class="bk-time-slot-item-txt">
+                               <input type="number" class="input-text required-entry" name="time_slot[<?php echo $tlKey; ?>][intervalhours_quantity]" value="<?php echo $interval['intervalhours_quantity']; ?>" placeholder="0" min="1">
+                           </span>
+                           <span class="bk-time-slot-item-txt">
+                               <input type="number" class="input-text required-entry" name="time_slot[<?php echo $tlKey; ?>][intervalhours_price]" value="<?php echo $interval['intervalhours_price']; ?>" placeholder="0">
+                               <br>
+                               <input style="margin-top: 3px" type="number" class="input-text " name="time_slot[<?php echo $tlKey; ?>][intervalhours_special_price]" value="<?php echo $interval['intervalhours_special_price']; ?>" placeholder="0">
+                           </span>
+                           <span class="time-slot-item-days">
+                               <?php
+                               $strTimeSlotdays = isset($interval['intervalhours_days']) ? $interval['intervalhours_days'] : '0,1,2,3,4,5,6';
+                               if($strTimeSlotdays != '')
+                               {
+                                   $days = explode(',',$strTimeSlotdays);
+                               }
+                               else
+                               {
+                                   $days = array();
+                               }
+                               $dayLabels = array(
+                                       0 => __('Sunday'),
+                                       1 => __('Monday'),
+                                       2 => __('Tuesday'),
+                                       3 => __('Wednesday'),
+                                       4 => __('Thursday'),
+                                       5 => __('Friday'),
+                                       6 => __('Saturday'),
+                               );
+                               ?>
+                               <input type="hidden" id="time-slot-days-value-<?php echo $tlKey; ?>" class="" name="time_slot[<?php echo $tlKey; ?>][intervalhours_days]" value="<?php echo $strTimeSlotdays; ?>" placeholder="0">
+                               <input type="text" id="time-slot-days-lablevalue-<?php echo $tlKey; ?>" class="input-text time-slot-days-value" value="" placeholder="Select Days">
+                               <ul id="time-slot-enable-days-<?php echo $tlKey; ?>" class="time-slot-enable-days" style="display: none;">
+                                  <?php foreach ($dayLabels as $ky => $dayLabel) : ?>
+                                   <li><input type="checkbox" class="time-slot-enable-day" time-slot-item="<?php echo $tlKey; ?>"<?php echo in_array($ky,$days) ? ' checked="checked"' : ''; ?> value="<?php echo $ky; ?>"><span time-slot-item="<?php echo $tlKey; ?>"><?php echo $dayLabel ?></span></li>
+                                    <?php endforeach; ?>
+                               </ul>
+                           </span>
+                           <span class="bk-time-slot-item-delele"><?php echo __('Dell') ?></span>
+                       </span>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                <input type="hidden" id="bk-total-time-slot" name="bk_total_time_slot" value="<?php echo $totalTimeSlot; ?>">
+            </span>
+        <?php endif; ?>
+    </div>
+</form>
+<?php $arrayUrl = $this->getBkAjaxUrl(); ?>
+<?php $urlSaveItem = $arrayUrl['save_calendar']; ?>
+<?php $urlcalendar = $arrayUrl['url_calendars']; ?>
+<?php $urlEdit = $arrayUrl['edit']; ?>
+<script>
+require([
+	'jquery',
+	'Magento_Ui/js/modal/alert',
+	'bk_calendar'
+],
+function($, alert,bkCalendar) {
+	var calendarJson = $.parseJSON('<?php echo $calendarJson; ?>');
+	var bookingId = '<?php echo $bookingId; ?>';
+	var bookingType = '<?php echo $bookingType; ?>';
+	var strStatusChecked = $('#item-day-status').val();
+	var strDefaultChecked = 2;
+	var defaultValueDisable = '<?php echo $defaultValueDisable; ?>';
+	var calendarId = $('#calendar-id').val();
+	var strFormatDate = '<?php echo $strFormatDate; ?>';
+	var bkCurrentDate = '<?php echo $bkCurrentDate; ?>';
+	var bkSymbol = '<?php echo $bkSymbol; ?>';
+	var okCalendar = '<?php echo $okCalendar; ?>';
+	var strDisableDays = '<?php echo $strDisableDays; ?>';
+    var bookingTime = '<?php echo $bookingTime; ?>';
+    var isDefaultInter = $('#is-inter-default').val();
+    var editMode = calendarId != 0;
+	//jquery UI
+	var dates = $("#item-day-start-date,#item-day-end-date").datepicker(
+	{ 
+		minDate : new Date(bkCurrentDate),
+		dateFormat: strFormatDate,
+		changeMonth : true,
+		onSelect: function( selectedDate, inst) 
+		{
+			var date = jQuery.datepicker.parseDate(inst.settings.dateFormat || jQuery.datepicker._defaults.dateFormat, selectedDate, inst.settings);
+			var dateText = jQuery.datepicker.formatDate("yy-mm-dd", date, inst.settings);
+			if(this.id == "item-day-start-date"){															
+				date.setDate(date.getDate());
+				jQuery("#item-day-end-date" ).datepicker(  "option", "minDate", date );
+				$('#temp-end-date').val(dateText);
+			}
+			else
+			{
+				$('#temp-start-date').val(dateText);
+			}
+		}
+	});
+
+    if(!editMode){
+        //SET DAY PRICE VALUE AS PRODUCT PRICE
+        $("#item-day-price").val($(`input[name="product[price]"]`)?.val() || "");
+        $("#item-day-promo").val($(`input[name="product[special_price]"]`)?.val() || "")
+    }
+
+	$('#save-calendar').click(function(){
+	    if(!$('#booking-update-calendar').valid())
+        {
+            return false;
+        }
+        if(bookingTime == '3')
+        {
+            var checkTimeSlot = $('.bk-time-slot-item').length ? true : false;
+            if(!checkTimeSlot)
+            {
+                alert({
+                    title: '',
+                    content: '<?php echo __('Please add Time slot item!') ?>'
+                });
+                return false;
+            }
+        }
+		$('.bk-calendar-item').css('background','none');
+		var checkIn = $('#temp-start-date').val();
+		var checkOut = $('#temp-end-date').val();
+		var objCheckIn = new Date(checkIn);
+		var objCheckOut = new Date(checkOut);
+		var itemDayOk = true;
+		var strRowItemId = '';
+		var defaultValue = 2;
+		var statusItem = $('#item-day-status').val();
+		if($('#item-day-default-value').is(":checked"))
+		{
+			var defaultValue = 1;
+		}
+		else
+		{
+			if($.trim($('#item-day-start-date').val()) == '' || $.trim($('#item-day-end-date').val()) == '')
+			{
+				 alert({
+					title: '',
+					content: '<?php echo __('Please enter check in and check out') ?>'
+				});
+				return false;
+			}
+		}
+		if(calendarJson)
+		{
+			for(var kCal in calendarJson)
+			{
+				if(isNaN(kCal))
+					continue;
+				if(calendarId == calendarJson[kCal]['calendar_id'])
+					continue;
+				var objStartDate = new Date(calendarJson[kCal]['calendar_startdate']);
+				var objEndDate = new Date(calendarJson[kCal]['calendar_enddate']);
+				if((objCheckIn.getTime() >= objStartDate.getTime() && objCheckIn.getTime() <= objEndDate.getTime()) || (objCheckOut.getTime() >= objStartDate.getTime() && objCheckOut.getTime() <= objEndDate.getTime()))
+				{
+					itemDayOk = false;
+					strRowItemId = calendarJson[kCal]['calendar_id'];
+					break;
+				}
+			}
+		}
+		if($.trim($('#item-day-price').val()) == ''  && (statusItem == 'available' || statusItem == 'special'))
+		{
+			 alert({
+					title: '',
+					content: '<?php echo __('Please Enter Price') ?>'
+				});
+			return false;
+		}
+		if($.trim($('#item-day-qty').val()) == '' && (statusItem == 'available' || statusItem == 'special'))
+		{
+			 alert({
+					title: '',
+					content: '<?php echo __('Please Enter Qty') ?>'
+				});
+			return false;
+		}
+		if(!itemDayOk && defaultValue == 2)
+		{
+			$('#bk-calendar-item-'+strRowItemId).css('background','red');
+			 alert({
+					title: '',
+					content: '<?php echo __('You are adding new pricing but that Item already in database. Please see list Items on top and edit that item.') ?>'
+				});
+			return false;
+		}
+		$('.bk-loading-mask').css('display','block');
+		$('#add-new-calendar').css('display','block');
+		$.ajax({
+			url : '<?php echo $urlSaveItem; ?>',
+			dataType: 'json',
+			type: 'POST',
+			data : $('#booking-update-calendar').serialize(),
+			success : function(res)
+			{
+				if(res.status == true)
+				{
+				    if(isDefaultInter == '1' && bookingTime == '3')
+                    {
+                        $('#booking-save-data').click();
+
+                    }
+					$('#booking-list-calendar-items').html(res.html_calendar_items);
+                    $('#bk-tab-price-content .bk-rent-price-content').trigger('contentUpdated');
+					var objData = {
+						'DataURL' : '<?php echo $urlcalendar; ?>',
+						'booking_id': bookingId,
+						'calendar_number' : '<?php echo $block->getCalendarNumber(); ?>',
+						'booking_type' : bookingType,
+						'url_add_item' : '<?php echo $urlEdit; ?>',
+						'currency': bkSymbol,
+						'str_current_date': bkCurrentDate,
+						'booking_label' : '<?php echo __('Booking Calendar'); ?>',
+                        'booking_time' : bookingTime,
+						'obj_status_text' : {
+							'available': '<?php echo __('Available'); ?>',
+							'special': '<?php echo __('Available'); ?>',
+							'block': '<?php echo __('Booked'); ?>',
+							'unavailable': '<?php echo __('Unavailable'); ?>',
+							},
+							'name_day_th' : [
+														'<?php echo __('Sunday'); ?>',
+														'<?php echo __('Monday'); ?>',
+														'<?php echo __('Tuesday'); ?>',
+														'<?php echo __('Wednesday'); ?>',
+														'<?php echo __('Thursday'); ?>',
+														'<?php echo __('Friday'); ?>',
+														'<?php echo __('Saturday'); ?>'
+												],
+							'name_day_short_th' : [
+															'<?php echo __('Mon'); ?>',
+															'<?php echo __('Tue'); ?>',
+															'<?php echo __('Wed'); ?>',
+															'<?php echo __('Thu'); ?>',
+															'<?php echo __('Fri'); ?>',
+															'<?php echo __('Sat'); ?>',
+															'<?php echo __('Sun'); ?>'
+														],
+							'name_day_shortest_th' : [
+														'<?php echo __('Su'); ?>',
+														'<?php echo __('Mo'); ?>',
+														'<?php echo __('Tu'); ?>',
+														'<?php echo __('We'); ?>',
+														'<?php echo __('Th'); ?>',
+														'<?php echo __('Fi'); ?>',
+														'<?php echo __('Sa'); ?>',
+														],
+						'add_text' : '<?php echo __('Add'); ?>',
+						'remove_text' : '<?php echo __('Remove'); ?>',
+						'next_text' : '<?php echo __('Next'); ?>',
+						'pre_text' : '<?php echo __('Pre'); ?>',
+						'disable_day' : strDisableDays
+					}
+					$('#booking-calendar').MagebayAnyBooking(objData); 
+					$('#form-booking-calendar').html('');
+					alert({
+						title: '',
+						content: '<?php echo __('Data have been saved success') ?>'
+					});
+				}
+				else
+				{
+				    mgs = '<?php echo __('System are errors, Please check again!') ?>';
+				    if(res.note == '1')
+                    {
+                        mgs = '<?php echo __('Time Slots Data are not correct , Please check again.') ?>';
+                    }
+					alert({
+						title: '',
+						content: mgs
+					});
+				}
+				$('.bk-loading-mask').css('display','none');
+				
+			},
+			error : function()
+			{
+				alert({
+						title: '',
+						content: '<?php echo __('System are errors, Please check again!') ?>'
+					});
+				$('.bk-loading-mask').css('display','none');
+			}
+		})
+	});
+	if($('#item-day-default-value').is(":checked")){
+		strDefaultChecked = 1;
+	}
+	disableInputByStatus(strStatusChecked);
+	disableInputByDefaultValue(strDefaultChecked);
+	$('#item-day-status').change(function(){
+		var strStatus = $(this).val();
+		disableInputByStatus(strStatus);
+	});
+	$('#item-day-default-value').click(function(){
+		var strChecked = '2';
+		if($(this).is(":checked"))
+		{
+			strChecked = '1';
+		}
+		disableInputByDefaultValue(strChecked);
+	});
+	var gPrice = $('#item-day-price').val();
+	var gPromo = $('#item-day-promo').val();
+	var gQty = $('#item-day-qty').val();
+	$('#item-day-price,#item-day-promo,#item-day-qty').keyup(function(){
+		var intVaule = $(this).val();
+		if(isNaN(intVaule))
+		{
+			if($(this).attr('id') == 'item-day-price')
+			{
+				$(this).val(gPrice);
+			}
+			else if($(this).attr('id') == 'item-day-promo')
+			{
+				$(this).val(gPromo);
+			}
+			else if($(this).attr('id') == 'item-day-qty')
+			{
+				$(this).val(gQty);
+			}
+		}
+		else
+		{
+			if($(this).attr('id') == 'item-day-price')
+			{
+				gPrice = $(this).val();
+			}
+			else if($(this).attr('id') == 'item-day-promo')
+			{
+				gPromo = $(this).val();
+			}
+			else if($(this).attr('id') == 'item-day-qty')
+			{
+				gQty = $(this).val();
+			}
+		}
+	});
+	$('#form-update-calendar-close').click(function(){
+		$('#form-booking-calendar').html('');
+		$('#add-new-calendar').css('display','block');
+	});
+    //only for bk tour
+    if($('.kb-extract-person-btn-add').length)
+    {
+        var i = 0;
+        if($('#bk-total-person').length)
+        {
+            i = parseInt($('#bk-total-person').val());
+        }
+        $('.kb-extract-person-btn-add').click(function () {
+            var inputHtml =  '<span class="kb-extract-person-item">';
+            inputHtml += '<span class="kb-extract-txt kb-extract-txt-fist"><input class="input-text required-entry" name="extract_person['+i+'][title]" value="" placeholder="Child 5-11"></span>';
+            inputHtml += '<span class="kb-extract-txt"><input class="input-text required-entry" type="number" name="extract_person['+i+'][max]" value="" placeholder="10"></span>'
+            inputHtml += '<span class="kb-extract-txt"><input class="input-text required-entry" type="number" name="extract_person['+i+'][free]" value="" placeholder="2"></span>'
+            inputHtml += '<span class="kb-extract-txt"><input class="input-text required-entry" type="number" name="extract_person['+i+'][price]" value="" placeholder="50"></span>'
+            inputHtml += '<span class="kb-extract-txt kb-extract-txt-last"><button type="button" class="action-default primary kb-extract-person-btn-action"><?php echo __('Dell') ?></button></span>'
+            inputHtml += '</span>';
+            i++;
+            $('.kb-extract-person-content').append(inputHtml);
+        });
+        $(document).on("click",".kb-extract-person-btn-action",function () {
+            $(this).parent().parent().remove();
+        });
+    }
+    // js for time slot
+    if($('#time-slot-add-new').length)
+    {
+        var htmlHours1 = '';
+        for(var h1 = 0; h1 <= 23 ; h1++)
+        {
+            var textH1 = h1 < 10 ? '0'+h1 : h1;
+            htmlHours1 += '<option value="'+h1+'">'+textH1+'</option>';
+        }
+        var htmlHours2 = '';
+        for(var h2 = 0; h2 <= 23 ; h2++)
+        {
+            var textH2 = h2 > 12 ? h2 - 12 : h2;
+            var textH2 = textH2 < 10 ? '0'+textH2 : textH2;
+            htmlHours2 += '<option value="'+h2+'">'+textH2+'</option>';
+        }
+        var htmlMinutes = '';
+        for(var m = 0; m < 60; m++)
+        {
+            var textM = m < 10 ? '0'+m : m;
+            htmlMinutes += '<option value="'+textM+'">'+textM+'</option>';
+        }
+        var timeSlotCount = parseInt($('#bk-total-time-slot').val());
+        var bkTimeModel = $('#bk-time-mode').val();
+        $('#time-slot-add-new').click(function () {
+            var timeSlotEnableDays = createEnableDayHtml(timeSlotCount);
+            var timeSlotHtml = '<span class="bk-time-slot-item">';
+            timeSlotHtml += '<span class="bk-time-slot-item-time">';
+            timeSlotHtml += '<select name="time_slot['+timeSlotCount+'][start_time_hour]" id="time-slot-start-hour-'+timeSlotCount+'" class="time-slot-start-hour">';
+            if(bkTimeModel == '1')
+            {
+                timeSlotHtml +=  htmlHours2;
+            }
+            timeSlotHtml += '</select>';
+            timeSlotHtml += '<select class="time-slot-minutes" name="time_slot['+timeSlotCount+'][start_time_minute]">';
+            timeSlotHtml += htmlMinutes
+            timeSlotHtml += '</select>';
+            timeSlotHtml += '<span id="time-slot-start-label-'+timeSlotCount+'"> AM</span>';
+            timeSlotHtml += '</span>';
+            timeSlotHtml += '<span class="bk-time-slot-item-time">';
+            timeSlotHtml += '<select name="time_slot['+timeSlotCount+'][end_time_hour]" id="time-slot-end-hour-'+timeSlotCount+'" class="time-slot-end-hour">';
+            if(bkTimeModel == '1')
+            {
+                timeSlotHtml +=  htmlHours2;
+            }
+            timeSlotHtml += '</select>';
+            timeSlotHtml += '<select class="time-slot-minutes" name="time_slot['+timeSlotCount+'][end_time_minute]">';
+            timeSlotHtml += htmlMinutes;
+            timeSlotHtml += '</select>';
+            timeSlotHtml += '<span id="time-slot-end-label-'+timeSlotCount+'"> AM</span>';
+            timeSlotHtml += '</span>';
+            timeSlotHtml += '<span class="bk-time-slot-item-txt">';
+            timeSlotHtml += '<input type="number" min="1" placeholder="0" value="" name="time_slot['+timeSlotCount+'][intervalhours_quantity]" class="input-text required-entry">';
+            timeSlotHtml += '</span>';
+            timeSlotHtml += '<span class="bk-time-slot-item-txt">';
+            timeSlotHtml += '<input type="number" min="1" placeholder="0" value="" name="time_slot['+timeSlotCount+'][intervalhours_price]" class="input-text required-entry">';
+            timeSlotHtml += '<br>';
+            timeSlotHtml += '<input style="margin-top: 3px;" type="number" min="1" placeholder="0" value="" name="time_slot['+timeSlotCount+'][intervalhours_special_price]" class="input-text">';
+            timeSlotHtml += '</span>';
+            timeSlotHtml += '<span class="time-slot-item-days">';
+            timeSlotHtml += '<input type="hidden" placeholder="0" value="0,1,2,3,4,5,6" name="time_slot['+timeSlotCount+'][intervalhours_days]" class="" id="time-slot-days-value-'+timeSlotCount+'">';
+            timeSlotHtml += '<input type="text" placeholder="Select Days" value="" class="input-text time-slot-days-value" id="time-slot-days-lablevalue-'+timeSlotCount+'">';
+            timeSlotHtml += '<ul class="time-slot-enable-days" id="time-slot-enable-days-'+timeSlotCount+'" style="display: none;">';
+            timeSlotHtml += timeSlotEnableDays;
+            timeSlotHtml += '</ul>';
+            timeSlotHtml += '</span>';
+            timeSlotHtml += '<span class="bk-time-slot-item-delele">Dell</span>';
+            timeSlotHtml += '</span>';
+            $('.bk-time-slot-content').append(timeSlotHtml);
+            timeSlotCount++;
+        })
+        $(document).on("click",'.bk-time-slot-item-delele',function () {
+            $(this).parent().remove();
+        })
+        $('.bk-time-slot-content').on("click",".time-slot-enable-day",function () {
+            var itemId = $(this).attr('time-slot-item');
+            var mValue = $(this).val();
+            var currentVal = $('#time-slot-days-value-'+itemId).val();
+            if($.trim(currentVal) != '')
+            {
+                if($(this).is(":checked"))
+                {
+                    if(currentVal.indexOf(mValue) == -1)
+                    {
+                        currentVal += ','+mValue;
+                    }
+                }
+                else
+                {
+                    if(currentVal.indexOf(mValue) != -1)
+                    {
+                        if(currentVal == mValue)
+                        {
+                            currentVal = '';
+                        }
+                        else
+                        {
+                            if(currentVal.substr(0,1) == mValue)
+                            {
+                                currentVal = currentVal.replace(mValue,'');
+                            }
+                            else
+                            {
+                                currentVal = currentVal.replace(','+mValue,'');
+                            }
+
+                        }
+
+                    }
+                }
+
+            }
+            else
+            {
+                if($(this).is(":checked"))
+                {
+                    if(currentVal.indexOf(mValue) == -1)
+                    {
+                        currentVal = mValue;
+                    }
+                }
+                else
+                {
+                    if(currentVal.indexOf(mValue) != -1)
+                    {
+                        currentVal = ''
+                    }
+                }
+            }
+            $('#time-slot-days-value-'+itemId).val(currentVal);
+        })
+        $('.bk-time-slot-content').on("click",".time-slot-enable-days li span",function () {
+            console.log('function work');
+            $(this).prev().click();
+            return false;
+        })
+        $('.bk-time-slot-content').on("click",".time-slot-days-value",function () {
+            var elementId = $(this).attr('id');
+            elementId = elementId.replace('time-slot-days-lablevalue-','');
+            $('.time-slot-enable-days').css('display','none');
+            $('#time-slot-enable-days-'+elementId).css('display','block');
+        })
+        $(document).click(function(e) {
+            if(!$(e.target).is('.time-slot-days-value') && !$(e.target).is('.time-slot-item-days li') && !$(e.target).is('.time-slot-enable-day')  && !$(e.target).is('.time-slot-item-days span'))
+            {
+                $('.time-slot-enable-days').css('display','none');
+            }
+        });
+        if($('.bk-time-slot-content .time-slot-start-hour').length)
+        {
+            $('.bk-time-slot-content').on("change",'.time-slot-start-hour',function () {
+                var elementId = $(this).attr('id');
+                elementId = elementId.replace('time-slot-start-hour-','time-slot-start-label-');
+                if(parseInt($(this).val()) >= 12)
+                {
+                    $('#'+elementId).html(' PM');
+                }
+                else
+                {
+                    $('#'+elementId).html(' AM');
+                }
+            });
+        }
+        if($('.time-slot-end-hour').length)
+        {
+            $('.bk-time-slot-content').on("change",'.time-slot-end-hour',function () {
+                var elementId = $(this).attr('id');
+                elementId = elementId.replace('time-slot-end-hour-','time-slot-end-label-');
+                console.log(elementId);
+                if(parseInt($(this).val()) >= 12)
+                {
+                    $('#'+elementId).html(' PM');
+                }
+                else
+                {
+                    $('#'+elementId).html(' AM');
+                }
+            });
+        }
+    }
+	//helper function
+    function createEnableDayHtml(itemId)
+    {
+        var timeSlotEnableDays = '';
+        var wObjectDays = {
+            0 : 'Sunday',
+            1 : 'Monday',
+            2 : 'Tuesday',
+            3 : 'Wednesday',
+            4 : 'Thursday',
+            5 : 'Friday',
+            6 : 'Saturday',
+        };
+        for(var ken in wObjectDays)
+        {
+            wObjectDay = wObjectDays[ken];
+            timeSlotEnableDays += '<li><input type="checkbox" checked="checked" value="'+ken+'" time-slot-item="'+itemId+'" class="time-slot-enable-day"><span time-slot-item="'+itemId+'">'+wObjectDay+'</span></li>'
+        }
+        return timeSlotEnableDays;
+    }
+	function disableInputByStatus(strStatus)
+	{
+		if(strStatus == 'unavailable' || strStatus == 'block')
+		{
+			$('#item-day-qty').prop('disabled',true);
+			$('#item-day-price').prop('disabled',true);
+			$('#item-day-promo').prop('disabled',true);
+		}
+		else
+		{
+			$('#item-day-qty').prop('disabled',false);
+			$('#item-day-price').prop('disabled',false);
+			$('#item-day-promo').prop('disabled',false);
+		}
+		if(strStatus == 'unavailable')
+		{
+			$('#item-day-group').prop('disabled',true);
+		}
+		else
+		{
+			$('#item-day-group').prop('disabled',false);
+		}
+		if(strStatus == 'special' || defaultValueDisable == '1' || okCalendar == '1')
+		{
+			$('#item-day-default-value').prop('disabled',true);
+		}
+		else
+		{
+			$('#item-day-default-value').prop('disabled',false);
+		}
+	}
+	function disableInputByDefaultValue(valueDefalt)
+	{
+		if(valueDefalt == '1')
+		{
+			$('#item-day-start-date').prop('disabled',true);
+			$('#item-day-end-date').prop('disabled',true);
+			$('#item-day-group').prop('disabled',true);
+			$('#item-day-status option[value="special"]').prop('disabled',true);
+		}
+		else
+		{
+			$('#item-day-start-date').prop('disabled',false);
+			$('#item-day-end-date').prop('disabled',false);
+			$('#item-day-group').prop('disabled',false);
+			$('#item-day-status option[value="special"]').prop('disabled',false);
+		}
+	}
+});
+</script>

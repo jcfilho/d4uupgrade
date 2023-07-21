@@ -1,0 +1,193 @@
+<?php $request = $this->getBkItalvalsRequestOption(); //\Zend_debug::dump($request); ?>
+<?php $bookingId = $this->getRequest()->getParam('booking_id',0); ?>
+<?php $itemId = $this->getRequest()->getParam('itemId',0); ?>
+<?php $urlBooking = $block->getBookingItenrUrl($bookingId,$itemId); ?>
+<?php $intervals = $block->getListIntervals();  ?>
+<?php $showCalendar = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/show_calendar') ?>
+<ul class="list-intervals-hours" >
+<?php if(count($intervals)) : ?>
+	<?php foreach($intervals as $interval) : ?>
+		
+		<li id="<?php echo $interval['time_key']; ?>" class="<?php echo $interval['class']; ?>">
+		<span style="display: none">
+			<input type="checkbox" <?php echo $interval['inter_checked']; ?> class="txt-hour-intervals" id="txt-inter-<?php echo $interval['time_key']; ?>" name="intervals_hours[]" value="<?php echo $interval['time_key']; ?>" />
+		</span>
+		<?php echo $interval['time_text']; ?>
+		</li>
+	<?php endforeach; ?>
+<?php endif; ?>
+</ul>
+<script>
+require([
+			'jquery',
+		],
+	function ($,jqueryUi,bkCalendar){
+		var showCalendar = '<?php echo $showCalendar; ?>';
+		var urlBooking = '<?php echo $urlBooking; ?>';
+		var bookingId = '<?php echo $bookingId; ?>';
+		var strHoursItevals = '';
+		$('#product_composite_configure_form #product_composite_configure_form_fields #time-intervals-hours-'+bookingId+' li').on("click",function(){
+			var intervalId = $(this).attr('id');
+			if($('#product_composite_configure_form #product_composite_configure_form_fields #txt-inter-'+intervalId).is(":checked"))
+			{
+				$('#product_composite_configure_form #product_composite_configure_form_fields #txt-inter-'+intervalId).prop('checked',false);
+				$(this).removeClass('item-interval-active');
+			}
+			else
+			{
+				$('#product_composite_configure_form #product_composite_configure_form_fields #txt-inter-'+intervalId).prop('checked',true);
+				$(this).addClass('item-interval-active');
+			}
+			strHoursItevals = '';
+			$('#product_composite_configure_form #product_composite_configure_form_fields #time-intervals-hours-'+bookingId+' li.item-interval-active').each(function(){
+				if($(this).hasClass('item-interval-available'))
+				{
+					if(strHoursItevals == '')
+					{
+						strHoursItevals += $(this).attr('id');
+					}
+					else
+					{
+						strHoursItevals += ','+$(this).attr('id');
+					}
+				}
+			})
+			$('#product_composite_configure_form #product_composite_configure_form_fields #temp-list-intervals-'+bookingId).val(strHoursItevals);
+			getIntervalsResult();
+		});
+		var checkInter = false;
+		$('#product_composite_configure_form #product_composite_configure_form_fields #time-intervals-hours-'+bookingId+' .txt-hour-intervals').each(function(){
+			if($(this).is(":checked"))
+			{
+				checkInter = true;
+				return false;
+			}
+		});
+		if(checkInter && showCalendar != '1')
+		{
+			getIntervalsResult();
+		}
+		
+		function getIntervalsResult()
+		{
+			var checkIn = $('#product_composite_configure_form #product_composite_configure_form_fields #check-in-'+bookingId).val(); 
+			if($.trim(checkIn) == '')
+			{
+				return false;
+			}
+			if(!checkRequiredAddons())
+			{
+				return false;
+			}
+			$('#booking-loader').css('display','block');
+			$('#product_composite_configure_form #product_composite_configure_form_fields .booking-results').html('');
+			$('#product_composite_configure_form #product_composite_configure_form_fields #temp-current-check-in-'+bookingId).val('')
+			$.ajax({
+				url : urlBooking,
+				dataType : 'json',
+				type : 'POST',
+				data : $('#product_composite_configure_form').serialize(),
+				success : function(res)
+				{
+					$('#product_composite_configure_form #product_composite_configure_form_fields .booking-results').html(res.html_result);
+					var tempCheckIn = $('#product_composite_configure_form #product_composite_configure_form_fields #temp-check-in-'+bookingId).val();
+					
+					$('#product_composite_configure_form #product_composite_configure_form_fields #temp-current-check-in-'+bookingId).val(tempCheckIn);
+					selectedDays(tempCheckIn,tempCheckIn);
+					$('#booking-loader').css('display','none');
+				},
+				error : function()
+				{
+					
+				}
+			});
+		}
+		function checkRequiredAddons()
+		{
+			var okAddons = true;
+			if($('#product_composite_configure_form #product_composite_configure_form_fields .txt-addons-item-'+bookingId).length)
+			{
+				$('#product_composite_configure_form #product_composite_configure_form_fields .txt-addons-item-'+bookingId).each(function(){
+					var strClass = $(this).attr('class');
+					if(strClass.indexOf('required-empty') > -1 && ($.trim($(this).val()) == '' || isNaN($(this).val())))
+					{
+						okAddons = false;
+						return false;
+					}
+				});
+			}
+			if(okAddons && $('#product_composite_configure_form #product_composite_configure_form_fields .select-addons-item-'+bookingId).length)
+			{
+				$('#product_composite_configure_form #product_composite_configure_form_fields .select-addons-item-'+bookingId).each(function(){
+					var strClass = $(this).attr('class');
+					if(strClass.indexOf('required-empty') > -1 && ($.trim($(this).val()) == ''))
+					{
+						okAddons = false;
+						return false;
+					}
+				});
+			}
+			if(okAddons && $('#product_composite_configure_form #product_composite_configure_form_fields .bk-addon-radio-checkbox-'+bookingId).length)
+			{
+				$('#product_composite_configure_form #product_composite_configure_form_fields .bk-addon-radio-checkbox-'+bookingId).each(function(){
+					var strClass = $(this).attr('class');
+					var strCkId = $(this).attr('id');
+					if(strClass.indexOf('required-empty') > -1)
+					{
+						var tempCkOk = false;
+						$('#'+strCkId +' input').each(function(){
+							if($(this).is(":checked"))
+							{
+								tempCkOk = true;
+								return false;
+							}
+						});
+						if(tempCkOk == false)
+						{
+							okAddons = false;
+							return false;
+						}
+					}
+				});
+			}
+			return okAddons;
+		}
+		function selectedDays(date1,date2)
+		{
+			$('.day-selected').removeClass('day-selected');
+			if(date2 == '')
+				return false;
+			var date1 = new Date(date1);
+			var date2 = new Date(date2);
+			var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+			var oneDay = 1000 * 3600 * 24;
+			var day1 = date1.getTime();
+			var day2 = date2.getTime();
+			if(date1.getTime() > date2.getTime())
+			{
+				day1 = date2.getTime();
+				day2 = date1.getTime();
+			}
+			while(day1 <= day2)
+			{
+				var objDate = new Date(day1);
+				var month = objDate.getMonth() + 1;
+				month = month >= 10 ? month : '0'+month;
+				strDay = objDate.getDate() >= 10 ? objDate.getDate() : '0'+objDate.getDate();
+				var strDate = objDate.getFullYear()+'-'+month+'-'+strDay;
+				if($('#0_'+strDate).length)
+				{
+					$('#0_'+strDate).addClass('day-selected');
+				}
+				if($('#2_'+strDate).length)
+				{
+					$('#2_'+strDate).addClass('day-selected');
+				}
+				if($('#1_'+strDate).length)
+				{
+					$('#1_'+strDate).addClass('day-selected');
+				}
+				day1 += oneDay;
+			}
+		}
+	})

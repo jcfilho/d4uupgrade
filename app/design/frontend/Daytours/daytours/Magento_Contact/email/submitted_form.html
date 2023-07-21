@@ -1,0 +1,30 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!--@subject {{trans "Contact Form"}} @-->
+<!--@vars {
+"var data.comment":"Comment",
+"var data.email":"Sender Email",
+"var data.name":"Sender Name",
+"var data.telephone":"Sender Telephone"
+} @-->
+
+<table class="message-details" style="">
+    <tr>
+        <td><b>{{trans "Name"}}</b></td>
+        <td>{{var data.name}}</td>
+    </tr>
+    <tr>
+        <td><b>{{trans "Email"}}</b></td>
+        <td>{{var data.email}}</td>
+    </tr>
+    <tr>
+        <td><b>{{trans "Phone"}}</b></td>
+        <td>{{var data.telephone}}</td>
+    </tr>
+</table>
+<p><b>{{trans "Message"}}</b></p>
+<p>{{var data.comment}}</p>

@@ -1,0 +1,124 @@
+<?php
+/**
+ * @var $block \Daytours\PageBuilder\Block\SearchBlock
+ */
+
+$categories = $block->getAllDataCategories();
+?>
+<div class="search-block">
+    <div class="search-container">
+        <h1 class="search-heading"><?= __('Tours and Activities in South America') ?></h1>
+        <div class="search-form">
+            <form class="form" id="form-search-home" method="post">
+                <div class="search-categorylist search-categorylist1">
+                    <div class="search-categorychoosed">
+                        <span class="search-categorychoosed-span">
+                            <?= __('All destinations') ?>
+                        </span>
+                    </div>
+                    <div class="search-categorydropdown">
+                        <ul>
+
+                            <?php
+                            echo $this->getLayout()
+                                ->createBlock('Magento\Cms\Block\Block')
+                                ->setBlockId('categories-mini-search-home')
+                                ->toHtml();
+                            ?>
+                        </ul>
+                    </div>
+                </div>
+                <div class="field-input required">
+                    <input
+
+                            autocomplete="off"
+                            type="text"
+                            id="search-widget-home"
+                            placeholder="<?= __('Type an experience') ?>"
+                            >
+                </div>
+                <div class="field-actions">
+                    <button type="submit" class="action action-searchblock"><?= __('GO') ?></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "#form-search-home": {
+            "validation": {}
+        }
+    }
+</script>
+
+<script>
+    var idCategoryOne = 0,
+        urlCategory = '';
+    require([
+        'jquery',
+        'mage/translate',
+        'mage/url'
+    ], function ($,$tr,urlBuilder) {
+        'use strict';
+        /*Search Block*/
+        $('body').on('click','.homepage-banner .search-container .search-categorychoosed',function () {
+            $(this).parents('.search-categorylist').toggleClass('dropdown-open');
+        });
+        /*Click on destinations first dropdown - home page search*/
+
+        $('.search-categorylist1').on('click','.search-categorydropdown li',function(){
+
+            var valueSelected = $(this).find('span').html();
+
+            $(this)
+                .parents('.search-categorylist')
+                .removeClass('dropdown-open')
+                .find('.search-categorychoosed span')
+                .html(valueSelected);
+
+            idCategoryOne = $(this).data('id');
+            urlCategory = $(this).data('url');
+
+        });
+
+        $('.column.main').on('submit','#form-search-home',function(event){
+            event.preventDefault();
+
+            var queryText = $.trim($('#search-widget-home').val());
+            var query = '';
+            var url = '';
+
+            if( idCategoryOne == 0 && queryText == '' ){
+                url = $('.search-categorydropdown ul li:first').data('url');
+                window.location.href = url;
+                return false;
+            }
+
+            if( idCategoryOne > 0 && queryText == '' ){
+                window.location.href = urlCategory;
+                return false;
+            }
+
+            if( idCategoryOne > 0  ){
+                query += '?cat='+idCategoryOne+'&q='+queryText;
+            }else{
+                query += '?q='+queryText;
+            }
+            url = urlBuilder.build('catalogsearch/result/'+query);
+            window.location.href = url;
+            return false;
+
+        });
+
+        $(document).on('click',function(e){
+            if( !$(e.target).hasClass('search-categorychoosed') && !$(e.target).hasClass('search-categorychoosed-span')){
+                $('.search-categorylist').removeClass('dropdown-open');
+            }
+        });
+
+    });
+
+
+</script>

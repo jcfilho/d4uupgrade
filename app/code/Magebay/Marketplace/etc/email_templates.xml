@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @Author      : Dream + Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="marketplace_general_email_contact_vendor" label="Email Contact Vendor" file="contact_vendor.html" type="html" module="Magebay_Marketplace" area="frontend"/>
+    <template id="marketplace_general_email_order_vendor" label="Email Order Vendor" file="order_vendor.html" type="html" module="Magebay_Marketplace" area="frontend"/>
+    <template id="marketplace_general_email_register_vendor" label="Email Register Vendor" file="register_vendor.html" type="html" module="Magebay_Marketplace" area="frontend"/>
+    <template id="marketplace_general_email_approve_vendor" label="Email Approve Vendor" file="approve_vendor.html" type="html" module="Magebay_Marketplace" area="frontend"/>
+    <template id="marketplace_general_email_unapprove_vendor" label="Email Unapprove Vendor" file="unapprove_vendor.html" type="html" module="Magebay_Marketplace" area="frontend"/>
+    <template id="marketplace_general_email_withdraw_vendor" label="Email Withdraw Vendor" file="withdraw_vendor.html" type="html" module="Magebay_Marketplace" area="frontend"/>
+    <template id="marketplace_general_email_withdraw_admin" label="Email Withdraw Admin" file="withdraw_admin.html" type="html" module="Magebay_Marketplace" area="frontend"/>
+    <template id="marketplace_general_email_complete_withdraw_vendor" label="Email Complete Withdraw Vendor" file="complete_withdraw_vendor.html" type="html" module="Magebay_Marketplace" area="frontend"/>
+    <template id="marketplace_general_email_complete_withdraw_admin" label="Email Complete Withdraw Admin" file="complete_withdraw_admin.html" type="html" module="Magebay_Marketplace" area="frontend"/>
+</config>

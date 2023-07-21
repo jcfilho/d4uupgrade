@@ -1,0 +1,10 @@
+{
+  "patches": {
+    "ebanx/magento2-gateway-ebanx": {
+      "Ebanx-fix-logger": "patches/composer/EBANX-gateway-logger-fix.patch"
+    },
+    "magento/magento2-base": {
+      "Fix MariaDB version dependencies": "patches/composer/fix-mariadb-version-dependencies.patch"
+    }
+  }
+}

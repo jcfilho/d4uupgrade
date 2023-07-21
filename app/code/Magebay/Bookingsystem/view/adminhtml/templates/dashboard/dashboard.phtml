@@ -1,0 +1,367 @@
+
+
+<?php $weekBestlleser = $this->getWeeklyBestellers(); ?>
+<?php $arTotal = $this->getTotalItems(); ?>
+<?php $arAjaxUrl = $block->getBkAjaxUrl(); ?>
+<?php $urlSearch = $arAjaxUrl['url_search']; ?>
+<?php $urlView = $arAjaxUrl['url_view']; ?>
+<?php $intToday = $block->getBkTmpTime(); ?>
+<?php $strToday = date('Y-m-d'); ?>
+<?php $arBkUrl = $block->getBkAdminUrl(); ?>
+<div class="navbar navbar-default" id="navbar">
+   <div class="navbar-container container" id="navbar-container">
+      <button data-target="#sidebar" id="menu-toggler" class="navbar-toggle menu-toggler pull-left" type="button">
+      <span class="sr-only"><?php echo __('Toggle sidebar'); ?></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      </button>
+      <div class="navbar-header pull-left">
+         <small style="float : left">
+         </small>
+         <div class="alert alert-block alert-success">
+            <i class="fa fa-building-o"></i>
+            <?php echo __('Booking System Pro'); ?><span class="badge badge-success">2.0</span>
+            <button data-dismiss="alert" class="close bk-close-welcome" type="button">
+            <i class="ace-icon fa fa-times"></i>
+            </button>
+            <i class="ace-icon fa fa-check green"></i>
+            <?php echo __('Welcome to'); ?><strong class="green">
+            <?php echo __('Booking System Pro'); ?>
+			</strong>, <?php echo __('a Magento extension which can be used for any industries if you require rental/booking as a part of your service.'); ?>				
+         </div>
+      </div>
+   </div>
+</div>
+<div class="main-container container" id="main-container">
+
+   <div class="main-content">
+      <div class="main-content-inner">
+         <div class="breadcrumbs" id="breadcrumbs">
+            <ul class="breadcrumb">
+               <li class="active"><?php echo __('Dashboard'); ?></li>
+            </ul>
+         </div>
+         <div class="page-content">
+            <div class="row">
+               <div class="col-xs-12">
+                  <!-- PAGE CONTENT BEGINS -->
+                  <!--new model-->
+					<div id="popup-order-detail-content" style="display : none;">
+					</div>
+					<div class="row">
+                     <div class="space-6"></div>
+                     <div class="col-sm-6">
+                        <div class="widget-box transparent">
+                           <div class="widget-header widget-header-flat">
+                              <h4 class="widget-title lighter">
+                                 <i class="ace-icon fa fa-star orange"></i>
+                                 <?php echo __('Weekly Bestsellers'); ?>										
+                              </h4>
+                           </div>
+                           <div class="widget-body">
+                              <div class="widget-main no-padding">
+                                 <table class="table table-bordered table-striped">
+                                    <thead class="thin-border-bottom">
+                                       <tr>
+                                          <th>
+                                             <i class="ace-icon fa fa-caret-right blue"></i><?php echo __('Name') ?>														
+                                          </th>
+                                          <th>
+                                             <i class="ace-icon fa fa-caret-right blue"></i><?php echo __('Total Orders') ?>														
+                                          </th>
+                                          <th class="hidden-480">
+                                             <i class="ace-icon fa fa-caret-right blue"></i><?php echo __('Total Prices') ?>												
+                                          </th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+										<?php if(count($weekBestlleser)) : ?>
+											<?php foreach($weekBestlleser as $bestItem) : ?>
+												<tr>
+													<td><a href="#"><?php echo $bestItem['title']; ?></a></td>
+													<td class="hidden-480">
+														<a href="#"><span class="label label-danger arrowed"><?php echo $bestItem['qty']; ?></span></a>
+													</td>
+													<td>
+														<b class="blue"><?php echo $block->getBkPriceHelper()->currency($bestItem['price'],true,false); ?> </b><small></small>
+													</td>
+												</tr>
+											<?php endforeach; ?>
+										<?php endif; ?>
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <!-- /.widget-main -->
+                           </div>
+                           <!-- /.widget-body -->
+                        </div>
+                        <!-- /.widget-box -->
+                     </div>
+                     <!-- /.col -->
+                     <div class="vspace-12-sm"></div>
+                     <div class="col-sm-6 infobox-container">
+						 <div class="infobox infobox-red">
+                           <div class="infobox-icon">
+                              <i class="ace-icon fa fa-cubes"></i>
+                           </div>
+                           <div class="infobox-data">
+                              <span class="infobox-data-number"><?php echo $arTotal['total_item']; ?></span>
+                              <div class="infobox-content"><a href="<?php echo $arBkUrl['url_items']; ?>"><?php echo __('Booking Items'); ?></a></div>
+                           </div>
+                        </div>
+						 <div class="infobox infobox-red">
+                           <div class="infobox-icon">
+                              <i class="ace-icon fa fa-usd"></i>
+                           </div>
+                           <div class="infobox-data">
+                              <span class="infobox-data-number"><?php echo $arTotal['total_order']; ?></span>
+                              <div class="infobox-content"><a href="<?php echo $arBkUrl['url_orders']; ?>"><?php echo __('Booking Orders'); ?></a></div>
+                           </div>
+                        </div>
+						 <div class="infobox infobox-red">
+                           <div class="infobox-icon">
+                              <i class="ace-icon fa fa-user-md"></i>
+                           </div>
+                           <div class="infobox-data">
+                              <span class="infobox-data-number"><?php echo $arTotal['total_customer']; ?></span>
+                              <div class="infobox-content"><?php echo __('Customers'); ?></div>
+                           </div>
+                        </div>
+                        <div class="infobox infobox-pink">
+                           <div class="infobox-icon">
+                              <i class="ace-icon fa fa-building-o"></i>
+                           </div>
+                           <div class="infobox-data">
+                              <span class="infobox-data-number"><?php echo $arTotal['total_facility']; ?></span>
+                              <div class="infobox-content"><a href="<?php echo $arBkUrl['url_facility']; ?>"><?php echo __('Facilities'); ?></a></div>
+                           </div>
+                        </div>
+                       
+                     </div>
+                  </div>
+                  <!-- /.row -->
+                  <div class="hr hr32 hr-dotted"></div>
+                  <div class="page-header row">
+                     <form id="booking-search-report" method="post" action="/">
+                        <div class="pull-left">
+                           <h1>
+                              <?php echo __('Current Booking Status of '); ?>								
+                           </h1>
+                        </div>
+                        <?php $bookings = $block->getListBookingItems(); ?>
+						<div class="current-property">
+                            <input type="hidden" name="bk_type" id="bk-type" value="per_day">
+						<select id="select-booking-report" name="select_booking_report">
+								<option value="0"><?php echo __('Select All Items') ?></option>
+								<?php if(count($bookings)) : ?>
+									<?php foreach($bookings as $booking) : ?>
+										<?php if($booking->getBookingType() == 'hotel') : ?>
+											<?php $rooms = $block->getRoomOfHotel($booking->getId()); ?>
+											<?php if(count($rooms)) : ?>
+												<optgroup style="padding-left:5px;" label="<?php echo $booking->getName(); ?>">
+												<?php foreach($rooms as $room) : ?>
+													<option bk-type="hotel" value="<?php echo $room['room_id']; ?>"><?php echo $room['room_title'] ?></option>
+												<?php endforeach; ?>
+												</optgroup>
+											<?php endif; ?>
+										<?php else : ?>
+										  <option bk-type="per_day" value="<?php echo $booking->getId(); ?>"><?php echo $booking->getName(); ?></option>
+										<?php endif; ?>
+									<?php endforeach; ?>
+								<?php endif; ?> 
+							</select>
+						</div>
+                        <input type="hidden" id="txt-order-status" value="" name="txt_order_status">
+						<?php $storeId = $this->getRequest()->getParam('store',0); ?>
+						<input type="hidden" id="bk-report-store" name="store" value="<?php echo $storeId; ?>" />
+                     </form>
+                  </div>
+                  <!-- /.page-header -->
+                  <div class="row">
+                     <div class="col-sm-9">
+						<div class="space"></div>
+						<div class="list-report-items">
+							<div id="calendar"></div>
+							<?php 
+							$strReport = $block->getBookingReport();
+							?>
+							<script type="text/javascript">
+							require([
+									'jquery',
+									'Magento_Ui/js/modal/modal',
+									'bk_moment_min',
+									'bk_fullcalendar_min'
+								],
+								function($,modal) {
+								var strToday = '<?php echo $strToday; ?>';
+								var urlView = '<?php echo $urlView; ?>';
+								var date = new Date(strToday);
+								var d = date.getDate();
+								var m = date.getMonth();
+								var y = date.getFullYear();
+								var strReport = jQuery.parseJSON('<?php echo $strReport ?>');
+								var storeId = '<?php echo $storeId; ?>';
+								
+								var calendar = $('#calendar').fullCalendar({
+									//isRTL: true,
+									 buttonHtml: {
+										prev: '<i class="ace-icon fa fa-chevron-left"></i>',
+										next: '<i class="ace-icon fa fa-chevron-right"></i>'
+									},
+								
+									header: {
+										left: 'prev,next today',
+										center: 'title',
+										right: 'month,agendaWeek,agendaDay'
+									},
+									events: strReport
+									,
+									editable: false,
+									droppable: false, // this allows things to be dropped onto the calendar !!!
+									 
+									selectable: false,
+									selectHelper: true,
+									select: function(start, end, allDay) {
+										
+										bootbox.prompt("New Event Title:", function(title) {
+											if (title !== null) {
+												calendar.fullCalendar('renderEvent',
+													{
+														title: title,
+														start: start,
+														end: end,
+														allDay: allDay,
+														className: 'label-info'
+													},
+													true // make the event "stick"
+												);
+											}
+										});
+										
+										calendar.fullCalendar('unselect');
+									},
+									eventClick: function(calEvent, jsEvent, view) {
+										var orderId = calEvent.order_id;
+										var qtItemId = calEvent.qt_item_id;
+										$('#popup-order-detail-content').html('');
+										$('.bk-loading-mask').css('display','block');
+										$.ajax
+										({
+											url : urlView,
+											dataType : 'json',
+											type : 'POST',
+											data : {order_id : orderId, qt_item_id : qtItemId, store_id : storeId},
+											success : function(res)
+											{
+												$('#popup-order-detail-content').html(res.html_detail);
+												$('.bk-loading-mask').css('display','none');
+											},
+											error : function()
+											{
+												$('.bk-loading-mask').css('display','none');
+											}
+										});
+										var options = {
+											type: 'popup',
+											responsive: true,
+											innerScroll: false,
+											title: '<?php echo __('Detail Order') ?>',
+											buttons: [{
+												text: $.mage.__('<?php echo __('Close') ?>'),
+												class: '',
+												click: function () {
+													this.closeModal();
+												}
+											}]
+										};
+										var popup = modal(options, $('#popup-order-detail-content'));
+										$('#popup-order-detail-content').modal('openModal');
+									}
+								});
+							})
+							</script>
+						</div>
+					</div>
+                     <div class="col-sm-3">
+                        <div class="widget-box transparent">
+                           <div class="widget-header">
+                              <h4><?php echo __('Booked Items'); ?></h4>
+                           </div>
+                           <div class="widget-body">
+                              <div class="widget-main no-padding">
+                                 <div id="external-events">
+                                    <div data-class="label-grey" class="external-event label-grey bk-status-order" id="bk-status-order-pending">
+                                       <i class="ace-icon fa fa-check"></i>
+                                       <?php echo __('Pending'); ?>												
+                                    </div>
+                                    <div data-class="label-success" class="external-event label-success bk-status-order" id="bk-status-order-processing">
+                                       <i class="ace-icon fa fa-check"></i>
+                                       <?php echo __('Success'); ?>													
+                                    </div>
+                                    <div data-class="label-danger" class="external-event label-danger bk-status-order" id="bk-status-order-canceled">
+                                       <i class="ace-icon fa fa-check"></i>
+                                       <?php echo __('Canceled'); ?>	 												
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- /.row -->
+                  <!-- PAGE CONTENT ENDS -->
+               </div>
+               <!-- /.col -->
+            </div>
+            <!-- /.row -->
+         </div>
+      </div>
+      <!-- /.page-content -->
+   </div>
+</div>
+<script type="text/javascript">
+require(['jquery'],
+function($) {
+	var urlSearch = '<?php echo $urlSearch; ?>';
+	$('#select-booking-report').change(function()
+	{
+		$('#txt-order-status').val('');
+		var bkType = $('#select-booking-report option:selected').attr('bk-type');
+		$('#bk-type').val(bkType)
+		filterReport();
+	}); 
+	$('.bk-status-order').click(function()
+	{
+		var txtStatus = $.trim($(this).attr('id'));
+		txtStatus = txtStatus.split('-');
+		txtStatus = txtStatus[3]
+		$('#txt-order-status').val(txtStatus);
+		filterReport();
+		
+	}); 
+	$('.bk-close-welcome').click(function(){
+		$(this).parent().css('display','none');
+	})
+	function filterReport()
+	{
+		$('.list-report-items').html('');
+		$('.bk-loading-mask').css('display','block');
+		$.ajax({
+			url : urlSearch,
+			dataType : 'json',
+			type : 'POST',
+			data : $('#booking-search-report').serialize(),
+			success : function(res)
+			{
+				$('.list-report-items').html(res.html_report);
+				$('.bk-loading-mask').css('display','none');
+			},
+			error : function()
+			{
+				$('.bk-loading-mask').css('display','none');
+			}
+		});
+	}
+ })
+</script>

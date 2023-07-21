@@ -1,0 +1,128 @@
+.result-search{
+	margin-top: 30px;
+}
+.result-search ,.result-search-box,.list-book{
+    display: block;
+    float: left;
+	
+    width: 100%;
+}
+.list-book {
+    display: inline-block;
+    width: 100%;
+}
+.item-book:nth-child(2n+1){ }
+.item-book { }
+.image-book { }
+.image-book  img { width: 100%; height: auto; }
+
+.product-rating {
+    display: block;
+    margin-top: 5px;
+}
+.product-name {
+    color: #457ec8;
+    font-size: 19px;
+    text-transform: capitalize;
+}
+
+.info-book {
+    float: left;
+}
+.price-book .price {
+    width: 100%;
+	color: #F6931F;
+    float: left;
+    font-size: 20px;
+    font-weight: bold;
+}
+.price-book {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 10px 0 10px;
+	float: left;
+	text-align: left;
+	width: 100%;
+}
+.price-book .booking-price-old {
+    color: #93979b;
+    font-weight: normal;
+    text-decoration: line-through;
+	float: left;
+	width: 100%;
+	color: #ccc;
+}
+.detail-booking { float: left; }
+.btn_goto {
+    color: #fff !important;
+    display: block;
+    padding: 6px 12px;
+    text-decoration: none !important;
+}
+/* style for toolbar */
+
+
+.prev_h::before {
+    color: rgba(14, 14, 14, 0.5);
+    content: "«";
+    display: block;
+    font-size: 16px;
+    height: 28px;
+    line-height: 28px;
+    position: absolute;
+    text-align: center;
+    width: 28px;
+}
+.prev_h {
+    border: 1px solid rgba(14, 14, 14, 0.5);
+    display: inline-block;
+    height: 28px;
+    position: relative;
+    width: 28px;
+}
+.next_h::before {
+    color: rgba(14, 14, 14, 0.5);
+    content: "»";
+    display: block;
+    font-size: 16px;
+    height: 28px;
+    line-height: 28px;
+    position: absolute;
+    text-align: center;
+    width: 28px;
+}
+.next_h {
+    border: 1px solid rgba(14, 14, 14, 0.5);
+    display: inline-block;
+    height: 28px;
+    position: relative;
+    width: 28px;
+}
+.pages-booking
+{
+	float: right;
+}
+.page-search .pages ul li.active {
+    background-color: green;
+}
+#hotel-search-button
+{
+	margin-top : 30px;
+}
+#booking-button-search
+{
+	margin-bottom: 15px;
+}
+.ui-slider .ui-slider-range {
+ position: absolute;
+ z-index: 1;
+ font-size: .7em;
+ display: block;
+ border: 0;
+ background-position: 0 0;
+}
+.ui-slider-horizontal .ui-slider-range {
+ top: 0;
+ height: 100%;
+}
+/* responsive */

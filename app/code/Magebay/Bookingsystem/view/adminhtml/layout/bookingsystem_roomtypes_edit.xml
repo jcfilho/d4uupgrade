@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+ 
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <head>
+		<css src="Magebay_Bookingsystem::css/booking-grid-style.css" />
+	</head>
+	<body>
+        <referenceContainer name="left">
+            <block class="Magebay\Bookingsystem\Block\Adminhtml\Roomtypes\Edit\Tabs" name="magebay_bookingsystem.edit.tabs"/>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Magebay\Bookingsystem\Block\Adminhtml\Store\Switcher" name="store_switcher" before="magebay_bookingsystem_roomtypes.edit" template="Magebay_Bookingsystem::store/switcher.phtml"/>
+			<block class="Magebay\Bookingsystem\Block\Adminhtml\Roomtypes\Edit" name="magebay_bookingsystem_roomtypes.edit"/>
+        </referenceContainer>
+    </body>
+</page>

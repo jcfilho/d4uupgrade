@@ -1,0 +1,19 @@
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "main_js_to_site": {}
+        }
+    }
+</script>
+
+<?php
+/** @var \Magento\Customer\Model\Session $customerSession */
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+if($customerSession->isLoggedIn()) {
+    ?>
+    <script>
+        gtag('set', {'user_id': '<?php echo $customerSession->getCustomerId() ?>'}); // Set the user ID using signed-in user_id.
+        ga('set', 'userId', '<?php echo $customerSession->getCustomerId() ?>'); // Set the user ID using signed-in user_id.
+    </script>
+<?php } ?>

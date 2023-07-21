@@ -1,0 +1,57 @@
+<div>{{block class="Magento\Cms\Block\Block" block_id="banner_destinations"}}</div>
+<div class="content">
+<div class="container">
+<div class="list_categories">
+<div class="title">Cities <span class="hide-mobile">to Explore</span> in Argentina</div>
+<div class="row-list">
+<div class="col-item">
+<div class="item" style="background-image: url('{{view url='images/categories/cat1.jpg'}}');">
+<div class="name-cat"><a href="#">BUENOS AIRES</a></div>
+</div>
+</div>
+<div class="col-item">
+<div class="item" style="background-image: url('{{view url='images/categories/cat2.jpg'}}');">
+<div class="name-cat"><a href="#">EL CALAFATE</a></div>
+</div>
+</div>
+<div class="col-item">
+<div class="item" style="background-image: url('{{view url='images/categories/cat3.jpg'}}');">
+<div class="name-cat"><a href="#">USHUAIA</a></div>
+</div>
+</div>
+<div class="col-item">
+<div class="item" style="background-image: url('{{view url='images/categories/cat4.jpg'}}');">
+<div class="name-cat"><a href="#">BARILOCHE</a></div>
+</div>
+</div>
+<div class="col-item">
+<div class="item" style="background-image: url('{{view url='images/categories/cat5.jpg'}}');">
+<div class="name-cat"><a href="#">MENDOZA</a></div>
+</div>
+</div>
+<div class="col-item">
+<div class="item" style="background-image: url('{{view url='images/categories/cat6.jpg'}}');">
+<div class="name-cat"><a href="#">IGUAZU &amp; MISIONES</a></div>
+</div>
+</div>
+<div class="col-item">
+<div class="item" style="background-image: url('{{view url='images/categories/cat7.jpg'}}');">
+<div class="name-cat"><a href="#">SALTA</a></div>
+</div>
+</div>
+<div class="col-item">
+<div class="item" style="background-image: url('{{view url='images/categories/cat8.jpg'}}');">
+<div class="name-cat"><a href="#">PUERTO MADRYN</a></div>
+</div>
+</div>
+</div>
+</div>
+<div class="most-popular-block">
+<div class="block-title">
+<div class="title">Most Popular in Argentina</div>
+<a class="view-all" href="#">All activities in Argentina <i class="fa fa-long-arrow-right"></i></a></div>
+<div class="products-wrapper">{{widget type="Magento\CatalogWidget\Block\Product\ProductsList" show_pager="0" products_count="4" template="Magento_Catalog::product/widget/grid_slide.phtml" conditions_encoded="^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`2`^]^]"}}</div>
+</div>
+</div>
+</div>
+<div class="about-block-cat1">{{block class="Magento\Cms\Block\Block" block_id="about_block"}}</div>

@@ -1,0 +1,134 @@
+<!--@subject {{var store.getFrontendName()}}: Items in your shopping bag  @-->
+<!--@vars
+{"var store.getFrontendName()":"Store Name",
+"var urlmanager.unsubscribeUrl()":"Unsubscribe Url",
+"var urlmanager.mageUrl('checkout/cart/index')":"Place Order Url",
+"var urlmanager.mageUrl('checkout/index/index')":"Checkout Url",
+"var history.getSalesRuleCoupon()":"Coupon Code",
+"var history.getSalesRuleCouponExpirationDate()":"Coupon Expiration Date",
+"var formatmanager.formatTime('quote','updated_at') | raw":"Abandonment Date With Time",
+"var formatmanager.formatDate('quote','updated_at') | raw":"Abandonment Date",
+"var ruleQuote.getCustomerFirstname()":"First Name",
+"var ruleQuote.getCustomerLastname()":"Last Name",
+"var quote.getCustomerMiddlename()":"Middle Name",
+"var quote.getCustomerSuffix()":"Suffix",
+"var var formatmanager.formatPrice('quote','subtotal') | raw":"Subtotal",
+"var formatmanager.formatPrice('quote','discount') | raw":"Discount",
+"var formatmanager.formatPrice('quote','subtotal_with_discount') | raw":"Subtotal With Discount",
+"var quote.getGrandTotal()":"Grand Total",
+"var customerIsGuest":"Customer Is Guest",
+"layout area=\"frontend\" handle=\"amasty_acart_email\" rule=$rule quote=$quote history=$history ruleQuote=$ruleQuote mode=list showImage=yes showConfigurableImage=no showPrice=yes priceFormat=excludeTax showDescription=yes optionList=yes":"Quote Products",
+"layout area=\"frontend\" handle=\"amasty_acart_email_related\" rule=$rule quote=$quote history=$history ruleQuote=$ruleQuote mode=list showImage=yes showConfigurableImage=no showPrice=yes priceFormat=excludeTax showDescription=yes optionList=yes":"Related Products",
+"layout area=\"frontend\" handle=\"amasty_acart_email_crosssell\" rule=$rule quote=$quote history=$history ruleQuote=$ruleQuote mode=list showImage=yes showConfigurableImage=no showPrice=yes priceFormat=excludeTax showDescription=yes optionList=yes":"Cross-Sell Products",
+"layout area=\"frontend\" handle=\"amasty_acart_email_upsell\" rule=$rule quote=$quote history=$history ruleQuote=$ruleQuote mode=list showImage=yes showConfigurableImage=no showPrice=yes priceFormat=excludeTax showDescription=yes optionList=yes":"Up-Sell Products",
+"layout area=\"frontend\" handle=\"amasty_acart_email_wishlist\" rule=$rule quote=$quote history=$history ruleQuote=$ruleQuote mode=list showImage=yes showConfigurableImage=no showPrice=yes priceFormat=excludeTax showDescription=yes optionList=yes":"WishList Products"
+}
+@-->
+{{template config_path="design/email/header_template"}}
+
+<table id="abandonned_cart">
+    <tr class="thank-you" align="center">
+        <td align="center" style="padding: 0;" bgcolor="#192732">
+            <div class="wrapper-banner" style="background: url({{view url='images/abandonned/bg-header.png'}}) center no-repeat;">
+                <h1 class="title">
+                    {{trans "Hello %firstName"
+                    firstName=$ruleQuote.getCustomerFirstname()}}
+                </h1>
+
+                <p class="message-header">
+                    {{trans 'You\'re welcome to discover South America with Daytours4u. Find and book any experience in Daytours4u by <a style="color:#acaeb0 !important;" href="%account_url">Login</a> in our website with your e-mail and password.' |raw account_url=$this.getUrl($store,'customer/account/',[_nosid:1]) |raw}}
+                </p>
+
+                <div class="btn-complete-order-header">
+                    <a href="{{var urlmanager.mageUrl('checkout/cart/index')}}"  style="text-decoration: none !important; color: #ffffff !important; text-align: center;">
+                        {{trans "Complete your order now"}}
+                    </a>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" class="image-after-header">
+            <img src="{{view url='images/abandonned/after-header1.gif'}}" />
+            <img src="{{view url='images/abandonned/after-header2.gif'}}" />
+            <div class="clear"></div>
+        </td>
+    </tr>
+    <tr class="email-summary" style="padding: 0 25px;margin-top: 25px;display: block">
+        <td class="td-summary" style="display: block">
+            <div class="summary_order">
+                {{layout
+                handle="amasty_acart_email"
+                rule=$rule
+                quote=$quote
+                history=$history
+                ruleQuote=$ruleQuote
+                mode=list
+                showImage=yes
+                showConfigurableImage=no
+                showPrice=yes
+                priceFormat=excludeTax
+                showDescription=no
+                optionList=yes
+                }}
+            </div>
+
+            <div class="sub-total-abandonned">
+                <div class="title-subtotal">
+                    {{trans "Subtotal"}}:
+                </div>
+                {{if quote.getDiscount()}}
+                <div class="value-subtotal">
+                    <span style="text-decoration: line-through;">
+                        {{var formatmanager.formatPrice('quote','subtotal') | raw}}
+                    </span>
+                    <span style="font-size: 23px; color: #000;">
+                        {{var formatmanager.formatPrice('quote','subtotal_with_discount') | raw}}
+                    </span>
+                </div>
+                {{else}}
+                <div class="value-subtotal">
+                    <span>
+                        {{var formatmanager.formatPrice('quote','subtotal') | raw}}
+                    </span>
+                </div>
+                {{/if}}
+                <div class="clear"></div>
+            </div>
+
+            <div class="btn-complete-order-abbandoned">
+                <a href="{{var urlmanager.mageUrl('checkout/cart/index')}}" style="text-decoration: none !important; color: #ffffff !important; text-align: center;">
+                    {{trans "Complete your order now"}}
+                </a>
+            </div>
+        </td>
+    </tr>
+
+</table>
+<table class="need-assistance-table" style="display: block; width: 100%;">
+    <tbody style="display: block; width: 100%;">
+        <tr  style="padding: 0; display: block; width: 100%; text-align: center;">
+            <td style="padding: 0; display: block; width: 100%; text-align: center;">
+                <div class="need-assistance-content"  style="padding: 0; display: block; width: 100%; text-align: center;">
+                    <div class="question">
+                        {{trans "Need assistance with this order?"}}
+                    </div>
+                    <a href="https://wa.me/5491154125997" class="chat-us" style="color: #5199e5 !important; text-decoration: none !important;">
+                        {{trans "Call us or chat with us"}}
+                    </a>
+                </div>
+                <div class="footer-colors-abandoned">
+                    <div class="color-1"></div>
+                    <div class="color-2"></div>
+                    <div class="color-3"></div>
+                    <div class="color-4"></div>
+                    <div class="color-5"></div>
+                    <div class="color-1"></div>
+                    <div class="clear"></div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+
+</table>
+{{template config_path="design/email/footer_two_template"}}

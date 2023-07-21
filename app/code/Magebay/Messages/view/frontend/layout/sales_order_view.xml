@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+		<css src="Magebay_Messages::css/messages.css" />
+		<css src="Magebay_Marketplace::css/style.css" />
+	</head>
+	<body>
+		<!--<referenceContainer name="sales.order.info.buttons">
+           <block class="Magento\Framework\View\Element\Template" name="message.order.view" template="Magebay_Messages::magebay/order_button.phtml"/>
+        </referenceContainer>-->
+		
+        <referenceBlock name="order_items">
+			 <action method="setTemplate">
+				<argument name="template" xsi:type="string">Magebay_Messages::order/items.phtml</argument>
+			</action> 
+        </referenceBlock>  
+         
+		<referenceContainer name="content">
+            <!--<block class="Magento\Framework\View\Element\Template" name="message.order.view" template="Magebay_Messages::magebay/order_view.phtml"/>
+            <block class="Magebay\Messages\Block\View" name="message1.order.view2" template="Magebay_Messages::magebay/order_view.phtml" /> 
+			
+			<block class="Magento\Sales\Block\Order\View" name="sales.order.view" cacheable="false" after="sales.order.info.links">
+                <block class="Magento\Sales\Block\Order\Items" name="order_items" template="Magebay_Messages::order/items.phtml">
+                    <block class="Magento\Framework\View\Element\RendererList" name="sales.order.items.renderers" as="renderer.list"/>
+                    <block class="Magento\Sales\Block\Order\Totals" name="order_totals" template="order/totals.phtml">
+                        <arguments>
+                            <argument name="label_properties" xsi:type="string">colspan="4" class="mark"</argument>
+                            <argument name="value_properties" xsi:type="string">class="amount"</argument>
+                        </arguments>
+                        <block class="Magento\Tax\Block\Sales\Order\Tax" name="tax" template="order/tax.phtml"/>
+                    </block>
+                </block>
+            </block>-->
+		
+			<block class="Magebay\Messages\Block\Order" name="message.order.view.detail" template="Magebay_Messages::magebay/order_view.phtml" />
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,309 @@
+<?php $options = $block->getBkOptions(); ?>
+<?php $maxRow = 0; ?>
+<?php $storeId = $block->getBkCurrentStoreId();//$block->getBkRequest()->getParam('store',0); ?>
+<?php if(count($options)) : ?>
+	<?php foreach($options as $option) : ?>
+		<?php if(!$option->getId()) { continue; } ?>
+		<?php $optionId = $option->getId(); ?>
+		<div id="parent-bk-option-<?php echo $optionId; ?>" class="fieldset-wrapper admin__collapsible-block-wrapper opened">
+			<input type="hidden" class="" name="bookings[options][<?php echo $optionId; ?>][option_id]" value="<?php echo $optionId; ?>">
+			<input type="hidden" class="" name="bookings[options][<?php echo $optionId; ?>][store_id]" value="<?php echo $storeId; ?>">
+		   <div class="fieldset-wrapper-title">
+			  <div class="actions">
+				 <button id="id-booking-option-delete-<?php echo $optionId; ?>" class="action-delete" title="<?php echo __('Delete'); ?>" type="button">
+				 <span><?php echo __('Delete Custom Option'); ?></span>
+				 </button>
+			  </div>
+		   </div>
+		   <div id="bk-option-content-<?php echo $optionId; ?>" class="fieldset-wrapper-content in collapse">
+			  <fieldset class="fieldset">
+				 <fieldset id="booking_option_<?php echo $optionId; ?>" class="fieldset-alt booking-option-content-row-1">
+					 <div class="field field-option-input-type required">
+					   <label for="booking_option_<?php echo $optionId; ?>_title" class="label"><?php echo __('Title') ?></label>
+					   <div class="control">
+							<?php if($storeId > 0) : ?>
+							<?php 
+								$optionTitle = $option->getOptionTitle();
+								$arText = $block->getBkArText($option->getOptionTitle(),$option->getOptionTitleTranslate(),$storeId);
+								$useDefault = 1;
+								if(count($arText))
+								{
+									$optionTitle = isset($arText['value']) ? $arText['value'] : $optionTitle;
+									$useDefault = isset($arText['use_default']) ? $arText['use_default'] : $useDefault;
+								}
+							?>
+							<input type="text" value="<?php echo $optionTitle; ?>" class="required-entry input-text" name="bookings[options][<?php echo $optionId; ?>][option_title]" id="booking_option_<?php echo $optionId; ?>_title">
+							<div style="display: none">
+								<br/>
+								<input type="checkbox" name="bookings[options][<?php echo $optionId; ?>][use_default]" id="booking-option-<?php echo $optionId; ?>-use-default" value="1"/>
+								<?php echo __('Use default value'); ?>
+							</div>
+							<?php else : ?>
+								 <input type="text" value="<?php echo $option->getOptionTitle(); ?>" class="required-entry input-text" name="bookings[options][<?php echo $optionId; ?>][option_title]" id="booking_option_<?php echo $optionId; ?>_title">
+							<?php endif; ?>
+					  </div>
+					</div>
+					<div class="field field-option-input-type required">
+					   <label for="booking_option_<?php echo $optionId; ?>_type" class="label"><?php echo __('Input Type'); ?></label>
+					   <div class="control opt-type">
+						  <select title="" class="select" id="booking_option_<?php echo $optionId; ?>_type" name="bookings[options][<?php echo $optionId; ?>][option_type]">
+							<option value="1"><?php echo __('Filed'); ?></option>
+							<option <?php if($option->getOptionType() == 2) echo 'selected="selected"'; ?> value="2"><?php echo __('Dropdown'); ?></option>
+							<option <?php if($option->getOptionType() == 3) echo 'selected="selected"'; ?> value="3"><?php echo __('Multi Dropdown'); ?></option>
+							<option <?php if($option->getOptionType() == 4) echo 'selected="selected"'; ?> value="4"><?php echo __('Radio Button'); ?></option>
+							<option <?php if($option->getOptionType() == 5) echo 'selected="selected"'; ?> value="5"><?php echo __('CheckBox'); ?></option>
+						  </select>
+					   </div>
+					</div>
+					<div class="field field-option-input-type required">
+						<label for="booking_option_<?php echo $optionId; ?>_option_price_type" class="label"><?php echo __('Price Type'); ?></label>
+					   <div class="control opt-type">
+						  <select title="" class="select" id="booking_option_<?php echo $optionId; ?>_option_price_type" name="bookings[options][<?php echo $optionId; ?>][option_price_type]">
+							<option value="1"><?php echo __('Per Day or session'); ?></option>
+							<option <?php if($option->getOptionPriceType() == 2) {echo 'selected="selected"'; } ?> value="2"><?php echo __('All'); ?></option>
+						  </select>
+					   </div>
+					 </div>
+					<div class="field field-option-input-type required">
+					   <label for="booking_option_<?php echo $optionId; ?>_is_require" class="label"><?php echo __('Is Required'); ?></label>
+					   <div class="control opt-type">
+						  <select title="" class="select" id="booking_option_<?php echo $optionId; ?>_is_require" name="bookings[options][<?php echo $optionId; ?>][option_required]">
+							 <option value="1"><?php echo __('Yes'); ?></option>
+							<option <?php if($option->getOptionRequired() == 2) echo 'selected="selected"'; ?>  value="2"><?php echo __('No'); ?></option>
+						  </select>
+					   </div>
+					 </div>
+					   <div class="field field-option-input-type required">
+						   <label for="booking_option_<?php echo $optionId; ?>option_sort" class="label"><?php echo __('Sort Order'); ?></label>
+						   <div class="control">
+							  <input type="text" value="<?php echo $option->getOptionSort(); ?>" class="input-text required-entry validate-zero-or-greater" name="bookings[options][<?php echo $optionId; ?>][option_sort]" id="booking_option_<?php echo $optionId; ?>option_sort">
+						   </div>
+						</div>
+				 </fieldset>
+				  <fieldset id="booking_option_<?php echo $optionId; ?>_type_text" class="fieldset-alt booking-option-content-row-2" <?php if($option['option_type'] == 2 || $option['option_type'] == 3 || $option['option_type'] == 4 || $option['option_type'] == 5) echo 'style="display : none;"'; ?>>
+					<div class="field required">
+					   <label for="booking_option_<?php echo $optionId; ?>_price" class="label"><?php echo __('Price'); ?></label>
+					   <div class="control">
+						  <input type="text" value="<?php echo $option->getOptionPrice(); ?>" class="input-text required-entry bk-option-text-value validate-zero-or-greater" name="bookings[options][<?php echo $optionId; ?>][option_price]" id="booking_option_<?php echo $optionId; ?>_price">
+					   </div>
+					</div>
+					<div class="field  required">
+					   <label for="booking_option_<?php echo $optionId; ?>_max_number" class="label"><?php echo __('Max Number'); ?></label>
+					   <div class="control">
+						  <input type="text" value="<?php echo $option->getOptionMaxNumber(); ?>" class="input-text required-entry bk-option-text-value validate-zero-or-greater" name="bookings[options][<?php echo $optionId; ?>][option_max_number]" id="booking_option_<?php echo $optionId; ?>_max_number">
+					   </div>
+					</div>
+				 </fieldset>
+				  <fieldset id="booking_option_<?php echo $optionId; ?>_type_select" class="fieldset-alt booking-option-content-row-3" <?php if($option->getOptionType() == 1) echo 'style="display : none;"'; ?>>
+					
+					<div class="field control-booking-fileds-label">
+					   <label class="label"><?php echo __('Title'); ?></label>
+					   <label class="label"><?php echo __('Price'); ?></label>
+					</div>
+					<?php $tempValdateSelect = ''; ?>
+					<div id="bk_select_option_type_row_<?php echo $optionId ?>" class="bk-content-option-dropdown">
+						<?php if($option['option_type'] == 2 || $option['option_type'] == 3 || $option['option_type'] == 4 || $option['option_type'] == 5) : ?>
+							<?php $valueOptions = $block->getBkValueOptions($optionId); ?>
+							<?php if(!count($valueOptions)) { $tempValdateSelect = 'required-entry'; } ?>
+							<?php if(count($valueOptions)) : ?>
+								<?php foreach($valueOptions as  $valueOption) : if($valueOption->getId() > $maxRow) { $maxRow = $valueOption->getId(); } ?>
+									<div id="bk-option-select_<?php echo $optionId; ?>_<?php echo $valueOption->getId(); ?>_row" class="bk-option-select-row">
+										<input type="hidden" name="bookings[options][<?php echo $optionId ?>][values][<?php echo $valueOption->getId(); ?>][dropdown_id]" class="input-text required-entry bk-option-select-value" value="<?php echo $valueOption->getId(); ?>">
+										<input type="hidden" name="bookings[options][<?php echo $optionId ?>][values][<?php echo $valueOption->getId(); ?>][store_id]" class="input-text required-entry" value="<?php echo $storeId; ?>">
+										<div class="field control-booking-fileds-input">
+											<div class="control">
+											<?php if($storeId > 0) : ?>
+													<?php 
+														$rowTitle = $valueOption->getDropdownTitle();
+														$arRowText = $block->getBkArText($valueOption->getDropdownTitle(),$valueOption->getDropdownTitleTranslate(),$storeId);
+														$rowUseDefault = 1;
+														if(count($arRowText))
+														{
+															$rowTitle = isset($arRowText['value']) ? $arRowText['value'] : $rowTitle;
+															$rowUseDefault = isset($arRowText['use_default']) ? $arRowText['use_default'] : $rowUseDefault;
+														}
+													?>
+													<input type="text" id="bk-option-select_<?php echo $optionId; ?>_<?php echo $valueOption->getId(); ?>_row_default_title" name="bookings[options][<?php echo $optionId ?>][values][<?php echo $valueOption->getId(); ?>][dropdown_title]" class="input-text required-entry bk-option-select-title" value="<?php echo $rowTitle; ?>">
+													<div style="display: none">
+														<br/>
+														<input type="checkbox" name="bookings[options][<?php echo $optionId ?>][values][<?php echo $valueOption->getId(); ?>][use_default]" class="bk-option-select_row_default" id="bk-option-select_<?php echo $optionId; ?>_<?php echo $valueOption->getId(); ?>_row_default" value="1">
+													<?php echo __('Use default value'); ?>
+													</div>
+												<?php else : ?>
+													<input type="text" name="bookings[options][<?php echo $optionId ?>][values][<?php echo $valueOption->getId(); ?>][dropdown_title]" class="input-text required-entry bk-option-select-title" value="<?php echo $valueOption->getDropdownTitle(); ?>">
+												<?php endif; ?>
+											</div>
+										</div>
+										<div class="field control-booking-fileds-input">
+											<div class="control">
+												<input type="text" name="bookings[options][<?php echo $optionId ?>][values][<?php echo $valueOption->getId(); ?>][dropdown_price]" class="input-text required-entry validate-zero-or-greater bk-option-select-value" value="<?php echo $valueOption->getDropdownPrice(); ?>">
+											</div>
+										</div>
+										<div class="field control-booking-fileds-inputdell">
+											<div class="control">
+												<button id="bk-option-select_<?php echo $optionId ?>_<?php echo $valueOption->getId(); ?>" title="<?php echo __('Delete') ?>" type="button" class="action-default primary delete-row-keke-<?php echo $optionId; ?>" style="float : right;"><span><span><span><?php echo __('Delete') ?></span></span></span></button>
+											</div>
+										</div>
+									</div>
+								<?php endforeach;  ?>
+							<?php endif; ?>
+						<?php endif; $maxRow++; ?>
+					</div>
+					<input type="hidden" class="<?php echo $tempValdateSelect; ?>" value="" id="booking_option_<?php echo $optionId; ?>_type_select_validate" />
+					<div class="control-booking-fileds-button">
+					   <div class="control">
+						   <button style="float : right;" class="action-default primary" type="button" title="Add New Row" id="bk_add_select_row_button_<?php echo $optionId; ?>">
+								<span><span><span><?php echo __('Add New Row'); ?></span></span></span>
+							</button>
+					   </div>
+					</div>
+				 </fieldset>
+			  </fieldset>
+		   </div>
+		</div>
+		<script type="text/javascript">
+		require(['jquery'],
+			function($) {
+				var optionId = '<?php echo $optionId; ?>';
+				$('#id-booking-option-delete-'+optionId).click(function(){
+					$('#parent-bk-option-'+optionId).remove();
+				});
+				$('#booking_option_'+optionId+'_type').change(function(){
+					var typeValue = $(this).val();
+					if(typeValue == '1')
+					{
+						$('#booking_option_'+optionId+'_type_text').css('display','block');
+						$('#booking_option_'+optionId+'_type_select').css('display','none');
+						$('#booking_option_'+optionId+'_type_select_validate').removeClass('required-entry');
+						if($('#booking_option_'+optionId+'_type_text .bk-option-text-value').length)
+						{
+							if(!$('#booking_option_'+optionId+'_type_text .bk-option-text-value').hasClass('required-entry'))
+							{
+								$('#booking_option_'+optionId+'_type_text .bk-option-text-value').addClass('required-entry');
+							}
+							if(!$('#booking_option_'+optionId+'_type_text .bk-option-text-value').hasClass('validate-zero-or-greater'))
+							{
+								$('#booking_option_'+optionId+'_type_text .bk-option-text-value').addClass('validate-zero-or-greater');
+							}
+						}
+						if($('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').length)
+						{
+							if($('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').hasClass('required-entry'))
+							{
+								$('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').removeClass('required-entry');
+							}
+							if($('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').hasClass('validate-zero-or-greater'))
+							{
+								$('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').removeClass('validate-zero-or-greater');
+							}
+							
+						}
+						if($('#bk_select_option_type_row_'+optionId+' .bk-option-select-title').length)
+						{
+							if($('#bk_select_option_type_row_'+optionId+' .bk-option-select-title').hasClass('required-entry'))
+							{
+								$('#bk_select_option_type_row_'+optionId+' .bk-option-select-title').removeClass('required-entry');
+							}
+						}
+					}
+					else
+					{
+						$('#booking_option_'+optionId+'_type_select').css('display','block');
+						$('#booking_option_'+optionId+'_type_text').css('display','none');
+						if($('#booking_option_'+optionId+'_type_text .bk-option-text-value').length)
+						{
+							if($('#booking_option_'+optionId+'_type_text .bk-option-text-value').hasClass('required-entry'))
+							{
+								$('#booking_option_'+optionId+'_type_text .bk-option-text-value').removeClass('required-entry');
+							}
+							if($('#booking_option_'+optionId+'_type_text .bk-option-text-value').hasClass('validate-zero-or-greater'))
+							{
+								$('#booking_option_'+optionId+'_type_text .bk-option-text-value').removeClass('validate-zero-or-greater');
+							}
+						}
+						var contentSelect = $('#bk_select_option_type_row_'+optionId).text();
+						if($.trim(contentSelect) == '')
+						{
+							$('#booking_option_'+optionId+'_type_select_validate').addClass('required-entry');
+						}
+						if($('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').length)
+						{
+							if(!$('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').hasClass('required-entry'))
+							{
+								$('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').addClass('required-entry');
+							}
+							if(!$('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').hasClass('validate-zero-or-greater'))
+							{
+								$('#bk_select_option_type_row_'+optionId+' .bk-option-select-value').addClass('validate-zero-or-greater');
+							}
+							
+						}
+						if($('#bk_select_option_type_row_'+optionId+' .bk-option-select-title').length)
+						{
+							if(!$('#bk_select_option_type_row_'+optionId+' .bk-option-select-title').hasClass('required-entry'))
+							{
+								$('#bk_select_option_type_row_'+optionId+' .bk-option-select-title').addClass('required-entry');
+							}
+						}
+					}
+				});
+				var bkDropdwonIRowId = parseInt('<?php echo $maxRow; ?>');
+				$('#bk_add_select_row_button_'+optionId).click(function(){
+					var rowTemplate = '<div id="bk-option-select_'+optionId+'_'+bkDropdwonIRowId+'_row" class="bk-option-select-row">'
+					rowTemplate += '<input type="hidden" name="bookings[options]['+optionId+'][values]['+bkDropdwonIRowId+'][dropdown_id]" class="input-text required-entry bk-option-select-value" value="0">';
+					rowTemplate += '<div class="field control-booking-fileds-input">';
+					rowTemplate += '<div class="control">';
+					rowTemplate += '<input type="text" name="bookings[options]['+optionId+'][values]['+bkDropdwonIRowId+'][dropdown_title]" class="input-text required-entry bk-option-select-title" value="">';
+					rowTemplate += '</div>';
+					rowTemplate += '</div>';
+					rowTemplate += '<div class="field control-booking-fileds-input">';
+					rowTemplate += '<div class="control">';
+					rowTemplate += '<input type="text" name="bookings[options]['+optionId+'][values]['+bkDropdwonIRowId+'][dropdown_price]" class="input-text required-entry bk-option-select-value validate-zero-or-greater" value="0">';
+					rowTemplate += '</div>';
+					rowTemplate += '</div>';
+					rowTemplate += '<div class="field control-booking-fileds-inputdell">';
+					rowTemplate += '<div class="control">';
+					rowTemplate += '<button id="bk-option-select_'+optionId+'_'+bkDropdwonIRowId+'" title="<?php echo __('Delete') ?>" type="button" class="action-default primary delete-row-keke-'+optionId+'" style="float : right;"><span><span><span><?php echo __('Delete') ?></span></span></span></button>';
+					rowTemplate += '</div>';
+					rowTemplate += '</div>';
+					rowTemplate += '</div>';
+					$('#bk_select_option_type_row_'+optionId).append(rowTemplate);
+					$('#booking_option_'+optionId+'_type_select_validate').removeClass('required-entry');
+					bkDropdwonIRowId++;
+				});
+				$('#booking-option-'+optionId+'-use-default').click(function(){
+					if($(this).is(":checked"))
+					{
+						$('#booking_option_'+optionId+'_title').prop('disabled',true);
+					}
+					else
+					{
+						$('#booking_option_'+optionId+'_title').prop('disabled',false);
+					}
+				});
+				$('.bk-option-select_row_default').click(function(){
+					var elementId = $(this).attr('id');
+					if($(this).is(":checked"))
+					{
+						$('#'+elementId+'_title').prop('disabled',true);
+					}
+					else
+					{
+						$('#'+elementId+'_title').prop('disabled',false);
+					}
+				});
+				$(document).on("click",".delete-row-keke-"+optionId,function(){
+					var elementId = $(this).attr('id');
+					$('#'+elementId+'_row').remove();
+					var contentSelect = $('#bk_select_option_type_row_'+optionId).text();
+					if($.trim(contentSelect) == '')
+					{
+						$('#booking_option_'+optionId+'_type_select_validate').addClass('required-entry');
+					}
+				})
+			})
+		</script>
+	<?php endforeach; ?>
+<?php endif; ?>
+	
+	

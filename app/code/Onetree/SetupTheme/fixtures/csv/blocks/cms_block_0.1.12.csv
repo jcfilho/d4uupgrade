@@ -1,0 +1,1065 @@
+block_id,title,is_active,identifier,content,store_id
+21,Block | About Us | top banner | english,1,banner_about_us,"<div class=""banner_top_page"" style=""background-image: url('{{view url='images/banner_aboutus.jpg'}}');"">
+<div class=""container"">
+<div class=""content_text"">
+<div class=""name"">{{trans ""Who We Are""}}</div>
+<div class=""des"">{{trans ""We are your friendly, professional, and local online travel agency""}}</div>
+</div>
+</div>
+</div>","admin,english"
+,Block | About Us | top banner | spanish,1,banner_about_us,"<div class=""banner_top_page"" style=""background-image: url('{{view url='images/banner_aboutus.jpg'}}');"">
+<div class=""container"">
+<div class=""content_text"">
+<div class=""name"">{{trans ""Who We Are""}}</div>
+<div class=""des"">{{trans ""We are your friendly, professional, and local online travel agency""}}</div>
+</div>
+</div>
+</div>",spanish
+,Block | About Us | top banner | portuguese,1,banner_about_us,"<div class=""banner_top_page"" style=""background-image: url('{{view url='images/banner_aboutus.jpg'}}');"">
+<div class=""container"">
+<div class=""content_text"">
+<div class=""name"">{{trans ""Who We Are""}}</div>
+<div class=""des"">{{trans ""We are your friendly, professional, and local online travel agency""}}</div>
+</div>
+</div>
+</div>",portuguese
+,Block | About Us | top banner | french,1,banner_about_us,"<div class=""banner_top_page"" style=""background-image: url('{{view url='images/banner_aboutus.jpg'}}');"">
+<div class=""container"">
+<div class=""content_text"">
+<div class=""name"">{{trans ""Who We Are""}}</div>
+<div class=""des"">{{trans ""We are your friendly, professional, and local online travel agency""}}</div>
+</div>
+</div>
+</div>",french
+27,Block | Affiliate Program | top banner | english,1,become-seller-banner,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/affiliate-slider.png'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""name"">Affiliate<br />Programme</div>
+<div class=""des"">for Travel Bloggers</div>
+</div>
+</div>
+</div>
+</div>","admin,english"
+,Block | Affiliate Program | top banner | spanish,1,become-seller-banner,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/affiliate-slider.png'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""name"">Affiliate<br />Programme</div>
+<div class=""des"">for Travel Bloggers</div>
+</div>
+</div>
+</div>
+</div>",spanish
+,Block | Affiliate Program | top banner | portuguese,1,become-seller-banner,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/affiliate-slider.png'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""name"">Affiliate<br />Programme</div>
+<div class=""des"">for Travel Bloggers</div>
+</div>
+</div>
+</div>
+</div>",portuguese
+,Block | Affiliate Program | top banner | french,1,become-seller-banner,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/affiliate-slider.png'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""name"">Affiliate<br />Programme</div>
+<div class=""des"">for Travel Bloggers</div>
+</div>
+</div>
+</div>
+</div>",french
+28,Block | Affiliate Program | main content | english,1,affiliate-content-main,"<div class=""row"">
+<div class=""col-lg-12 text-bold text-bold-desktop"">If you are a travel blogger or you manage a website dedicated to South American<br />tourism, the Daytours4u Affiliate Program can help you make some money and add<br />a new dimension to your brand.</div>
+<div class=""col-lg-12 text-bold text-bold-mobile"">If you are a travel blogger or you manage a website dedicated to South American tourism, the Daytours4u Affiliate Program can help you make some money and add a new dimension to your brand.</div>
+</div>
+<div class=""row"">
+<div class=""col-lg-12 text-simple text-simple-desktop"">If you are a travel blogger or you manage a website dedicated to South American tourism, <br /> the Daytours4u Affiliate Program can help you make some money and add a new dimension <br /> to your brand.</div>
+<div class=""col-lg-12 text-simple text-simple-mobile"">If you are a travel blogger or you manage a website dedicated to South American tourism, the Daytours4u Affiliate Program can help you make some money and add a new dimension to your brand.</div>
+</div>
+<div class=""row"">
+<div class=""col-lg-4 col-md-4  col-xs-12 col-data"">
+<div class=""image image-1""></div>
+<div class=""title"">Signing up</div>
+<div class=""desc"">Once we have received your membership request, we will contact you with information about how to get started.</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 col-data"">
+<div class=""image  image-2""></div>
+<div class=""title"">Embed your links</div>
+<div class=""desc"">Incorporate your personalised links into your blog, website, social media profiles, or email signature: wherever you prefer.</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 col-data"">
+<div class=""image image-3""></div>
+<div class=""title"">Make money</div>
+<div class=""desc"">Sales generated by traffic sent to us from your referrals equals’ easy profit for you. We make money, you make money – it’s that simple.</div>
+</div>
+</div>","admin,english"
+,Block | Affiliate Program | main content | spanish,1,affiliate-content-main,"<div class=""row"">
+<div class=""col-lg-12 text-bold text-bold-desktop"">If you are a travel blogger or you manage a website dedicated to South American<br />tourism, the Daytours4u Affiliate Program can help you make some money and add<br />a new dimension to your brand.</div>
+<div class=""col-lg-12 text-bold text-bold-mobile"">If you are a travel blogger or you manage a website dedicated to South American tourism, the Daytours4u Affiliate Program can help you make some money and add a new dimension to your brand.</div>
+</div>
+<div class=""row"">
+<div class=""col-lg-12 text-simple text-simple-desktop"">If you are a travel blogger or you manage a website dedicated to South American tourism, <br /> the Daytours4u Affiliate Program can help you make some money and add a new dimension <br /> to your brand.</div>
+<div class=""col-lg-12 text-simple text-simple-mobile"">If you are a travel blogger or you manage a website dedicated to South American tourism, the Daytours4u Affiliate Program can help you make some money and add a new dimension to your brand.</div>
+</div>
+<div class=""row"">
+<div class=""col-lg-4 col-md-4  col-xs-12 col-data"">
+<div class=""image image-1""></div>
+<div class=""title"">Signing up</div>
+<div class=""desc"">Once we have received your membership request, we will contact you with information about how to get started.</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 col-data"">
+<div class=""image  image-2""></div>
+<div class=""title"">Embed your links</div>
+<div class=""desc"">Incorporate your personalised links into your blog, website, social media profiles, or email signature: wherever you prefer.</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 col-data"">
+<div class=""image image-3""></div>
+<div class=""title"">Make money</div>
+<div class=""desc"">Sales generated by traffic sent to us from your referrals equals’ easy profit for you. We make money, you make money – it’s that simple.</div>
+</div>
+</div>",spanish
+,Block | Affiliate Program | main content | portuguese,1,affiliate-content-main,"<div class=""row"">
+<div class=""col-lg-12 text-bold text-bold-desktop"">If you are a travel blogger or you manage a website dedicated to South American<br />tourism, the Daytours4u Affiliate Program can help you make some money and add<br />a new dimension to your brand.</div>
+<div class=""col-lg-12 text-bold text-bold-mobile"">If you are a travel blogger or you manage a website dedicated to South American tourism, the Daytours4u Affiliate Program can help you make some money and add a new dimension to your brand.</div>
+</div>
+<div class=""row"">
+<div class=""col-lg-12 text-simple text-simple-desktop"">If you are a travel blogger or you manage a website dedicated to South American tourism, <br /> the Daytours4u Affiliate Program can help you make some money and add a new dimension <br /> to your brand.</div>
+<div class=""col-lg-12 text-simple text-simple-mobile"">If you are a travel blogger or you manage a website dedicated to South American tourism, the Daytours4u Affiliate Program can help you make some money and add a new dimension to your brand.</div>
+</div>
+<div class=""row"">
+<div class=""col-lg-4 col-md-4  col-xs-12 col-data"">
+<div class=""image image-1""></div>
+<div class=""title"">Signing up</div>
+<div class=""desc"">Once we have received your membership request, we will contact you with information about how to get started.</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 col-data"">
+<div class=""image  image-2""></div>
+<div class=""title"">Embed your links</div>
+<div class=""desc"">Incorporate your personalised links into your blog, website, social media profiles, or email signature: wherever you prefer.</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 col-data"">
+<div class=""image image-3""></div>
+<div class=""title"">Make money</div>
+<div class=""desc"">Sales generated by traffic sent to us from your referrals equals’ easy profit for you. We make money, you make money – it’s that simple.</div>
+</div>
+</div>",portuguese
+,Block | Affiliate Program | main content | french,1,affiliate-content-main,"<div class=""row"">
+<div class=""col-lg-12 text-bold text-bold-desktop"">If you are a travel blogger or you manage a website dedicated to South American<br />tourism, the Daytours4u Affiliate Program can help you make some money and add<br />a new dimension to your brand.</div>
+<div class=""col-lg-12 text-bold text-bold-mobile"">If you are a travel blogger or you manage a website dedicated to South American tourism, the Daytours4u Affiliate Program can help you make some money and add a new dimension to your brand.</div>
+</div>
+<div class=""row"">
+<div class=""col-lg-12 text-simple text-simple-desktop"">If you are a travel blogger or you manage a website dedicated to South American tourism, <br /> the Daytours4u Affiliate Program can help you make some money and add a new dimension <br /> to your brand.</div>
+<div class=""col-lg-12 text-simple text-simple-mobile"">If you are a travel blogger or you manage a website dedicated to South American tourism, the Daytours4u Affiliate Program can help you make some money and add a new dimension to your brand.</div>
+</div>
+<div class=""row"">
+<div class=""col-lg-4 col-md-4  col-xs-12 col-data"">
+<div class=""image image-1""></div>
+<div class=""title"">Signing up</div>
+<div class=""desc"">Once we have received your membership request, we will contact you with information about how to get started.</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 col-data"">
+<div class=""image  image-2""></div>
+<div class=""title"">Embed your links</div>
+<div class=""desc"">Incorporate your personalised links into your blog, website, social media profiles, or email signature: wherever you prefer.</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 col-data"">
+<div class=""image image-3""></div>
+<div class=""title"">Make money</div>
+<div class=""desc"">Sales generated by traffic sent to us from your referrals equals’ easy profit for you. We make money, you make money – it’s that simple.</div>
+</div>
+</div>",french
+29,Block | Affiliate Program | second content | english,1,affiliate-black-content,"<div class=""row"">
+<div class=""col-lg-4 col-md-4 col-xs-12 col-data"">
+<div class=""image image-1""></div>
+<div class=""desc"">""The great thing about this affiliate programme is that I have the opportunity to share my experiences in Colombia, and also monetise my blog so that I can continue to create high quality content.""</div>
+<div class=""name"">Sarah Duncan</div>
+</div>
+<div class=""col-lg-4 col-md-4 col-xs-12  col-data"">
+<div class=""image image-2""></div>
+<div class=""desc"">""I see two benefits: first, having a reliable company on to which I can forward tour requests that come to me through my blog, and second, being able to make money through this simple process.""</div>
+<div class=""name"">Gisele Teixeira</div>
+</div>
+<div class=""col-lg-4 col-md-4 col-xs-12  col-data"">
+<div class=""image image-3""></div>
+<div class=""desc"">""I am new to the environment of blogging and earning money through my website, but being a part of the Daytours4u Affiliate Programme is proving to be interesting, profitable, and very positive.""</div>
+<div class=""name"">Patricio Espigares</div>
+</div>
+</div>","admin,english"
+,Block | Affiliate Program | second content | spanish,1,affiliate-black-content,"<div class=""row"">
+<div class=""col-lg-4 col-md-4 col-xs-12 col-data"">
+<div class=""image image-1""></div>
+<div class=""desc"">""The great thing about this affiliate programme is that I have the opportunity to share my experiences in Colombia, and also monetise my blog so that I can continue to create high quality content.""</div>
+<div class=""name"">Sarah Duncan</div>
+</div>
+<div class=""col-lg-4 col-md-4 col-xs-12  col-data"">
+<div class=""image image-2""></div>
+<div class=""desc"">""I see two benefits: first, having a reliable company on to which I can forward tour requests that come to me through my blog, and second, being able to make money through this simple process.""</div>
+<div class=""name"">Gisele Teixeira</div>
+</div>
+<div class=""col-lg-4 col-md-4 col-xs-12  col-data"">
+<div class=""image image-3""></div>
+<div class=""desc"">""I am new to the environment of blogging and earning money through my website, but being a part of the Daytours4u Affiliate Programme is proving to be interesting, profitable, and very positive.""</div>
+<div class=""name"">Patricio Espigares</div>
+</div>
+</div>",spanish
+,Block | Affiliate Program | second content | portuguese,1,affiliate-black-content,"<div class=""row"">
+<div class=""col-lg-4 col-md-4 col-xs-12 col-data"">
+<div class=""image image-1""></div>
+<div class=""desc"">""The great thing about this affiliate programme is that I have the opportunity to share my experiences in Colombia, and also monetise my blog so that I can continue to create high quality content.""</div>
+<div class=""name"">Sarah Duncan</div>
+</div>
+<div class=""col-lg-4 col-md-4 col-xs-12  col-data"">
+<div class=""image image-2""></div>
+<div class=""desc"">""I see two benefits: first, having a reliable company on to which I can forward tour requests that come to me through my blog, and second, being able to make money through this simple process.""</div>
+<div class=""name"">Gisele Teixeira</div>
+</div>
+<div class=""col-lg-4 col-md-4 col-xs-12  col-data"">
+<div class=""image image-3""></div>
+<div class=""desc"">""I am new to the environment of blogging and earning money through my website, but being a part of the Daytours4u Affiliate Programme is proving to be interesting, profitable, and very positive.""</div>
+<div class=""name"">Patricio Espigares</div>
+</div>
+</div>",portuguese
+,Block | Affiliate Program | second content | french,1,affiliate-black-content,"<div class=""row"">
+<div class=""col-lg-4 col-md-4 col-xs-12 col-data"">
+<div class=""image image-1""></div>
+<div class=""desc"">""The great thing about this affiliate programme is that I have the opportunity to share my experiences in Colombia, and also monetise my blog so that I can continue to create high quality content.""</div>
+<div class=""name"">Sarah Duncan</div>
+</div>
+<div class=""col-lg-4 col-md-4 col-xs-12  col-data"">
+<div class=""image image-2""></div>
+<div class=""desc"">""I see two benefits: first, having a reliable company on to which I can forward tour requests that come to me through my blog, and second, being able to make money through this simple process.""</div>
+<div class=""name"">Gisele Teixeira</div>
+</div>
+<div class=""col-lg-4 col-md-4 col-xs-12  col-data"">
+<div class=""image image-3""></div>
+<div class=""desc"">""I am new to the environment of blogging and earning money through my website, but being a part of the Daytours4u Affiliate Programme is proving to be interesting, profitable, and very positive.""</div>
+<div class=""name"">Patricio Espigares</div>
+</div>
+</div>",french
+11,Block | FAQ | general | english,1,faq_general,"<div id=""tab-0"" class=""faq-tab active"">
+<h3 class=""faq-title"">{{trans ""General""}}</h3>
+<div class=""faq-content"">
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Are there discounts for booking more than one tour?""}}</h4>
+<p class=""answer"">{{trans ""We usually have special promotions for the booking of two or more activities in Buenos Aires. Please have a look in the Specials section of our website for any deals currently on offer.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Can I book flights / hotels / car rental through Daytours4u?""}}</h4>
+<p class=""answer"">{{trans ""Bsas4u specialises in independent sightseeing tours, daily excursions, and other cultural activities in the destination and its surroundings. If you want to receive further information about travelling in Argentina, or you need help in planning an all-inclusive vacation, you can find an array of travel articles on our blog.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Can I book more than one tour in Buenos Aires?""}}</h4>
+<p class=""answer"">{{trans ""Yes, you may book any number of tours from the Bsas4u website, depending on the time you have available. Simply add a new product to your cart. You can also visit the Packages section to book the standard packages we have built according to the previous preferences of our customers. These packages already have the best price-benefit.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Can I book over the telephone?""}}</h4>
+<p class=""answer"">{{trans ""Our website offers complete and updated information about the tours and activities in our catalogue, and our payment methods adhere to the highest standards to keep your private information safe. Nevertheless, we will be happy to help you with your bookings in the manner you prefer and a member of our team will be able to help you in English, Portuguese, Spanish or French. Our office hours are Monday to Friday from 8am until 8pm, Saturdays from 9am until 2pm.""}}</p>
+</div>
+</div>
+</div>","admin,english"
+,Block | FAQ | general | spanish,1,faq_general,"<div id=""tab-0"" class=""faq-tab active"">
+<h3 class=""faq-title"">{{trans ""General""}}</h3>
+<div class=""faq-content"">
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Are there discounts for booking more than one tour?""}}</h4>
+<p class=""answer"">{{trans ""We usually have special promotions for the booking of two or more activities in Buenos Aires. Please have a look in the Specials section of our website for any deals currently on offer.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Can I book flights / hotels / car rental through Daytours4u?""}}</h4>
+<p class=""answer"">{{trans ""Bsas4u specialises in independent sightseeing tours, daily excursions, and other cultural activities in the destination and its surroundings. If you want to receive further information about travelling in Argentina, or you need help in planning an all-inclusive vacation, you can find an array of travel articles on our blog.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Can I book more than one tour in Buenos Aires?""}}</h4>
+<p class=""answer"">{{trans ""Yes, you may book any number of tours from the Bsas4u website, depending on the time you have available. Simply add a new product to your cart. You can also visit the Packages section to book the standard packages we have built according to the previous preferences of our customers. These packages already have the best price-benefit.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Can I book over the telephone?""}}</h4>
+<p class=""answer"">{{trans ""Our website offers complete and updated information about the tours and activities in our catalogue, and our payment methods adhere to the highest standards to keep your private information safe. Nevertheless, we will be happy to help you with your bookings in the manner you prefer and a member of our team will be able to help you in English, Portuguese, Spanish or French. Our office hours are Monday to Friday from 8am until 8pm, Saturdays from 9am until 2pm.""}}</p>
+</div>
+</div>
+</div>",spanish
+,Block | FAQ | general | portuguese,1,faq_general,"<div id=""tab-0"" class=""faq-tab active"">
+<h3 class=""faq-title"">{{trans ""General""}}</h3>
+<div class=""faq-content"">
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Are there discounts for booking more than one tour?""}}</h4>
+<p class=""answer"">{{trans ""We usually have special promotions for the booking of two or more activities in Buenos Aires. Please have a look in the Specials section of our website for any deals currently on offer.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Can I book flights / hotels / car rental through Daytours4u?""}}</h4>
+<p class=""answer"">{{trans ""Bsas4u specialises in independent sightseeing tours, daily excursions, and other cultural activities in the destination and its surroundings. If you want to receive further information about travelling in Argentina, or you need help in planning an all-inclusive vacation, you can find an array of travel articles on our blog.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Can I book more than one tour in Buenos Aires?""}}</h4>
+<p class=""answer"">{{trans ""Yes, you may book any number of tours from the Bsas4u website, depending on the time you have available. Simply add a new product to your cart. You can also visit the Packages section to book the standard packages we have built according to the previous preferences of our customers. These packages already have the best price-benefit.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Can I book over the telephone?""}}</h4>
+<p class=""answer"">{{trans ""Our website offers complete and updated information about the tours and activities in our catalogue, and our payment methods adhere to the highest standards to keep your private information safe. Nevertheless, we will be happy to help you with your bookings in the manner you prefer and a member of our team will be able to help you in English, Portuguese, Spanish or French. Our office hours are Monday to Friday from 8am until 8pm, Saturdays from 9am until 2pm.""}}</p>
+</div>
+</div>
+</div>",portuguese
+,Block | FAQ | general | french,1,faq_general,"<div id=""tab-0"" class=""faq-tab active"">
+<h3 class=""faq-title"">{{trans ""General""}}</h3>
+<div class=""faq-content"">
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Are there discounts for booking more than one tour?""}}</h4>
+<p class=""answer"">{{trans ""We usually have special promotions for the booking of two or more activities in Buenos Aires. Please have a look in the Specials section of our website for any deals currently on offer.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Can I book flights / hotels / car rental through Daytours4u?""}}</h4>
+<p class=""answer"">{{trans ""Bsas4u specialises in independent sightseeing tours, daily excursions, and other cultural activities in the destination and its surroundings. If you want to receive further information about travelling in Argentina, or you need help in planning an all-inclusive vacation, you can find an array of travel articles on our blog.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Can I book more than one tour in Buenos Aires?""}}</h4>
+<p class=""answer"">{{trans ""Yes, you may book any number of tours from the Bsas4u website, depending on the time you have available. Simply add a new product to your cart. You can also visit the Packages section to book the standard packages we have built according to the previous preferences of our customers. These packages already have the best price-benefit.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Can I book over the telephone?""}}</h4>
+<p class=""answer"">{{trans ""Our website offers complete and updated information about the tours and activities in our catalogue, and our payment methods adhere to the highest standards to keep your private information safe. Nevertheless, we will be happy to help you with your bookings in the manner you prefer and a member of our team will be able to help you in English, Portuguese, Spanish or French. Our office hours are Monday to Friday from 8am until 8pm, Saturdays from 9am until 2pm.""}}</p>
+</div>
+</div>
+</div>",french
+12,Block | FAQ | Argentina | english,1,faq_argentina,"<div id=""tab-2"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Argentina""}}</h3>
+<div class=""faq-content"">
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Can I book the tour when I get to Buenos Aires?""}}</h4>
+<p class=""answer"">{{trans ""The products and tourist services of Bsas4u can be booked online wherever you are, in Buenos Aires or elsewhere. Our calendar will allow you to book up to two days in advance. Please contact our Support Team to verify availability and book over the telephone.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""I don't know what date I'm travelling yet, can I book a product and leave the date open?""}}</h4>
+<p class=""answer"">{{trans ""We need a specific date to reserve any tour or service offered on our website. If you haven't decided on the specific dates you are going to stay in Buenos Aires, you can book a provisional date for the tour service you want (excluding tickets for football games or any other special events) and subsequently change it up to 3 days before the desired date via email with our Support Team.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""I already paid and I'm not sure if my booking was received. What should I do?""}}</h4>
+<p class=""answer"">{{trans ""You should receive an automatic response from our website confirming that your booking is in process. However, our Operations Team has to confirm this reservation with the tour provider, and, therefore, you should receive a second e-mail within 24 hours of your booking (up to 48 hours on weekends and national holidays) confirming the details of the service including pickup time, customer emergency number, and the voucher of your service. If you haven't received such an email, please check your junk folder or contact us via Chat to verify the status of your order.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""How can I contact you if I have a last minute event/emergency before my tour?""}}</h4>
+<p class=""answer"">{{trans ""You will receive with your voucher, a 24/7 mobile number to call in Buenos Aires in case you need to contact us out of office hours. If your query does not require immediate attention, you should direct it to the Bsas4u Support Team and we will get back to you within the next 24 hours (up to 48 hours on weekends and national holidays).""}}</p>
+</div>
+</div>
+</div>","admin,english"
+,Block | FAQ | Argentina | spanish,1,faq_argentina,"<div id=""tab-2"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Argentina""}}</h3>
+<div class=""faq-content"">
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Can I book the tour when I get to Buenos Aires?""}}</h4>
+<p class=""answer"">{{trans ""The products and tourist services of Bsas4u can be booked online wherever you are, in Buenos Aires or elsewhere. Our calendar will allow you to book up to two days in advance. Please contact our Support Team to verify availability and book over the telephone.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""I don't know what date I'm travelling yet, can I book a product and leave the date open?""}}</h4>
+<p class=""answer"">{{trans ""We need a specific date to reserve any tour or service offered on our website. If you haven't decided on the specific dates you are going to stay in Buenos Aires, you can book a provisional date for the tour service you want (excluding tickets for football games or any other special events) and subsequently change it up to 3 days before the desired date via email with our Support Team.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""I already paid and I'm not sure if my booking was received. What should I do?""}}</h4>
+<p class=""answer"">{{trans ""You should receive an automatic response from our website confirming that your booking is in process. However, our Operations Team has to confirm this reservation with the tour provider, and, therefore, you should receive a second e-mail within 24 hours of your booking (up to 48 hours on weekends and national holidays) confirming the details of the service including pickup time, customer emergency number, and the voucher of your service. If you haven't received such an email, please check your junk folder or contact us via Chat to verify the status of your order.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""How can I contact you if I have a last minute event/emergency before my tour?""}}</h4>
+<p class=""answer"">{{trans ""You will receive with your voucher, a 24/7 mobile number to call in Buenos Aires in case you need to contact us out of office hours. If your query does not require immediate attention, you should direct it to the Bsas4u Support Team and we will get back to you within the next 24 hours (up to 48 hours on weekends and national holidays).""}}</p>
+</div>
+</div>
+</div>",spanish
+,Block | FAQ | Argentina | portuguese,1,faq_argentina,"<div id=""tab-2"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Argentina""}}</h3>
+<div class=""faq-content"">
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Can I book the tour when I get to Buenos Aires?""}}</h4>
+<p class=""answer"">{{trans ""The products and tourist services of Bsas4u can be booked online wherever you are, in Buenos Aires or elsewhere. Our calendar will allow you to book up to two days in advance. Please contact our Support Team to verify availability and book over the telephone.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""I don't know what date I'm travelling yet, can I book a product and leave the date open?""}}</h4>
+<p class=""answer"">{{trans ""We need a specific date to reserve any tour or service offered on our website. If you haven't decided on the specific dates you are going to stay in Buenos Aires, you can book a provisional date for the tour service you want (excluding tickets for football games or any other special events) and subsequently change it up to 3 days before the desired date via email with our Support Team.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""I already paid and I'm not sure if my booking was received. What should I do?""}}</h4>
+<p class=""answer"">{{trans ""You should receive an automatic response from our website confirming that your booking is in process. However, our Operations Team has to confirm this reservation with the tour provider, and, therefore, you should receive a second e-mail within 24 hours of your booking (up to 48 hours on weekends and national holidays) confirming the details of the service including pickup time, customer emergency number, and the voucher of your service. If you haven't received such an email, please check your junk folder or contact us via Chat to verify the status of your order.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""How can I contact you if I have a last minute event/emergency before my tour?""}}</h4>
+<p class=""answer"">{{trans ""You will receive with your voucher, a 24/7 mobile number to call in Buenos Aires in case you need to contact us out of office hours. If your query does not require immediate attention, you should direct it to the Bsas4u Support Team and we will get back to you within the next 24 hours (up to 48 hours on weekends and national holidays).""}}</p>
+</div>
+</div>
+</div>",portuguese
+,Block | FAQ | Argentina | french,1,faq_argentina,"<div id=""tab-2"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Argentina""}}</h3>
+<div class=""faq-content"">
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""Can I book the tour when I get to Buenos Aires?""}}</h4>
+<p class=""answer"">{{trans ""The products and tourist services of Bsas4u can be booked online wherever you are, in Buenos Aires or elsewhere. Our calendar will allow you to book up to two days in advance. Please contact our Support Team to verify availability and book over the telephone.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""I don't know what date I'm travelling yet, can I book a product and leave the date open?""}}</h4>
+<p class=""answer"">{{trans ""We need a specific date to reserve any tour or service offered on our website. If you haven't decided on the specific dates you are going to stay in Buenos Aires, you can book a provisional date for the tour service you want (excluding tickets for football games or any other special events) and subsequently change it up to 3 days before the desired date via email with our Support Team.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""I already paid and I'm not sure if my booking was received. What should I do?""}}</h4>
+<p class=""answer"">{{trans ""You should receive an automatic response from our website confirming that your booking is in process. However, our Operations Team has to confirm this reservation with the tour provider, and, therefore, you should receive a second e-mail within 24 hours of your booking (up to 48 hours on weekends and national holidays) confirming the details of the service including pickup time, customer emergency number, and the voucher of your service. If you haven't received such an email, please check your junk folder or contact us via Chat to verify the status of your order.""}}</p>
+</div>
+<div class=""question"">
+<h4 class=""question-title"">{{trans ""How can I contact you if I have a last minute event/emergency before my tour?""}}</h4>
+<p class=""answer"">{{trans ""You will receive with your voucher, a 24/7 mobile number to call in Buenos Aires in case you need to contact us out of office hours. If your query does not require immediate attention, you should direct it to the Bsas4u Support Team and we will get back to you within the next 24 hours (up to 48 hours on weekends and national holidays).""}}</p>
+</div>
+</div>
+</div>",french
+13,Block | FAQ | Argentina | english,1,faq_brazil,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Brazil""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>","admin,english"
+,Block | FAQ | Brazil | spanish,1,faq_brazil,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Brazil""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",spanish
+,Block | FAQ | Brazil | portuguese,1,faq_brazil,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Brazil""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",portuguese
+,Block | FAQ | Brazil | french,1,faq_brazil,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Brazil""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",french
+14,Block | FAQ | Bolivia | english,1,faq_bolivia,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Bolivia""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>","admin,english"
+,Block | FAQ | Bolivia | spanish,1,faq_bolivia,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Bolivia""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",spanish
+,Block | FAQ | Bolivia | portuguese,1,faq_bolivia,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Bolivia""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",portuguese
+,Block | FAQ | Bolivia | french,1,faq_bolivia,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Bolivia""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",french
+15,Block | FAQ | Chile | english,1,faq_chile,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Chile""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>","admin,english"
+,Block | FAQ | Chile | spanish,1,faq_chile,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Chile""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",spanish
+,Block | FAQ | Chile | portuguese,1,faq_chile,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Chile""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",portuguese
+,Block | FAQ | Chile | french,1,faq_chile,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Chile""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",french
+16,Block | FAQ | Colombia | english,1,faq_colombia,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Colombia""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>","admin,english"
+,Block | FAQ | Colombia | spanish,1,faq_colombia,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Colombia""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",spanish
+,Block | FAQ | Colombia | portuguese,1,faq_colombia,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Colombia""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",portuguese
+,Block | FAQ | Colombia | french,1,faq_colombia,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Colombia""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",french
+17,Block | FAQ | Paraguay | english,1,faq_paraguay,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Paraguay""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>","admin,english"
+,Block | FAQ | Paraguay | spanish,1,faq_paraguay,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Paraguay""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",spanish
+,Block | FAQ | Paraguay | portuguese,1,faq_paraguay,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Paraguay""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",portuguese
+,Block | FAQ | Paraguay | french,1,faq_paraguay,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Paraguay""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",french
+18,Block | FAQ | Peru | english,1,faq_peru,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Peru""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>","admin,english"
+,Block | FAQ | Peru | spanish,1,faq_peru,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Peru""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",spanish
+,Block | FAQ | Peru | portuguese,1,faq_peru,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Peru""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",portuguese
+,Block | FAQ | Peru | french,1,faq_peru,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Peru""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",french
+19,Block | FAQ | Uruguay | english,1,faq_uruguay,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Uruguay""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>","admin,english"
+,Block | FAQ | Uruguay | spanish,1,faq_uruguay,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Uruguay""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",spanish
+,Block | FAQ | Uruguay | portuguese,1,faq_uruguay,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Uruguay""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",portuguese
+,Block | FAQ | Uruguay | french,1,faq_uruguay,"<div id=""tab-3"" class=""faq-tab"">
+<h3 class=""faq-title"">{{trans ""Uruguay""}}</h3>
+<div class=""faq-content"">
+<div class=""question""></div>
+</div>
+</div>",french
+1,Block | Footer | Links | english,,footer_links_block,"<div class=""footer-container"">
+<div class=""footer-columns"">
+<div class=""footer-column footer-links footer-travel active"">
+<h2 class=""footer-column__title""><a href=""{{store url=""blogwp/en""}}"">{{trans ""Travel Inspiration""}}</a></h2>
+<div class=""footer-link__list travel-list"">{{block class=""Daytours\Wordpress\Block\CategoryListFooterBlog"" name=""blog-popular-footer"" id_category=""1387"" title=""Most Popular"" count_item=""3""}}</div>
+</div>
+<div class=""footer-column footer-links"">
+<h2 class=""footer-column__title""><a href=""{{store url=""destinations.html""}}"">{{trans ""Destinations""}}</a></h2>
+<ul class=""footer-link__list"">
+<li><a href=""{{store direct_url=""destinations/argentina.html""}}"">Argentina</a></li>
+<li><a href=""{{store direct_url=""destinations/brazil.html""}}"">Brazil</a></li>
+<li><a href=""{{store direct_url=""destinations/colombia.html""}}"">Colombia</a></li>
+<li><a href=""{{store direct_url=""destinations/uruguay.html""}}"">Uruguay</a></li>
+<li><a href=""{{store direct_url=""destinations/chile.html""}}"">Chile</a></li>
+<li><a href=""{{store direct_url=""destinations/peru.html""}}"">Peru</a></li>
+<li><a href=""{{store direct_url=""destinations/bolivia.html""}}"">Bolivia</a></li>
+<li><a href=""{{store direct_url=""destinations/paraguay.html""}}"">Paraguay</a></li>
+</ul>
+</div>
+<div class=""footer-column footer-links"">
+<h2 class=""footer-column__title""><a href=""{{store url=""regions.html""}}"">{{trans ""Regions""}}</a></h2>
+<ul class=""footer-link__list"">
+<li><a href=""#"">Patagonia</a></li>
+<li><a href=""#"">Andes</a></li>
+<li><a href=""#"">Lagos y volcanes</a></li>
+<li><a href=""#"">Pampa</a></li>
+<li><a href=""#"">Vinos</a></li>
+<li><a href=""#"">Río de la Plata</a></li>
+<li><a href=""#"">Desierto</a></li>
+<li><a href=""#"">Selva</a></li>
+<li><a href=""#"">Caribe</a></li>
+<li><a href=""#"">Costa Atlántica</a></li>
+<li><a href=""#"">Litoral Pacifico</a></li>
+<li><a href=""#"">Café</a></li>
+</ul>
+</div>
+<div class=""footer-column footer-links"">
+<h2 class=""footer-column__title""><a href=""{{store url=""tours.html""}}"">{{trans ""Tours""}}</a></h2>
+<ul class=""footer-link__list"">
+<li><a href=""#"">{{trans ""Atractions""}}</a></li>
+<li><a href=""#"">{{trans ""Experiences""}}</a></li>
+<li><a href=""#"">{{trans ""Sightseeing Tours""}}</a></li>
+<li><a href=""#"">{{trans ""Special Deals""}}</a></li>
+<li><a href=""#"">{{trans ""Transfer""}}</a></li>
+<li><a href=""#"">{{trans ""Packages""}}</a></li>
+</ul>
+</div>
+<div class=""footer-column footer-links"">
+<h2 class=""footer-column__title""><a href=""#"">{{trans ""Company""}}</a></h2>
+<ul class=""footer-link__list"">
+<li><a href=""{{store url='blogwp/en'}}"">{{trans ""Travel Blog""}}</a></li>
+<li><a href=""{{store url='mice'}}"">{{trans ""MICE""}}</a></li>
+<li><a href=""{{store url='private-group'}}"">{{trans ""Private Groups""}}</a></li>
+<li><a href=""{{store url='cruises'}}"">{{trans ""Cruises""}}</a></li>
+<li><a href=""{{store url='about-us'}}"">{{trans ""About us""}}</a></li>
+<li><a href=""{{store url='careers'}}"">{{trans ""Careers""}}</a></li>
+<li><a href=""{{store url='contact-us'}}"">{{trans ""Help""}}</a></li>
+<li><a href=""{{store url='privacy-policy-cookie-restriction-mode'}}"">{{trans ""Security & Privacy""}}</a></li>
+<li><a href=""{{store url='customer-service'}}"">{{trans ""Customer Service""}}</a></li>
+<li><a href=""{{store url='sitemap'}}"">{{trans ""Sitemap""}}</a></li>
+</ul>
+</div>
+</div>
+<div class=""footer-social"">
+<h2 class=""footer-social__title"">{{trans ""Connect Social""}}</h2>
+<ul class=""social-list"">
+<li><a class=""social-facebook"" href=""https://www.facebook.com/daytours4u/"" target=""_blank""><span style=""display: none;"">{{trans ""Facebook""}}</span></a></li>
+<li><a class=""social-twitter"" href=""https://twitter.com/daytours4u"" target=""_blank""><span style=""display: none;"">{{trans ""Twitter""}}</span></a></li>
+<li><a class=""social-instagram"" href=""https://www.instagram.com/daytours4u/"" target=""_blank""><span style=""display: none;"">{{trans ""Instagram""}}</span></a></li>
+<li><a class=""social-pinterest"" href=""https://www.pinterest.com/daytours4u/"" target=""_blank""><span style=""display: none;"">{{trans ""Pinterest""}}</span></a></li>
+<li><a class=""social-youtube"" href=""https://www.youtube.com/channel/UCXcpcJz-myl7pUVM4efOuVg"" target=""_blank""><span style=""display: none;"">{{trans ""Youtube""}}</span></a></li>
+<li><a class=""social-linkedin"" href=""https://www.linkedin.com/company/bsas4u"" target=""_blank""><span style=""display: none;"">{{trans ""Linkedin""}}</span></a></li>
+<li><a class=""social-google"" href=""https://plus.google.com/+Daytours4uTours"" target=""_blank""><span style=""display: none;"">{{trans ""Google+""}}</span></a></li>
+</ul>
+</div>
+</div>","admin,english"
+33,Block | Footer | Links | spanish,1,footer_links_block,"<div class=""footer-container"">
+<div class=""footer-columns"">
+<div class=""footer-column footer-links footer-travel active"">
+<h2 class=""footer-column__title""><a href=""{{store url=""blogwp/en""}}"">{{trans ""Travel Inspiration""}}</a></h2>
+<div class=""footer-link__list travel-list"">{{block class=""Daytours\Wordpress\Block\CategoryListFooterBlog"" name=""blog-popular-footer"" id_category=""1387"" title=""Most Popular"" count_item=""3""}}</div>
+</div>
+<div class=""footer-column footer-links"">
+<h2 class=""footer-column__title""><a href=""{{store url=""destinations.html""}}"">{{trans ""Destinations""}}</a></h2>
+<ul class=""footer-link__list"">
+<li><a href=""{{store direct_url=""destinations/argentina.html""}}"">Argentina</a></li>
+<li><a href=""{{store direct_url=""destinations/brazil.html""}}"">Brazil</a></li>
+<li><a href=""{{store direct_url=""destinations/colombia.html""}}"">Colombia</a></li>
+<li><a href=""{{store direct_url=""destinations/uruguay.html""}}"">Uruguay</a></li>
+<li><a href=""{{store direct_url=""destinations/chile.html""}}"">Chile</a></li>
+<li><a href=""{{store direct_url=""destinations/peru.html""}}"">Peru</a></li>
+<li><a href=""{{store direct_url=""destinations/bolivia.html""}}"">Bolivia</a></li>
+<li><a href=""{{store direct_url=""destinations/paraguay.html""}}"">Paraguay</a></li>
+</ul>
+</div>
+<div class=""footer-column footer-links"">
+<h2 class=""footer-column__title""><a href=""{{store url=""regions.html""}}"">{{trans ""Regions""}}</a></h2>
+<ul class=""footer-link__list"">
+<li><a href=""#"">Patagonia</a></li>
+<li><a href=""#"">Andes</a></li>
+<li><a href=""#"">Lagos y volcanes</a></li>
+<li><a href=""#"">Pampa</a></li>
+<li><a href=""#"">Vinos</a></li>
+<li><a href=""#"">Río de la Plata</a></li>
+<li><a href=""#"">Desierto</a></li>
+<li><a href=""#"">Selva</a></li>
+<li><a href=""#"">Caribe</a></li>
+<li><a href=""#"">Costa Atlántica</a></li>
+<li><a href=""#"">Litoral Pacifico</a></li>
+<li><a href=""#"">Café</a></li>
+</ul>
+</div>
+<div class=""footer-column footer-links"">
+<h2 class=""footer-column__title""><a href=""{{store url=""tours.html""}}"">{{trans ""Tours""}}</a></h2>
+<ul class=""footer-link__list"">
+<li><a href=""#"">{{trans ""Atractions""}}</a></li>
+<li><a href=""#"">{{trans ""Experiences""}}</a></li>
+<li><a href=""#"">{{trans ""Sightseeing Tours""}}</a></li>
+<li><a href=""#"">{{trans ""Special Deals""}}</a></li>
+<li><a href=""#"">{{trans ""Transfer""}}</a></li>
+<li><a href=""#"">{{trans ""Packages""}}</a></li>
+</ul>
+</div>
+<div class=""footer-column footer-links"">
+<h2 class=""footer-column__title""><a href=""#"">{{trans ""Company""}}</a></h2>
+<ul class=""footer-link__list"">
+<li><a href=""{{store url='blogwp/en'}}"">{{trans ""Travel Blog""}}</a></li>
+<li><a href=""{{store url='mice'}}"">{{trans ""MICE""}}</a></li>
+<li><a href=""{{store url='private-group'}}"">{{trans ""Private Groups""}}</a></li>
+<li><a href=""{{store url='cruises'}}"">{{trans ""Cruises""}}</a></li>
+<li><a href=""{{store url='about-us'}}"">{{trans ""About us""}}</a></li>
+<li><a href=""{{store url='careers'}}"">{{trans ""Careers""}}</a></li>
+<li><a href=""{{store url='contact-us'}}"">{{trans ""Help""}}</a></li>
+<li><a href=""{{store url='privacy-policy-cookie-restriction-mode'}}"">{{trans ""Security & Privacy""}}</a></li>
+<li><a href=""{{store url='customer-service'}}"">{{trans ""Customer Service""}}</a></li>
+<li><a href=""{{store url='sitemap'}}"">{{trans ""Sitemap""}}</a></li>
+</ul>
+</div>
+</div>
+<div class=""footer-social"">
+<h2 class=""footer-social__title"">{{trans ""Connect Social""}}</h2>
+<ul class=""social-list"">
+<li><a class=""social-facebook"" href=""https://www.facebook.com/daytours4u/"" target=""_blank""><span style=""display: none;"">{{trans ""Facebook""}}</span></a></li>
+<li><a class=""social-twitter"" href=""https://twitter.com/daytours4u"" target=""_blank""><span style=""display: none;"">{{trans ""Twitter""}}</span></a></li>
+<li><a class=""social-instagram"" href=""https://www.instagram.com/daytours4u/"" target=""_blank""><span style=""display: none;"">{{trans ""Instagram""}}</span></a></li>
+<li><a class=""social-pinterest"" href=""https://www.pinterest.com/daytours4u/"" target=""_blank""><span style=""display: none;"">{{trans ""Pinterest""}}</span></a></li>
+<li><a class=""social-youtube"" href=""https://www.youtube.com/channel/UCXcpcJz-myl7pUVM4efOuVg"" target=""_blank""><span style=""display: none;"">{{trans ""Youtube""}}</span></a></li>
+<li><a class=""social-linkedin"" href=""https://www.linkedin.com/company/bsas4u"" target=""_blank""><span style=""display: none;"">{{trans ""Linkedin""}}</span></a></li>
+<li><a class=""social-google"" href=""https://plus.google.com/+Daytours4uTours"" target=""_blank""><span style=""display: none;"">{{trans ""Google+""}}</span></a></li>
+</ul>
+</div>
+</div>",spanish
+42,Block | Footer | Links | portuguese,1,footer_links_block,"<div class=""footer-container"">
+<div class=""footer-columns"">
+<div class=""footer-column footer-links footer-travel active"">
+<h2 class=""footer-column__title""><a href=""{{store url=""blogwp/en""}}"">{{trans ""Travel Inspiration""}}</a></h2>
+<div class=""footer-link__list travel-list"">{{block class=""Daytours\Wordpress\Block\CategoryListFooterBlog"" name=""blog-popular-footer"" id_category=""1387"" title=""Most Popular"" count_item=""3""}}</div>
+</div>
+<div class=""footer-column footer-links"">
+<h2 class=""footer-column__title""><a href=""{{store url=""destinations.html""}}"">{{trans ""Destinations""}}</a></h2>
+<ul class=""footer-link__list"">
+<li><a href=""{{store direct_url=""destinations/argentina.html""}}"">Argentina</a></li>
+<li><a href=""{{store direct_url=""destinations/brazil.html""}}"">Brazil</a></li>
+<li><a href=""{{store direct_url=""destinations/colombia.html""}}"">Colombia</a></li>
+<li><a href=""{{store direct_url=""destinations/uruguay.html""}}"">Uruguay</a></li>
+<li><a href=""{{store direct_url=""destinations/chile.html""}}"">Chile</a></li>
+<li><a href=""{{store direct_url=""destinations/peru.html""}}"">Peru</a></li>
+<li><a href=""{{store direct_url=""destinations/bolivia.html""}}"">Bolivia</a></li>
+<li><a href=""{{store direct_url=""destinations/paraguay.html""}}"">Paraguay</a></li>
+</ul>
+</div>
+<div class=""footer-column footer-links"">
+<h2 class=""footer-column__title""><a href=""{{store url=""regions.html""}}"">{{trans ""Regions""}}</a></h2>
+<ul class=""footer-link__list"">
+<li><a href=""#"">Patagonia</a></li>
+<li><a href=""#"">Andes</a></li>
+<li><a href=""#"">Lagos y volcanes</a></li>
+<li><a href=""#"">Pampa</a></li>
+<li><a href=""#"">Vinos</a></li>
+<li><a href=""#"">Río de la Plata</a></li>
+<li><a href=""#"">Desierto</a></li>
+<li><a href=""#"">Selva</a></li>
+<li><a href=""#"">Caribe</a></li>
+<li><a href=""#"">Costa Atlántica</a></li>
+<li><a href=""#"">Litoral Pacifico</a></li>
+<li><a href=""#"">Café</a></li>
+</ul>
+</div>
+<div class=""footer-column footer-links"">
+<h2 class=""footer-column__title""><a href=""{{store url=""tours.html""}}"">{{trans ""Tours""}}</a></h2>
+<ul class=""footer-link__list"">
+<li><a href=""#"">{{trans ""Atractions""}}</a></li>
+<li><a href=""#"">{{trans ""Experiences""}}</a></li>
+<li><a href=""#"">{{trans ""Sightseeing Tours""}}</a></li>
+<li><a href=""#"">{{trans ""Special Deals""}}</a></li>
+<li><a href=""#"">{{trans ""Transfer""}}</a></li>
+<li><a href=""#"">{{trans ""Packages""}}</a></li>
+</ul>
+</div>
+<div class=""footer-column footer-links"">
+<h2 class=""footer-column__title""><a href=""#"">{{trans ""Company""}}</a></h2>
+<ul class=""footer-link__list"">
+<li><a href=""{{store url='blogwp/en'}}"">{{trans ""Travel Blog""}}</a></li>
+<li><a href=""{{store url='mice'}}"">{{trans ""MICE""}}</a></li>
+<li><a href=""{{store url='private-group'}}"">{{trans ""Private Groups""}}</a></li>
+<li><a href=""{{store url='cruises'}}"">{{trans ""Cruises""}}</a></li>
+<li><a href=""{{store url='about-us'}}"">{{trans ""About us""}}</a></li>
+<li><a href=""{{store url='careers'}}"">{{trans ""Careers""}}</a></li>
+<li><a href=""{{store url='contact-us'}}"">{{trans ""Help""}}</a></li>
+<li><a href=""{{store url='privacy-policy-cookie-restriction-mode'}}"">{{trans ""Security & Privacy""}}</a></li>
+<li><a href=""{{store url='customer-service'}}"">{{trans ""Customer Service""}}</a></li>
+<li><a href=""{{store url='sitemap'}}"">{{trans ""Sitemap""}}</a></li>
+</ul>
+</div>
+</div>
+<div class=""footer-social"">
+<h2 class=""footer-social__title"">{{trans ""Connect Social""}}</h2>
+<ul class=""social-list"">
+<li><a class=""social-facebook"" href=""https://www.facebook.com/daytours4u/"" target=""_blank""><span style=""display: none;"">{{trans ""Facebook""}}</span></a></li>
+<li><a class=""social-twitter"" href=""https://twitter.com/daytours4u"" target=""_blank""><span style=""display: none;"">{{trans ""Twitter""}}</span></a></li>
+<li><a class=""social-instagram"" href=""https://www.instagram.com/daytours4u/"" target=""_blank""><span style=""display: none;"">{{trans ""Instagram""}}</span></a></li>
+<li><a class=""social-pinterest"" href=""https://www.pinterest.com/daytours4u/"" target=""_blank""><span style=""display: none;"">{{trans ""Pinterest""}}</span></a></li>
+<li><a class=""social-youtube"" href=""https://www.youtube.com/channel/UCXcpcJz-myl7pUVM4efOuVg"" target=""_blank""><span style=""display: none;"">{{trans ""Youtube""}}</span></a></li>
+<li><a class=""social-linkedin"" href=""https://www.linkedin.com/company/bsas4u"" target=""_blank""><span style=""display: none;"">{{trans ""Linkedin""}}</span></a></li>
+<li><a class=""social-google"" href=""https://plus.google.com/+Daytours4uTours"" target=""_blank""><span style=""display: none;"">{{trans ""Google+""}}</span></a></li>
+</ul>
+</div>
+</div>",portuguese
+43,Block | Footer | Links | french,1,footer_links_block,"<div class=""footer-container"">
+<div class=""footer-columns"">
+<div class=""footer-column footer-links footer-travel active"">
+<h2 class=""footer-column__title""><a href=""{{store url=""blogwp/en""}}"">{{trans ""Travel Inspiration""}}</a></h2>
+<div class=""footer-link__list travel-list"">{{block class=""Daytours\Wordpress\Block\CategoryListFooterBlog"" name=""blog-popular-footer"" id_category=""1387"" title=""Most Popular"" count_item=""3""}}</div>
+</div>
+<div class=""footer-column footer-links"">
+<h2 class=""footer-column__title""><a href=""{{store url=""destinations.html""}}"">{{trans ""Destinations""}}</a></h2>
+<ul class=""footer-link__list"">
+<li><a href=""{{store direct_url=""destinations/argentina.html""}}"">Argentina</a></li>
+<li><a href=""{{store direct_url=""destinations/brazil.html""}}"">Brazil</a></li>
+<li><a href=""{{store direct_url=""destinations/colombia.html""}}"">Colombia</a></li>
+<li><a href=""{{store direct_url=""destinations/uruguay.html""}}"">Uruguay</a></li>
+<li><a href=""{{store direct_url=""destinations/chile.html""}}"">Chile</a></li>
+<li><a href=""{{store direct_url=""destinations/peru.html""}}"">Peru</a></li>
+<li><a href=""{{store direct_url=""destinations/bolivia.html""}}"">Bolivia</a></li>
+<li><a href=""{{store direct_url=""destinations/paraguay.html""}}"">Paraguay</a></li>
+</ul>
+</div>
+<div class=""footer-column footer-links"">
+<h2 class=""footer-column__title""><a href=""{{store url=""regions.html""}}"">{{trans ""Regions""}}</a></h2>
+<ul class=""footer-link__list"">
+<li><a href=""#"">Patagonia</a></li>
+<li><a href=""#"">Andes</a></li>
+<li><a href=""#"">Lagos y volcanes</a></li>
+<li><a href=""#"">Pampa</a></li>
+<li><a href=""#"">Vinos</a></li>
+<li><a href=""#"">Río de la Plata</a></li>
+<li><a href=""#"">Desierto</a></li>
+<li><a href=""#"">Selva</a></li>
+<li><a href=""#"">Caribe</a></li>
+<li><a href=""#"">Costa Atlántica</a></li>
+<li><a href=""#"">Litoral Pacifico</a></li>
+<li><a href=""#"">Café</a></li>
+</ul>
+</div>
+<div class=""footer-column footer-links"">
+<h2 class=""footer-column__title""><a href=""{{store url=""tours.html""}}"">{{trans ""Tours""}}</a></h2>
+<ul class=""footer-link__list"">
+<li><a href=""#"">{{trans ""Atractions""}}</a></li>
+<li><a href=""#"">{{trans ""Experiences""}}</a></li>
+<li><a href=""#"">{{trans ""Sightseeing Tours""}}</a></li>
+<li><a href=""#"">{{trans ""Special Deals""}}</a></li>
+<li><a href=""#"">{{trans ""Transfer""}}</a></li>
+<li><a href=""#"">{{trans ""Packages""}}</a></li>
+</ul>
+</div>
+<div class=""footer-column footer-links"">
+<h2 class=""footer-column__title""><a href=""#"">{{trans ""Company""}}</a></h2>
+<ul class=""footer-link__list"">
+<li><a href=""{{store url='blogwp/en'}}"">{{trans ""Travel Blog""}}</a></li>
+<li><a href=""{{store url='mice'}}"">{{trans ""MICE""}}</a></li>
+<li><a href=""{{store url='private-group'}}"">{{trans ""Private Groups""}}</a></li>
+<li><a href=""{{store url='cruises'}}"">{{trans ""Cruises""}}</a></li>
+<li><a href=""{{store url='about-us'}}"">{{trans ""About us""}}</a></li>
+<li><a href=""{{store url='careers'}}"">{{trans ""Careers""}}</a></li>
+<li><a href=""{{store url='contact-us'}}"">{{trans ""Help""}}</a></li>
+<li><a href=""{{store url='privacy-policy-cookie-restriction-mode'}}"">{{trans ""Security & Privacy""}}</a></li>
+<li><a href=""{{store url='customer-service'}}"">{{trans ""Customer Service""}}</a></li>
+<li><a href=""{{store url='sitemap'}}"">{{trans ""Sitemap""}}</a></li>
+</ul>
+</div>
+</div>
+<div class=""footer-social"">
+<h2 class=""footer-social__title"">{{trans ""Connect Social""}}</h2>
+<ul class=""social-list"">
+<li><a class=""social-facebook"" href=""https://www.facebook.com/daytours4u/"" target=""_blank""><span style=""display: none;"">{{trans ""Facebook""}}</span></a></li>
+<li><a class=""social-twitter"" href=""https://twitter.com/daytours4u"" target=""_blank""><span style=""display: none;"">{{trans ""Twitter""}}</span></a></li>
+<li><a class=""social-instagram"" href=""https://www.instagram.com/daytours4u/"" target=""_blank""><span style=""display: none;"">{{trans ""Instagram""}}</span></a></li>
+<li><a class=""social-pinterest"" href=""https://www.pinterest.com/daytours4u/"" target=""_blank""><span style=""display: none;"">{{trans ""Pinterest""}}</span></a></li>
+<li><a class=""social-youtube"" href=""https://www.youtube.com/channel/UCXcpcJz-myl7pUVM4efOuVg"" target=""_blank""><span style=""display: none;"">{{trans ""Youtube""}}</span></a></li>
+<li><a class=""social-linkedin"" href=""https://www.linkedin.com/company/bsas4u"" target=""_blank""><span style=""display: none;"">{{trans ""Linkedin""}}</span></a></li>
+<li><a class=""social-google"" href=""https://plus.google.com/+Daytours4uTours"" target=""_blank""><span style=""display: none;"">{{trans ""Google+""}}</span></a></li>
+</ul>
+</div>
+</div>",french
+7,Block | Checkout | after payment | english,1,after_my_payment,"<div class=""block-checkout-what"">
+<div class=""title"">What happens after my payment?</div>
+<div class=""description"">After your purchase is completed, you will receive a confirmation email of your payment. If your service is eligible for instant booking, you will receive immediately a voucher of services that contains all the information to successfully receive your service. Otherwise, make sure you will enter all the requested details after payment. These details are necessary to confirm your booking and send you the voucher. </div>
+</div>","admin,english"
+,Block | Checkout | after payment | spanish,1,after_my_payment,"<div class=""block-checkout-what"">
+<div class=""title"">What happens after my payment?</div>
+<div class=""description"">After your purchase is completed, you will receive a confirmation email of your payment. If your service is eligible for instant booking, you will receive immediately a voucher of services that contains all the information to successfully receive your service. Otherwise, make sure you will enter all the requested details after payment. These details are necessary to confirm your booking and send you the voucher. </div>
+</div>",spanish
+,Block | Checkout | after payment | portuguese,1,after_my_payment,"<div class=""block-checkout-what"">
+<div class=""title"">What happens after my payment?</div>
+<div class=""description"">After your purchase is completed, you will receive a confirmation email of your payment. If your service is eligible for instant booking, you will receive immediately a voucher of services that contains all the information to successfully receive your service. Otherwise, make sure you will enter all the requested details after payment. These details are necessary to confirm your booking and send you the voucher. </div>
+</div>",portuguese
+,Block | Checkout | after payment | french,1,after_my_payment,"<div class=""block-checkout-what"">
+<div class=""title"">What happens after my payment?</div>
+<div class=""description"">After your purchase is completed, you will receive a confirmation email of your payment. If your service is eligible for instant booking, you will receive immediately a voucher of services that contains all the information to successfully receive your service. Otherwise, make sure you will enter all the requested details after payment. These details are necessary to confirm your booking and send you the voucher. </div>
+</div>",french
+10,Block | Cart | view all payments | english,1,cart-page-sidebar,"<div class=""sidebar-cms-block-cart-checkout"">
+<div class=""row cart-sidebar-cms"">
+<div class=""col-lg-12 title"">Payment MethodS</div>
+<div class=""col-lg-12 image""><img class=""btn-secure-checkout-click"" src=""{{view url=""images/payments-cart.png""}}"" /></div>
+<div class=""col-lg-12 description"">Pay in your own currency with credit card, Paypal or local payment methods according with your country. <a class=""btn-secure-checkout-click"" href=""#"">View All</a></div>
+</div>
+<div class=""row cart-sidebar-cms-block2"">
+<div class=""col-lg-12"">
+<div class="" cart-sidebar-cms-block2-content"">
+<div class=""row"">
+<div class=""col-lg-7 col-md-7 col-xs-7"">
+<div class=""description"">Your information is safe with us. All data is encrypted and transmitted securely using SSL protocols</div>
+</div>
+<div class=""col-lg-5 col-md-5 col-xs-5 image text-right""><img src=""{{view url=""images/security-by-rapid.png""}}"" /></div>
+</div>
+</div>
+</div>
+</div>
+</div>","admin,english"
+,Block | Cart | view all payments | spanish,1,cart-page-sidebar,"<div class=""sidebar-cms-block-cart-checkout"">
+<div class=""row cart-sidebar-cms"">
+<div class=""col-lg-12 title"">Payment MethodS</div>
+<div class=""col-lg-12 image""><img class=""btn-secure-checkout-click"" src=""{{view url=""images/payments-cart.png""}}"" /></div>
+<div class=""col-lg-12 description"">Pay in your own currency with credit card, Paypal or local payment methods according with your country. <a class=""btn-secure-checkout-click"" href=""#"">View All</a></div>
+</div>
+<div class=""row cart-sidebar-cms-block2"">
+<div class=""col-lg-12"">
+<div class="" cart-sidebar-cms-block2-content"">
+<div class=""row"">
+<div class=""col-lg-7 col-md-7 col-xs-7"">
+<div class=""description"">Your information is safe with us. All data is encrypted and transmitted securely using SSL protocols</div>
+</div>
+<div class=""col-lg-5 col-md-5 col-xs-5 image text-right""><img src=""{{view url=""images/security-by-rapid.png""}}"" /></div>
+</div>
+</div>
+</div>
+</div>
+</div>",spanish
+,Block | Cart | view all payments | portuguese,1,cart-page-sidebar,"<div class=""sidebar-cms-block-cart-checkout"">
+<div class=""row cart-sidebar-cms"">
+<div class=""col-lg-12 title"">Payment MethodS</div>
+<div class=""col-lg-12 image""><img class=""btn-secure-checkout-click"" src=""{{view url=""images/payments-cart.png""}}"" /></div>
+<div class=""col-lg-12 description"">Pay in your own currency with credit card, Paypal or local payment methods according with your country. <a class=""btn-secure-checkout-click"" href=""#"">View All</a></div>
+</div>
+<div class=""row cart-sidebar-cms-block2"">
+<div class=""col-lg-12"">
+<div class="" cart-sidebar-cms-block2-content"">
+<div class=""row"">
+<div class=""col-lg-7 col-md-7 col-xs-7"">
+<div class=""description"">Your information is safe with us. All data is encrypted and transmitted securely using SSL protocols</div>
+</div>
+<div class=""col-lg-5 col-md-5 col-xs-5 image text-right""><img src=""{{view url=""images/security-by-rapid.png""}}"" /></div>
+</div>
+</div>
+</div>
+</div>
+</div>",portuguese
+,Block | Cart | view all payments | french,1,cart-page-sidebar,"<div class=""sidebar-cms-block-cart-checkout"">
+<div class=""row cart-sidebar-cms"">
+<div class=""col-lg-12 title"">Payment MethodS</div>
+<div class=""col-lg-12 image""><img class=""btn-secure-checkout-click"" src=""{{view url=""images/payments-cart.png""}}"" /></div>
+<div class=""col-lg-12 description"">Pay in your own currency with credit card, Paypal or local payment methods according with your country. <a class=""btn-secure-checkout-click"" href=""#"">View All</a></div>
+</div>
+<div class=""row cart-sidebar-cms-block2"">
+<div class=""col-lg-12"">
+<div class="" cart-sidebar-cms-block2-content"">
+<div class=""row"">
+<div class=""col-lg-7 col-md-7 col-xs-7"">
+<div class=""description"">Your information is safe with us. All data is encrypted and transmitted securely using SSL protocols</div>
+</div>
+<div class=""col-lg-5 col-md-5 col-xs-5 image text-right""><img src=""{{view url=""images/security-by-rapid.png""}}"" /></div>
+</div>
+</div>
+</div>
+</div>
+</div>",french
+8,Block | Checkout | sideBar Book with local expert | english,1,sidebar_checkout,"<div>
+<div class=""row sidebar-block-cms-panel1"">
+<div class=""col-lg-7 col-md-7  col-xs-12 description"">Your information is safe with us. All data is encrypted and transmitted securely using SSL protocols</div>
+<div class=""col-lg-5 col-md-5  col-xs-12 text-right""><img src=""{{view url=""images/security-by-rapid.png""}}"" /></div>
+</div>
+<div class=""row  sidebar-block-cms-panel2"">
+<div class=""col-lg-12 title"">
+<div class=""title-desc"">BOOK WITH LOCAL EXPERTS</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 text-center"">
+<div class=""image""><img src=""{{view url=""images/10k.png""}}"" /></div>
+<div class=""description"">Years of experience</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 text-center"">
+<div class=""image""><img src=""{{view url=""images/100k.png""}}"" /></div>
+<div class=""description"">Services provided</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 text-center"">
+<div class=""image""><img src=""{{view url=""images/40k.png""}}"" /></div>
+<div class=""description"">Happy customers</div>
+</div>
+</div>
+</div>","admin,english"
+,Block | Checkout | sideBar Book with local expert | spanish,1,sidebar_checkout,"<div>
+<div class=""row sidebar-block-cms-panel1"">
+<div class=""col-lg-7 col-md-7  col-xs-12 description"">Your information is safe with us. All data is encrypted and transmitted securely using SSL protocols</div>
+<div class=""col-lg-5 col-md-5  col-xs-12 text-right""><img src=""{{view url=""images/security-by-rapid.png""}}"" /></div>
+</div>
+<div class=""row  sidebar-block-cms-panel2"">
+<div class=""col-lg-12 title"">
+<div class=""title-desc"">BOOK WITH LOCAL EXPERTS</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 text-center"">
+<div class=""image""><img src=""{{view url=""images/10k.png""}}"" /></div>
+<div class=""description"">Years of experience</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 text-center"">
+<div class=""image""><img src=""{{view url=""images/100k.png""}}"" /></div>
+<div class=""description"">Services provided</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 text-center"">
+<div class=""image""><img src=""{{view url=""images/40k.png""}}"" /></div>
+<div class=""description"">Happy customers</div>
+</div>
+</div>
+</div>",spanish
+,Block | Checkout | sideBar Book with local expert | portuguese,1,sidebar_checkout,"<div>
+<div class=""row sidebar-block-cms-panel1"">
+<div class=""col-lg-7 col-md-7  col-xs-12 description"">Your information is safe with us. All data is encrypted and transmitted securely using SSL protocols</div>
+<div class=""col-lg-5 col-md-5  col-xs-12 text-right""><img src=""{{view url=""images/security-by-rapid.png""}}"" /></div>
+</div>
+<div class=""row  sidebar-block-cms-panel2"">
+<div class=""col-lg-12 title"">
+<div class=""title-desc"">BOOK WITH LOCAL EXPERTS</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 text-center"">
+<div class=""image""><img src=""{{view url=""images/10k.png""}}"" /></div>
+<div class=""description"">Years of experience</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 text-center"">
+<div class=""image""><img src=""{{view url=""images/100k.png""}}"" /></div>
+<div class=""description"">Services provided</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 text-center"">
+<div class=""image""><img src=""{{view url=""images/40k.png""}}"" /></div>
+<div class=""description"">Happy customers</div>
+</div>
+</div>
+</div>",portuguese
+,Block | Checkout | sideBar Book with local expert | french,1,sidebar_checkout,"<div>
+<div class=""row sidebar-block-cms-panel1"">
+<div class=""col-lg-7 col-md-7  col-xs-12 description"">Your information is safe with us. All data is encrypted and transmitted securely using SSL protocols</div>
+<div class=""col-lg-5 col-md-5  col-xs-12 text-right""><img src=""{{view url=""images/security-by-rapid.png""}}"" /></div>
+</div>
+<div class=""row  sidebar-block-cms-panel2"">
+<div class=""col-lg-12 title"">
+<div class=""title-desc"">BOOK WITH LOCAL EXPERTS</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 text-center"">
+<div class=""image""><img src=""{{view url=""images/10k.png""}}"" /></div>
+<div class=""description"">Years of experience</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 text-center"">
+<div class=""image""><img src=""{{view url=""images/100k.png""}}"" /></div>
+<div class=""description"">Services provided</div>
+</div>
+<div class=""col-lg-4 col-md-4  col-xs-12 text-center"">
+<div class=""image""><img src=""{{view url=""images/40k.png""}}"" /></div>
+<div class=""description"">Happy customers</div>
+</div>
+</div>
+</div>",french

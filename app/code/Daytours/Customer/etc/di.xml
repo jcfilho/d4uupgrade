@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+
+<!--    <type name="Magento\Customer\Block\Account\RegisterLink">-->
+<!--        <plugin name="dt-customer-register-link" type="Daytours\Customer\Plugin\Block\Account\RegisterLink" sortOrder="1" />-->
+<!--    </type>-->
+<!--    <type name="Magento\Customer\Block\Account\AuthorizationLink">-->
+<!--        <plugin name="dt-customer-authorization-link" type="Daytours\Customer\Plugin\Block\Account\AuthorizationLink" sortOrder="1" />-->
+<!--    </type>-->
+
+<!--    <type name="Magento\Customer\Controller\Account\Create">-->
+<!--        <plugin name="dt-customer-controller-create" type="Daytours\Customer\Plugin\Controller\Account\Create" sortOrder="1" />-->
+<!--    </type>-->
+
+<!--    <type name="Magento\Customer\Controller\Account\Login">-->
+<!--        <plugin name="dt-customer-controller-login" type="Daytours\Customer\Plugin\Controller\Account\Login" sortOrder="1" />-->
+<!--    </type>-->
+
+<!--    <preference for="Magento\Customer\Controller\Account\ResetPasswordPost" type="Daytours\Customer\Plugin\Controller\Account\ResetPasswordPost" />-->
+<!---->
+</config>

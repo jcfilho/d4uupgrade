@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="marketplace_product_popup_grid"/>
+	<body>
+		<referenceBlock name="magebay_marketplace.seller_product_add_new">
+			<block class="Magebay\Marketplace\Block\Product\GroupedProduct\Grouped\AssociatedProducts" name="marketplace_product_grouped_container" template="Magebay_Marketplace::product/grouped/grouped.phtml">
+				<block class="Magebay\Marketplace\Block\Product\GroupedProduct\Grouped\ListAssociatedProducts" name="marketplace_product_super_list" as="list" template="Magebay_Marketplace::product/grouped/list.phtml"/>
+				<block class="Magento\Framework\View\Element\Template" name="marketplace_product_super_grid_popup_container" as="marketplace_product_group_grid_popup_container"/>
+			</block>
+		</referenceBlock>
+	</body>
+</page>

@@ -1,0 +1,20 @@
+<!--
+/**
+ * @Author      : Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_order_save_commit_after">
+        <observer name="mk_save_partner" instance="Magebay\Marketplace\Observer\SavePartner" />
+    </event>
+    <event name="catalog_product_delete_after">
+        <observer name="mk_delete_product" instance="Magebay\Marketplace\Observer\DeleteProduct" />
+    </event>
+    <event name="customer_delete_commit_after">
+        <observer name="mk_delete_seller" instance="Magebay\Marketplace\Observer\DeleteSeller" />
+    </event>
+</config>

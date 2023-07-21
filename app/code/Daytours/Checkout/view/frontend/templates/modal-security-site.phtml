@@ -1,0 +1,67 @@
+
+<?php
+
+/** @var \Daytours\Checkout\Block\ModalSecurity $block */
+
+$content = $block->getContentModalSecurity();
+?>
+<div class="content-modal-security" style="display: none;">
+    <div class="head-center"></div>
+    <?php echo $content; ?>
+</div>
+
+<script>
+    require([
+        'jquery',
+        'mage/translate',
+        'Magento_Ui/js/modal/modal'
+    ],function($,$tr,modal){
+        'use strict';
+
+
+        var AppModalpaymentmethods = function () {
+
+        };
+        AppModalpaymentmethods.prototype = {
+            selectors : {
+                btnShowPopup : 'body .btn-secure-checkout-click',
+                contentModal : '.content-modal-security'
+            },
+            init: function () {
+                var self = this;
+                self.createModal();
+                self.clickButtonShowModal();
+            },
+            createModal:function(){
+                var self = this;
+                var options = {
+                    type: 'popup',
+                    responsive: true,
+                    innerScroll: false,
+                    title: false,
+                    buttons: false,
+                    modalClass : 'modal-security-site'
+                };
+                var modal_overlay_element = $(self.selectors.contentModal);
+                modal(options, modal_overlay_element);
+            },
+            clickButtonShowModal: function () {
+                var self = this;
+                $(self.selectors.btnShowPopup).on('click',function( event ){
+                    event.preventDefault();
+
+                    var modalContainer = $(self.selectors.contentModal);
+                    modalContainer.modal('openModal');
+
+                });
+            }
+
+        };
+
+        $(document).ready(function(){
+            var app = new AppModalpaymentmethods();
+            app.init();
+        });
+
+    })
+</script>

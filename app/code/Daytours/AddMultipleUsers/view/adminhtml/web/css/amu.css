@@ -1,0 +1,23 @@
+.usuario-exito {
+    padding: 10px;
+    background: #cbffd0;
+    border: 1px #7bbb7b solid;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.usuario-error {
+    padding: 10px;
+    background: #ffcbcb;
+    border: 1px #bb7b7b solid;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#avisoError{
+    padding: 10px;
+    background: #ffcbcb;
+    border: 1px #bb7b7b solid;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

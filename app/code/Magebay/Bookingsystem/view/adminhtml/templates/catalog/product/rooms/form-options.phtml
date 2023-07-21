@@ -1,0 +1,228 @@
+<!--option-->
+<?php $optionId = $block->getMaxOptionId(); ?>
+<?php $storeId = 0; ?>
+<div id="parent-bk-room-option-<?php echo $optionId; ?>" class="bk-room-option-content mt-sm">
+    <input type="hidden" class="" name="options[<?php echo $optionId; ?>][option_id]" value="0">
+	<input type="hidden" class="" name="options[<?php echo $optionId; ?>][store_id]" value="0">
+  <div class="fieldset-wrapper-title">
+	  <div class="actions">
+		 <button id="id-bk-room-option-delete-<?php echo $optionId; ?>" class="action-default primary" title="<?php echo __('Delete'); ?>" type="button">
+		 <span><?php echo __('Option'); ?></span>
+		 </button>
+	  </div>
+   </div>
+   <div id="bk-room-option-content-<?php echo $optionId; ?>" class="bk-room-option-content">
+		<fieldset class="fieldset">
+			<fieldset id="bk_room_option_<?php echo $optionId; ?>" class="bk-room-main-row p_content">
+				<div class="row">
+					<div class="col-xl-3 col-m-4 col-xs-6 fields field-room-option-input-type">
+					   <label for="bk_room_booking_option_<?php echo $optionId; ?>_title" class="label"><?php echo __('Title') ?></label>
+					   <div class="control">
+						  <input type="text" value="" class="required-entry input-text" name="options[<?php echo $optionId; ?>][option_title]" id="bk_room_option_<?php echo $optionId; ?>_title">
+					   </div>
+					</div>
+					<div class="col-xl-2 col-m-4 col-xs-6 fields field-room-option-input-type">
+					   <label for="bk_room_booking_option_<?php echo $optionId; ?>_type" class="label"><?php echo __('Input Type'); ?></label>
+					   <div class="control opt-type">
+						  <select title="" class="select" id="bk_room_option_<?php echo $optionId; ?>_type" name="options[<?php echo $optionId; ?>][option_type]">
+							<option value="1"><?php echo __('Filed'); ?></option>
+							<option value="2"><?php echo __('Dropdown'); ?></option>
+							<option value="3"><?php echo __('Multi Dropdown'); ?></option>
+							<option value="4"><?php echo __('Radio Button'); ?></option>
+							<option value="5"><?php echo __('CheckBox'); ?></option>
+						  </select>
+					   </div>
+					</div>
+					<div class="col-xl-2 col-m-4 col-xs-6 fields field-room-option-input-type">
+					   <label for="bk_room_option_<?php echo $optionId; ?>_is_require" class="label"><?php echo __('Price Type'); ?></label>
+					   <div class="control opt-type">
+						  <select title="" class="select" id="bk_room_booking_option_<?php echo $optionId; ?>_option_price_type" name="options[<?php echo $optionId; ?>][option_price_type]">
+							 <option value="1"><?php echo __('Per Day'); ?></option>
+							<option value="2"><?php echo __('All'); ?></option>
+						  </select>
+					   </div>
+					 </div>
+					<div class="col-xl-2 col-m-4 col-xs-6 fields field-room-option-input-type">
+					   <label for="bk_room_option_<?php echo $optionId; ?>_is_require" class="label"><?php echo __('Is Required'); ?></label>
+					   <div class="control opt-type">
+						  <select title="" class="select" id="bk_room_booking_option_<?php echo $optionId; ?>_is_require" name="options[<?php echo $optionId; ?>][option_required]">
+							 <option value="1"><?php echo __('Yes'); ?></option>
+							<option value="0"><?php echo __('No'); ?></option>
+						  </select>
+					   </div>
+					 </div>
+					<div class="col-xl-3 col-m-4 col-xs-6 fields field-room-option-input-type">
+					   <label for="bk_room_option_<?php echo $optionId; ?>option_sort" class="label"><?php echo __('Sort Order'); ?></label>
+					   <div class="control">
+						  <input type="text" value="0" class="input-text required-entry validate-zero-or-greater" name="options[<?php echo $optionId; ?>][option_sort]" id="bk_room_booking_option_<?php echo $optionId; ?>option_sort">
+					   </div>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset id="bk_room_option_<?php echo $optionId; ?>_type_text" class="bk-room-price-row p_content">
+				<div class="row">
+					<div class="col-xl-4 col-m-6 col-xs-12 fields field-room-option-input-type">
+					   <label for="bk_room_option_<?php echo $optionId; ?>_price" class="label"><?php echo __('Price'); ?></label>
+					   <div class="control">
+						  <input type="text" value="0" class="input-text bk-room-option-text-value required-entry validate-zero-or-greater" name="options[<?php echo $optionId; ?>][option_price]" id="bk_room_option_<?php echo $optionId; ?>_price">
+					   </div>
+					</div>
+					<div class="col-xl-4 col-m-6 col-xs-12 fields field-room-option-input-type">
+					   <label for="bk_room_option_<?php echo $optionId; ?>_max_number" class="label"><?php echo __('Max Number'); ?></label>
+					   <div class="control">
+						  <input type="text" value="0" class="input-text bk-room-option-text-value required-entry validate-zero-or-greater" name="options[<?php echo $optionId; ?>][max_number]" id="bk_room_option_<?php echo $optionId; ?>_max_number">
+					   </div>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset id="bk_room_option_<?php echo $optionId; ?>_type_select" class="bk-room-price-row p_content" style="display : none;">
+				<span style="display: none">
+					<input type="text" class="input-text" value="" id="bk_room_option_<?php echo $optionId; ?>_type_select_validate" />
+				</span>
+				<div class="field-room-option-header row">
+					<div class="col-xl-4 col-m-5 col-xs-12 field-room-option-input-type">
+					   <label class="label"><?php echo __('Title'); ?></label>
+					</div>
+					<div class="col-xl-4 col-m-5 col-xs-12 field-room-option-input-type">
+					   <label class="label"><?php echo __('Price'); ?></label>
+					</div>
+				</div>
+				
+				<div id="bk_room_select_option_type_row_<?php echo $optionId ?>">
+				
+				</div>
+				<div class="control-booking-fileds-button">
+				   <div class="control">
+					   <button style="float : right;" class="action-default primary" type="button" title="Add New Row" id="bk_room_add_select_row_button_<?php echo $optionId; ?>">
+							<span><span><span><?php echo __('Add New Row'); ?></span></span></span>
+						</button>
+				   </div>
+				</div>
+		 </fieldset>
+	  </fieldset>
+   </div>
+</div>
+<script type="text/javascript">
+require(['jquery'],
+	function($) {
+		var optionId = '<?php echo $optionId; ?>';
+		var storeId = '<?php echo $storeId; ?>';
+		$('#id-bk-room-option-delete-'+optionId).click(function(){
+			$('#parent-bk-room-option-'+optionId).remove();
+		});
+		$('#bk_room_option_'+optionId+'_type').change(function(){
+			var typeValue = $(this).val();
+			if(typeValue == '1')
+			{
+				$('#bk_room_option_'+optionId+'_type_text').css('display','block');
+				$('#bk_room_option_'+optionId+'_type_select').css('display','none');
+				$('#bk_room_option_'+optionId+'_type_select_validate').removeClass('required-entry');
+				if($('#bk_room_option_'+optionId+'_type_text .bk-room-option-text-value').length)
+				{
+					if(!$('#bk_room_option_'+optionId+'_type_text .bk-room-option-text-value').hasClass('required-entry'))
+					{
+						$('#bk_room_option_'+optionId+'_type_text .bk-room-option-text-value').addClass('required-entry');
+					}
+					if(!$('#bk_room_option_'+optionId+'_type_text .bk-room-option-text-value').hasClass('validate-zero-or-greater'))
+					{
+						$('#bk_room_option_'+optionId+'_type_text .bk-room-option-text-value').addClass('validate-zero-or-greater');
+					}
+				}
+				if($('#bk_room_select_option_type_row_'+optionId+' .bk-room-option-select-value').length)
+				{
+					if($('#bk_room_select_option_type_row_'+optionId+' .bk-room-option-select-value').hasClass('required-entry'))
+					{
+						$('#bk_room_select_option_type_row_'+optionId+' .bk-room-option-select-value').removeClass('required-entry');
+					}
+					if($('#bk_room_select_option_type_row_'+optionId+' .bk-room-option-select-value').hasClass('validate-zero-or-greater'))
+					{
+						$('#bk_room_select_option_type_row_'+optionId+' .bk-room-option-select-value').removeClass('validate-zero-or-greater');
+					}
+					
+				}
+				if($('#bk_room_select_option_type_row_'+optionId+' .bk-option-select-title').length)
+				{
+					if($('#bk_room_select_option_type_row_'+optionId+' .bk-option-select-title').hasClass('required-entry'))
+					{
+						$('#bk_room_select_option_type_row_'+optionId+' .bk-option-select-title').removeClass('required-entry');
+					}
+				}
+			}
+			else
+			{
+				$('#bk_room_option_'+optionId+'_type_select').css('display','block');
+				$('#bk_room_option_'+optionId+'_type_text').css('display','none');
+				if($('#bk_room_option_'+optionId+'_type_text .bk-room-option-text-value').length)
+				{
+					if($('#bk_room_option_'+optionId+'_type_text .bk-room-option-text-value').hasClass('required-entry'))
+					{
+						$('#bk_room_option_'+optionId+'_type_text .bk-room-option-text-value').removeClass('required-entry');
+					}
+					if($('#bk_room_option_'+optionId+'_type_text .bk-room-option-text-value').hasClass('validate-zero-or-greater'))
+					{
+						$('#bk_room_option_'+optionId+'_type_text .bk-room-option-text-value').removeClass('validate-zero-or-greater');
+					}
+				}
+				var contentSelect = $('#bk_room_select_option_type_row_'+optionId).text();
+				if($.trim(contentSelect) == '')
+				{
+					$('#bk_room_option_'+optionId+'_type_select_validate').addClass('required-entry');
+				}
+				if($('#bk_room_select_option_type_row_'+optionId+' .bk-room-option-select-value').length)
+				{
+					if(!$('#bk_room_select_option_type_row_'+optionId+' .bk-room-option-select-value').hasClass('required-entry'))
+					{
+						$('#bk_room_select_option_type_row_'+optionId+' .bk-room-option-select-value').addClass('required-entry');
+					}
+					if(!$('#bk_room_select_option_type_row_'+optionId+' .bk-room-option-select-value').hasClass('validate-zero-or-greater'))
+					{
+						$('#bk_room_select_option_type_row_'+optionId+' .bk-room-option-select-value').addClass('validate-zero-or-greater');
+					}
+					
+				}
+				if($('#bk_room_select_option_type_row_'+optionId+' .bk-option-select-title').length)
+				{
+					if(!$('#bk_room_select_option_type_row_'+optionId+' .bk-option-select-title').hasClass('required-entry'))
+					{
+						$('#bk_room_select_option_type_row_'+optionId+' .bk-option-select-title').addClass('required-entry');
+					}
+				}
+			}
+		});
+		var bkDropdwonIRowId = 0;
+		$('#bk_room_add_select_row_button_'+optionId).click(function(){
+			console.log('test');
+			var rowTemplate = '<div id="bk-room-option-select_'+optionId+'_'+bkDropdwonIRowId+'_row" class="bk-room-option-select-row row">'
+			rowTemplate += '<input type="hidden" name="options['+optionId+'][values]['+bkDropdwonIRowId+'][dropdown_id]" class="input-text required-entry bk-room-option-select-value" value="0">';
+			rowTemplate += '<div class="col-xl-4 col-m-5 col-xs-12 fields field-room-option-input-type">';
+			rowTemplate += '<div class="control">';
+			rowTemplate += '<input type="text" name="options['+optionId+'][values]['+bkDropdwonIRowId+'][dropdown_title]" class="input-text required-entry bk-room-option-select-title" value="">';
+			rowTemplate += '</div>';
+			rowTemplate += '</div>';
+			rowTemplate += '<div class="col-xl-4 col-m-5 col-xs-12 fields field-room-option-input-type">';
+			rowTemplate += '<div class="control">';
+			rowTemplate += '<input type="text" name="options['+optionId+'][values]['+bkDropdwonIRowId+'][dropdown_price]" class="input-text required-entry bk-room-option-select-value validate-zero-or-greater" value="0">';
+			rowTemplate += '</div>';
+			rowTemplate += '</div>';
+			rowTemplate += '<div class="col-xl-4 col-m-2 col-xs-12 fields field-room-option-input-type field-room-option-input-type-inputdell">';
+			rowTemplate += '<div class="control">';
+			rowTemplate += '<button id="bk-room-option-select_'+optionId+'_'+bkDropdwonIRowId+'" title="<?php echo __('Delete') ?>" type="button" class="action-default primary delete-bk-room-row-keke-'+optionId+'"><span><span><span><?php echo __('Delete') ?></span></span></span></button>';
+			rowTemplate += '</div>';
+			rowTemplate += '</div>';
+			rowTemplate += '</div>';
+			$('#bk_room_select_option_type_row_'+optionId).append(rowTemplate);
+			$('#bk_room_option_'+optionId+'_type_select_validate').removeClass('required-entry');
+			bkDropdwonIRowId++;
+		});
+		$('.delete-bk-room-row-keke-'+optionId).live("click",function(){
+			var elementId = $(this).attr('id');
+			$('#'+elementId+'_row').remove();
+			var contentSelect = $('#bk_room_select_option_type_row_'+optionId).text();
+			if($.trim(contentSelect) == '')
+			{
+				$('#bk_room_option_'+optionId+'_type_select_validate').addClass('required-entry');
+			}
+		})
+	})
+</script>
+<!--end-->

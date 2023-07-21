@@ -1,0 +1,81 @@
+<?php $arAjaxUrl = $this->getBkAjaxUrl(); ?>
+<?php $urlcalendar = $arAjaxUrl['url_calendars']; ?>
+<?php $urlEdit = $arAjaxUrl['edit']; ?>
+<?php
+$bookingId = $block->getBookingId();
+$bookingType = $block->getBookingType();
+$bkCurrentDate = $block->getBkCurrentDate();
+$bkSymbol = $this->getBkCurrencySymbol();
+$bkInfor = $block->getBkInfor($bookingId,$bookingType);
+$strDisableDays = '';
+$bookingTime = 1;
+if($bkInfor && $bkInfor->getId())
+{
+	$strDisableDays = $bkInfor->getDisableDays();
+    $bookingTime = $bkInfor->getBookingTime();
+}
+?>
+
+<div id="booking-calendar"></div>
+<script>
+		require([
+			'jquery',
+			'bk_calendar_market'
+		],
+		function($, bkCalendar) {
+			var bookingId = '<?php echo $bookingId; ?>'
+			var bookingType = '<?php echo $bookingType; ?>';
+			var bkCurrentDate = '<?php echo $bkCurrentDate; ?>';
+			var bkSymbol = '<?php echo $bkSymbol; ?>';
+			var strDisableDays = '<?php echo $strDisableDays; ?>';
+			var bookingTime = '<?php echo $bookingTime; ?>';
+			var objData = {
+				'DataURL' : '<?php echo $urlcalendar; ?>',
+				'booking_id': bookingId,
+				'booking_type' : bookingType,
+				'currency': bkSymbol,
+				'url_add_item' : '<?php echo $urlEdit; ?>',
+				'str_current_date': bkCurrentDate,
+                'booking_time' : bookingTime,
+				'obj_status_text' : {
+					'available': '<?php echo __('Available'); ?>',
+					'special': '<?php echo __('Available'); ?>',
+					'block': '<?php echo __('Booked'); ?>',
+					'unavailable': '<?php echo __('Unavailable'); ?>',
+				},
+				'name_day_th' : [
+											'<?php echo __('Sunday'); ?>',
+											'<?php echo __('Monday'); ?>',
+											'<?php echo __('Tuesday'); ?>',
+											'<?php echo __('Wednesday'); ?>',
+											'<?php echo __('Thursday'); ?>',
+											'<?php echo __('Friday'); ?>',
+											'<?php echo __('Saturday'); ?>'
+									],
+				'name_day_short_th' : [
+												'<?php echo __('Mon'); ?>',
+												'<?php echo __('Tue'); ?>',
+												'<?php echo __('Wed'); ?>',
+												'<?php echo __('Thu'); ?>',
+												'<?php echo __('Fri'); ?>',
+												'<?php echo __('Sat'); ?>',
+												'<?php echo __('Sun'); ?>'
+											],
+				'name_day_shortest_th' : [
+											'<?php echo __('Su'); ?>',
+											'<?php echo __('Mo'); ?>',
+											'<?php echo __('Tu'); ?>',
+											'<?php echo __('We'); ?>',
+											'<?php echo __('Th'); ?>',
+											'<?php echo __('Fi'); ?>',
+											'<?php echo __('Sa'); ?>',
+											],
+				'add_text' : '<?php echo __('Add'); ?>',
+				'remove_text' : '<?php echo __('Remove'); ?>',
+				'next_text' : '<?php echo __('Next'); ?>',
+				'pre_text' : '<?php echo __('Pre'); ?>',
+				'disable_day' : strDisableDays
+			};
+			$('#booking-calendar').MagebayAnyBooking(objData);
+		})
+	</script>

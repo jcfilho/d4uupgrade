@@ -1,0 +1,6 @@
+page_id,title,page_layout,meta_keywords,meta_description,identifier,content_heading,content,is_active,sort_order,layout_update_xml,custom_theme,custom_root_template,custom_layout_update_xml,custom_theme_from,custom_theme_to,meta_title,exclude_from_sitemap,store_id
+2,Home Page,1column,"","",home,Home Page,"<div class=""message info"" style=""margin-top: 50px;"">
+    <p><strong>Try Demo Customer Access</strong></p>
+    <p><span style=""display:inline-block; width: 80px; padding-right: 10px;"">Email:</span>roni_cost@example.com</p>
+    <p><span style=""display:inline-block; width: 80px; padding-right: 10px;"">Password:</span>roni_cost3@example.com</p>
+</div>",1,0,"","","","","","","",0,"shop,volar"

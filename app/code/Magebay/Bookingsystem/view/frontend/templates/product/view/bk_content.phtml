@@ -1,0 +1,24 @@
+<?php 
+/**
+ * @var $block \Magebay\Bookingsystem\Block\Booking;
+ */
+$enable = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/enable'); ?>
+<?php if($enable == 1) : ?>
+<?php 
+$booking = $block->getBkBookingItem();
+?>
+<div class="bk-booking-content">
+	<?php if($booking->getBookingType() == 'per_day') : ?>
+		<?php if($booking->getBookingTime() == 3) : ?>
+			<?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Intervals')->setTemplate('Magebay_Bookingsystem::product/view/bk_content_intervals.phtml')->toHtml(); ?>
+		<?php elseif($block->getBkHelperDate()->checkStandardVersion() &&  $booking->getBookingTime() == 5) : ?>
+            <?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Booking')->setTemplate('Magebay_Bookingsystem::product/view/bk_content_tour.phtml')->toHtml(); ?>
+        <?php elseif($booking->getBookingTime() == 3 || $booking->getBookingTime() == 1 || $booking->getBookingTime() == 2 || $booking->getBookingTime() == 4) : ?>
+			<?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Booking')->setTemplate('Magebay_Bookingsystem::product/view/bk_content_simple.phtml')->toHtml(); ?>
+		<?php endif; ?>
+	<?php elseif($block->getBkHelperDate()->checkStandardVersion() && $booking->getBookingType() == 'hotel') : ?>
+		<?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Rooms')->setTemplate('Magebay_Bookingsystem::product/view/bk_rooms.phtml')->toHtml(); ?>
+	<?php endif; ?>
+	<?php echo $this->getLayout()->createBlock('Magento\Framework\View\Element\Template')->setTemplate('Magebay_Bookingsystem::booking-global.phtml')->toHtml();  ?>
+</div>
+<?php endif; ?>

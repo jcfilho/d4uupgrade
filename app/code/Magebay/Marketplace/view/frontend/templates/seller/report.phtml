@@ -1,0 +1,198 @@
+<?php 
+/**
+ * @Author      : Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+?>
+<?php
+    $partnerAmount = $block->getPartnerAmount();
+    $lastOrder = $block->getLastOrder();
+    $reviews = $block->getLatestReview();
+	$month_sale = $block->getMonthlysale();
+?>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css"/>
+<div class="wrap-advanced-report mst_mv_wrapper">
+    <div class="time-report" style="margin: 0 0 20px;">
+    	<div class="time-report">
+            <form action="" method="post" name="time-report-form" class="time-report-form">
+                <div class="form-group">
+                    <select id="select_filter" class="select_filter" name="select_filter">
+                        <option value=""><?php echo __('') ?></option>
+                        <option value="today" <?php echo $this->getRequest()->getParam('select_filter') == 'today'?'selected=""':''; ?>><?php echo __('Today') ?></option>
+                        <option value="last 7 days" <?php echo $this->getRequest()->getParam('select_filter') == 'last 7 days'?'selected=""':''; ?>><?php echo __('Last 7 Days') ?></option>
+                        <option value="current month" <?php echo $this->getRequest()->getParam('select_filter') == 'current month'?'selected=""':''; ?>><?php echo __('Current month') ?></option>
+                        <option value="last month" <?php echo $this->getRequest()->getParam('select_filter') == 'last month'?'selected=""':''; ?>><?php echo __('Last month') ?></option>
+                        <option value="last week" <?php echo $this->getRequest()->getParam('select_filter') == 'last week'?'selected=""':''; ?>><?php echo __('Last Week') ?></option>
+                        <option value="current week" <?php echo $this->getRequest()->getParam('select_filter') == 'current week'?'selected=""':''; ?>><?php echo __('Current Week') ?></option>
+                        <option value="custom" <?php echo $this->getRequest()->getParam('select_filter') == 'custom'?'selected=""':''; ?>><?php echo __('Custom') ?></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="start-date" class="input-text" placeholder="<?php echo __('Start Date') ?>" name="start-date" value="<?php echo str_replace('00:00:00','',$block->getCurrentStartDate()) ?>"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="end-date" class="input-text" name="end-date" placeholder="<?php echo __('End Date') ?>" value="<?php echo str_replace('23:59:59','',$block->getCurrentEndDate()) ?>"/>
+                </div>
+                <button type="submit" class="btn btn-default"><?php echo __('Update') ?></button>
+                <div style="clear: both;"></div>
+            </form>	
+    	</div>
+    </div>
+    <div class="seller-today-sales">       
+    	<div class="sales_bg">           
+    		<div class="today_info">
+        		<strong><?php echo __("Total Sales") ?></strong>
+        		<p><?php echo $block->getTotalSales(); ?></p>
+    		</div> 
+    		<span class="icon"></span>
+    	</div> 
+    	<div class="total_orders_bg">
+    		<div class="today_info">
+        		<strong><?php echo __("Total Income") ?></strong>
+        		<p><?php echo $block->getMkPriceHelper()->currency($block->getTotalIncome(),true,false); ?></p>
+    		</div>
+    		<span class="icon"></span>
+    	</div>  
+    </div>
+    <div class="seller-sales-chart">
+    	<div class="box-title">
+    		<span><?php echo __('Orders'); ?></span>           
+    	</div>
+    	<div class="fieldset mst_mv_fieldset" style="letter-spacing: 0;">
+            <div style="">
+                <div class="col span_2_of_4">
+                    <ul class="report_orders">
+                        <li style="color: #cd5052;"><?php echo __('Total') ?>: <span><?php echo  $block->getOrderStatus( 'all' ) ?></span></li>
+                        <li style="color: #9cca68;"><?php echo __('Complete') ?>: <span><?php echo  $block->getOrderStatus( 'complete' ) ?></span></li>
+                        <li style="color: #6c96d0;"><?php echo __('Pending') ?>: <span><?php echo  $block->getOrderStatus( 'pending' ) ?></span></li>
+                        <li style="color: #949fb1;"><?php echo __('Processing') ?>: <span><?php echo  $block->getOrderStatus( 'processing' ) ?></span></li>
+                        <li style="color: #7c7c7c;"><?php echo __('Canceled') ?>: <span><?php echo  $block->getOrderStatus( 'canceled' ) ?></span></li>
+                        <li style="color: #f7464a;"><?php echo __('On Hold') ?>: <span><?php echo  $block->getOrderStatus( 'holded' ) ?></span></li>
+                    </ul>
+                </div>
+                <div class="col span_2_of_4">
+                    <div id="sales-status-chart" style="height: 250px; width: 250px;"></div>
+                </div>
+                <div class="clear" style="clear:both;"></div>
+            </div>
+    	</div>
+    	<div class="box-title">
+    		<span><?php echo __('Seller Sales'); ?></span>           
+    	</div>
+    	<div class="fieldset mst_mv_fieldset" style="letter-spacing: 0;">
+        	<div style="">
+                <div id="saleschart" style="height: 250px;"></div>
+                <div class="clear" style="clear:both;"></div>
+        	</div>
+    	</div>
+    	<div class="box-title">
+    		<span><?php echo __('OVERVIEW'); ?></span>           
+    	</div>
+    	<div class="fieldset mst_mv_fieldset" style="letter-spacing: 0;">
+            <?php $_productCollection = $block->getLoadedProductCollection(); ?>
+            <?php if (!$_productCollection->count()): ?>
+                <div class="message info empty">
+                    <div><?php /* @escapeNotVerified */ echo __('We can\'t find products matching the selection.') ?></div>
+                </div>
+            <?php else: ?>
+                <table id="report-products" class="data table table-report-products">
+                    <caption class="table-caption"><?php echo __('Orders'); ?></caption>
+                    <thead>
+                        <tr>
+                            <th class="sku" scope="col"><?php echo __('Product Sku'); ?></th>
+                            <th class="name" scope="col"><?php echo __('Product Name'); ?></th>
+                            <th class="view" scope="col"><?php echo __('Views'); ?></th>
+                            <th class="units-sold" scope="col"><?php echo __('Units sold'); ?></th>
+                            <th class="earn-amount" scope="col"><?php echo __('Earn Amount'); ?></th>
+                            <th class="actions" scope="col">&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($_productCollection as $product) : ?>
+                            <tr>
+                                <td class="sku" data-th="Sku"><?php echo $product->getSku(); ?></td>
+                                <td class="name" data-th="Name"><a href="<?php echo $product->getProductUrl() ?>"><?php echo $product->getName(); ?></a></td>
+                                <td class="view" data-th="view"><?php echo $block->getViewCount( $product->getId() ) ; ?></td>
+                                <td class="total" data-th="Order Total"><span class="price"><?php echo $block->getProductSales( $product->getId() ); ?></span></td>
+                                <td class="status" data-th="Status"><?php echo $block->getMkPriceHelper()->currency( $block->getEarnAmount( $product->getId() ) ,true,false); ?></td>
+                                <td class="actions" data-th="Actions">
+                                    <a class="action view" href="<?php echo $this->getUrl('').'marketplace/seller/reportproduct/id/'.$product->getId() ?>">
+                                    	<span><?php echo __('Details') ?></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <?php if ($block->getPagerHtml()): ?>
+                    <div class="toolbar bottom" style="margin-top: 20px">
+                        <?php echo $block->getPagerHtml(); ?>
+                    </div>
+                <?php endif ?>
+                <div class="clear"></div>
+            <?php endif; ?>
+        </div>		
+    </div>
+    <script>
+        /* data stolen from http://howmanyleft.co.uk/vehicle/jaguar_'e'_type */
+        require([
+            "jquery",
+            "mage/mage",
+            "mage/calendar"
+        ], function($){
+            $("#start-date").calendar({'dateFormat':'mm/dd/yy'});
+            $("#end-date").calendar({'dateFormat':'mm/dd/yy'});	
+        });
+        require([
+            "jquery",
+            "//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js",
+            "//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"
+        ], function($){  
+			lineChart();
+			$(window).resize(function() {
+				window.lineChart.redraw();
+			});
+			function lineChart() {
+				var day_data = JSON.parse('<?php echo $block->getCustomsale('', '',''); ?>');
+				window.lineChart = Morris.Line({
+					element: 'saleschart',
+					data: day_data,
+					xkey: 'period',
+					ykeys: ['sales'],
+					labels: ['Sales'],
+					parseTime: false,
+					hoverCallback: function (index, options, default_content, data) {
+                        return default_content.replace("Sales", "<span style='color:#000;'>Earn Amount: " + data.earn + "</span><br>Sales: " );
+					},
+					xLabelMargin: 10,
+					integerYLabels: true
+					//ykeys: ['sales', 'sorned'],
+					//labels: ['Licensed', 'SORN']
+				}); 
+			}
+            Morris.Donut({
+                element: 'sales-status-chart',
+                data: [
+                    {value: <?php echo  $block->getOrderStatus( 'complete' ) ?>, label: '<?php echo __('Complete') ?>'},
+                    {value: <?php echo  $block->getOrderStatus( 'pending' ) ?>, label: '<?php echo __('Pending') ?>'},
+                    {value: <?php echo  $block->getOrderStatus( 'processing' ) ?>, label: '<?php echo __('Processing') ?>'},
+                    {value: <?php echo  $block->getOrderStatus( 'canceled' ) ?>, label: '<?php echo __('Canceled') ?>'},
+                    {value: <?php echo  $block->getOrderStatus( 'holded' ) ?>, label: '<?php echo __('On Hold') ?>'}
+                ],
+                backgroundColor: '#ccc',
+                labelColor: '#060',
+                colors: [
+                    '#9cca68',
+                    '#6c96d0',
+                    '#949fb1',
+                    '#7c7c7c',
+                    '#f7464a'
+                ],
+                formatter: function (x) { return x + ""}
+            });
+        });	
+    </script>
+</div>

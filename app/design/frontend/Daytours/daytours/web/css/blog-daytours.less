@@ -1,0 +1,477 @@
+.post-list {
+  .item {
+    .post-image{
+      width: 100%;
+      position: relative;
+      a.link-post{
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      .tag-post.rdj4u-reviews{
+        color: #FFFFFF;
+        position: absolute;
+        top: 11px;
+        left: 11px;
+      }
+    }
+  }
+
+}
+.blog_result .list_result ul li .post-image{
+  margin-right: 0;
+  position: relative;
+}
+.blog_result .list_result ul li .post-image a{
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.is-blog{
+  padding-bottom: 0;
+  .pager{
+    .toolbar-amount{
+      float: right;
+    }
+    .pages{
+      float: left;
+      .item{
+        a{
+          border:0;
+          background: none;
+          color:#4f4f4f;
+        }
+        &:hover{
+          background: #eee;
+        }
+      }
+    }
+  }
+  .homepage-newsletter{
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+  }
+  .most-popular{
+    padding-left: 0;
+  }
+}
+
+.trending_activities_block{
+  padding-bottom: 80px;
+}
+
+/*MENU*/
+.content-menu-wordpress{
+  background: #22323F
+}
+
+.open-close-wp-mobile{
+  display: none;
+  width: 60px;
+  cursor: pointer;
+  &:before{
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 28px;
+    line-height: inherit;
+    color: #fff;
+    content: '\e609';
+    font-family: 'luma-icons';
+    vertical-align: middle;
+    display: inline-block;
+    font-weight: normal;
+    overflow: hidden;
+    speak: none;
+    text-align: center;
+    margin-left: 25px;
+    cursor: pointer;
+  }
+}
+
+
+ul.menu-wordpress-in-magento {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0 -20px;
+}
+ul.menu-wordpress-in-magento::after{
+      content: ".";
+      display: block;
+      height: 0;
+      clear: both;
+      visibility: hidden;
+}
+
+ul.menu-wordpress-in-magento li {
+  list-style: none;
+  float: left;
+  margin: 0;
+  position: relative;
+}
+
+
+ul.menu-wordpress-in-magento li.menu-item-has-children a:first-child:after{
+      content: "\f0d7";
+      font-family: FontAwesome;
+      color: #1787df;
+      line-height: 20px;
+      font-size: 9px;
+      margin-left: 9px;
+}
+
+ul.menu-wordpress-in-magento li:not(.menu-item-has-children) a:first-child:after{
+  content: "";
+}
+
+ul.menu-wordpress-in-magento li a {
+  display: block;
+  padding: 20px 20px 15px 20px;
+  color: #fff;
+  text-decoration: none;
+  //transition: all .2s ease-in-out;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+ul.menu-wordpress-in-magento li a:hover,
+ul.menu-wordpress-in-magento li:hover > a {
+  background: #19252D;
+  color: #fff;
+}
+
+ul.menu-wordpress-in-magento li ul {
+  list-style: none;
+  margin: 0;
+  position: absolute;
+  background: #DDDEE0;
+  left: 10%;
+  font-size: 10px;
+  min-width: 270px;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 99;
+  //transition: all .1s ease;
+}
+
+
+ul.menu-wordpress-in-magento ul li { float: none; display: block; }
+ul.menu-wordpress-in-magento ul li a{
+  color: #2F3B46;
+}
+ul.menu-wordpress-in-magento ul li:hover > a{
+  background: #E6E7E9;
+  color: #2F3B46;
+}
+
+ul.menu-wordpress-in-magento li:hover > ul { opacity: 1; visibility: visible; left: 0;
+  //max-height: 250px
+}
+ul.menu-wordpress-in-magento > li:hover > ul {
+  opacity: 1;
+  visibility: visible;
+  top: 100%;
+  left: 0;
+  margin: 0;
+  padding: 0;
+}
+ul.menu-wordpress-in-magento li > ul  ul { top: 0; left: 90%; }
+ul.menu-wordpress-in-magento li > ul li:hover > ul {
+  left: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.icon-to-slide-mobile{
+  display: none;
+  cursor: pointer;
+}
+
+/*BLOG SEARCH*/
+
+.sidebar-main{
+  .block-blog-search{
+    margin-bottom: 20px;
+  }
+}
+
+.block-blog-search{
+
+  .block-title{
+    display: none;
+  }
+  .blog-search{
+
+    position: relative;
+    .input-text{
+      background: #DDDEE0;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+      padding: 10px 10px 10px 50px;
+      max-width: 325px;
+      &::placeholder{
+        color: #1d2e3c;
+        font-weight: 600;
+      }
+    }
+    .button{
+      position: absolute;
+      border: 0;
+      padding: 0;
+      top: 0;
+      left: 0;
+      background: none;
+      box-shadow: none;
+      &:after{
+        content: "\f002";
+        font-family: FontAwesome;
+        font-size: 22px;
+        color: #3E70FF;
+        width: 55px;
+        height: 50px;
+        display: block;
+        padding-top: 10px;
+      }
+    }
+  }
+}
+.home-page-blog{
+  .block-title{
+    float: left;
+  }
+  .block-blog-search{
+    float: right;
+  }
+}
+
+/*Success */
+.checkout-onepage-success{
+  .checkout-success{
+    .page-title{
+      h2{
+        margin-bottom: 3px;
+      }
+    }
+  }
+}
+
+@media (min-width: 1200px){
+  .container-banner .banner_top_page .container{
+    width: 1300px;
+  }
+
+  .is-blog .page-main .container{
+    width: 1270px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+}
+
+@media (max-width: 1345px) {
+  .is-blog .page-main .container,
+  .block_before_footer .container{
+    width: 100%;
+  }
+}
+
+@media (max-width: 1341px) {
+  .container-banner .banner_top_page .container {
+    padding-left: 30px;
+  }
+}
+
+@media (max-width: 1199px) {
+  .container-banner .banner_top_page .container {
+    width: 100%;
+  }
+  .is-blog .page-main .container{
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 1190px){
+  .is-blog {
+    .homepage-newsletter > .col-inner {
+      width: 100%;
+      position: relative;
+      top: 11px;
+      transform: translateY(0);
+      -webkit-transform: translateY(0);
+      text-align: left;
+      padding-right: 59px;
+      padding-left: 16px;
+    }
+  }
+}
+
+@media (min-width: 1190px){
+  .is-blog{
+    .homepage-newsletter{
+      margin-left: 7px;
+      background-position: left center;
+    }
+    .most-popular{
+    }
+
+  }
+  .is-blog {
+    .homepage-newsletter > .col-inner {
+      width: 100%;
+      position: relative;
+      top: 0;
+      transform: translateY(0);
+      -webkit-transform: translateY(0);
+    }
+    .homepage-newsletter .block.newsletter {
+      margin: 30px;
+      padding-top: 60px;
+    }
+  }
+}
+
+@media (max-width: 991px){
+  .is-blog {
+    .homepage-newsletter > .col-inner {
+      top: 25px;
+    }
+  }
+}
+
+
+@media (min-width: 768px){
+  .content-menu-wordpress .div-menu{
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .open-close-wp-mobile {
+    display: block;
+  }
+  ul.menu-wordpress-in-magento{
+    display: none;
+  }
+  ul.menu-wordpress-in-magento li {
+    float: none;
+    margin: 0;
+    position: relative;
+    display: block;
+  }
+  ul.menu-wordpress-in-magento{
+    margin-left: 0;
+  }
+  ul.menu-wordpress-in-magento li.menu-item-has-children a:first-child:after{
+    display: none;
+  }
+  ul.menu-wordpress-in-magento li a{
+    padding: 10px 20px 10px 20px;
+  }
+  .content-menu-wordpress .icon-to-slide-mobile{
+    display: block;
+    position: absolute;
+    right: 20px;
+    top: 0;
+    width: 40px;
+    height: 40px;
+  }
+  .content-menu-wordpress .icon-to-slide-mobile:after{
+    content: "\f107";
+    font-family: FontAwesome;
+    color: #1787df;
+    line-height: 20px;
+    font-size: 32px;
+    margin-left: 9px;
+    position: absolute;
+    top: 10px;
+  }
+  .content-menu-wordpress .icon-to-slide-mobile.active-mobil-wp:after{
+    content: "\f106";
+  }
+
+  ul.menu-wordpress-in-magento li ul.sub-menu{
+    position: relative;
+    display: none;
+    //transition: all .2s ease-in-out;
+
+  }
+  ul.menu-wordpress-in-magento li > ul li:hover > ul{
+    left: 20px;
+    //transition: all .2s ease-in-out;
+    display: none;
+  }
+  ul.menu-wordpress-in-magento li ul {
+    list-style: none;
+    margin: 0;
+    position: absolute;
+    background: #DDDEE0;
+    left: 0;
+    padding: 0;
+    font-size: 10px;
+    min-width: 270px;
+    opacity: 1;
+    visibility: visible;
+    z-index: 99;
+    //transition: all .1s ease;
+  }
+  ul.menu-wordpress-in-magento li > ul ul{
+    left: 20px;
+  }
+  .block-blog-search .blog-search .input-text{
+    width: 100%;
+  }
+  .home-page-blog .block-title{
+    float: none;
+    margin-bottom: 16px;
+  }
+  .home-page-blog .block-blog-search{
+    float: none;
+    margin-bottom: 16px !important;
+  }
+  .is-blog{
+    .homepage-newsletter{
+      width: 100%;
+      max-width: 420px;
+      margin: auto;
+      float: none;
+      clear: both;
+      padding-bottom: 0;
+      margin-left: 0;
+      min-height: 447px;
+    }
+    .homepage-newsletter > .col-inner {
+      padding-right: 0;
+      padding-left: 0;
+      text-align: center;
+    }
+    .homepage-newsletter .block.newsletter{
+      padding: 120px 40px 44px;
+    }
+    .before_footer{
+      padding: 55px 15px;
+    }
+  }
+  .most-popular-block{
+    margin-bottom: 20px;
+  }
+}
+@media (max-width: 420px) {
+  .is-blog{
+    .homepage-newsletter{
+
+    }
+    .homepage-newsletter > .col-inner {
+
+    }
+    .homepage-newsletter .block.newsletter{
+      padding: 120px 24px 44px;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  padding: 120px 40px 44px;
+}

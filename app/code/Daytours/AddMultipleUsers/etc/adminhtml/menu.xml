@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+   <menu>
+        <add id="Daytours_AddMultipleUsers::menu_item"
+           title="Add Multiple Users" module="Daytours_AddMultipleUsers"
+           sortOrder="10" parent="Daytours4u_Theme::main"
+           action="uiform/create/index"
+           resource="Daytours_AddMultipleUsers::menu_item"
+           />
+   </menu>
+</config>

@@ -1,0 +1,685 @@
+<?php 
+$booking = $block->getBookingProduct();
+$arBkAdminSession = $block->getBkAdminSession();
+$bookingSecurity = $arBkAdminSession['booking_security'];
+$arUrlAjax = $block->getArrayAjaxUrl($booking['booking_product_id']);
+$newOptionUrl = $arUrlAjax['url_new_option'];
+$newDiscountUrl = $arUrlAjax['url_new_discount'];
+$urlFacilities = $arUrlAjax['url_facilities'];
+$urlSetupRentPrice = $arUrlAjax['url_setup_rent_price'];
+$urlSetupRoom = $arUrlAjax['url_setup_room'];
+$urlStates = $arUrlAjax['url_states'];
+$storeId = $this->getBkRequest()->getParam('store',0);
+$countries = $block->getBkCountriesOptions();
+$enableAddsss = $block->getBkConfig('bookingsystem/setting/booking_address');
+$useBkAddress = isset($enableAddsss) ? $enableAddsss : 0;
+$bkActive = $this->getRequest()->getParam('active_tab','');
+?>
+<div class="entry-edit form-inline">
+   <div data-role="group-fields-product-details-wrapper" id="group-fields-product-details-wrapper" class="fieldset-wrapper admin__collapsible-block-wrapper opened">
+		<div class="fieldset-wrapper-title admin__fieldset-wrapper-title">
+			<strong data-target="#group-fields-product-booking-content" data-toggle="collapse" class="admin__collapsible-title active">
+			<span><?php echo __('Booking System Information'); ?></span>
+			</strong>
+		</div>
+		<div data-role="group-fields-product-booking-content" id="group-fields-product-details-content" class="fieldset-wrapper-content admin__fieldset-wrapper-content in collapse" style="height: 19px;">
+			<fieldset id="group-fields-booking-details" class="fieldset admin__fieldset user-defined">
+				<!-- hidden input-->
+				<input type="hidden" id="booking-id" name="bookings[booking_product_id]" value="<?php echo $booking['booking_product_id']; ?>" />
+				<input type="hidden" name="bookings[booking_security]" value="<?php echo $bookingSecurity; ?>" />
+				<input type="hidden" name="bookings[booking_temp_id]" value="<?php echo $booking['booking_id']; ?>" />
+				<input type="hidden" name="bookings[booking_temp_type]" value="<?php echo $booking['booking_type']; ?>" />
+				<input type="hidden" id="magebay-booking-store-id" name="bookings[store_id]" value="<?php $booking['store_id']; ?>" />
+				<input type="hidden" id="magebay-booking-save-split-button-duplicate-button" name="bookings[magebay_bk_save_split_button_duplicate_button]" value="0" />
+				<input type="hidden" id="booking-temp-check-price-update" name="bookings[booking_temp_check_price_update]" value="0" />   
+				<input type="hidden" id="tab-bk-active" name="bk_tab_active" value="<?php echo $bkActive; ?>" />   
+				<div class="field field-booking_type required" id="attribute-booking_type-container">
+				   <label for="booking_type" class="label admin__field-label"><span><?php echo __('Booking Type') ?></span></label>
+				   <div class="control">
+					  <select class="select admin__control-select required-entry _required" name="bookings[booking_type]" id="booking_type">
+						 <option value=""><?php echo __('Booking Type') ?></option>
+						 <option <?php if($booking['booking_type'] == 'per_day') echo 'selected="selected"'; ?> value="per_day"><?php echo __('Rent'); ?></option>
+						 <option <?php if($booking['booking_type'] == 'hotel') echo 'selected="selected"'; ?> value="hotel"><?php echo __('Hotel'); ?></option>
+					  </select>
+				   </div>
+				   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+				   </div>
+				</div>
+				<?php if($booking['booking_product_id'] > 0) : ?>
+					<div class="field booking-rent field-booking_time" id="attribute-booking_time-container">
+					   <label for="booking_time" class="label admin__field-label"><span><?php echo __('Booking Time') ?></span></label>
+					   <div class="control">
+						  <select class="select admin__control-select" name="bookings[booking_time]" id="booking_time">
+							 <option value="1"><?php echo __('Daily') ?></option>
+							 <option <?php if($booking['booking_time'] == '2') echo 'selected="selected"'; ?> value="2"><?php echo __('Hourly'); ?></option>
+							 <option <?php if($booking['booking_time'] == '3') echo 'selected="selected"'; ?> value="3"><?php echo __('Hours Intervals'); ?></option>
+						  </select>
+					   </div>
+					   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+					   </div>
+					</div>
+					<div class="field booking-rent booking-type-per-day field-booking_min_days" id="booking-booking_min_days-contenter">
+					   <label for="booking_min_days" class="label admin__field-label"><span><?php echo __('Minimum days') ?></span></label>
+					   <div class="control">
+						  <input type="text" class="input-text validate-zero-or-greater" value="<?php echo $booking['booking_min_days']; ?>" name="bookings[booking_min_days]" id="booking_min_days" aria-required="true">                            
+					   </div>
+					   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+					   </div>
+					</div>
+					<div class="field booking-rent booking-type-per-day field-booking_max_days" id="booking-booking_max_days-contenter">
+					   <label for="booking_max_days" class="label admin__field-label"><span><?php echo __('Maximum days') ?></span></label>
+					   <div class="control">
+						  <input type="text" class="input-text validate-zero-or-greater" value="<?php echo $booking['booking_max_days']; ?>" name="bookings[booking_max_days]" id="booking_max_days" aria-required="true">                            
+					   </div>
+					   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+					   </div>
+					</div>
+					<div class="field booking-rent booking-type-per-hour booking-type-intervals field-booking_service_start" id="booking-booking_service_start-contenter">
+							<?php 
+								$strServiceStart = $booking['booking_service_start']; 
+								$arServiceStart = array();
+								if($strServiceStart != '')
+								{
+									$arServiceStart = explode(',',$strServiceStart);
+								}
+								$strServiceEnd = $booking['booking_service_end'];
+								$arServiceEnd = array();
+								if($strServiceEnd != '')
+								{
+									$arServiceEnd = explode(',',$strServiceEnd);
+								}
+							?>
+						<label for="booking_service_start" class="label admin__field-label"><span><?php echo __('Service Start') ?></span></label>
+						<div class="control">
+							<select class="select admin__control-select" name="bookings[booking_service_start][hour]" style="width : 40px;">
+								<?php for($hs = 0; $hs <= 11; $hs++) : ?>
+									<option <?php if(isset($arServiceStart[0]) && $arServiceStart[0] == $hs) echo 'selected="selected"'; ?> value="<?php echo $hs; ?>"><?php echo $hs < 10 ? '0'.$hs : $hs; ?></option>
+								<?php endfor; ?>
+							</select>
+							<select class="select admin__control-select" name="bookings[booking_service_start][minute]" style="width : 40px;">
+								<?php for($ms = 0; $ms < 60; $ms++) : ?>
+									<option <?php if(isset($arServiceStart[1]) && $arServiceStart[1] == $ms) echo 'selected="selected"'; ?> value="<?php echo $ms; ?>"><?php echo $ms < 10 ? '0'.$ms : $ms; ?></option>
+								<?php endfor; ?>
+							</select>
+							<select class="select admin__control-select" name="bookings[booking_service_start][type]" style="width : 40px;">
+								<?php for($ts = 1; $ts <= 2; $ts++) : ?>
+									<option <?php if(isset($arServiceStart[2]) && $arServiceStart[2] == $ts) echo 'selected="selected"'; ?> value="<?php echo $ts; ?>"><?php echo $ts == 1 ? __('AM') : __('PM'); ?></option>
+								<?php endfor; ?>
+							</select>
+						</div>
+					</div>
+					<div class="field booking-rent booking-type-per-hour booking-type-intervals field-booking_service_end" id="booking-booking_service_end-contenter">
+						<label for="booking_service_end" class="label admin__field-label"><span><?php echo __('Service End') ?></span></label>
+						<div class="control">
+							<select class="select admin__control-select" name="bookings[booking_service_end][hour]" style="width : 40px;">
+								<?php for($he = 0; $he <= 11; $he++) : ?>
+									<option <?php if(isset($arServiceEnd[0]) && $arServiceEnd[0] == $he) echo 'selected="selected"'; ?> value="<?php echo $he; ?>"><?php echo $he < 10 ? '0'.$he : $he; ?></option>
+								<?php endfor; ?>
+							</select>
+							<select class="select admin__control-select" name="bookings[booking_service_end][minute]" style="width : 40px;">
+								<?php for($me = 0; $me < 60; $me++) : ?>
+									<option <?php if(isset($arServiceEnd[1]) && $arServiceEnd[1] == $me) echo 'selected="selected"'; ?> value="<?php echo $me; ?>"><?php echo $me < 10 ? '0'.$me : $me; ?></option>
+								<?php endfor; ?>
+							</select>
+							<select class="select admin__control-select" name="bookings[booking_service_end][type]" style="width : 40px;">
+								<?php for($te = 1; $te <= 2; $te++) : ?>
+									<option <?php if(isset($arServiceEnd[2]) && $arServiceEnd[2] == $te) echo 'selected="selected"'; ?> value="<?php echo $te; ?>"><?php echo $te == 1 ? __('AM') : __('PM'); ?></option>
+								<?php endfor; ?>
+							</select>
+						</div>
+					</div>
+					<div class="field booking-rent booking-type-per-hour field-booking_fee_night" id="booking-booking_fee_night-contenter">
+					   <label for="booking_fee_night" class="label admin__field-label"><span><?php echo __('Fee Night') ?></span></label>
+					   <div class="control">
+						  <input type="text" class="input-text validate-zero-or-greater" value="<?php echo $booking['booking_fee_night']; ?>" name="bookings[booking_fee_night]" id="booking_fee_night" aria-required="true">                            
+					   </div>
+					   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+					   </div>
+					</div>
+					<div class="field booking-rent booking-type-per-hour field-booking_min_hours" id="booking-booking_min_hours-contenter">
+					   <label for="booking_min_hours" class="label admin__field-label"><span><?php echo __('Minimum Hours') ?></span></label>
+					   <div class="control">
+						  <input type="text" class="input-text validate-zero-or-greater" value="<?php echo $booking['booking_min_hours']; ?>" name="bookings[booking_min_hours]" id="booking_min_hours" aria-required="true">                            
+					   </div>
+					   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+					   </div>
+					</div>
+					<div class="field booking-rent booking-type-per-hour field-booking_max_hours" id="booking-booking_max_hours-contenter">
+					   <label for="booking_max_hours" class="label admin__field-label"><span><?php echo __('Maximum Hours') ?></span></label>
+					   <div class="control">
+						  <input type="text" class="input-text validate-zero-or-greater" value="<?php echo $booking['booking_max_hours']; ?>" name="bookings[booking_max_hours]" id="booking_max_hours" aria-required="true">                            
+					   </div>
+					   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+					   </div>
+					</div>
+					<div class="field booking-rent booking-type-intervals field-booking_time_slot" id="booking-booking_time_slot-contenter">
+					   <label for="booking_time_slot" class="label admin__field-label"><span><?php echo __('Booking Time Slot') ?></span></label>
+					   <div class="control">
+						  <input type="text" class="input-text validate-zero-or-greater" value="<?php echo $booking['booking_time_slot']; ?>" name="bookings[booking_time_slot]" id="booking_time_slot" aria-required="true">                            
+					   </div>
+					   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+					   </div>
+					</div>
+					<div class="field booking-rent booking-type-intervals field-booking_time_buffer" id="booking-booking_time_buffer-contenter">
+					   <label for="booking_time_buffer" class="label admin__field-label"><span><?php echo __('Booking time buffer') ?></span></label>
+					   <div class="control">
+						  <input type="text" class="input-text validate-zero-or-greater" value="<?php echo $booking['booking_time_buffer']; ?>" name="bookings[booking_time_buffer]" id="booking_time_buffer" aria-required="true">                            
+					   </div>
+					   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+					   </div>
+					</div>
+					<div class="field booking-rent booking-type-intervals field-booking_show_finish" id="attribute-booking_show_finish-container">
+					   <label for="booking_show_finish" class="label admin__field-label"><span><?php echo __('Show Time Finish') ?></span></label>
+					   <div class="control">
+						  <select class="select admin__control-select" name="bookings[booking_show_finish]" id="booking_show_finish">
+							 <option value="1"><?php echo __('Yes') ?></option>
+							 <option <?php if($booking['booking_show_finish'] == 2) echo 'selected="selected"'; ?> value="2"><?php echo __('No'); ?></option>
+						  </select>
+					   </div>
+					   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+					   </div>
+					</div>
+					<div class="field booking-rent booking-type-intervals field-booking_show_qty" id="attribute-booking_show_qty-container">
+					   <label for="booking_show_qty" class="label admin__field-label"><span><?php echo __('Show Qty Available') ?></span></label>
+					   <div class="control">
+						  <select class="select admin__control-select" name="bookings[booking_show_qty]" id="booking_show_qty">
+							<option value="1"><?php echo __('Yes') ?></option>
+							<option <?php if($booking['booking_show_qty'] == 2) echo 'selected="selected"'; ?> value="2"><?php echo __('No'); ?></option>
+						  </select>
+					   </div>
+					   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+					   </div>
+					</div>
+					<div class="field booking-rent" id="attribute-show-booking-popup-container">
+					   <label for="show-booking-popup" class="label admin__field-label"><span><?php echo __('Booking Price for Rent') ?></span></label>
+					   <div class="control">
+							<button type="button" class="action-default primary" title="<?php echo __('Setup Price') ?>" id="show-booking-popup">
+								<span><?php echo __('Setup Price') ?></span>
+							</button>
+					   </div>
+					</div>
+					<div class="field booking-rent" id="booking-field-options">
+					   <div class="control-booking-custom-fileds">
+							<button type="button" class="action-default primary" title="<?php echo __('Addons & Cross-sells') ?>" id="booking-add-option">
+								<span><?php echo __('New Addons & sells') ?></span>
+							</button>
+							<div id="booking-options-content">
+								<?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Adminhtml\Booking')->setData(array('booking_id'=>$booking['booking_product_id'],'booking_type'=>$booking['booking_type']))->setTemplate('Magebay_Bookingsystem::catalog/product/list-options.phtml')->toHtml();;  ?>
+							</div>
+					   </div>
+					  
+					</div>
+					<div class="field booking-rent" id="booking-field=discounts">
+					   <div class="control-booking-custom-fileds">
+							<button type="button" class="action-default primary" title="<?php echo __('Discounts') ?>" id="booking-add-discount">
+								<span><?php echo __('Add Discount') ?></span>
+							</button>
+							<div id="booking-discounts-content">
+								<?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Adminhtml\Booking')->setData(array('booking_id'=>$booking['booking_product_id'],'booking_type'=>$booking['booking_type']))->setTemplate('Magebay_Bookingsystem::catalog/product/list-discounts.phtml')->toHtml();  ?>
+							</div>
+					   </div>
+					</div>
+					<!-- data for room-->
+					<div class="field list-rooms-hotel" id="booking-tab-rooms">
+						<div class="control-booking-custom-fileds" id="booking-tab-rooms-contenter">
+						<div class="fieldset-wrapper admin__collapsible-block-wrapper opened">
+							<div class="fieldset-wrapper-title">
+							<strong>
+								<span style="float: right;">
+									<button id="bk-room-add" title="<?php echo __('Add Room'); ?>" class="action-default primary" type="button">
+										<span><?php echo __('Add Room'); ?></span>
+									</button>
+								</span>
+							</strong>
+							</div>
+							<div id="bk-list-rooms" class="fieldset-wrapper-content in collapse">
+								<fieldset class="fieldset">
+										<?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Adminhtml\RoomsPopup')->setData(array('booking_id'=>$booking['booking_product_id'],'bk_store_id'=>$storeId))->setTemplate('Magebay_Bookingsystem::catalog/product/rooms.phtml')->toHtml();  ?>
+									</fieldset>
+							  </div>
+						   </div>
+						</div>
+					</div>
+					<div class="field" id="booking-tab-facilities">
+						<div class="control-booking-custom-fileds" id="booking-tab-facilities-contenter">
+							<?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Adminhtml\Booking')->setData(array('booking_type'=>$booking['booking_type'],'booking_id'=>$booking['booking_product_id'],'bk_store_id'=>$storeId))->setTemplate('Magebay_Bookingsystem::catalog/product/facilities.phtml')->toHtml();  ?>
+						</div>
+					</div>
+					<?php if($enableAddsss == 1) : ?>
+						<div class="field field-booking_phone" id="booking-booking_phone-contenter">
+						   <label for="booking_phone" class="label admin__field-label"><span><?php echo __('Booking Phone') ?></span></label>
+						   <div class="control">
+							  <input type="text" class="input-text" value="<?php echo $booking['booking_phone']; ?>" name="bookings[booking_phone]" id="booking_phone" aria-required="true">                            
+						   </div>
+						   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+						   </div>
+						</div>
+						<div class="field field-booking_email" id="booking-booking_email-contenter">
+						   <label for="booking_email" class="label admin__field-label"><span><?php echo __('Booking Email') ?></span></label>
+						   <div class="control">
+							  <input type="text" class="input-text" value="<?php echo $booking['booking_email']; ?>" name="bookings[booking_email]" id="booking_email" aria-required="true">                            
+						   </div>
+						   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+						   </div>
+						</div>
+						<div class="field field-booking_address" id="booking-booking_address-contenter">
+						   <label for="booking_address" class="label admin__field-label"><span><?php echo __('Booking Address') ?></span></label>
+						   <div class="control">
+							  <input type="text" class="input-text required-entry" value="<?php echo $booking['booking_address']; ?>" name="bookings[booking_address]" id="booking_address" aria-required="true">                            
+						   </div>
+						   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+						   </div>
+						</div>
+						<div class="field field-booking_email" id="booking-booking_email-contenter">
+						   <label for="booking_city" class="label admin__field-label"><span><?php echo __('Booking City') ?></span></label>
+						   <div class="control">
+							  <input type="text" class="input-text required-entry" value="<?php echo $booking['booking_city']; ?>" name="bookings[booking_city]" id="booking_city" aria-required="true">                            
+						   </div>
+						   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+						   </div>
+						</div>
+						<div class="field field-booking_zipcode" id="booking-booking_zipcode-contenter">
+						   <label for="booking_zipcode" class="label admin__field-label"><span><?php echo __('Zip Code') ?></span></label>
+						   <div class="control">
+							  <input type="text" class="input-text required-entry" value="<?php echo $booking['booking_zipcode']; ?>" name="bookings[booking_zipcode]" id="booking_zipcode" aria-required="true">                            
+						   </div>
+						   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+						   </div>
+						</div>
+						<div class="field field-booking_country" id="attribute-booking_country-container">
+						   <label for="booking_country" class="label admin__field-label"><span><?php echo __('Country') ?></span></label>
+						   <div class="control">
+								<select class="select admin__control-select" name="bookings[booking_country]" id="booking_country">
+									<?php if(count($countries)) : ?>
+										<?php foreach($countries as $country) : ?>
+											<option <?php if($country['value'] == $booking['booking_country']) echo 'selected="selected"'; ?> value="<?php echo $country['value']; ?>"><?php echo $country['label']; ?></option>
+										<?php endforeach; ?>
+									<?php endif; ?>
+								</select>
+						   </div>
+						   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+						   </div>
+						</div>
+						<div class="field field-booking_state_id" id="attribute-booking_state_id-container">
+						   <label for="booking_state_id" class="label admin__field-label"><span><?php echo __('States') ?></span></label>
+						   <div class="control">
+								<select class="select admin__control-select" name="bookings[booking_state_id]" id="booking_state_id" <?php if($booking['booking_state_id'] == 0) { echo 'style="display: none;"'; } ?>>
+									
+								</select>
+								<div <?php if($booking['booking_state_id'] > 0) { echo 'style="display : none;"'; } ?>>
+								<input type="text" class="input-text" value="<?php echo $booking['booking_state']; ?>" name="bookings[booking_state]" id="booking_state" aria-required="true">                            
+								</div>
+						   </div>
+						   <div value-scope="[<?php echo __('GLOBAL'); ?>]" class="field-service">
+						   </div>
+						</div>
+						<div class="field field-booking_zipcode" id="booking-booking_zipcode-contenter">
+						   <label for="booking_zipcode" class="label admin__field-label"><span><?php echo __('Zip Code') ?></span></label>
+						   <div class="control">
+								<div class="input-right-bt mb_sm">
+									<input id="pac-input" name="bookings[auto_address]" value="<?php echo $booking['auto_address']; ?>" class="controls required-entry" type="text" placeholder="<?php echo __('Enter a location'); ?>" >
+									<input type="hidden" name="bookings[booking_lat]" value="<?php echo $booking['booking_lat']; ?>" id="booking-lat" class="required-entry" />
+									<input type="hidden" name="bookings[booking_lon]" value="<?php echo $booking['booking_lon']; ?>" id="booking-lon"/>
+									<button type="button" id="booking-reset-map"><?php echo __('Reset Map'); ?></button>
+								</div>
+								<div id="booking_map_canvas" style="width:100%; height:600px"></div>
+						   </div>
+						</div>
+					<?php endif; ?>
+				<?php endif; ?>
+			</fieldset>
+		</div>
+   </div>
+</div>
+<?php /* popup */ ?>
+<div id="bk-popup-modal-rent-price" style="display : none;">
+</div>
+<div id="bk-popup-modal-room" style="display : none;">
+</div>
+<?php /* end  */ ?>
+<?php if($enableAddsss == 1) : ?>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+<?php endif; ?> 
+<?php if($booking['booking_product_id'] > 0) : ?>
+	<script>
+	require([
+			'jquery',
+			'Magento_Ui/js/modal/modal',
+			'bk_map_js'
+		],
+		function($, modal,bkMap) {
+			//call available
+			var newOptionUrl = '<?php echo $newOptionUrl; ?>';
+			var newDiscountUrl = '<?php echo $newDiscountUrl; ?>';
+			var urlFacilities = '<?php echo $urlFacilities; ?>';
+			var urlFacilities = '<?php echo $urlFacilities; ?>';
+			var urlSetupRentPrice = '<?php echo $urlSetupRentPrice; ?>';
+			var urlSetupRoom = '<?php echo $urlSetupRoom; ?>';
+			var urlStates = '<?php echo $urlStates; ?>';
+			var bookingId = '<?php echo $booking['booking_product_id']; ?>';
+			var bookingType = '<?php echo $booking['booking_type']; ?>';
+			var storeId = '<?php echo $storeId; ?>';
+			var bkStatesId = '<?php echo $booking['booking_state_id']; ?>';
+			var useBkAddress = '<?php echo $useBkAddress; ?>';
+			//js modal
+			$('#show-booking-popup').click(function(){
+				//get content for popup
+				$('#bk-popup-modal-rent-price').html('');
+				var bookingType = $('#booking_type').val();
+				if($.trim(bookingType) != 'per_day')
+				{
+					return false;
+				}
+				var bookingTime = $('#booking_time').val();
+				if(bookingTime == '3')
+				{
+					$('#booking_temp_check_price_update').val(1);
+				}
+				$('#bk-popup-modal-rent-price').html('');
+				$('.bk-loading-mask').css('display','block');
+				$.ajax({
+					url : urlSetupRentPrice,
+					dataType : 'json',
+					type : 'POST',
+					data : {booking_id : bookingId, booking_type: bookingType,booking_time : bookingTime},
+					success : function(res)
+					{
+						$('#bk-popup-modal-rent-price').html(res.html_rent_price);
+						$('.bk-loading-mask').css('display','none');
+					},
+					error : function()
+					{
+					
+					}
+				});
+				var options = {
+					type: 'popup',
+					responsive: true,
+					innerScroll: false,
+					title: '<?php echo __('Setup Price') ?>',
+					buttons: [{
+						text: $.mage.__('Close'),
+						class: '',
+						click: function () {
+							this.closeModal();
+						}
+					}]
+				};
+				var popup = modal(options, $('#bk-popup-modal-rent-price'));
+				$('#bk-popup-modal-rent-price').modal('openModal');
+				$('#booking-temp-check-price-update').val(1);
+		   });
+		   $('#bk-room-add').click(function(){
+			   var bookingType = $('#booking_type').val();
+			   if($.trim(bookingType) != 'hotel')
+				{
+					return false;
+				}
+				$.ajax({
+					url : urlSetupRoom,
+					dataType : 'json',
+					type : 'POST',
+					data : {bk_room_id : 0,store_id : storeId,room_booking_id : bookingId},
+					success : function(res)
+					{
+						$('#bk-popup-modal-room').html(res.html_room);
+						$('.bk-loading-mask').css('display','none');
+					},
+					error : function()
+					{
+					
+					}
+				});
+				var optionsRoom = {
+					type: 'popup',
+					responsive: true,
+					innerScroll: false,
+					title: '<?php echo __('Setup Price') ?>',
+					buttons: [{
+						text: $.mage.__('<?php echo __('Close') ?>'),
+						class: '',
+						click: function () {
+							this.closeModal();
+						}
+					}]
+				};
+				var popup = modal(optionsRoom, $('#bk-popup-modal-room'));
+				$('#bk-popup-modal-room').modal('openModal');
+		   });
+		   //jquery document load
+			if(bookingType == 'hotel')
+			{
+				$('.list-rooms-hotel').show();
+				$('#show-booking-popup').hide();
+				$('.booking-rent').hide();
+			}
+			else if(bookingType == 'per_day')
+			{
+				$('.list-rooms-hotel').hide();
+				$('#show-booking-popup').show();
+				$('.booking-rent').show();
+				var bookingTime = $('#booking_time').val();
+				if(bookingTime == '1')
+				{
+					$('.booking-type-per-day').show();
+					$('.booking-type-per-hour').hide();
+					$('.booking-type-intervals').hide();
+				}
+				else if(bookingTime == '2')
+				{
+					$('.booking-type-per-day').hide();
+					$('.booking-type-intervals').hide();
+					$('.booking-type-per-hour').show();
+				}
+				else if(bookingTime == '3')
+				{
+					$('.booking-type-per-day').hide();
+					$('.booking-type-per-hour').hide();
+					$('.booking-type-intervals').show();
+				}
+			}
+			else
+			{
+				$('.booking-rent').hide();
+				$('.booking-type-per-hour').hide();
+				$('.list-rooms-hotel').hide();
+				$('#show-booking-popup').hide();
+			}
+			$('#booking_type').change(function(){
+				var bookingType = $(this).val();
+				if($.trim(bookingType) == '')
+				{
+					$('#show-booking-popup').hide();
+					$('.list-rooms-hotel').hide();
+					$('#show-booking-popup').hide();
+					$('.booking-rent').hide();
+					return false;
+				}
+				if(bookingType == 'hotel')
+				{
+					$('.list-rooms-hotel').show();
+					$('#show-booking-popup').hide();
+					$('.booking-rent').hide();
+				}
+				else
+				{
+					$('.list-rooms-hotel').hide();
+					$('.booking-rent').show();
+					var bookingTime = $('#booking_time').val();
+					if(bookingTime == '1')
+					{
+						$('.booking-type-per-day').show();
+						$('.booking-type-per-hour').hide();
+						$('.booking-type-intervals').hide();
+					}
+					else if(bookingTime == '2')
+					{
+						$('.booking-type-per-day').hide();
+						$('.booking-type-intervals').hide();
+						$('.booking-type-per-hour').show();
+					}
+					else if(bookingTime == '3')
+					{
+						$('.booking-type-per-day').hide();
+						$('.booking-type-per-hour').hide();
+						$('.booking-type-intervals').show();
+					}
+					$('#show-booking-popup').show();
+				}
+				//load facilities
+				$('#booking-tab-facilities-contenter').html('');
+				$('.bk-loading-mask').css('display','block');
+				$.ajax({
+						url : urlFacilities,
+						dataType : 'json',
+						type : 'POST',
+						data : {booking_id : bookingId, booking_type: bookingType,store_id: storeId},
+						success : function(res)
+						{
+							$('#booking-tab-facilities-contenter').html(res.html_facilities);
+							$('.bk-loading-mask').css('display','none');
+						},
+						error : function()
+						{
+							
+						}
+					}); 
+			});
+			var bkContryId = $('#booking_country').val();
+			getBkStates(bkContryId,bkStatesId);
+			// booktime change
+			$('#booking_time').change(function(){
+				var bookingTime = $(this).val();
+				if(bookingTime == '1')
+				{
+					$('.booking-type-per-day').show();
+					$('.booking-type-per-hour').hide();
+					$('.booking-type-intervals').hide();
+				}
+				else if(bookingTime == '2')
+				{
+					$('.booking-type-per-day').hide();
+					$('.booking-type-intervals').hide();
+					$('.booking-type-per-hour').show();
+				}
+				else if(bookingTime == '3')
+				{
+					$('.booking-type-per-day').hide();
+					$('.booking-type-per-hour').hide();
+					$('.booking-type-intervals').show();
+				}
+			});
+			$('.booking-type-per-hour select, #booking_time_slot, #booking_time_buffer').change(function(){
+				var bookingTime = $('#booking-time').val();
+				if(bookingTime == '3')
+				{
+					$('#booking_temp_check_price_update').val(1);
+				}
+			})
+			// add new option 
+			$('#booking-add-option').click(function(){
+				$('.bk-loading-mask').css('display','block');
+				$.ajax({
+					url : newOptionUrl,
+					dataType : 'json',
+					type : 'POST',
+					data : {store_id : storeId},
+					success : function(res)
+					{
+						$('#booking-options-content').append(res.html_option);
+						$('.bk-loading-mask').css('display','none');
+					},
+					error : function()
+					{
+						
+					}
+				}); 
+			})
+			//add new discount
+			$('#booking-add-discount').click(function(){
+				$('.bk-loading-mask').css('display','block');
+				$.ajax({
+					url : newDiscountUrl,
+					dataType : 'json',
+					type : 'POST',
+					data : {store_id : storeId},
+					success : function(res)
+					{
+						$('#booking-discounts-content').append(res.html_discount);
+						$('.bk-loading-mask').css('display','none');
+					},
+					error : function()
+					{
+						
+					}
+				}); 
+			});
+			$('#booking_country').change(function(){
+				$('#booking_state_id').empty();
+				var conutryId = $(this).val();
+				getBkStates(conutryId,bkStatesId);
+			});
+			$('.booking-type-intervals select, .booking-type-intervals input').change(function(){
+				$('#booking-temp-check-price-update').val(1);
+			});
+			$('#save-split-button-duplicate-button').click(function(){
+				$('#magebay-booking-save-split-button-duplicate-button').val(1);
+			})
+			function getBkStates(conutryId,bkStatesId)
+			{
+				$.ajax({
+					url : urlStates,
+					dataType : 'json',
+					type : 'POST',
+					data : {country_id : conutryId, current_state_id: bkStatesId},
+						success: function(data){
+						if(data.status == true)
+						{
+							$('#booking_state_id').append(data.htmlconent);
+							$('#booking_state_id').addClass('required-entry');
+							$('#booking_state_id').css('display','block');
+							$('#booking_state').parent().css('display','none');
+						}
+						else
+						{
+							$('#booking_state_id').css('display','none');
+							$('#booking_state').parent().css('display','block');
+							$('#booking_state_id').removeClass('required-entry');
+						}
+					},
+					error : function()
+					{
+						
+					}
+				}); 
+			}
+			$( window ).load(function() {
+				if(useBkAddress == '1')
+				{
+					//jquery map
+					var lat = parseFloat($('#booking-lat').val());
+					var lon = parseFloat($('#booking-lon').val());
+					var zoom = 5;
+					if(lat == 0 && lon == 0)
+					{
+						lat = 40.8516701;
+						lon = -93.2599318;
+					}
+					loadMap = new bkMap();
+					var bkTabActive = $('#tab-bk-active').val();
+					
+					if(bkTabActive == 'product-booking-system')
+					{
+						loadMap.getBkPoint(lat,lon,zoom);
+					}
+					$('#product_info_tabs_product-booking-system').click(function(){
+						loadMap.getBkPoint(lat,lon,zoom);
+					});
+					 $('#booking-reset-map').click(function(){
+						loadMap.getBkPoint(lat,lon,zoom);
+					})
+				}
+			});
+		});
+	</script>
+<?php endif; ?>

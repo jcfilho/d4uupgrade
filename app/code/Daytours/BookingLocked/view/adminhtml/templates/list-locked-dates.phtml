@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @var \Daytours\BookingLocked\Block\Adminhtml\ListInfoLocked $block
+ */
+
+$listLockedDates = $block->getAllLockedDates($block->getData('productId'),$block->getCalendarOne());
+
+?>
+<div class="content-items-locked">
+    <?php if( $listLockedDates->getTotalCount() ) : ?>
+    <div class="items-locked">
+        <?php $index = 0; ?>
+        <?php foreach ($listLockedDates->getItems() as $item): ?>
+            <?php $index++; ?>
+            <div class="item-locked">
+                <div class="date"><?= date('d-m-Y', strtotime($item->getLocked())) ?></div>
+                <div class="remove" data-id="<?= $item->getId() ?>">x</div>
+                <div class="clearfix clear"></div>
+            </div>
+            <?php if($index == 2): ?>
+                <div class="clearfix clear"></div>
+                <?php $index = 0; ?>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+
+    <div class="clearfix clear"></div>
+    <div class="bk-base-calendar-info">
+        <div class="add-calendar-field">
+            <label>Date</label>
+            <input readonly id="item-day-locked" type="text" name="item_day_locked" value="" />
+        </div>
+        <div class="add-calendar-field">
+            <button	id="save-new-locked-date" class="action-default primary" type="button"><?= __('Add new Item'); ?></button>
+        </div>
+    </div>
+</div>

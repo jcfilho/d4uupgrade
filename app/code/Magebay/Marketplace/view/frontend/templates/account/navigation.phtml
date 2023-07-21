@@ -1,0 +1,160 @@
+<?php
+/**
+* @Author      : haunv_kien
+* @package     Marketplace
+* @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+* @terms  http://www.magebay.com/terms
+* @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+**/
+?>
+<?php
+$isseller=$this->helper('Magebay\Marketplace\Helper\Data')->checkIsSeller();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$moduleManager = $objectManager->create('Magento\Framework\Module\Manager'); 
+if($isseller){
+?>
+    <div class="block account-nav">
+        <div class="title">
+            <strong><?php /* @escapeNotVerified */ echo __('Marketplace'); ?></strong>
+        </div>
+        <div class="content">
+            <nav class="account-nav">
+                <ul class="nav items">
+                    <?php echo $block->getChildHtml();?>
+                    <?php if ( $moduleManager->isEnabled('Magebay_SellerFlatRateShipping') ) { ?>
+    					<li class="nav item multi_flat_rate_shipping">
+                            <a href="<?php echo $this->getBaseUrl() ?>sellerflatrateshipping/"><?php echo __('Flat Rate Shipping'); ?>
+    						</a>
+                        </li>
+					<?php } ?>
+                    <?php if ( $moduleManager->isEnabled('Magebay_SellerTableRateShipping') ) { ?>
+    					<li class="nav item multi_table_rate_shipping">
+                            <a href="<?php echo $this->getBaseUrl() ?>sellertablerateshipping/"><?php echo __('Table Rate Shipping'); ?>
+    						</a>
+                        </li>
+					<?php } ?>                    
+                    <?php if ( $moduleManager->isEnabled('Magebay_SellerStoreLocator') ) { ?>
+    					<li class="nav item seller_store_locator">
+                            <a href="<?php echo $this->getBaseUrl() ?>sellerstorelocator/index/view"><?php echo __('My Store Locator'); ?>
+    						</a>
+                        </li>
+					<?php } ?>
+                    <?php if ( $moduleManager->isEnabled('Magebay_SellerStorePickup') ) { ?>
+    					<li class="nav item seller_store_pickup">
+                            <a href="<?php echo $this->getBaseUrl() ?>sellerstorepickup/index/liststore"><?php echo __('My Store Pickup'); ?>
+    						</a>
+                        </li>
+					<?php } ?>
+                    <?php if ( $moduleManager->isEnabled('Magebay_SellerAssignProduct') ) { ?>
+    					<li class="nav item seller_assign_product_new">
+                            <a href="<?php echo $this->getBaseUrl() ?>sellerassignproduct/index/NewProduct"><?php echo __('Assign Product'); ?>
+    						</a>
+                        </li>
+                        <li class="nav item seller_assign_product_list">
+                            <a href="<?php echo $this->getBaseUrl() ?>sellerassignproduct"><?php echo __('Assign Product List'); ?>
+    						</a>
+                        </li>
+					<?php } ?>
+                    <?php if ( $moduleManager->isEnabled('Magebay_SellerVacation') ) { ?>
+    					<li class="nav item seller_vacation">
+                            <a href="<?php echo $this->getBaseUrl() ?>sellervacation/index/view"><?php echo __('Vacation Setting'); ?>
+    						</a>
+                        </li>
+					<?php } ?>
+                    <?php if ( $moduleManager->isEnabled('Magebay_SellerMassImportExport') ) { ?>
+    					<li class="nav item seller_product_import">
+                            <a href="<?php echo $this->getBaseUrl() ?>sellermassimportexport/index/import"><?php echo __('Import Product'); ?>
+    						</a>
+                        </li>
+                        <li class="nav item seller_product_export">
+                            <a href="<?php echo $this->getBaseUrl() ?>sellermassimportexport/index/export"><?php echo __('Export Product'); ?></span>
+    						</a>
+                        </li>
+					<?php } ?>
+                    <?php if ( $moduleManager->isEnabled('Magebay_SellerMembership') && \Magento\Framework\App\ObjectManager::getInstance()->create('Magebay\Marketplace\Helper\Data')->getSellerMembershipIsEnabled() ) { ?>
+            			<li class="nav item seller_membership">
+                            <a href="<?php echo $this->getBaseUrl() ?>sellermembership/index/view"><?php echo __('Seller Membership'); ?>
+    						</a>
+                        </li>
+            		<?php } ?>
+                    <?php if ( $moduleManager->isEnabled('Magebay_SellerCoupon') ) { ?>
+            			<li class="nav item seller_coupon">
+                            <a href="<?php echo $this->getBaseUrl() ?>sellercoupon/index/index"><?php echo __('Seller Coupon'); ?>
+    						</a>
+                        </li>
+            		<?php } ?> 
+					<?php if ( $moduleManager->isEnabled('Magebay_Messages') ) { ?>
+    					<li class="nav item messages">
+                            <a href="<?php echo $this->getBaseUrl() ?>messages/"><?php echo __('Messages'); ?>
+        						<?php 
+            						$customer = $objectManager->create('Magento\Customer\Model\Session');
+            						$messages = $objectManager->create('Magebay\Messages\Model\Messages')->getCollection()->addFieldToFilter('is_active',1);
+            						$messages->getSelect()->where("main_table.user_id= '{$customer->getId()}' OR main_table.usercontact_id='{$customer->getId()}'");
+            						$ee = '%"'.$customer->getId().'":"unread"%';
+            						$messages->getSelect()->where("main_table.status LIKE '{$ee}'");
+            						if ( $messages->count() ) {
+            							echo ' <strong>('.$messages->count().')</strong>';
+            						}
+        						?>
+    						</a>
+                        </li>
+					<?php } ?>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- kien -->
+    <script>
+    	require(['jquery','mage/mage'],function($){
+    	   $('.account-nav ul li:eq(2)').hide();
+    	})
+    </script>
+    <?php 
+        $product_type = explode(',',$objectManager->create('Magebay\Marketplace\Helper\Data')->getProductType());
+        foreach($product_type as $pt){
+            if($pt == 'configurable'){
+            ?>
+                <script>
+                	require(['jquery','mage/mage'],function($){
+                	   $('.account-nav ul li:eq(2)').show();
+                	})
+                </script>
+            <?php
+            }
+        }
+    ?>	                
+    <?php 
+        $product_type = explode(',',$objectManager->create('Magebay\Marketplace\Helper\Data')->getProductType());
+        foreach($product_type as $pt){
+            if($pt == 'configurable'){
+            ?>
+                <script>
+                	require(['jquery','mage/mage'],function($){
+                	   $('.account-nav ul li:eq(2)').show();
+                	})
+                </script>
+            <?php
+            }
+        }
+    ?>	
+    <!-- end kien -->
+<?php
+}else{
+?>
+    <div class="block account-nav">
+        <div class="title">
+            <strong><?php /* @escapeNotVerified */ echo __('Marketplace'); ?></strong>
+        </div>
+        <div class="content">
+            <nav class="account-nav">
+                <ul class="nav items">
+                    <li class="nav item become_seller">
+                        <a href="<?php echo $this->getBaseUrl() ?>marketplace/seller/become/"><?php echo __('Become a Seller'); ?></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+<?php
+}
+?>

@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Daytours_PayPalButtons::css/paypal-buttons.css"/>
+    </head>
+    <body>
+        <referenceBlock name="head.additional">
+            <block after="-" class="Magento\Framework\View\Element\Text" name="paypal_scripts">
+                <action method="setText">
+                    <!-- sandbox -->
+                    <!-- <argument translate="true" name="text" xsi:type="string">
+                        <![CDATA[<script src="https://www.paypal.com/sdk/js?client-id=AQqUuH9FOUVV-qc4SC6UOFyjAFv09Fk-6kgLSyVIkbDK4EYiYwUNB7mj7n3hRKrQTWmsxy09IZrHk1cc&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script>]]>
+                    </argument> -->
+                    
+                    <!-- production -->
+                    <argument translate="true" name="text" xsi:type="string">
+                        <![CDATA[<script src="https://www.paypal.com/sdk/js?client-id=Abynm5s7ChL6sk_ei3oly4aHyelTcM0J2CkGG-YW5obwJMMUNPZjz8z0ImWeg5ChK7tX8gTfME5UmADV&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script>]]>
+                    </argument>
+                </action>
+            </block>
+        </referenceBlock>
+        <referenceBlock name="checkout.root">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="checkout" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="steps" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="billing-step" xsi:type="array">
+                                            <item name="component" xsi:type="string">uiComponent</item>
+                                            <item name="children" xsi:type="array">
+                                                <item name="payment" xsi:type="array">
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="renders" xsi:type="array">
+                                                            <!-- merge payment method renders here -->
+                                                            <item name="children" xsi:type="array">
+                                                                <item name="paypal_buttons" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Daytours_PayPalButtons/js/view/payment/paypal_buttons</item>
+                                                                    <item name="methods" xsi:type="array">
+                                                                        <item name="paypal_buttons" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

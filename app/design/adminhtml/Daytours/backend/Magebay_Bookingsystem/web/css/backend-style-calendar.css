@@ -1,0 +1,391 @@
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+#booking-calendar *,#booking-calendar-two * { box-sizing: border-box; }
+.clear {
+    clear: both;
+}
+.magebay-booking-calendar {
+   width: 100%;
+   border: 1px solid #000;
+}
+.booking-calendar-header {
+    background: #212020 none repeat scroll 0 0;
+    color: white;
+    float: left;
+    height: auto !important;
+    margin-bottom: 5px;
+    padding: 10px;
+    position: relative;
+    width: 100%;
+}
+.calendar-header-btn {
+    width: 100%;
+}
+#calendar-header-left,#calendar-header-center, #calendar-header-right {
+    float: left;
+    width: 33.3%;
+}
+#calendar-header-center
+{
+text-align: center;
+}
+#calendar-header-btn-text { font-weight: bold; }
+#calendar-header-btn-add-month, #calendar-header-btn-romove-month {
+    cursor: pointer;
+    float: left;
+    width: 40px;
+}
+#calendar-header-btn-pre, #calendar-header-btn-next {
+    cursor: pointer;
+    float: right;
+    width: 40px;
+}
+.calendar-header-week{
+	float: left;
+    width: 100%;
+}
+.calendar-header-day {
+    color: white;
+    float: left;
+    width: 14.28%;
+	text-align: center;
+}
+/* end style header */
+.booking-calendar-content {
+    width: 100%;
+	float: left;
+    padding: 10px;
+}
+.booking-item-month {
+    width: 100%;
+}
+.booking-calendar-content .month-lable 
+{
+    border-bottom: 1px solid #e0e0e0;
+    color: #6f6f6f;
+    float: left;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 15px 0 10px;
+    text-align: left;
+    width: 100%;
+}
+/* style day item */
+.booking-item-day{
+    float: left;
+    height: 80px;
+    line-height: 1em;
+    text-align: center;
+	cursor: pointer;
+	margin: 2px 0px;
+	min-width: 14.28% !important;
+}
+.booking-item-day .day-header {
+    background: #cccccc none repeat scroll 0 0;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    height: auto;
+    padding: 4px 0 4px 5px !important;
+    width: 100%;
+	-webkit-border-top-left-radius: 2px !important;
+    -webkit-border-top-right-radius: 2px !important;
+    -moz-border-topleft-radius: 2px !important;
+    -moz-border-topright-radius: 2px !important;
+    border-top-left-radius: 2px !important;
+    border-top-right-radius: 2px !important;
+}
+.booking-day-next-month
+{
+	opacity: 0.5;
+}
+.booking-day-past
+{
+	opacity: 0.5;
+}
+.booking-day-none {
+    background: white !important;
+    color: white !important;
+}
+.booking-day-none .day-header {
+    background: white !important;
+}
+.booking-day-none  .day-content
+{
+	border: 1px solid white !important;
+	color: white !important;
+}
+.booking-item-day-left
+{
+	width: 1px;
+	float: left;
+	opacity: 0;
+	height: 76px;
+}
+.booking-item-day-left .day-content
+{
+	height: 60px;
+	border-bottom: 1px solid #cccccc;
+}
+.booking-item-day-content {
+  float: left;
+  height: 76px;
+  display: block;
+  min-width: 98%;
+}
+.booking-item-day-content .day-content
+{
+	border: 1px solid #cccccc;
+	border-top: none;
+	height: 60px;
+}
+.booking-item-day-right
+{
+	width: 1px;
+	height: 76px;
+	float: left;
+	opacity: 0;
+}
+.booking-item-day-right .day-content
+{
+	height: 60px;
+	border-bottom: 1px solid #cccccc;
+}
+.booking-day-past .booking-item-day-content .day-content
+{
+	border: 1px solid #cccccc;
+}
+
+.day-comtent-price-underline {
+    text-decoration: line-through;
+}
+.booking-day-past .booking-item-day-content .header
+{
+	background: #F2F2F2;
+}
+/* available status */
+.day-available .day-header
+{
+	background: green;
+}
+.day-available .booking-item-day-content .day-content
+{
+	border: 1px solid green;
+	border-top: none;
+	-webkit-border-bottom-left-radius: 2px !important;
+    -webkit-border-bottom-right-radius: 2px !important;
+    -moz-border-bottomleft-radius: 2px !important;
+    -moz-border-bottomright-radius: 2px !important;
+    border-bottom-left-radius: 2px !important;
+    border-bottom-right-radius: 2px !important;
+}
+.available-group-day-first .booking-item-day-content .day-content
+{
+	border-right: none;
+}
+.available-group-day .booking-item-day-content .day-content
+{
+	border-left: none;
+	border-right: none;
+}
+.available-group-day-last .booking-item-day-content .day-content
+{
+	border-left: none;
+}
+.available-group-day-first .booking-item-day-right
+{
+	opacity: 1;
+}
+.available-group-day-first .booking-item-day-right .day-content
+{
+	border-bottom: 1px solid green;
+}
+.available-group-day .booking-item-day-left, .available-group-day .booking-item-day-right
+{
+	opacity: 1;
+}
+.available-group-day .booking-item-day-left .day-content, .available-group-day .booking-item-day-right .day-content
+{
+	border-bottom: 1px solid green;
+}
+.available-group-day-last .booking-item-day-left
+{
+	opacity: 1;
+}
+.available-group-day-last .booking-item-day-left .day-content
+{
+	border-bottom: 1px solid green;
+}
+/* special day */
+.day-special .day-header
+{
+	background: #ba68ba;
+}
+.day-special .booking-item-day-content .day-content
+{
+	border: 1px solid #ba68ba;
+	border-top: none;
+}
+.special-group-day-first .booking-item-day-content .day-content
+{
+	border-right: none;
+}
+.special-group-day .booking-item-day-content .day-content
+{
+	border-left: none;
+	border-right: none;
+}
+.special-group-day-last .booking-item-day-content .day-content
+{
+	border-left: none;
+}
+.special-group-day-first .booking-item-day-right
+{
+	opacity: 1;
+}
+.special-group-day-first .booking-item-day-right .day-content
+{
+	border-bottom: 1px solid #ba68ba;
+}
+.special-group-day .booking-item-day-left, .special-group-day .booking-item-day-right
+{
+	opacity: 1;
+}
+.special-group-day .booking-item-day-left .day-content, .special-group-day .booking-item-day-right .day-content
+{
+	border-bottom: 1px solid #ba68ba;
+}
+.special-group-day-last .booking-item-day-left
+{
+	opacity: 1;
+}
+.special-group-day-last .booking-item-day-left .day-content
+{
+	border-bottom: 1px solid #ba68ba;
+}
+/* style block Item day */
+.day-block .day-header
+{
+	background: #dd6464;
+}
+.day-block .booking-item-day-content .day-content
+{
+	border: 1px solid #dd6464;
+	border-top: none;
+	color: #dd6464;
+}
+.day-selected .booking-item-day-content .day-content {
+    border: 1px solid #000;
+    color: black;
+}
+.day-selected .booking-item-day-content .day-header {
+    background: black;
+}
+.block-group-day-first .booking-item-day-content .day-content
+{
+	border-right: none;
+}
+.block-group-day .booking-item-day-content .day-content
+{
+	border-left: none;
+	border-right: none;
+}
+.block-group-day-last .booking-item-day-content .day-content
+{
+	border-left: none;
+}
+.block-group-day-first .booking-item-day-right
+{
+	opacity: 1;
+}
+.block-group-day-first .booking-item-day-right .day-content
+{
+	border-bottom: 1px solid red;
+}
+.block-group-day .booking-item-day-left, .block-group-day .booking-item-day-right
+{
+	opacity: 1;
+}
+.block-group-day .booking-item-day-left .day-content, .block-group-day .booking-item-day-right .day-content
+{
+	border-bottom: 1px solid red;
+}
+.block-group-day-last .booking-item-day-left
+{
+	opacity: 1;
+}
+.block-group-day-last .booking-item-day-left .day-content
+{
+	border-bottom: 1px solid red;
+}
+/* style from add item booking */
+.add-calendar-field {
+    float: left;
+    margin: 4px 0 4px 5px;
+    width: 90%;
+}
+.add-calendar-field label {
+    float: left;
+    width: 35%;
+}
+
+
+/* new style by hao */
+
+#calendar-header-btn-romove-month,
+#calendar-header-btn-pre,
+#calendar-header-btn-next,
+#calendar-header-btn-add-month {
+    display: inline-block;
+    height: 25px;
+    text-indent: -9999px;
+    width: 25px;
+	background-image:url(../images/sprite.png);
+    margin-top: 6px;
+}
+#calendar-header-btn-romove-month{
+	background-position: -150px 0;
+	margin-left: 2px;
+}
+#calendar-header-btn-pre{
+	background-position: 0 0;
+	margin-right: 2px;
+}
+#calendar-header-btn-next{
+	background-position: -50px 0;
+	margin-right: 10px;
+}
+#calendar-header-btn-add-month{
+	background-position:-100px 0;
+	margin-left: 10px;
+}
+#calendar-header-btn-romove-month:hover{
+	background-position: -175px 0;
+}
+#calendar-header-btn-pre:hover{
+	background-position: -25px 0;
+}
+#calendar-header-btn-next:hover{
+	background-position: -75px 0;
+}
+#calendar-header-btn-add-month:hover{
+	background-position: -125px 0;
+}
+
+.day-content-qty , .day-comtent-text , .day-comtent-price {
+    clear: both;
+    float: left;
+    margin: 2px 0 0;
+    width: 100%;
+}
+
+
+
+
+
+
+
+

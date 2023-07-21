@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="\Magento\Checkout\Block\Checkout\LayoutProcessor">
+        <plugin name="checckout-billing-fields-personalize" type="\Daytours\Checkout\Plugin\Block\Checkout\LayoutProcessor" sortOrder="1" />
+    </type>
+    <type name="\Magento\Checkout\Controller\Cart\Configure">
+        <plugin name="checckout-configure-edit-product" type="\Daytours\Checkout\Plugin\Controller\Cart\Configure" sortOrder="1" />
+    </type>
+
+    <preference for="Magento\Checkout\CustomerData\DefaultItem" type="Daytours\Checkout\CustomerData\DefaultItem" />
+    <preference for="Magento\Checkout\Block\Cart\Crosssell" type="Daytours\Checkout\Block\Cart\Crosssell" />
+    <preference for="DigitalHub\Ebanx\Block\Success" type="Daytours\Checkout\Block\Onepage\Success" />
+    <preference for="Magento\Checkout\Controller\Cart\CouponPost" type="Daytours\Checkout\Override\CouponPost" />
+</config>

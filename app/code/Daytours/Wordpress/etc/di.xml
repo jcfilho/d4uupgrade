@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="\FishPig\WordPress\Model\Post">
+        <plugin name="get_categories_post" type="\Daytours\Wordpress\Plugin\Model\Post" sortOrder="1"  disabled="false"/>
+    </type>
+    <type name="\FishPig\WordPress\Block\Sidebar\Widget\Cloud">
+        <plugin name="get_taxonomies" type="\Daytours\Wordpress\Plugin\Block\Sidebar\Widget\Cloud" sortOrder="1"  disabled="false"/>
+    </type>
+    <type name="\FishPig\WordPress\Block\Sidebar\Widget\NavMenu">
+        <plugin name="get_taxonomies" type="\Daytours\Wordpress\Plugin\Block\Sidebar\Widget\NavMenu" sortOrder="1"  disabled="false"/>
+    </type>
+    <type name="\FishPig\WordPress\Block\Sidebar\Widget\Search">
+        <plugin name="get_taxonomies" type="\Daytours\Wordpress\Plugin\Block\Sidebar\Widget\Search" sortOrder="1"  disabled="false"/>
+    </type>
+<!--    <preference for="FishPig\WordPress\Controller\Router" type="Daytours\Wordpress\Plugin\Controller\Router" />-->
+</config>

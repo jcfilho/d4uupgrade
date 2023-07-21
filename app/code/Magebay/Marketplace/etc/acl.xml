@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @Author      : Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magebay_Marketplace::marketplace" title="Magebay Marketplace" sortOrder="100">
+                    <resource id="Magebay_Marketplace::sellers" title="Sellers" sortOrder="10">
+                        <resource id="Magebay_Marketplace::manage_sellers" title="Manage Sellers" sortOrder="10" />
+                    </resource>
+                    <resource id="Magebay_Marketplace::sales" title="Sales" sortOrder="20">
+                        <resource id="Magebay_Marketplace::manage_partner" title="Manage Sellers Sales" sortOrder="10" />
+                        <resource id="Magebay_Marketplace::manage_orders" title="Manage Sellers Order" sortOrder="15" />
+                        <resource id="Magebay_Marketplace::manage_payments" title="Manage Payment Method" sortOrder="20" />
+                        <resource id="Magebay_Marketplace::manage_transactions" title="Manage Withdrawals" sortOrder="30" />
+                    </resource>
+                    <resource id="Magebay_Marketplace::catalog" title="Catalog" sortOrder="30">
+                        <resource id="Magebay_Marketplace::manage_products" title="Manage Sellers Product" sortOrder="1" />
+                    </resource>
+                    <resource id="Magebay_Marketplace::shippings" title="Shippings" sortOrder="40"></resource>
+                    <resource id="Magebay_Marketplace::payments" title="Payments" sortOrder="50"></resource>
+                    <resource id="Magebay_Marketplace::others" title="Others" sortOrder="60">
+                        <resource id="Magebay_Marketplace::manage_reviews" title="Manage Sellers Reviews" sortOrder="5" />
+                        <!--<resource id="Magebay_Marketplace::manage_pay" title="Manage Seller Pay" sortOrder="8" />-->
+                        <resource id="Magebay_Marketplace::configuration" title="Configurations" sortOrder="1000" />
+                    </resource>
+                </resource>
+                <!--<resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Magebay_Marketplace::system_config" title="Magebay Marketplace" />
+                        </resource>
+                    </resource>
+                </resource>-->
+            </resource>
+        </resources>
+    </acl>
+</config>

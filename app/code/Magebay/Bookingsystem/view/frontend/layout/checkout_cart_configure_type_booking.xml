@@ -1,0 +1,38 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="Magebay_Bookingsystem::css/bootstrap.min.css" />
+		<css src="Magebay_Bookingsystem::css/icomoon.css" />
+		<css src="Magebay_Bookingsystem::css/font-awesome.css" />
+		<css src="Magebay_Bookingsystem::css/font-awesome.min.css" />
+		<css src="Magebay_Bookingsystem::css/owl.carousel.css" />
+		<css src="Magebay_Bookingsystem::css/owl.theme.css" />
+		<css src="Magebay_Bookingsystem::css/daterangepicker.css" />
+		<css src="Magebay_Bookingsystem::css/style_calendar.css" />
+		<css src="Magebay_Bookingsystem::css/global_style.css" />
+		<css src="Magebay_Bookingsystem::css/style-booking-simple.css" />
+		<css src="Magebay_Bookingsystem::css/style-booking-hotels.css" />
+	</head>
+	<body>
+		<referenceBlock name="product.info.addtocart" remove="true"/>
+		<!-- <referenceContainer name="product.info.type">
+            <block class="Magento\Catalog\Block\Product\View\Type\Simple" name="product.info.booking" as="product_type_data" template="Magento_Catalog::product/view/type/default.phtml"/>
+            <container name="product.info.booking.extra" after="product.info.simple" as="product_type_data_extra" label="Product Extra Info"/>
+        </referenceContainer> -->
+		<referenceBlock name="product.info">
+			<action method='setTemplate'>
+				<argument name="template" xsi:type="string">Magebay_Bookingsystem::product/view/form.phtml</argument>
+			</action>
+			<block class="Magebay\Bookingsystem\Block\Booking" name="booking.form" template="Magebay_Bookingsystem::product/view/bk_form.phtml" cacheable="false" />
+			<!-- <block class="Magebay\Bookingsystem\Block\Booking" name="booking.content" template="Magebay_Bookingsystem::product/view/bk_content.phtml" cacheable="false" /> -->
+		</referenceBlock>
+		<referenceContainer name="content">
+			<block class="Magento\Catalog\Block\Product\View" name="product.form.wrapper" template="Magebay_Bookingsystem::product/view/form_wrapper.phtml" before="-">
+				<container name="product.form.wrapper.content" htmlTag="div" htmlClass="main-form"/>
+				<block class="Magebay\Bookingsystem\Block\Booking" name="booking.content" template="Magebay_Bookingsystem::product/view/bk_content.phtml" after="-" />
+			</block>
+		</referenceContainer>
+		<move element="product.info.main" destination="product.form.wrapper.content" before="-"/>
+		<move element="product.info.media" destination="product.form.wrapper.content" />
+    </body>
+</page>
+

@@ -1,0 +1,1214 @@
+
+<?php 
+/**
+ * @var $block \Magebay\Bookingsystem\Block\Marketplace\MkBooking
+ */
+$booking = $block->getBookingProduct();
+$arUrlAjax = $block->getArrayAjaxUrl($booking['booking_product_id']);
+$newOptionUrl = $arUrlAjax['url_new_option'];
+$newDiscountUrl = $arUrlAjax['url_new_discount'];
+$urlFacilities = $arUrlAjax['url_facilities'];
+$urlSetupRentPrice = $arUrlAjax['url_setup_rent_price'];
+$urlSetupRoom = $arUrlAjax['url_setup_room'];
+$urlStates = $arUrlAjax['url_states'];
+$storeId = $block->getBkHelper()->getbkCurrentStore();
+$countries = $block->getBkCountriesOptions();
+$enableAddsss = $block->getBkConfig('bookingsystem/setting/booking_address');
+$useBkAddress = isset($enableAddsss) ? $enableAddsss : 0;
+$urlSaveBooking = $arUrlAjax['url_save_booking'];
+$typeTime = $block->getBkConfig('bookingsystem/setting/time_mode');
+$urlDeleteIntervals = $arUrlAjax['url_delete_intervals'];
+$tempBkType = $booking['booking_type'] != '' ? $booking['booking_type'] : 'per_day';
+$typeTime = $block->getBkConfig('bookingsystem/setting/time_mode');
+$formatDate = $block->getBkConfig('bookingsystem/setting/format_date');
+$intCurrentDate = strtotime(date('Y-m-d'));
+$currentDate = date($formatDate);
+$endDate1 = $intCurrentDate + (60 * 60 * 24 * 4);
+$endDate1 = date($formatDate,$endDate1);
+$endDate2 = $intCurrentDate + (60 * 60 * 24 * 5);
+$endDate2 = date($formatDate,$endDate2);
+/*
+ * Per day : $type = per_day, $bookingTime = 4;
+ * Per Night : $type = per_day, $bookingTime = 1;
+ * Per Time  : $type = per_day, $bookingTime = 2;
+ * Time slot  : $type = per_day, $bookingTime = 3;
+ * Tour   : $type = per_day, $bookingTime = 5;
+ * Hote    : $type = hotel,
+ * New change for per time
+ * Min Hours = default Length
+ * Max Hour = Fix length
+ * Remove End Time
+ * Price Per Nighht = number Time : Eg 10 mins , 20 mins
+ * */
+$bookingTime = $booking['booking_time'] != 0 ? $booking['booking_time'] : 4;
+?>
+<!--hidden field-->
+<div class="bk-popup-modal-contenter">
+    <button type="button" class="action-default primary" title="Save" id="booking-save-data"><span><?php echo __('Save Booking'); ?></span></button>
+	<span class="bk-main-message"></span>
+    <div class="bk-config-task">
+        <ul>
+            <li class="bk-config-task-item active"><a href="#bk-tab-type"><?php echo __('Booking type') ?></a></li>
+            <li class="bk-config-task-item"><a href="#bk-tab-price"><?php echo __('Pricing & Availability') ?></a></li>
+            <li class="bk-config-task-item"><a href="#bk-tab-packager"><?php echo __('Packages & Promotions') ?></a></li>
+            <li class="bk-config-task-item bk-config-task-item-address"><a href="#bk-tab-address"><?php echo __('Address and Others') ?></a></li>
+        </ul>
+    </div>
+	<form action="/" class="form-inline" method="post" id="form-booking-data">
+        <input type="hidden" id="booking-id" name="bookings[booking_product_id]" value="<?php echo $booking['booking_product_id']; ?>" />
+        <input type="hidden" id="booking-temp-id" name="bookings[booking_temp_id]" value="<?php echo $booking['booking_id']; ?>" />
+        <input type="hidden" id="magebay-booking-store-id" name="bookings[store_id]" value="<?php echo $booking['store_id']; ?>" />
+        <input type="hidden" id="booking-temp-check-price-update" name="bookings[booking_temp_check_price_update]" value="0" />
+        <input type="hidden" id="is-change-intervals" name="is_change_intervals" value="1" />
+        <input type="hidden" id="is-default-change-intervals" name="is_default_change_intervals" value="0" />
+        <div id="bk-tab-type-content" class="field bk-tabs-contenter">
+            <div class="field required" style="display: none">
+               <label class="label"><span><?php echo __('Booking Type') ?> </span></label>
+               <div class="control">
+                  <input type="hidden" id="booking_type" name="bookings[booking_type]" value="<?php echo $tempBkType; ?>">
+               </div>
+            </div>
+            <div class="bk-type-content">
+                <div class="bk-type-content-item bk-type-content-item-first <?php if($tempBkType == 'per_day' && $bookingTime == 4) { echo 'active'; } ?>">
+                    <i class="fa fa-sun-o fa-4x"></i>
+                    <h2><?php echo __('Per Day'); ?></h2>
+                    <span class="bk-type-content-item-ex">
+                    <?php echo __('Eg. Aug 1'); ?>
+                        <sup><?php echo __('st') ?></sup>
+                        — 3
+                        <sup><?php echo __('rd') ?></sup>
+                        <?php echo __('Checkout ends Aug 3') ?>
+                        <sup><?php echo __('rd') ?></sup>
+                    </span>
+                    <span style="display: none">
+                            <input type="radio" name="temp_bk_type" value="per_day"<?php if($tempBkType == 'per_day' && $bookingTime == 4) { ' checked="checked"'; } ?>>
+                            <input type="radio" name="temp_bk_time" value="4"<?php if($bookingTime == 4) { ' checked="checked"'; } ?>>
+                        </span>
+                </div>
+                <div class="bk-type-content-item <?php if($tempBkType == 'per_day' && $bookingTime == 1) { echo 'active'; } ?>">
+                    <i class="fa fa-moon-o fa-4x"></i>
+                    <h2><?php echo __('Per Night'); ?></h2>
+                    <span class="bk-type-content-item-ex">
+                        <?php echo __('Eg. Aug 1'); ?>
+                        <sup><?php echo __('st') ?></sup>
+                        — 3
+                        <sup><?php echo __('rd') ?></sup>
+                        <?php echo __('Checkout Aug ends 4') ?>
+                        <sup><?php echo __('rd') ?></sup>
+                    </span></span>
+
+                    <span style="display: none">
+                            <input type="radio" name="temp_bk_type" value="per_day"<?php if($tempBkType == 'per_day' && $bookingTime == 1) { echo ' checked="checked"'; } ?>>
+                            <input type="radio" name="temp_bk_time" value="1"<?php if($bookingTime == 1) { echo ' checked="checked"'; } ?>>
+                        </span>
+                </div>
+                <div class="bk-type-content-item <?php if($tempBkType == 'per_day' && $bookingTime == 2) { echo 'active'; } ?>">
+                    <i class="fa fa fa-clock-o fa-4x"></i>
+                    <h2><?php echo __('Per Time'); ?></h2>
+                    <?php echo __('Eg. '); ?>
+                    <span class="bk-type-content-item-ex"><?php echo __('7:00 AM - 11:00 AM' ); ?></span>
+                    <span style="display: none">
+                            <input type="radio" name="temp_bk_type" value="per_day"<?php if($tempBkType == 'per_day' && $bookingTime == 2) { echo ' checked="checked"'; } ?>>
+                            <input type="radio" name="temp_bk_time" value="2"<?php if($bookingTime == 2) { echo ' checked="checked"'; } ?>>
+                        </span>
+                </div>
+                <div class="bk-type-content-item <?php if($tempBkType == 'per_day' && $bookingTime == 3) { echo 'active'; } ?>">
+                    <img src="<?php echo $block->getViewFileUrl('Magebay_Bookingsystem::css/marketplace/bk-timeslot-icon.png'); ?>" alt="image" />
+                    <h2><?php echo __('Timeslots'); ?></h2>
+                    <span class="bk-type-content-item-ex"><?php echo __('Eg. ' ); ?></span>
+                    <span class="bk-type-content-item-ex"><?php echo __('7:00 AM - 8M:00 AM , 12:00 PM - 4:00 AM' ); ?></span>
+                    <span style="display: none">
+                            <input type="radio" name="temp_bk_type" value="per_day"<?php if($tempBkType == 'per_day'  && $bookingTime == 3) { echo ' checked="checked"'; } ?>>
+                            <input type="radio" name="temp_bk_time" value="3"<?php if($bookingTime == 3) { echo ' checked="checked"'; } ?>>
+                        </span>
+                </div>
+                <div class="bk-type-content-item <?php if($tempBkType == 'hotel') { echo 'active'; } ?>">
+                    <i class="fa fa-bed fa-4x"></i>
+                    <h2><?php echo __('Hotel (Multi Rooms)'); ?></h2>
+                    <span class="bk-type-content-item-ex">
+                        <?php echo __('Eg. Aug 1'); ?>
+                          <sup><?php echo __('st') ?></sup>
+                        — 3
+                        <sup><?php echo __('rd') ?></sup>
+                        <?php echo __('Checkout Aug ends 4') ?>
+                        <sup><?php echo __('rd') ?></sup>
+                    </span>
+                    <span style="display: none">
+                            <input type="radio" name="temp_bk_type" value="hotel"<?php if($tempBkType == 'hotel'  && $bookingTime == 0) { echo ' checked="checked"'; } ?>>
+                            <input type="radio" name="temp_bk_time" value="0"<?php if($bookingTime == 0) { echo ' checked="checked"'; } ?>>
+                        </span>
+                </div>
+                <div class="bk-type-content-item <?php if($tempBkType == 'per_day' && $bookingTime == 5) { echo 'active'; } ?>">
+                    <i class="fa fa-map-marker fa-4x"></i>
+                    <h2><?php echo __('Tours'); ?></h2>
+
+                    <?php echo __('Eg. '); ?>
+                    <span class="bk-type-content-item-ex"><?php echo __('Date Start %1,', $endDate2); ?></span>
+                    <span style="display: none">
+                            <input type="radio" name="temp_bk_type" value="per_day"<?php if($tempBkType == 'per_day' && $bookingTime == 5) { echo ' checked="checked"'; } ?>>
+                            <input type="radio" name="temp_bk_time" value="5"<?php if($bookingTime == 5) { echo ' checked="checked"'; } ?>>
+                        </span>
+                </div>
+            </div>
+            <?php if($booking['booking_product_id'] > 0) : ?>
+                <div class="field" style="display: none">
+                    <label class="label"><span><?php echo __('Booking Time') ?> </span></label>
+                    <div class="control">
+                        <input id="booking_time" type="text" name="bookings[booking_time]" value="<?php echo $bookingTime; ?>">
+                    </div>
+                </div>
+                <?php
+                    $strDisableDay = $booking['disable_days'];
+                    $arDisableDay = array();
+                    if($strDisableDay != '')
+                    {
+                        $arDisableDay = explode(',',$strDisableDay);
+                    }
+                    $disableDays = array(
+                        0=>__('Sunday'),
+                        1=>__('Monday'),
+                        2=>__('Tuesday'),
+                        3=>__('Wednesday'),
+                        4=>__('Thursday'),
+                        5=>__('Friday'),
+                        6=>__('Saturday')
+                        );
+                    ?>
+                <div class="field required booking-rent booking-type-per-day">
+                    <label class="label"><span><?php echo __('Disable Days') ?></span></label>
+                    <div class="control">
+                        <select id="disable-days" multiple name="bookings[disable_days][]" style="height: unset;">
+                            <?php foreach($disableDays as $keyDay => $disableDay) : ?>
+                                <option <?php if(in_array($keyDay,$arDisableDay)) { echo 'selected="selected"'; } ?>value="<?php echo $keyDay; ?>"><?php echo $disableDay; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="field required booking-rent booking-type-per-day booking-rent-period">
+                    <label class="label"><span><?php echo __('Fixed Length') ?></span></label>
+                    <div class="control">
+                        <input type="text" id="booking_min_days" class="validate-zero-or-greater input-text" value="<?php echo $booking['booking_min_days'] > 0 ? $booking['booking_min_days'] : ''; ?>" name="bookings[booking_min_days]" placeholder="<?php echo __('Eg : 2 days') ?>">
+                    </div>
+                </div>
+                <div class="field" style="display:none;">
+                    <label class="label"><span><?php echo __('Maximum days') ?></span></label>
+                    <div class="control">
+                        <input type="text" id="booking_max_days" class="validate-zero-or-greater input-text" value="<?php echo $booking['booking_max_days'] > 0 ? $booking['booking_max_days']  : ''; ?>" name="bookings[booking_max_days]" placeholder="<?php echo __('Eg : 4 Days') ?>">
+                    </div>
+                </div>
+                <div class="field" style="display: none;">
+                    <label class="label"><span><?php echo __('Use Default') ?></span></label>
+                    <div class="control">
+                        <span class="chexbox-type-intervals-item">
+                            <input type="checkbox"  value="1" name="bookings[booking_type_intevals]" id="booking-type-intevals" <?php if($booking['booking_type_intevals'] == 1) { echo 'checked="checked"'; } ?>>
+                        </span>
+                    </div>
+                </div>
+                <div class="field required booking-rent booking-type-per-hour">
+                    <?php
+                    $strServiceStart = $booking['booking_service_start'];
+                    $strServiceEnd = $booking['booking_service_end'];
+                    $okTime = false;
+                    $pm1 = 1;
+                    $pm2 = 1;
+                    $ch1 = -1;
+                    $ch2 = -1;
+                    $cm1 = 0;
+                    $cm2 = 0;
+
+                    if($strServiceStart != '' &&  $strServiceEnd != '')
+                    {
+                        $okTime = true;
+                        $arServiceStart = explode(',',$strServiceStart);
+                        $arServiceEnd = explode(',',$strServiceEnd);
+                        $pm1 = $arServiceStart[2];
+                        $ch1 = $arServiceStart[0];
+                        $cm1 = $arServiceStart[1];
+                        $pm2 = $arServiceEnd[2];
+                        $cm2 = $arServiceEnd[1];
+                        $ch2 = $arServiceEnd[0];
+                    }
+                    ?>
+                    <label class="label"><span><?php echo __('Service Start') ?> </span></label>
+                    <div class="control control-bk-service-time">
+                        <select id="start-time-hour" class="select" name="bookings[booking_service_start][hour]">
+                            <?php if($typeTime == 2) : ?>
+                                <?php for($h1 = 0; $h1 <= 23; $h1++) : ?>
+                                    <?php $textH1 = $h1 < 10 ? '0'.$h1: $h1; ?>
+                                    <option <?php echo ($okTime && $ch1 == $h1) ? 'selected="selected"' : ''; ?> value="<?php echo $h1 ?>"><?php echo $textH1 ?></option>
+                                <?php endfor; ?>
+                            <?php else : ?>
+                                <?php if($pm1 == 2) : ?>
+                                    <option value="12">12</option>
+                                <?php else :  ?>
+                                    <option value="0">00</option>
+                                <?php endif; ?>
+                                <?php for($h1 = 1; $h1 <= 11; $h1++) : ?>
+                                    <?php $textH1 = $h1 < 10 ? '0'.$h1: $h1; ?>
+                                    <option <?php echo ($okTime && $ch1 == $h1) ? 'selected="selected"' : ''; ?> value="<?php echo $h1 ?>"><?php echo $textH1 ?></option>
+                                <?php endfor; ?>
+                            <?php endif; ?>
+                        </select>
+                        <select class="select" name="bookings[booking_service_start][minute]">
+                            <?php for($m1 = 0; $m1 < 59; $m1++) : ?>
+                                <?php $textM1 =  $m1 < 10 ? '0'.$m1 : $m1; ?>
+                                <option <?php if($okTime && $cm1 == $m1) echo 'selected="selected"'; ?> value="<?php echo $m1; ?>"><?php echo $textM1; ?></option>
+                            <?php endfor; ?>
+                        </select>
+                        <select id="start-time-type" class="select" name="bookings[booking_service_start][type]" <?php if($typeTime == 1) { ?><?php } else { ?> style="display: none;" <?php } ?>>
+                            <option value="1"><?php echo __('AM') ?></option>
+                            <option <?php if($pm1 == 2) { echo 'selected="selected"'; } ?> value="2"><?php echo __('PM') ?></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field required booking-rent booking-type-per-hour">
+                    <label class="label"><span><?php echo __('Service End') ?> </span></label>
+                    <div class="control control-bk-service-time">
+                        <select id="end-time-hour" class="select" name="bookings[booking_service_end][hour]">
+                            <?php if($typeTime == 2) : ?>
+                                <?php for($h2 = 0; $h2 <= 23; $h2++) : ?>
+                                    <?php $textH2 = $h2 < 10 ? '0'.$h2 : $h2; ?>
+                                    <option <?php echo ($okTime && $ch2 == $h2) ? 'selected="selected"' : '' ?> value="<?php echo $h2 ?>"><?php echo $textH2 ?></option>
+                                <?php endfor; ?>
+                            <?php else : ?>
+                                <?php if($pm2 == 2) : ?>
+                                    <option value="12">12</option>
+                                <?php else :  ?>
+                                    <option value="0">00</option>
+                                <?php endif; ?>
+                                <?php for($h2 = 1; $h2 <= 11; $h2++) : ?>
+                                    <?php $textH2 = $h2 < 10 ? '0'.$h2 : $h2; ?>
+                                    <option <?php echo ($okTime && $ch2 == $h2) ? 'selected="selected"' : '' ?> value="<?php echo $h2 ?>"><?php echo $textH2 ?></option>
+                                <?php endfor; ?>
+                            <?php endif; ?>
+                        </select>
+                        <select class="select" name="bookings[booking_service_end][minute]" >
+                            <?php for($m2 = 0; $m2 < 59; $m2++) : ?>
+                                <?php $textM2 =  $m2 < 10 ? '0'.$m2 : $m2; ?>
+                                <option <?php if($okTime && $cm2 == $m2) echo 'selected="selected"'; ?> value="<?php echo $m2; ?>"><?php echo $textM2; ?></option>
+                            <?php endfor; ?>
+                        </select>
+                        <select id="end-time-type" class="select" name="bookings[booking_service_end][type]" <?php if($typeTime == 1) { ?><?php } else { ?> style="display: none;" <?php } ?>>
+                            <option value="1"><?php echo __('AM') ?></option>
+                            <option <?php if($pm2 == 2) { echo 'selected="selected"'; } ?> value="2"><?php echo __('PM') ?></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field required booking-rent booking-type-per-hour hour-period-time">
+                    <label class="label"><span><?php echo __('Select Amount Time') ?></span></label>
+                    <div class="control">
+                        <ul>
+                            <li class="hour-period-time-item <?php echo ($booking['booking_fee_night'] == 10 || $booking['booking_fee_night'] == 0) ? 'active' : ''; ?>"><a href="#" amount-time="10">10 <?php echo __('Minutes') ?></a></li>
+                            <li class="hour-period-time-item <?php echo $booking['booking_fee_night'] == 20 ? 'active' : ''; ?>"><a href="#" amount-time="20">20 <?php echo __('Minutes') ?></a></li>
+                            <li class="hour-period-time-item <?php echo $booking['booking_fee_night'] == 30 ? 'active' : ''; ?>"><a href="#" amount-time="30">30 <?php echo __('Minutes') ?></a></li>
+                            <li class="hour-period-time-item <?php echo $booking['booking_fee_night'] == 45 ? 'active' : ''; ?>"><a href="#" amount-time="45">45 <?php echo __('Minutes') ?></a></li>
+                            <li class="hour-period-time-item <?php echo $booking['booking_fee_night'] == 60 ? 'active' : ''; ?>"><a href="#" amount-time="60">1 <?php echo __('Hour') ?></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="field required booking-rent booking-type-tour">
+                    <label class="label"><span><?php echo __('Tour Type') ?></span></label>
+                    <div class="control">
+                        <select id="booking-type-tour-item" class="select" name="bookings[booking_tour_type]">
+                            <option value="1"><?php echo __('Default') ?></option>
+                            <option <?php if($booking['booking_tour_type'] == 2) { echo 'selected="selected"'; } ?> value="2"><?php echo __('Custom Time') ?></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field required booking-rent booking-type-tour booking-type-tour-fixed-days" <?php if($booking['booking_tour_type'] == 2) { echo 'style="display: none;"'; } ?>>
+                    <label class="label"><span><?php echo __('Fix Days') ?></span></label>
+                    <div class="control">
+                        <input type="text" class="input-text validate-zero-or-greater" value="<?php echo $booking['booking_min_days']; ?>" name="bookings[booking_min_days_xx]" id="bk-tour-fix-day">
+                    </div>
+                </div>
+                <div class="field" style="display: none">
+                    <label class="label"><span><?php echo __('Fee Night') ?></span></label>
+                    <div class="control">
+                        <input type="text" class="input-text validate-zero-or-greater" value="<?php echo $booking['booking_fee_night']; ?>" name="bookings[booking_fee_night]" id="booking_fee_night" aria-required="true">
+                    </div>
+                </div>
+                <div class="field required booking-rent booking-type-per-hour">
+                    <label class="label"><span><?php echo __('Default Length') ?></span></label>
+                    <div class="control">
+                        <input type="text" class="input-text validate-zero-or-greater" value="<?php echo $booking['booking_min_hours'] > 0 ? $booking['booking_min_hours'] : '' ; ?>" name="bookings[booking_min_hours]" id="booking_min_hours" aria-required="true" placeholder="<?php echo __('10 Minutes') ?>">
+                    </div>
+                </div>
+                <div class="field required booking-rent booking-type-per-hour">
+                    <label class="label"><span><?php echo __('Maximum Hours') ?></span></label>
+                    <div class="control">
+                        <input type="text" class="input-text validate-zero-or-greater" value="<?php echo $booking['booking_max_hours'] > 0 ? $booking['booking_max_hours'] : ''; ?>" name="bookings[booking_max_hours]" id="booking_max_hours" aria-required="true" placeholder="<?php echo __('2 x 10 Minutes') ?>">
+                    </div>
+                </div>
+                <div class="field" style="display: none;">
+                    <label class="label"><span><?php echo __('Booking Time Slot') ?></span></label>
+                    <div class="control">
+                        <input type="text" class="input-text validate-zero-or-greater" value="<?php echo $booking['booking_time_slot']; ?>" name="bookings[booking_time_slot]" id="booking_time_slot" aria-required="true">
+                    </div>
+                </div>
+                <div class="field"  style="display: none;">
+                    <label class="label"><span><?php echo __('Booking time buffer') ?></span></label>
+                    <div class="control">
+                        <input type="text" class="input-text validate-zero-or-greater" value="<?php echo $booking['booking_time_buffer']; ?>" name="bookings[booking_time_buffer]" id="booking_time_buffer" aria-required="true">
+                    </div>
+                </div>
+                <div class="field required booking-rent booking-type-intervals field-booking_show_finish">
+                    <label class="label"><span><?php echo __('Show Time Finish') ?></span></label>
+                    <div class="control">
+                        <select class="select" name="bookings[booking_show_finish]" id="booking_show_finish">
+                            <option value="1"><?php echo __('Yes') ?></option>
+                            <option <?php if($booking['booking_show_finish'] == 2) echo 'selected="selected"'; ?> value="2"><?php echo __('No'); ?></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field required booking-rent booking-type-intervals field-booking_show_qty">
+                    <label class="label"><span><?php echo __('Show Qty Available') ?></span></label>
+                    <div class="control">
+                        <select class="select" name="bookings[booking_show_qty]" id="booking_show_qty">
+                            <option value="1"><?php echo __('Yes') ?></option>
+                            <option <?php if($booking['booking_show_qty'] == 2) echo 'selected="selected"'; ?> value="2"><?php echo __('No'); ?></option>
+                        </select>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div> <!--End tab booking type -->
+        <div id="bk-tab-packager-content" class="bk-tabs-contenter" style="display: none">
+            <?php if($booking['booking_product_id'] > 0) : ?>
+            <div class="field booking-rent" id="booking-field-options">
+                <div class="control-booking-custom-fileds">
+                    <?php $disable = 'disabled'; ?>
+                    <?php if($booking['booking_id'] > 0) { $disable = ''; }  ?>
+                    <button <?php echo $disable; ?> type="button" class="action-default primary" title="<?php echo __('Addons & Cross-sells') ?>" id="booking-add-option">
+                        <span><?php echo __('New Addons & sells') ?></span>
+                    </button>
+                    <div id="booking-options-content">
+                        <?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Marketplace\Booking')->setData(array('booking_id'=>$booking['booking_product_id'],'booking_type'=>$booking['booking_type']))->setTemplate('Magebay_Bookingsystem::marketplace/list-options.phtml')->toHtml();;  ?>
+                    </div>
+                </div>
+
+            </div>
+            <div class="field booking-rent" id="booking-field-discounts">
+                <div class="control-booking-custom-fileds">
+                    <button <?php echo $disable; ?> type="button" class="action-default primary" title="<?php echo __('Discounts') ?>" id="booking-add-discount">
+                        <span><?php echo __('Add Discount') ?></span>
+                    </button>
+                    <div id="booking-discounts-content">
+                        <?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Marketplace\Booking')->setData(array('booking_id'=>$booking['booking_product_id'],'booking_type'=>$booking['booking_type']))->setTemplate('Magebay_Bookingsystem::marketplace/list-discounts.phtml')->toHtml();  ?>
+                    </div>
+                </div>
+            </div>
+            <?php endif ?>
+        </div>
+        <div id="bk-tab-address-content" class="bk-tabs-contenter" style="display: none;">
+                <?php if($booking['booking_product_id'] > 0) : ?>
+                <div class="field" id="booking-tab-facilities">
+                    <div class="control-booking-custom-fileds" id="booking-tab-facilities-contenter">
+                        <?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Adminhtml\Booking')->setData(array('booking_type'=>$booking['booking_type'],'booking_id'=>$booking['booking_product_id'],'bk_store_id'=>$storeId))->setTemplate('Magebay_Bookingsystem::marketplace/facilities.phtml')->toHtml();  ?>
+                    </div>
+                </div>
+                <?php if($enableAddsss == 1) : ?>
+                    <div class="field">
+                        <label class="label"><span><?php echo __('Booking Phone') ?></span></label>
+                        <div class="control">
+                            <input type="text" class="input-text" value="<?php echo $booking['booking_phone']; ?>" name="bookings[booking_phone]" id="booking_phone">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label"><span><?php echo __('Booking Email') ?></span></label>
+                        <div class="control">
+                            <input type="email" class="input-text" value="<?php echo $booking['booking_email']; ?>" name="bookings[booking_email]" id="booking_email" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="field required">
+                        <label class="label"><span><?php echo __('Booking Address') ?></span></label>
+                        <div class="control">
+                            <input type="text" class="input-text required-entry" value="<?php echo $booking['booking_address']; ?>" name="bookings[booking_address]" id="booking_address" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="field required">
+                        <label class="label"><span><?php echo __('Booking City') ?></span></label>
+                        <div class="control">
+                            <input type="text" class="input-text required-entry" value="<?php echo $booking['booking_city']; ?>" name="bookings[booking_city]" id="booking_city" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="field required">
+                        <label class="label"><span><?php echo __('Zip Code') ?></span></label>
+                        <div class="control">
+                            <input type="text" class="input-text required-entry" value="<?php echo $booking['booking_zipcode']; ?>" name="bookings[booking_zipcode]" id="booking_zipcode" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="field required">
+                       <label class="label"><span><?php echo __('Country') ?> </span></label>
+                       <div class="control">
+                            <select aria-required="true" name="bookings[booking_country]" id="booking_country" class="select required-entry">
+                                <?php if(count($countries)) : ?>
+                                    <?php foreach($countries as $country) : ?>
+                                        <option <?php if($country['value'] == $booking['booking_country']) echo 'selected="selected"'; ?> value="<?php echo $country['value']; ?>"><?php echo $country['label']; ?></option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label"><span><?php echo __('States') ?></span></label>
+                        <div class="control">
+                            <select class="select" name="bookings[booking_state_id]" id="booking_state_id" <?php if($booking['booking_state_id'] == 0) { echo 'style="display: none;"'; } ?>>
+
+                            </select>
+                            <div <?php if($booking['booking_state_id'] > 0) { echo 'style="display : none;"'; } ?>>
+                            <input type="text" class="input-text" value="<?php echo $booking['booking_state']; ?>" name="bookings[booking_state]" id="booking_state" aria-required="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label"><span><?php echo __('Google Map') ?></span></label>
+                       <div class="control">
+                            <input id="pac-input" name="bookings[auto_address]" value="<?php echo $booking['auto_address']; ?>" class="controls required-entry" type="text" placeholder="<?php echo __('Enter a location'); ?>" >
+                            <input type="hidden" name="bookings[booking_lat]" value="<?php echo $booking['booking_lat']; ?>" id="booking-lat" class="required-entry" />
+                            <input type="hidden" name="bookings[booking_lon]" value="<?php echo $booking['booking_lon']; ?>" id="booking-lon"/>
+                            <button class="action-default primary" type="button" id="booking-reset-map"><?php echo __('Reset Map'); ?></button>
+                            <div id="booking_map_canvas" style="width:100%; height:600px"></div>
+                       </div>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
+        </div>
+        <div class="field list-rooms-hotel" id="booking-tab-rooms">
+            <?php if($booking['booking_product_id'] > 0) : ?>
+                <div class="control-booking-custom-fileds" id="booking-tab-rooms-contenter">
+                <div class="fieldset-wrapper">
+                    <div class="fieldset-wrapper-title">
+                    <strong>
+                        <span style="float: right;">
+                            <?php $disableRoom = 'disabled'; ?>
+                            <?php if($booking['booking_id'] > 0) { $disableRoom = ''; }  ?>
+                            <button <?php echo $disableRoom; ?> id="bk-room-add" title="<?php echo __('Add Room'); ?>" class="action-default primary" type="button">
+                                <span><?php echo __('Add Room'); ?></span>
+                            </button>
+                        </span>
+                        <span class="bk-message-waring" <?php if($booking['booking_id'] > 0) { echo ' style="display: none"'; } ?>><?php  echo __('Please click Save Booking Button before add room :)'); ?></span>
+                    </strong>
+                    </div>
+                    <div id="bk-list-rooms" class="fieldset-wrapper-content in collapse">
+                        <fieldset class="fieldset">
+                                <?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Marketplace\RoomsPopup')->setData(array('booking_id'=>$booking['booking_product_id'],'bk_store_id'=>$storeId))->setTemplate('Magebay_Bookingsystem::marketplace/rooms.phtml')->toHtml();  ?>
+                            </fieldset>
+                      </div>
+                   </div>
+                </div>
+            <?php endif; ?>
+        </div>
+	</form>
+</div>
+	<div id="bk-tab-price-content" class="bk-rent-price-room" style="display : none;">
+		<button style="float : right; display: none;" type="button" class="action-default primary bk-rent-hotel-close"><?php echo __('Close') ?> </button>
+		<div class="bk-rent-price-content"></div>
+	</div>
+	<div id="bk-popup-modal-room" class="bk-rent-price-room" style="display : none;">
+		<button style="display : none" type="button" class="action-default primary bk-rent-hotel-close"><?php echo __('Close') ?> </button>
+		<div class="bk-popup-modal-room-content"></div>
+	</div>
+	<?php /* end  */ ?>
+    <?php $mapApyKey = $block->getBkConfig('bookingsystem/setting/map_apy_key'); ?>
+    <?php if($enableAddsss != 1) { $mapApyKey == ''; } ?>
+    <?php $linkGoogeMap =  $enableAddsss == 1 ?'https://maps.googleapis.com/maps/api/js?key='.$mapApyKey.'&v=3.exp&libraries=places' : ''; ?>
+    <input type="hidden" id="link-google-map" value="<?php echo $linkGoogeMap; ?>">
+	<script>
+	require([
+			'jquery',
+			'Magento_Ui/js/modal/modal',
+            'Magento_Ui/js/modal/confirm',
+            'Magento_Ui/js/modal/alert',
+
+		],
+		function($, modal,confirmation,alert) {
+            var googleLink = $('#link-google-map').val();
+            googleLink = googleLink != '' ? googleLink : 'bk_google_map';
+	        require([googleLink,'bk_map_js'],function (googleLib,bkMap) {
+                //call available
+                var newOptionUrl = '<?php echo $newOptionUrl; ?>';
+                var newDiscountUrl = '<?php echo $newDiscountUrl; ?>';
+                var urlFacilities = '<?php echo $urlFacilities; ?>';
+                var urlSetupRentPrice = '<?php echo $urlSetupRentPrice; ?>';
+                var urlSetupRoom = '<?php echo $urlSetupRoom; ?>';
+                var urlStates = '<?php echo $urlStates; ?>';
+                var bookingId = '<?php echo $booking['booking_product_id']; ?>';
+                var bookingType = $('#booking_type').val();
+                var storeId = '<?php echo $storeId; ?>';
+                var bkStatesId = '<?php echo $booking['booking_state_id']; ?>';
+                var useBkAddress = '<?php echo $useBkAddress; ?>';
+                var urlSaveBooking = '<?php echo $urlSaveBooking; ?>';
+                var urlDeleteIntervals = '<?php echo $urlDeleteIntervals; ?>';
+                var bookingTime = $('#booking_time').val();
+                var preBkType = bookingType;
+                var preBkTime  = bookingTime;
+                var vendorBk = {
+                    version : '2.2',
+                    saveBooking : function () {
+                        var self = this;
+                        var okAddress = true;
+                        if($('#booking_phone').length)
+                        {
+                            $('#bk-tab-address-content  input').each(function () {
+                                if($(this).attr('id') == 'booking_phone' || $(this).attr('id') == 'booking_email' || $(this).attr('id') == 'booking_state' || $(this).attr('id') == 'booking_state_id' || $(this).attr('id') == 'bk-facilities-check-all')
+                                {
+                                    return true;
+                                }
+                                if($.trim($(this).val()) == ''){
+                                    okAddress = false;
+                                    return false;
+                                }
+                            })
+                        }
+                        if(!okAddress)
+                        {
+                            $('.bk-tabs-contenter').css('display','none');
+                            $('.bk-config-task-item').removeClass('active');
+                            $('#bk-tab-price-content').css('display','none');
+                            $('.bk-config-task-item-address').addClass('active');
+                            $('#bk-tab-address-content').css('display','block');
+                            self.getBkAddress();
+                            //return false;
+                        }
+                        if (!$('#form-booking-data').valid()) {
+                            return false;
+                        }
+                        $('#booking-loader').css('display','block');
+                        $.ajax({
+                            url : urlSaveBooking,
+                            dataType : 'json',
+                            type : 'POST',
+                            data : $('#form-booking-data').serialize(),
+                            success : function(res)
+                            {
+                                $('#booking-temp-id').val(res.temp_booking_id);
+                                $('.bk-main-message').html(res.message);
+                                $('.bk-main-message').css('display','block');
+                                $('#show-booking-popup').prop('disabled',false);
+                                $('#bk-room-add').prop('disabled',false);
+                                $('#booking-add-discount').prop('disabled',false);
+                                $('#booking-add-option').prop('disabled',false);
+                                self.saveBookingAddress();
+                            },
+                            error : function()
+                            {
+
+                            }
+                        });
+                    },
+                    saveBookingAddress : function () {
+                        var self = this;
+                        $('#booking-loader').css('display','block');
+                        var urlBkAddress = urlSaveBooking + 'is_address/1';
+                        $.ajax({
+                            url : urlBkAddress,
+                            dataType : 'json',
+                            type : 'POST',
+                            data : $('#form-booking-data').serialize(),
+                            success : function(res)
+                            {
+
+                                $('.bk-message-waring').css('display','none');
+                                $('#booking-loader').css('display','none');
+                                self.hideMessage();
+                            },
+                            error : function()
+                            {
+
+                            }
+                        });
+                    },
+                    saveBookingBefor : function (callback) {
+                        var self = this;
+                        $('#booking-loader').css('display','block');
+                        $.ajax({
+                            url : urlSaveBooking,
+                            dataType : 'json',
+                            type : 'POST',
+                            data : $('#form-booking-data').serialize(),
+                            success : function(res)
+                            {
+                                $('#booking-temp-id').val(res.temp_booking_id);
+                                $('.bk-main-message').html(res.message);
+                                $('#show-booking-popup').prop('disabled',false);
+                                $('#bk-room-add').prop('disabled',false);
+                                $('#booking-add-discount').prop('disabled',false);
+                                $('#booking-add-option').prop('disabled',false);
+                                self.saveBookingAddress();
+                                callback(res);
+                            },
+                            error : function()
+                            {
+
+                            }
+                        });
+                    },
+                    deleteOldIntervals : function () {
+                        var self = this;
+                        var textMessage = '<?php echo __('System Error, Please refesh page and try again') ?>';
+                        $.ajax({
+                            url : urlDeleteIntervals,
+                            dataType : 'json',
+                            type : 'POST',
+                            data : $('#form-booking-data').serialize(),
+                            success : function(res)
+                            {
+
+                                if(res.status == 'success')
+                                {
+                                    if($('#booking-type-intevals').is(":checked"))
+                                    {
+                                        textMessage = '';
+                                    }
+                                    else
+                                    {
+                                        textMessage = '<?php echo __('All Price Sessions are Deleted, Click to Setup Price > Item > Update Session to update Data again.') ?>';
+                                        alert({
+                                            title: 'Note:',
+                                            content: textMessage,
+                                            actions: {
+                                                always: function(){}
+                                            }
+                                        });
+                                    }
+                                    $('#is-change-intervals').val(0);
+                                }
+                                self.saveBooking();
+                            },
+                            error : function()
+                            {
+                                alert({
+                                    title: 'Error',
+                                    content: textMessage,
+                                    actions: {
+                                        always: function(){}
+                                    }
+                                });
+                            }
+                        });
+                    },
+                    showIntervalsConfig : function ()
+                    {
+                        $('.field-booking_show_finish').css('display','block');
+                        $('.field-booking_show_qty').css('display','block');
+                    },
+                    getBkStates : function (conutryId,bkStatesId) {
+                        $('#booking-loader').css('display','block');
+                        $.ajax({
+                            url : urlStates,
+                            dataType : 'json',
+                            type : 'POST',
+                            data : {country_id : conutryId, current_state_id: bkStatesId},
+                            success: function(data){
+                                if(data.status == true)
+                                {
+                                    $('#booking_state_id').append(data.htmlconent);
+                                    $('#booking_state_id').addClass('required-entry');
+                                    $('#booking_state_id').css('display','block');
+                                    $('#booking_state').parent().css('display','none');
+                                }
+                                else
+                                {
+                                    $('#booking_state_id').css('display','none');
+                                    $('#booking_state').parent().css('display','block');
+                                    $('#booking_state_id').removeClass('required-entry');
+                                }
+                                $('#booking-loader').css('display','none');
+                            },
+                            error : function()
+                            {
+                                $('#booking-loader').css('display','none');
+                            }
+                        });
+                    },
+                    hideMessage : function () {
+                        sec = 0;
+                        var timer = setInterval(function()
+                        {
+                            sec++;
+                            if(sec == 2)
+                            {
+                                $('.bk-main-message').css('display','none');
+                                clearInterval(timer);
+                            }
+                        }, 1000);
+                        setTimeout(function () {
+                            clearInterval(timer);
+                        }, 11000);
+                    },
+                    setupPrice : function () {
+                        var self = this;
+                        var bookingType = $('#booking_type').val();
+                        if($.trim(bookingType) != 'per_day')
+                        {
+                            return false;
+                        }
+                        var bookingTime = $('#booking_time').val();
+                        if(bookingTime == '3')
+                        {
+                            $('#booking-temp-check-price-update').val(1);
+                        }
+                        var isIntervalDefault = 2;
+                        if($('#booking-type-intevals').is(":checked"))
+                        {
+                            isIntervalDefault = 1;
+                        }
+                        isIntervalDefault = bookingTime == '3' ? isIntervalDefault : 2;
+                        var isDefaultInterChange = $('#is-default-change-intervals').val();
+                        //save data befor load calendar
+                        var tempBookingId = $('#booking-temp-id').val();
+                        if(preBkType != bookingType || preBkTime != bookingTime || tempBookingId == '0')
+                        {
+                            self.saveBookingBefor(function (res) {
+                                $('#booking-loader').css('display','block');
+                                $.ajax({
+                                    url : urlSetupRentPrice,
+                                    dataType : 'json',
+                                    type : 'POST',
+                                    data : {booking_id : bookingId, booking_type: bookingType,booking_time : bookingTime, is_inter_default : isIntervalDefault},
+                                    success : function(res)
+                                    {
+                                        //$('.bk-popup-modal-contenter').css('display','none');
+                                        $('#bk-tab-price-content .bk-rent-price-content').html(res.html_rent_price);
+                                        $('#booking-loader').css('display','none');
+                                        $('#is-default-change-intervals').val(0);
+                                    },
+                                    error : function()
+                                    {
+
+                                    }
+                                });
+                            })
+
+                        }
+                        else {
+                            $('#booking-loader').css('display','block');
+                            $.ajax({
+                                url : urlSetupRentPrice,
+                                dataType : 'json',
+                                type : 'POST',
+                                data : {booking_id : bookingId, booking_type: bookingType,booking_time : bookingTime, is_inter_default : isIntervalDefault},
+                                success : function(res)
+                                {
+                                    //$('.bk-popup-modal-contenter').css('display','none');
+                                    $('#bk-tab-price-content .bk-rent-price-content').html(res.html_rent_price);
+                                    $('#booking-loader').css('display','none');
+
+                                },
+                                error : function()
+                                {
+
+                                }
+                            });
+                        }
+                        $('#booking-temp-check-price-update').val(1);
+                    },
+                    getBkAddress : function () {
+                        if(useBkAddress == '1')
+                        {
+                            //jquery map
+                            var lat = parseFloat($('#booking-lat').val());
+                            var lon = parseFloat($('#booking-lon').val());
+                            var zoom = 5;
+                            if(lat == 0 && lon == 0)
+                            {
+
+                                lat = 40.8516701;
+                                lon = -93.2599318;
+                            }
+                            loadMap = new bkMap();
+                            loadMap.getBkPoint(lat,lon,zoom);
+                        }
+                    },
+                    init : function () {
+                        var self = this;
+                        $('.bk-config-task-item a').click(function(e){
+                            var bkTab = $(this).attr('href');
+                            var mBooknigType = $('#booking_type').val();
+                            if(mBooknigType == 'hotel')
+                            {
+                                if(bkTab == '#bk-tab-price' || bkTab == '#bk-tab-packager')
+                                {
+                                    alert({
+                                        title: '',
+                                        content: '<?php echo __('You can not use the action for this type. ') ?>'
+                                    });
+                                    e.preventDefault();
+                                    return false;
+                                }
+                            }
+                            $('.bk-tabs-contenter').css('display','none');
+                            $('.bk-config-task-item').removeClass('active');
+                            if(bkTab == '#bk-tab-price')
+                            {
+                                self.setupPrice();
+                                $('#bk-tab-price-content').css('display','block');
+                            }
+                            else
+                            {
+                                $(bkTab+'-content').css('display','block');
+                                $('#bk-tab-price-content').css('display','none');
+                                if(bkTab == '#bk-tab-address')
+                                {
+                                    self.getBkAddress();
+                                }
+                            }
+                            $(this).parent().addClass('active');
+                            e.preventDefault();
+                        });
+                        $('#bk-room-add').click(function(){
+                            var bookingType = $('#booking_type').val();
+                            if($.trim(bookingType) != 'hotel')
+                            {
+                                return false;
+                            }
+                            $.ajax({
+                                url : urlSetupRoom,
+                                dataType : 'json',
+                                type : 'POST',
+                                data : {bk_room_id : 0,store_id : storeId,room_booking_id : bookingId},
+                                success : function(res)
+                                {
+                                    //$('.bk-popup-modal-contenter').css('display','none');
+                                    $('#bk-popup-modal-room .bk-popup-modal-room-content').html(res.html_room);
+                                    $('#bk-popup-modal-room').css('display','block');
+                                    $('.bk-loading-mask').css('display','none');
+                                    $('#booking-loader').css('display','none');
+                                },
+                                error : function()
+                                {
+                                    $('#booking-loader').css('display','none');
+                                }
+                            });
+                        });
+                        //jquery document load
+                        if(bookingType == 'hotel')
+                        {
+                            $('.list-rooms-hotel').show();
+                            $('#show-booking-popup').hide();
+                            $('.booking-rent').hide();
+                        }
+                        else if(bookingType == 'per_day')
+                        {
+                            $('.list-rooms-hotel').hide();
+                            $('#show-booking-popup').show();
+                            $('.booking-rent').show();
+                            var bookingTime = $('#booking_time').val();
+                            $('.booking-type-tour').hide();
+                            if(bookingTime == '1' || bookingTime == '4' || bookingTime == '5')
+                            {
+                                $('.booking-type-per-day').show();
+                                $('.booking-type-per-hour').hide();
+                                $('.booking-type-intervals').hide();
+                                if(bookingTime == '5')
+                                {
+                                    $('.booking-type-tour').show();
+                                    $('.booking-type-per-day').hide();
+                                    $('.booking-rent-period').hide();
+                                    if($('#booking-type-tour-item').val() == '2')
+                                    {
+                                        $('.booking-type-tour-fixed-days').hide();
+                                    }
+                                    else
+                                    {
+                                        $('.booking-type-tour-fixed-days').show();
+                                    }
+                                }
+                            }
+                            else if(bookingTime == '2')
+                            {
+
+                                $('.booking-type-per-day').hide();
+                                $('.booking-type-intervals').hide();
+                                $('.booking-type-per-hour').show();
+
+
+                            }
+                            else if(bookingTime == '3')
+                            {
+                                $('.booking-type-per-day').hide();
+                                $('.booking-type-per-hour').hide();
+                                $('.booking-type-intervals').show();
+                                self.showIntervalsConfig();
+                                var isDefaultInterChange = $('#is-default-change-intervals').val();
+                                if(isDefaultInterChange == '1' && $('#booking-type-intevals').is(":checked"))
+                                {
+                                    self.saveBookingData();
+                                    $('#is-default-change-intervals').val(0);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            $('.booking-rent').hide();
+                            $('.booking-type-per-hour').hide();
+                            $('.list-rooms-hotel').hide();
+                            $('#show-booking-popup').hide();
+                        }
+                        $('.bk-type-content-item').click(function(){
+                            var previousType = $('#booking_type').val();
+                            $(this).find('input').prop('checked',true);
+                            $('.bk-type-content-item').removeClass('active');
+                            $(this).addClass('active');
+                            var bookingType = $('input[name="temp_bk_type"]:checked').val();
+                            var bookingTime = $('input[name="temp_bk_time"]:checked').val();
+                            $('#booking_type').val(bookingType);
+                            $('#booking_time').val(bookingTime);
+                            if($.trim(bookingType) == '')
+                            {
+                                $('#show-booking-popup').hide();
+                                $('.list-rooms-hotel').hide();
+                                $('#show-booking-popup').hide();
+                                $('.booking-rent').hide();
+                                return false;
+                            }
+                            if(bookingType == 'hotel')
+                            {
+                                self.saveBookingBefor(function () {
+                                    $('.list-rooms-hotel').show();
+                                    $('#show-booking-popup').hide();
+                                    $('.booking-rent').hide();
+                                })
+                                //$('.bk-message-waring').css('display','block');
+                            }
+                            else
+                            {
+                                /*$('#show-booking-popup').prop('disabled',true);
+                                $('#booking-add-option').prop('disabled',true);
+                                $('#booking-add-discount').prop('disabled',true);*/
+                                $('.list-rooms-hotel').hide();
+                                $('.booking-rent').show();
+                                var bookingTime = $('#booking_time').val();
+                                $('.booking-type-tour').hide();
+                                if(bookingTime == '1' || bookingTime == '4' || bookingTime == '5')
+                                {
+                                    $('.booking-type-per-day').show();
+                                    $('.booking-type-per-hour').hide();
+                                    $('.booking-type-intervals').hide();
+                                    if(bookingTime == '5')
+                                    {
+                                        $('.booking-rent-period').hide();
+                                        $('.booking-type-tour').show();
+                                        $('.booking-type-per-day').hide();
+                                        if($('#booking-type-tour-item').val() == '2')
+                                        {
+                                            $('.booking-type-tour-fixed-days').hide();
+                                        }
+                                        else
+                                        {
+                                            $('.booking-type-tour-fixed-days').show();
+                                        }
+                                    }
+                                }
+                                else if(bookingTime == '2')
+                                {
+                                    $('.booking-type-per-day').hide();
+                                    $('.booking-type-intervals').hide();
+                                    $('.booking-type-per-hour').show();
+                                    //$('#booking-type-intevals').prop('checked','checked');
+                                }
+                                else if(bookingTime == '3')
+                                {
+                                    $('.booking-type-per-day').hide();
+                                    $('.booking-type-per-hour').hide();
+                                    $('.booking-type-intervals').show();
+                                    if(!$('#booking-type-intevals').is(":checked")){
+                                        $('.booking-type-intervals-content').show();
+                                        $('.booking-type-intervals').hide();
+                                    }
+                                    else
+                                    {
+                                        $('.booking-type-intervals').show();
+                                    }
+                                    self.showIntervalsConfig();
+                                }
+                                //$('.bk-message-waring').css('display','block');
+                                //$('#show-booking-popup').show();
+                            }
+                            if(previousType != bookingType)
+                            {
+                                //load facilities
+                                $('#booking-tab-facilities-contenter').html('');
+                                $('#booking-loader').css('display','block');
+                                $.ajax({
+                                    url : urlFacilities,
+                                    dataType : 'json',
+                                    type : 'POST',
+                                    data : {booking_id : bookingId, booking_type: bookingType,store_id: storeId},
+                                    success : function(res)
+                                    {
+                                        $('#booking-tab-facilities-contenter').html(res.html_facilities);
+                                        $('#booking-loader').css('display','none');
+                                    },
+                                    error : function()
+                                    {
+
+                                    }
+                                });
+                            }
+                        });
+                        $('#booking-type-tour-item').change(function () {
+                            if($(this).val() == 1)
+                            {
+                                $('.booking-type-tour-fixed-days').css('display','block');
+                            }
+                            else{
+                                $('.booking-type-tour-fixed-days').css('display','none');
+                            }
+                            self.saveBookingBefor(function () {
+
+                            });
+                        });
+                        $('#bk-tour-fix-day').change(function () {
+                            $('#booking_min_days').val($(this).val());
+                        })
+                        //separate function for per hours
+                        $('.hour-period-time-item a').click(function (e) {
+                            $('.hour-period-time-item').removeClass('active');
+                            $(this).parent().addClass('active');
+                            var amountTime = $(this).attr('amount-time');
+                            $('#booking_fee_night').val(amountTime);
+                            if(amountTime == '60')
+                            {
+                                $('#booking_max_hours').attr('placeholder','2 x 1 hour');
+                                $('#booking_min_hours').attr('placeholder','1 hour');
+                            }
+                            else
+                            {
+                                $('#booking_max_hours').attr('placeholder','2 x '+amountTime + ' minutes');
+                                $('#booking_min_hours').attr('placeholder', amountTime + ' minutes');
+                            }
+                            e.preventDefault();
+                        })
+                        var bkContryId = $('#booking_country').val();
+                        self.getBkStates(bkContryId,bkStatesId);
+                        // add new option
+                        $('#booking-add-option').click(function(){
+                            $('#booking-loader').css('display','block');
+                            $.ajax({
+                                url : newOptionUrl,
+                                dataType : 'json',
+                                type : 'POST',
+                                data : {store_id : storeId},
+                                success : function(res)
+                                {
+                                    $('#booking-options-content').append(res.html_option);
+                                    $('#booking-loader').css('display','none');
+                                },
+                                error : function()
+                                {
+
+                                }
+                            });
+                        })
+                        //add new discount
+                        $('#booking-add-discount').click(function(){
+                            $('#booking-loader').css('display','block');
+                            $.ajax({
+                                url : newDiscountUrl,
+                                dataType : 'json',
+                                type : 'POST',
+                                data : {store_id : storeId},
+                                success : function(res)
+                                {
+                                    $('#booking-discounts-content').append(res.html_discount);
+                                    $('#booking-loader').css('display','none');
+                                },
+                                error : function()
+                                {
+
+                                }
+                            });
+                        });
+                        $('#booking_country').change(function(){
+                            $('#booking_state_id').empty();
+                            var conutryId = $(this).val();
+                            self.getBkStates(conutryId,bkStatesId);
+                        });
+                        $('.booking-type-intervals select, .booking-type-intervals input').change(function(){
+                            $('#booking-temp-check-price-update').val(1);
+                        });
+                        $('#save-split-button-duplicate-button').click(function(){
+                            $('#magebay-booking-save-split-button-duplicate-button').val(1);
+                        });
+                        //save booking data
+                        $('#booking-save-data').click(function(){
+                            self.saveBooking();
+                        });
+                        $('#booking-reset-map').click(function () {
+                            self.getBkAddress();
+                        })
+                        //new intervals function
+                        $('#booking-type-intevals').click(function () {
+                            $('#is-change-intervals').val(1);
+                            confirmation({
+                                title: $.mage.__('Comfirm Action'),
+                                content: $.mage.__('You have to update data after using the action. Do you want to Continue?'),
+                                actions: {
+                                    confirm: function(){
+                                        $('#booking_temp_check_price_update').val(1);
+                                        if($('#booking-type-intevals').is(":checked"))
+                                        {
+                                            $('.booking-type-intervals-content').css('display','block');
+                                            $('.booking-type-intervals').css('display','block');
+                                        }
+                                        else
+                                        {
+                                            $('.booking-type-intervals-content').css('display','none');
+                                            $('.booking-type-intervals').css('display','none');
+                                        }
+                                        self.deleteOldIntervals();
+                                        self.showIntervalsConfig();
+                                    },
+                                    cancel: function(){
+                                        $('#booking-type-intevals').prop('checked',true)
+                                    },
+                                    always: function(){}
+                                }
+                            });
+
+                        });
+                        // configure time
+                        if($('#start-time-type').length)
+                        {
+                            var htmlPm1 = '';
+                            for (var i = 0; i <= 11; i++)
+                            {
+                                var ti = i < 10 ? '0'+i : i;
+                                htmlPm1 += '<option value="'+i+'">'+ti+'</option>';
+                            }
+                            var htmlPm2 = '<option value="12">12</option>';
+                            for(var i = 1; i <= 11; i++)
+                            {
+                                var ti = i < 10 ? '0'+i : i;
+                                htmlPm2 += '<option value="'+i+'">'+ti+'</option>';
+                            }
+                            $('#start-time-type').change(function () {
+                                if($(this).val() == '1')
+                                {
+                                    $('#start-time-hour').html(htmlPm1);
+                                }
+                                else
+                                {
+                                    $('#start-time-hour').html(htmlPm2);
+                                }
+                            })
+                            $('#end-time-type').change(function () {
+                                if($(this).val() == '1')
+                                {
+                                    $('#end-time-hour').html(htmlPm1);
+                                }
+                                else
+                                {
+                                    $('#end-time-hour').html(htmlPm2);
+                                }
+                            })
+                        }
+                        $.validator.setDefaults({ ignore: '' });
+                    }
+                }
+                vendorBk.init();
+            })
+
+		});
+	</script>
+<?php echo $this->getLayout()->createBlock('Magento\Framework\View\Element\Template')->setTemplate('Magebay_Bookingsystem::booking-global.phtml')->toHtml();  ?>

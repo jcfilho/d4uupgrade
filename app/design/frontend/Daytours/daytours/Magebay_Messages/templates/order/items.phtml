@@ -1,0 +1,172 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $_order = $block->getOrder() ?>
+<?php $_giftMessage ?>
+<div class="table-wrapper order-items">
+    <table class="data table table-order-items" id="my-orders-table" summary="<?php /* @escapeNotVerified */ echo __('Items Ordered') ?>">
+        <caption class="table-caption"><?php /* @escapeNotVerified */ echo __('Items Ordered') ?></caption>
+        <thead>
+            <tr>
+                <th colspan="5" class="col name"><?php /* @escapeNotVerified */ echo __('Product Name') ?></th>
+                <th class="col sku"><?php /* @escapeNotVerified */ echo __('SKU') ?></th>
+                <th class="col price"><?php /* @escapeNotVerified */ echo __('Price') ?></th>
+                <th class="col qty"><?php /* @escapeNotVerified */ echo __('Qty') ?></th>
+                <th class="col subtotal"><?php /* @escapeNotVerified */ echo __('Subtotal') ?></th>
+            </tr>
+        </thead>
+        <?php $_items = $_order->getItemsCollection(); ?>
+        <?php $_index = 0; ?>
+        <?php $_count = $_items->count(); ?>
+        <?php $_giftMessage = ''?>
+        <?php foreach ($_items as $_item): ?>
+            <?php 
+                if ($_item->getParentItem()) {
+                    continue;
+                } 
+            ?>
+			<?php $mkSalesHelper = $this->helper('Magebay\Marketplace\Helper\MkSales'); ?>
+			<?php if($mkSalesHelper->getSellerNameCheckoutCart($_item->getProductId())): ?>
+    			<tbody>
+    				<tr>
+                        <td colspan="0" >
+    						<?php  $seller = $mkSalesHelper->getSellerNameCheckoutCart($_item->getProductId());  ?>
+    						<div class="info-seller" style="background: #f2f2f2;padding: 10px;" >
+    							<div class="info-seller-title">
+    								<strong><?php echo __('Seller: '); ?></strong> 
+    								<a href="<?php echo $block->getUrl(); ?>marketplace/seller/view/vendor/<?php echo $seller->getStoreurl();?>" class="store-name">
+    									<?php echo $seller->getStoretitle() ?>
+    								</a>
+    								<span class="ask-question" data-seller-id="<?php echo $seller->getUserId() ?>" >Contact now!</span>
+    							</div>
+    						</div>
+                        </td>
+                    </tr> 
+    			</tbody>
+			<?php endif; ?>
+            <tbody>
+                <?php echo $block->getItemHtml($_item) ?>
+                <?php if ($this->helper('Magento\GiftMessage\Helper\Message')->isMessagesAllowed('order_item', $_item) && $_item->getGiftMessageId()): ?>
+                    <?php $_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessageForEntity($_item); ?>
+                    <tr>
+                        <td class="col options" colspan="5">
+                            <a href="#"
+                               id="order-item-gift-message-link-<?php /* @escapeNotVerified */ echo $_item->getId() ?>"
+                               class="action show"
+                               aria-controls="order-item-gift-message-<?php /* @escapeNotVerified */ echo $_item->getId() ?>"
+                               data-item-id="<?php /* @escapeNotVerified */ echo $_item->getId() ?>">
+                                <?php /* @escapeNotVerified */ echo __('Gift Message') ?>
+                            </a>
+                            <?php $_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessageForEntity($_item); ?>
+                            <div class="order-gift-message" id="order-item-gift-message-<?php /* @escapeNotVerified */ echo $_item->getId() ?>" role="region" aria-expanded="false" tabindex="-1">
+                                <a href="#"
+                                   title="<?php /* @escapeNotVerified */ echo __('Close') ?>"
+                                   aria-controls="order-item-gift-message-<?php /* @escapeNotVerified */ echo $_item->getId()?>"
+                                   data-item-id="<?php /* @escapeNotVerified */ echo $_item->getId()?>"
+                                   class="action close">
+                                    <?php /* @escapeNotVerified */ echo __('Close') ?>
+                                </a>
+                                <dl class="item-options">
+                                    <dt class="item-sender"><strong class="label"><?php /* @escapeNotVerified */ echo __('From') ?></strong><?php echo $block->escapeHtml($_giftMessage->getSender()) ?></dt>
+                                    <dt class="item-recipient"><strong class="label"><?php /* @escapeNotVerified */ echo __('To') ?></strong><?php echo $block->escapeHtml($_giftMessage->getRecipient()) ?></dt>
+                                    <dd class="item-message"><?php /* @escapeNotVerified */ echo $this->helper('Magento\GiftMessage\Helper\Message')->getEscapedGiftMessage($_item) ?></dd>
+                                </dl>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endif ?>
+            </tbody>
+        <?php endforeach; ?>
+        <tfoot>
+            <?php echo $block->getChildHtml('order_totals') ?>
+        </tfoot>
+    </table>
+</div>
+<?php if ($_giftMessage): ?>
+    <script type="text/x-magento-init">
+        {
+            "a.action.show, a.action.close": {
+                "giftMessage": {}
+            }
+        }
+    </script>
+<?php endif; ?>
+<!-- Message Popup -->
+<?php 
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $customer = $objectManager->create('Magento\Customer\Model\Session');
+    $order_id = $this->getRequest()->getParam('order_id');
+?>
+<div id="ask-popup-mpdal" class="ask-question-content" >
+    <form id="withdraw-form" action="<?php echo $this->getUrl() ?>marketplace/seller/sendmailSeller/" method="post" novalidate="novalidate">
+        <fieldset class="fieldset info messages">
+            <div class="field required">
+                <label class="label" for="m-subject">
+                    <span><?php echo __('Subject'); ?></span>
+                </label>
+                <div class="control">
+                    <input type="text" aria-required="true" id="m-subject" name="subject" title="<?php echo __('Subject'); ?>" class="input-text required-entry" data-validate="{required:true}" />
+                </div>
+            </div>
+            <div class="field field-email required">
+                <label class="label" for="m-ask">
+                    <span><?php echo __('Message'); ?></span>
+                </label>
+                <div class="control">
+                    <textarea aria-required="true" name="ask" id="m-ask" title="<?php echo __('Ask'); ?>" class="input-text required-entry" data-validate="{required:true}" style="height: 100px"></textarea>
+                </div>
+            </div>
+            <input type="hidden" value="<?php //echo $seller->getId(); ?>" name="seller_id" id="seller_id" /> 
+            <input type="hidden" value="<?php echo $customer->getId(); ?>" name="customer_id"/> 
+            <input type="hidden" name="email" value="<?php echo $customer->getCustomer()->getEmail(); ?>" />
+            <input type="hidden" name="order_id" value="<?php echo $order_id; ?>" />
+            <input type="hidden" name="redirect_url" value="<?php echo $this->getUrl('sales/order/view').'order_id/'.$order_id ?>" />
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button type="submit" class="action primary" title="<?php echo __('Send'); ?>"><span><?php echo __('Send'); ?></span></button>
+                </div>
+            </div>
+        </fieldset>
+	</form>
+</div>
+<script>
+	require(
+		[
+			'jquery',
+			'Magento_Ui/js/modal/modal'
+		],
+		function(
+			$,
+			modal
+		) {
+			var options = {
+				type: 'popup',
+				responsive: true,
+				innerScroll: true,
+				modalClass:'ask-question-popup',
+				title: '<?php echo __('Ask Question about this Product'); ?>',
+				buttons: [{
+					text: $.mage.__('Close'),
+					class: '',
+					click: function () {
+						this.closeModal();
+					}
+				}]
+			};
+			var popup = modal(options, $('#ask-popup-mpdal'));
+			$('.ask-question').click(function() {
+				$('#seller_id').val($(this).attr('data-seller-id'));
+				$('#ask-popup-mpdal').modal('openModal');
+			});
+			var dataForm = $('#withdraw-form');
+			dataForm.mage('validation', {});
+			var _action=dataForm.attr('action');
+		}
+	);
+</script>

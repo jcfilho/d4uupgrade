@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+		<css src="Magebay_Bookingsystem::css/order/bootstrap.min.css" />
+		<css src="Magebay_Bookingsystem::css/order/icomoon.css" />
+		<css src="Magebay_Bookingsystem::css/order/font-awesome.css" />
+		<css src="Magebay_Bookingsystem::css/order/font-awesome.min.css" />
+		<css src="Magebay_Bookingsystem::css/order/owl.carousel.css" />
+		<css src="Magebay_Bookingsystem::css/order/owl.theme.css" />
+		<css src="Magebay_Bookingsystem::css/order/style_calendar.css" />
+		<css src="Magebay_Bookingsystem::css/order/global_style.css" />
+		<css src="Magebay_Bookingsystem::css/order/style-booking-simple.css" />
+		<css src="Magebay_Bookingsystem::css/order/style-booking-hotels.css" />
+	</head>
+	<body>
+		<referenceContainer name="before.body.end">
+			<block class="Magento\Framework\View\Element\Template" template="Magebay_Bookingsystem::sales/booking-global.phtml" />
+		</referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+ 
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+   <head>
+		<css src="Magebay_Bookingsystem::css/manage_booking/font-awesome/4.3.0/css/font-awesome.min.css" />
+		<css src="Magebay_Bookingsystem::css/manage_booking/icomoon.css" />
+   </head>
+   <update handle="formkey"/>
+   <update handle="bookingsystem_facilities_grid_block"/>
+   <body>
+       <referenceContainer name="content">
+			<block class="Magento\Backend\Block\Store\Switcher" name="magebay.faclilites.store_switcher" before="magebay_bookingsystem_facilities.grid.container" template="Magebay_Bookingsystem::store/switcher_grid.phtml"/>
+           <block class="Magebay\Bookingsystem\Block\Adminhtml\Facilities" name="magebay_bookingsystem_facilities.grid.container" />
+       </referenceContainer>
+   </body>
+</page>

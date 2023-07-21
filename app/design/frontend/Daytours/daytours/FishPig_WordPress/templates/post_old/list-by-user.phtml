@@ -1,0 +1,58 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+
+/** @var \Daytours\Wordpress\Helper\Data $helperWp */
+
+$helperWp = $this->helper("\Daytours\Wordpress\Helper\Data");
+$currentCategory = $helperWp->getCurrentUser();
+
+?>
+<div class="blog_result blog-content">
+    <div class="page-content">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="block-title "><?php echo $currentCategory['display_name']; ?></h2> 
+            </div>
+        </div>
+
+        <?php $posts = $this->getPosts() ?>
+        <?php if (count($posts) > 0): ?>
+            <div class="list_result">
+                <ul>
+
+                    <?php foreach($posts as $post): ?>
+                        <?php if ($renderedPostHtml = $this->renderPost($post)): ?>
+                            <li class="item">
+                                <?php $image = $post->getImage(); ?>
+                                <?php $categoryString = $post->getTermCollectionAsString('one_category'); ?>
+                                <div class="post-image" style="background-image: url('<?php echo $image->getData('guid') ?>')">
+                                    <div class="tag-post inspiration"><?php echo $categoryString['name']; ?></div>
+                                    <a class="link-post" href="<?php echo $post->getUrl() ?>"></a>
+                                </div>
+                                <div class="post-info">
+                                    <div class="post-date"><img src="<?php echo $this->getViewFileUrl('images/icon-date.png') ?>"/> <?php echo $post->getPostDate() ?></div>
+                                    <h3 class="post-name">
+                                        <a href="<?php echo $post->getUrl() ?>">
+                                            <?php echo $this->escapeHtml($post->getName()) ?>
+                                        </a>
+                                    </h3>
+                                    <p class="post-des"><?php echo $post->getExcerpt(40) ?></p>
+                                    <div><a class="read-post"  href="<?php echo $post->getUrl() ?>"><?= __("Read More")?></a></div>
+                                </div>
+                            </li>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+
+                </ul>
+            </div>
+            <?php echo $this->getPagerHtml() ?>
+
+        <?php endif; ?>
+
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget_file.xsd">
+    <widget id="products_list">
+        <parameters>
+            <parameter name="template" xsi:type="select">
+                <options>
+                    <option name="template-vertical-carousell" value="product/widget/template-vertical-carousell.phtml">
+                        <label>Vertical Carousel</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="products_count_slider" xsi:type="text" required="true" visible="true">
+                <label translate="true">Number of Products to Display on slider</label>
+                <value>4</value>
+            </parameter>
+        </parameters>
+        <containers>
+            <container name="content">
+                <template name="template_vertical_carousell" value="template-vertical-carousell" />
+            </container>
+        </containers>
+    </widget>
+</widgets>

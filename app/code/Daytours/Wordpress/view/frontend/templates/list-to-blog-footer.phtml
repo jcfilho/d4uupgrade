@@ -1,0 +1,56 @@
+
+<?php
+
+/**
+ * @var $dateTimeFormatter \Magento\Framework\Stdlib\DateTime\TimezoneInterface
+ */
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$dateTimeFormatter = $objectManager->get('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
+
+
+/** @var \Daytours\Wordpress\Block\CategoryListFooterBlog $block */
+
+$posts = $block->getPosts($block->getData('id_category'),$block->getData('count_item'));
+?>
+
+<?php foreach($posts as $post): ?>
+
+    <?php
+    $categoryString = $post->getTermCollectionAsString('one_category');
+//    $categoryString = '';
+    ?>
+
+    <div class="travel-item">
+        <div class="travel-image" style="max-width:110px">
+            <?php  ?>
+            <a href="<?php echo $post->getUrl() ?>">
+
+                <?php
+
+                $imageUrl = $block->getViewFileUrl('images/place-holder.jpg');
+
+                if ($image = $post->getFeaturedImage()){
+                    if( $image->getThumbnailImage() ){
+                        $imageUrl = $image->getThumbnailImage();
+                    }
+                }else{
+                    if( $image = $post->getImage() ){
+                        $imageUrl = $image->getData('guid');
+                    }
+                }
+
+                ?>
+                <img class="lazy" src="https://www.argentina4u.com/pub/media/wysiwyg/Loader.gif" data-original="<?php echo $imageUrl.'.webp'; ?>" alt="<?php echo $this->escapeHtml($post->getPostTitle()) ?>">
+            </a>
+        </div>
+        <?php
+//        $staticDate = $post->getData('post_date');
+//        $convertedDate = $dateTimeFormatter->date(new DateTime($staticDate))->format('M d, y');
+        ?>
+        <div class="travel-info">
+            <p class="travel-name"><a href="<?php echo $post->getUrl() ?>"><?php echo $this->escapeHtml($post->getPostTitle()) ?></a></p>
+            <p><span class="travel-date"><?php echo $post->getPostDate('M d, y'); ?></span><span><a href="<?= $categoryString['url'] ?>"><?= $categoryString['name'] ?></a></span></p>
+        </div>
+    </div>
+<?php endforeach; ?>

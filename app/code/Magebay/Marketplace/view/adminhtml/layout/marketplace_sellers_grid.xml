@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @Author      : Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/layout_generic.xsd">
+    <update handle="formkey"/>
+    <container name="root" label="Root">
+        <block class="Magebay\Marketplace\Block\Adminhtml\Sellers\Grid" name="magebay_marketplace_sellers.sellers.grid"/>
+    </container>
+</layout>

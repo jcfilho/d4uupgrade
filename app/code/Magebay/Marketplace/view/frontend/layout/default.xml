@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+		<css src="Magebay_Marketplace::css/custom.css" />
+		<css src="Magebay_Marketplace::css/d-custom.css" />
+		<css src="Magebay_Marketplace::css/dashboard-theme.css" />
+	</head>
+    <body>
+        <referenceBlock name="top.links">
+            <!-- <block class="Magento\Framework\View\Element\Html\Link" name="register-link2" ifconfig="marketplace/general/enable">
+                <arguments>
+                    <argument name="label" xsi:type="string" translate="true">Marketplace</argument>
+                    <argument name="path" xsi:type="string" translate="true">marketplace</argument>
+                </arguments>
+            </block> -->
+			<block class="Magebay\Marketplace\Block\SellerBecome" name="seller-link" template="Magebay_Marketplace::form/top-links.phtml" />
+        </referenceBlock>
+    </body>
+</page>

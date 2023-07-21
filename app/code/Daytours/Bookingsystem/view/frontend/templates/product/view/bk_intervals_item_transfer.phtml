@@ -1,0 +1,235 @@
+
+<?php $bookingId = $this->getRequest()->getParam('booking_id',0); ?>
+<?php $itemId = $this->getRequest()->getParam('itemId',0); ?>
+<?php $calendarNumber = $this->getRequest()->getParam('calendar_number',1); ?>
+<?php $urlBooking = $this->getBookingItenrUrl($bookingId,$itemId); ?>
+<?php $dataIntervals = $block->getListIntervals();  ?>
+<?php $intervals = $dataIntervals['data'];  ?>
+<?php $error = $dataIntervals['error'];  ?>
+<?php $showCalendar = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/show_calendar') ?>
+
+<?php
+$nameArrayIntervals = 'intervals_hours[]';
+$optionToWishlist = 'optionsbooking[interval_one]';
+if( $calendarNumber == \Daytours\Bookingsystem\Block\Transfer::CALENDAR_NUMBER_BY_SECOND ){
+	$nameArrayIntervals = 'intervals_hours_two[]';
+	$optionToWishlist = 'optionsbooking[interval_two]';
+}
+?>
+
+<ul class="list-intervals-hours" >
+<?php if(count($intervals)) : ?>
+	<?php foreach($intervals as $interval) : ?>
+		
+		<li id="txt-interval-<?php echo $interval['interval_id']; ?>" class="<?php echo $interval['class']; ?>">
+		<span style="display: none">
+			<input
+				type="checkbox" <?php echo $interval['inter_checked']; ?>
+				class="txt-hour-intervals cls-to-add-to-wishlist"
+				id="txt-inter-<?php echo $interval['interval_id']; ?>"
+				name="<?php echo $nameArrayIntervals ?>"
+				value="<?php echo $interval['interval_id']; ?>"
+				data-selector="<?= $optionToWishlist ?>[<?= $interval['interval_id'] ?>]"
+			/>
+		</span>
+		<?php echo $interval['time_text']; ?>
+		</li>
+	<?php endforeach; ?>
+<?php else :  ?>
+<span class="booking-result-error"><?php echo $error; ?></span>
+<?php endif; ?>
+</ul>
+<script>
+require([
+			'jquery',
+		],
+	function ($,jqueryUi,bkCalendar){
+		var showCalendar = '<?php echo $showCalendar; ?>';
+		var urlBooking = '<?php echo $urlBooking; ?>';
+		//var containerOptions = $('#time-intervals-hours');
+		$('#time-intervals-hours').find('li').off('click').click(function(){
+			var intervalId = $(this).attr('id');
+            intervalId = intervalId.replace('txt-interval-','');
+
+			$(this).parent('.list-intervals-hours').find('.txt-hour-intervals').prop('checked',false);
+			$(this).parent('.list-intervals-hours').find('.item-interval-available').removeClass('item-interval-active');
+			$(this).find('#txt-inter-'+intervalId).prop('checked',true).trigger('change');
+			$(this).addClass('item-interval-active');
+
+			getIntervalsResult();
+		});
+
+		if( isRoundTrip() ){
+			/*if is round-trip*/
+			$('#time-intervals-hours-two').find('li').off('click').click(function(){
+				var intervalId = $(this).attr('id');
+				intervalId = intervalId.replace('txt-interval-','');
+
+				$(this).parent('.list-intervals-hours').find('.txt-hour-intervals').prop('checked',false);
+				$(this).parent('.list-intervals-hours').find('.item-interval-available').removeClass('item-interval-active');
+				$(this).find('#txt-inter-'+intervalId).prop('checked',true).trigger('change');
+				$(this).addClass('item-interval-active');
+
+				getIntervalsResult();
+			});
+		}
+
+		function getIntervalsResult()
+		{
+			var checkIn = $('#check-in').val();
+			if($.trim(checkIn) == '')
+			{
+				return false;
+			}
+
+			if( isRoundTrip() ){
+				/*if is round-trip*/
+				var checkInTwo = $('#check-in-two').val();
+				if($.trim(checkInTwo) == '')
+				{
+					return false;
+				}
+			}
+
+			if($('#time-intervals-hours .txt-hour-intervals:checked').length == 0 ){
+				return false;
+			}
+			if( isRoundTrip() )
+			{
+				if($('#time-intervals-hours-two .txt-hour-intervals:checked').length == 0 )
+				{
+					return false;
+				}
+			}
+
+
+			if(!checkRequiredAddons())
+			{
+				return false;
+			}
+			$('#booking-loader').css('display','block');
+			$('.booking-results').html('');
+
+			$.ajax({
+				url : urlBooking,
+				dataType : 'json',
+				type : 'POST',
+				data : $('#product_addtocart_form').serialize(),
+				success : function(res)
+				{
+					$('.booking-results').html(res.html_result);
+					$('#booking-loader').css('display','none');
+				},
+				error : function()
+				{
+					
+				}
+			});
+		}
+		function checkRequiredAddons()
+		{
+			var okAddons = true;
+			if($('.txt-addons-item').length)
+			{
+				$('.txt-addons-item').each(function(){
+					var strClass = $(this).attr('class');
+					if(strClass.indexOf('required-empty') > -1 && ($.trim($(this).val()) == '' || isNaN($(this).val())))
+					{
+						okAddons = false;
+						return false;
+					}
+				});
+			}
+			if(okAddons && $('.select-addons-item').length)
+			{
+				$('.select-addons-item').each(function(){
+					var strClass = $(this).attr('class');
+					if(strClass.indexOf('required-empty') > -1 && ($.trim($(this).val()) == ''))
+					{
+						okAddons = false;
+						return false;
+					}
+				});
+			}
+			if(okAddons && $('.bk-addon-radio-checkbox').length)
+			{
+				$('.bk-addon-radio-checkbox').each(function(){
+					var strClass = $(this).attr('class');
+					var strCkId = $(this).attr('id');
+					if(strClass.indexOf('required-empty') > -1)
+					{
+						var tempCkOk = false;
+						$('#'+strCkId +' input').each(function(){
+							if($(this).is(":checked"))
+							{
+								tempCkOk = true;
+								return false;
+							}
+						});
+						if(tempCkOk == false)
+						{
+							okAddons = false;
+							return false;
+						}
+					}
+				});
+			}
+			return okAddons;
+		}
+
+		function isRoundTrip(){
+			if( $('#option-roundtrip').is(':checked') ){
+				return true;
+			}
+			return false;
+		}
+
+		function loadIntervalFromWishlist(){
+			if($('#time-intervals-hours').html() != ''){
+				var intervals = $('#exist-wishlist-intervarl-one').val();
+				if( intervals != '' ){
+					if( intervals.indexOf(",") > -1  ){
+						var arraySplit = intervals.split(",");
+						var checkedIntervals = $('#time-intervals-hours :checkbox');
+						$.each(checkedIntervals,function(index,item){
+							if( arraySplit.indexOf($(item).val()) > -1 ){
+								$(item).prop('checked');
+								$(item).parents('.item-interval-available').addClass('item-interval-active');
+							}
+						});
+					}else{
+						$('#txt-interval-' + intervals + ' :checkbox').prop('checked',true)
+							.parents('.item-interval-available').addClass('item-interval-active');
+					}
+					getIntervalsResult();
+					$('#exist-wishlist-intervarl-one').val('');
+				}
+			}
+
+			if( isRoundTrip()  ){
+				if($('#time-intervals-hours-two').html() != ''){
+					var intervals = $('#exist-wishlist-intervarl-two').val();
+					if( intervals != '' ){
+						if( intervals.indexOf(",") > -1  ){
+							var arraySplit = intervals.split(",");
+							var checkedIntervals = $('#time-intervals-hours-two :checkbox');
+							$.each(checkedIntervals,function(index,item){
+								if( arraySplit.indexOf($(item).val()) > -1 ){
+									$(item).prop('checked',true);
+									$(item).parents('.item-interval-available').addClass('item-interval-active');
+								}
+							});
+						}else{
+							$('#txt-interval-' + intervals + ' :checkbox').prop('checked',true)
+								.parents('.item-interval-available').addClass('item-interval-active');
+						}
+						getIntervalsResult();
+						$('#exist-wishlist-intervarl-two').val('');
+					}
+				}
+			}
+
+		}
+		loadIntervalFromWishlist();
+	})
+</script>

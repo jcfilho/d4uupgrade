@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @Author      : Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="checkout_submit_all_after">
+        <observer name="SaveData" instance="Magebay\Marketplace\Observer\SaveData" />
+    </event>
+    <event name="sales_model_service_quote_submit_success">
+        <observer name="sendNewEmail" instance="Magebay\Marketplace\Observer\QuoteSubmitSuccess" />
+    </event>
+</config>

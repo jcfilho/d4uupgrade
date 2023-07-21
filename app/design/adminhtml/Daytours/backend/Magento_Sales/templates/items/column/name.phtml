@@ -1,0 +1,72 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * @see \Magento\Sales\Block\Adminhtml\Items\Column\Name
+ */
+?>
+
+<?php if ($_item = $block->getItem()): ?>
+    <div id="order_item_<?= /* @escapeNotVerified */ $_item->getId() ?>_title"
+         class="product-title 2222222">
+        <?= $block->escapeHtml($_item->getName()) ?>
+    </div>
+
+    <div class="product-sku-block">
+        <span><?= /* @escapeNotVerified */ __('SKU') ?>:</span> <?= implode('<br />', $this->helper('Magento\Catalog\Helper\Data')->splitSku($block->escapeHtml($block->getSku()))) ?>
+    </div>
+
+    <?php if ($block->getOrderOptions()): ?>
+        <dl class="item-options">
+            <?php $regularService = ''; ?>
+
+            <?php foreach ($block->getOrderOptions() as $_option): ?>
+                <?php if($_option['label'] == 'regular_services'): ?>
+                    <?php $regularService = $_option['value']; ?>
+                <?php else: ?>
+                    <dt><?= /* @escapeNotVerified */ $_option['label'] ?>:</dt>
+                    <dd>
+                        <?php if (isset($_option['custom_view']) && $_option['custom_view']): ?>
+                            <?= /* @escapeNotVerified */ $block->getCustomizedOptionValue($_option) ?>
+                        <?php else: ?>
+                            <?php $_option = $block->getFormattedOption($_option['value']); ?>
+                            <?= /* @escapeNotVerified */ $_option['value'] ?><?php if (isset($_option['remainder']) && $_option['remainder']): ?><span id="<?= /* @escapeNotVerified */ $_dots = 'dots' . uniqid() ?>"> ...</span><span id="<?= /* @escapeNotVerified */ $_id = 'id' . uniqid() ?>"><?= /* @escapeNotVerified */ $_option['remainder'] ?></span>
+                                <script>
+                                    require(['prototype'], function() {
+                                        $('<?= /* @escapeNotVerified */ $_id ?>').hide();
+                                        $('<?= /* @escapeNotVerified */ $_id ?>').up().observe('mouseover', function(){$('<?= /* @escapeNotVerified */ $_id ?>').show();});
+                                        $('<?= /* @escapeNotVerified */ $_id ?>').up().observe('mouseover', function(){$('<?= /* @escapeNotVerified */ $_dots ?>').hide();});
+                                        $('<?= /* @escapeNotVerified */ $_id ?>').up().observe('mouseout',  function(){$('<?= /* @escapeNotVerified */ $_id ?>').hide();});
+                                        $('<?= /* @escapeNotVerified */ $_id ?>').up().observe('mouseout',  function(){$('<?= /* @escapeNotVerified */ $_dots ?>').show();});
+                                    });
+                                </script>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </dd>
+                <?php endif; ?>
+            <?php endforeach; ?>
+
+            <div class="clear clearfix"></div>
+            <?php
+            if( !empty($regularService) ){
+                echo '<dl class="item-options">';
+                $regularService = json_decode($regularService);
+                foreach ($regularService as $itemR){
+                    echo '<dt><strong><em>'.$itemR->label.'</em></strong></dt>';
+                    echo '<dd><span class="price-item">'.$itemR->price.'</span> </span><span class="qty-item"> x '.$itemR->qty.'</span></dd>';
+                }
+                echo "</dl>";
+            }
+            ?>
+
+        </dl>
+    <?php endif; ?>
+    <?= $block->escapeHtml($_item->getDescription()) ?>
+<?php endif; ?>

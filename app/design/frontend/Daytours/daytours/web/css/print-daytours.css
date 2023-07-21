@@ -1,0 +1,116 @@
+/*@media print {*/
+
+    .print-col-sm-1, .print-col-sm-2, .print-col-sm-3, .print-col-sm-4, .print-col-sm-5, .print-col-sm-6, .print-col-sm-7, .print-col-sm-8, .print-col-sm-9, .print-col-sm-10, .print-col-sm-11, .print-col-sm-12 {
+        float: left;
+    }
+    .print-col-sm-12 {
+        width: 100%;
+    }
+    .print-col-sm-11 {
+        width: 91.66666666666666%;
+    }
+    .print-col-sm-10 {
+        width: 83.33333333333334%;
+    }
+    .print-col-sm-9 {
+        width: 75%;
+    }
+    .print-col-sm-8 {
+        width: 66.66666666666666%;
+    }
+    .print-col-sm-7 {
+        width: 58.333333333333336%;
+    }
+    .print-col-sm-6 {
+        width: 50%;
+    }
+    .print-col-sm-5 {
+        width: 41.66666666666667%;
+    }
+    .print-col-sm-4 {
+        width: 33.33333333333333%;
+    }
+    .print-col-sm-3 {
+        width: 25%;
+    }
+    .print-col-sm-2 {
+        width: 16.666666666666664%;
+    }
+    .print-col-sm-1 {
+        width: 8.333333333333332%;
+    }
+    .print-row{
+        clear: both;
+        width: 100%;
+        display: block;
+        float: none;
+    }
+    .sales-order-print .page-wrapper{
+        padding-top: 40px !important;
+    }
+    .sales-order-print .page-title-wrapper{
+        padding-top: 0px;
+    }
+    .sales-order-print .logo {
+        display: block;
+        width: 100%;
+        height: 55px;
+        margin: 0;
+    }
+    .sales-order-print .cart-price{
+        font-size: 14px;
+    }
+    .header-titles{
+        padding-bottom: 20px;
+        margin-bottom: 0;
+        border-bottom: solid #ccc 2px;
+    }
+    .product-title-price{
+        margin-bottom: 20px;
+        padding-top: 10px;
+    }
+    .product-details-options{
+        padding-bottom: 20px;
+        border-bottom: solid #ccc 1px;
+        margin-bottom: 0;
+    }
+    .last-element .product-details-options{
+        padding-bottom: 0;
+        border-bottom: solid #ccc 0;
+        margin-bottom: 0;
+        margin-top: 0;
+    }
+    .footer-totals{
+        margin-top: 30px;
+        border-top: solid #ccc 2px;
+        padding-top: 30px;
+    }
+
+    .text-align-right{
+        text-align: right;
+    }
+    .clear-both-print{
+        clear: both;
+    }
+
+@media (max-width: 767px){
+    .sales-order-print .page-title-wrapper{
+        padding-top: 64px;
+    }
+    .sales-order-print .logo{
+        margin-left:0 ;
+    }
+    .sales-order-print .action.nav-toggle{
+        display: none;
+    }
+    body.sales-order-print{
+        padding-top: 0;
+    }
+    .sales-order-print .page-wrapper main.page-main{
+        padding-top: 0;
+    }
+    .sales-order-print .order-details-items .order-title{
+        display: none;
+    }
+}
+/*}*/

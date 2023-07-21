@@ -1,0 +1,34 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Daytours\Checkout\Block\Onepage\Success */ ?>
+<div class="checkout-success">
+
+    <div class="page-title">
+        <h2>
+            <?= (!is_null($block->getCustomerId())) ? $block->getOrderCustomerFirstname() . ', ' : '' ?><?= __('thank you for booking with') ?>
+            <?= $block->getStoreName(); ?>!
+        </h2>
+    </div>
+
+    <?php if ($block->getOrderId()):?>
+        <?php if ($block->getCanViewOrder()) :?>
+            <p>
+                <?= __('Your order'); ?> <a href="<?= $block->escapeHtml($block->getViewOrderUrl()) ?>" class="order-number"><strong><?= $block->escapeHtml($block->getOrderId()) ?></strong></a> <?= __('has been created') ?>
+            </p>
+
+        <?php  else :?>
+            <p>
+                <?= __('Your order'); ?> <?= $block->escapeHtml($block->getOrderId()) ?> <?= __('has been created') ?>
+            </p>
+        <?php endif;?>
+    <?php endif;?>
+
+    <?= $block->getAdditionalInfoHtml() ?>
+</div>

@@ -1,0 +1,198 @@
+
+& when (@media-common = true) {
+  .content-popup-newsletter{
+    text-align: center;
+    padding: 50px 42px;
+    .p-title{
+      .lib-font-size(32px);
+      .lib-css(font-weight,700);
+      .lib-css(line-height,36px);
+      .lib-css(padding-bottom,10px);
+      color: #0f1215;
+
+      .p-discount{
+        color: #498dfc;
+      }
+    }
+    .p-subtitle{
+      .lib-font-size(16px);
+      .lib-css(font-weight,400);
+      .lib-css(line-height,22px);
+      .lib-css(padding,14px 95px 27px 95px);
+    }
+
+    .form-newsletter-ajax{
+      .lib-css(padding, 20px 0 12px 0);
+
+      .field{
+        &.newsletter{
+          .control{
+            .error-newsletter-ajax,
+            .success-newsletter-ajax{
+              .lib-css(padding, 12px 20px 12px 20px);
+              .lib-css(display, none);
+              .lib-css(margin-bottom,10px)
+            }
+
+            .input-text-nll{
+              .lib-form-element-input(
+                      @form-element-input-type,
+                      #f8f9fb,
+                      solid 1px #ccc,
+                      4px,
+                      auto,
+                      100%,
+                      20px 20px,
+                      0,
+                      middle,
+                      inherit,
+
+                      14px,
+                      #4f4f4f,
+                      @dt-font-family-monserrat,
+                      400,
+                      16px,
+                      normal,
+
+                      #4f4f4f,
+                      normal,
+
+                      #f8f9fb,
+                      solid 1px #ccc,
+                      1,
+                      #4f4f4f,
+                      @dt-font-family-monserrat,
+
+                      #f8f9fb,
+                      solid 1px #ccc,
+                      #4f4f4f,
+                      normal
+              );
+            }
+
+            .content-button{
+              .lib-css(padding-top,70px);
+              .lib-css(padding-bottom,20px);
+              .action{
+                &.subscribe{
+                  .lib-button(
+                          @dt-font-family-monserrat,
+                          24px,
+                          400,
+                          pointer,
+                          inline-block,
+                          @button__disabled__opacity,
+                          24px,
+                          @button__width,
+                          0,
+                          20px 50px,
+                          @color-white,
+                          #f05817,
+                          3px,
+                          @color-white,
+                          #f05817,
+                          3px,
+                          @color-white,
+                          #f05817,
+                          3px
+                  );
+                }
+              }
+            }
+
+          }
+        }
+      }
+
+    }
+
+    .no-thanks{
+      .lib-font-size(14px);
+      .lib-link(#5d5d5d,none,#5d5d5d,none,#5d5d5d,none,#5d5d5d,none);
+    }
+  }
+}
+
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+  .content-popup-newsletter{
+    .p-title{
+
+      .p-discount{
+      }
+    }
+    .p-subtitle{
+      .lib-css(padding, 14px 0 27px 0);
+    }
+
+    .form-newsletter-ajax{
+      .field{
+        &.newsletter{
+          .control{
+
+            .error-newsletter-ajax,
+            .success-newsletter-ajax{
+            }
+
+            .input-text-nll{
+            }
+
+            .content-button{
+              .action{
+                &.subscribe{
+                }
+              }
+            }
+
+          }
+        }
+      }
+    }
+
+    .no-thanks{
+    }
+  }
+}
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xs) {
+  .content-popup-newsletter{
+    .lib-css(padding, 50px 0px);
+    .p-title{
+
+      .p-discount{
+      }
+    }
+    .p-subtitle{
+
+    }
+
+    .form-newsletter-ajax{
+      .field{
+        &.newsletter{
+          .control{
+
+            .error-newsletter-ajax,
+            .success-newsletter-ajax{
+            }
+
+            .input-text-nll{
+            }
+
+            .content-button{
+              .action{
+                &.subscribe{
+                }
+              }
+            }
+
+          }
+        }
+      }
+    }
+
+    .no-thanks{
+    }
+  }
+}
+
+
+

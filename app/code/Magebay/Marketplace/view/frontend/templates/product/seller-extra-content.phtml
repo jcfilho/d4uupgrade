@@ -1,0 +1,77 @@
+<?php 
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $customer = $objectManager->create('Magento\Customer\Model\Session');
+    $product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
+    $seller = $block->getSellerProfile();
+?>
+<?php if($seller) : ?>
+    <div id="ask-popup-mpdal" class="ask-question-content" >
+    	<form id="withdraw-form" action="<?php echo $block->getUrl() ?>marketplace/seller/sendmailSeller/" method="post" novalidate="novalidate">
+        	<fieldset class="fieldset info messages">
+                <div class="field required">
+                    <label class="label" for="m-subject">
+                        <span><?php echo __('Subject'); ?></span>
+                    </label>
+                    <div class="control">
+                        <input type="text" aria-required="true" id="m-subject" name="subject" title="<?php echo __('Subject'); ?>" class="input-text required-entry" data-validate="{required:true}" />
+                    </div>
+                </div>
+                <div class="field field-email required">
+                    <label class="label" for="m-ask">
+                        <span><?php echo __('Message'); ?></span>
+                    </label>
+                    <div class="control">
+                        <textarea aria-required="true" name="ask" id="m-ask" title="<?php echo __('Ask'); ?>" class="input-text required-entry" data-validate="{required:true}" style="height: 100px"></textarea>
+                    </div>
+                </div>
+                <input type="hidden" value="<?php echo $seller->getId(); ?>" name="seller_id" /> 
+                <input type="hidden" value="<?php echo $customer->getId(); ?>" name="customer_id" /> 
+                <input type="hidden" name="email" value="<?php echo $customer->getCustomer()->getEmail(); ?>" />
+                <input type="hidden" name="product_id" value="<?php echo $product->getId(); ?>" />
+                <input type="hidden" name="redirect_url" value="<?php echo $product->getProductUrl(); ?>" />
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <button type="submit" class="action primary" title="<?php echo __('Send'); ?>"><span><?php echo __('Send'); ?></span></button>
+                    </div>
+                </div>
+        	</fieldset>
+    	</form>
+    </div>
+    <script>
+    	require(
+    		[
+    			'jquery',
+    			'Magento_Ui/js/modal/modal'
+    		],
+    		function(
+    			$,
+    			modal
+    		){
+    			var options = {
+    				type: 'popup',
+    				responsive: true,
+    				innerScroll: true,
+    				modalClass:'ask-question-popup',
+    				title: 'Ask Question about this Product',
+    				buttons: [{
+    					text: $.mage.__('Close'),
+    					class: '',
+    					click: function () {
+    						this.closeModal();
+    					}
+    				}]
+    			};
+    
+    			var popup = modal(options, $('#ask-popup-mpdal'));
+    			$('.ask-question').click(function() {
+    				$('#ask-popup-mpdal').modal('openModal');
+    			});
+    			
+    			var dataForm = $('#withdraw-form');
+    			dataForm.mage('validation', {});
+    			var _action=dataForm.attr('action');
+    			
+    		}
+    	);
+    </script>
+<?php endif; ?>

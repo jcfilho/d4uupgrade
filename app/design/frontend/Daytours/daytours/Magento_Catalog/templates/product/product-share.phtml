@@ -1,0 +1,48 @@
+<span class="btn-prdShare">
+    <?= __('Share with friends') ?>
+</span>
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        'use strict';
+
+        var AppShare = function (){
+
+        };
+
+        AppShare.prototype = {
+            selectors : {
+                btnProductShareOpenModal : $('body .btn-prdShare'),
+                btnClosePopupShare: $('body .product-share-popup .btn-close-popup'),
+                popupShare : $('body .product-share-popup')
+
+            },
+            init: function(){
+                var self = this;
+                self.clickToButtonShare();
+                self.closeModalShare();
+            },
+            clickToButtonShare: function(){
+                var self = this;
+                self.selectors.btnProductShareOpenModal.on('click',function(){
+                    self.selectors.popupShare.fadeIn();
+                    $('body').css('overflow','hidden');
+                });
+            },
+            closeModalShare : function () {
+                var self = this;
+                self.selectors.btnClosePopupShare.on('click',function(){
+                    self.selectors.popupShare.fadeOut();
+                    $('body').css('overflow','initial')
+                });
+
+            }
+        };
+
+        $(document).ready(function(){
+            var appShare = new AppShare();
+            appShare.init();
+        });
+    })
+</script>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+ 
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
+    <menu>
+        <remove id="Magebay_Bookingsystem::manage_facilities" />
+        <remove id="Magebay_Bookingsystem::add_facility" />
+        <remove id="Magebay_Bookingsystem::manage_roomtypes" />
+        <remove id="Magebay_Bookingsystem::add_roomtype" />
+        <remove id="Magebay_Bookingsystem::manage_booking_orders" />
+	</menu>
+</config>

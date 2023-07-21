@@ -1,0 +1,287 @@
+<?php
+/**
+ * @var $block \Daytours\Bookingsystem\Block\Adminhtml\Calendars
+ */ ?>
+<?php $calendars = $block->getBkItems(); ?>
+<?php $calendarNumber = $block->getNumberCalendarByDefault(); ?>
+<?php $bookingId = $block->getBookingId(); ?>
+<?php $bookingType = $block->getBookingType(); ?>
+<?php $priceHelper = $block->getBkPriceHelper(); ?>
+<?php $bkHelperDate = $block->getBkHelperDate(); ?>
+<?php $bkSymbol = $this->getBkCurrencySymbol(); ?>
+<?php $bkCurrentDate = $block->getBkCurrentDate(); ?>
+<?php $formatDate = $bkHelperDate->getFieldSetting('bookingsystem/setting/format_date',false); ?>
+<?php $isInterDefault = $this->getRequest()->getParam('is_inter_default',0); ?>
+<?php
+$bkInfor = $block->getBkInfor($bookingId,$bookingType);
+$bookingTime = 1;
+$bookingTourType = 1;
+if($bkInfor && $bkInfor->getId())
+{
+    $bookingTime = $bkInfor->getBookingTime();
+    $bookingTourType = $bkInfor->getBookingTourType();
+}
+?>
+<button style="float : left" class="action-default primary" type="button" id="add-new-calendar"><?php echo __('New Price'); ?></button>
+<button style="float : left" class="action-default primary" type="button" id="block-date"><?php echo __('Locked date'); ?></button>
+<div class="booking-list-items-header">
+	<span class="booking-label"><?php echo __('Start date'); ?></span>
+	<span class="booking-label"><?php echo __('End date'); ?></span>
+	<span class="booking-label"><?php echo __('Status'); ?></span>
+	<span class="booking-label"><?php echo __('Qty'); ?></span>
+	<span class="booking-label"><?php echo __('Price'); ?></span>
+	<span class="booking-label"><?php echo __('Special Price'); ?></span>
+	<span class="booking-label"><?php echo __('Edit'); ?></span>
+	<span class="booking-label"><?php echo __('Delete'); ?></span>
+</div>
+<div class="booking-list-items-content">
+    <?php $allowNewPrice = 1; ?>
+<?php if(count($calendars)) : ?>
+	<?php $row = 0; ?>
+	<?php foreach($calendars as $calendar) : $row++; ?>
+        <?php
+        if($bookingTime == 5)
+        {
+            if(($bookingTourType == 1 && $calendar->getCalendarDefaultValue() == 2) || ($bookingTourType == 2 && $calendar->getCalendarDefaultValue() == 1))
+            {
+                continue;
+            }
+            if($bookingTourType == 1)
+            {
+                $allowNewPrice = 0;
+            }
+        }
+        ?>
+		<div id="bk-calendar-item-<?php echo $calendar['calendar_id']; ?>" class="bk-list-item <?php echo $row == count($calendars) ? 'bk-list-item-last' : ''; ?>">
+			<span class="booking-data"><?php echo $calendar->getCalendarDefaultValue() == 2 ? date($formatDate,strtotime($calendar->getCalendarStartdate())) : __('Default'); ?></span>
+			<span class="booking-data"><?php echo $calendar->getCalendarDefaultValue() == 2 ? date($formatDate,strtotime($calendar->getCalendarEnddate())) :  __('Default'); ?></span>
+			<span class="booking-data"><?php echo $calendar->getCalendarStatus() == 'block' ? 'Booked' : $calendar->getCalendarStatus(); ?></span>
+			<span class="booking-data"><?php echo $calendar->getCalendarQty(); ?></span>
+			<span class="booking-data"><?php echo $priceHelper->currency($calendar->getCalendarPrice(),true,false); ?></span>
+			<span class="booking-data"><?php echo $priceHelper->currency($calendar->getCalendarPromo(),true,false); ?></span>
+			<span class="booking-data booking-data-edit" id="booking-item-edit-<?php echo $calendar->getId(); ?>" bk-checkin-data="<?php echo $calendar->getCalendarDefaultValue() == 2 ? $calendar->getCalendarStartdate() : ''; ?>" bk-checkout-data="<?php echo $calendar->getCalendarDefaultValue() == 2 ? $calendar->getCalendarEnddate() : ''; ?>"><?php echo __('Edit'); ?></span>
+            <span class="booking-data booking-data-dell"  id="booking-item-dell-<?php echo $calendar->getId(); ?>"><?php echo __('Delete'); ?></span>
+		</div>
+	<?php endforeach; ?>
+<?php endif; ?>
+    <input type="hidden" id="check-add-new-type" value="<?php echo $allowNewPrice; ?>">
+</div>
+<?php $arrayUrl = $block->getBkAjaxUrl(); ?>
+<?php $urlEdit = $arrayUrl['edit']; ?>
+<?php $urlDell = $arrayUrl['dell']; ?>
+<?php $loadItems = $arrayUrl['load_items']; ?>
+<?php $urlcalendar = $arrayUrl['url_calendars']; ?>
+<?php $urlEditPriceSession = $arrayUrl['url_edit_price_session']; ?>
+<?php $urlSavePriceSession = $arrayUrl['url_save_price_session']; ?>
+<script>
+require([
+	'jquery',
+	'Magento_Ui/js/modal/alert',
+],
+function($,alert) {
+		var bookingId = '<?php echo $bookingId; ?>';
+		var bookingType = '<?php echo $bookingType; ?>';
+		var bkCurrentDate = '<?php echo $bkCurrentDate; ?>';
+		var bkSymbol = '<?php echo $bkSymbol; ?>';
+		var isInterDefault = '<?php echo $isInterDefault; ?>';
+        var bookingTime = '<?php echo $bookingTime; ?>';
+        var checkAddNew = $('#check-add-new-type').val();
+		var calendarNumber = '<?php echo $calendarNumber ?>';
+		$('.booking-data-edit,#add-new-calendar').click(function(){
+				$('.bk-loading-mask').css('display','block');
+				$('#add-new-calendar').css('display','none');
+                $('.popup-booking-intervals').css('display','none');
+                if($(this).attr('id') == 'add-new-calendar' && checkAddNew == '0')
+                {
+                    alert({
+                        title: '',
+                        content: '<?php echo __('You can not add new item, Please edit current Item!') ?>'
+                    });
+                    $('.bk-loading-mask').css('display','none');
+                    return false;
+                }
+                var checkIn = '';
+                var checkOut = '';
+                if($(this).attr('id') == '#add-new-calendar')
+                {
+
+                }
+                else
+                {
+                    checkIn = $(this).attr('bk-checkin-data');
+                    checkOut = $(this).attr('bk-checkout-data');
+                }
+				var strId = $(this).attr('id');
+				var arStrId = strId.split('-');
+				var intId = 0;
+				if(arStrId.length > 3)
+				{
+					intId = arStrId[arStrId.length - 1];
+				}
+				$.ajax({
+				url: '<?php echo $urlEdit; ?>',
+				dataType : 'json',
+				type: 'POST',
+				data: {
+					calendar_id:intId,
+					booking_id : bookingId,
+					booking_type: bookingType,
+					is_inter_default : isInterDefault ,
+					check_in : checkIn,
+					check_out : checkOut,
+					calendar_number : calendarNumber
+				},
+				success : function(res)
+				{
+					$('#form-booking-calendar').html(res.html_calendar_form);
+					$('.bk-loading-mask').css('display','none');
+				},
+				error : function()
+				{
+					alert({
+						title: '',
+						content: '<?php echo __('System are errors, Please check again!') ?>'
+					});
+				}
+			});
+		});
+		$('.booking-data-inter').click(function(){
+				$('.bk-loading-mask').css('display','block');
+                $('.popup-booking-intervals').css('display','block');
+				$('#add-new-calendar').css('display','none');
+				var strId = $(this).attr('id');
+				var checkIn = $(this).attr('bk-checkin-data');
+				var checkOut = $(this).attr('bk-checkout-data');
+				$.ajax({
+				url: '<?php echo $urlEditPriceSession; ?>',
+				dataType : 'json',
+				type: 'POST',
+				data: {booking_id : bookingId,check_in : checkIn, check_out : checkOut},
+				success : function(res)
+				{
+					$('.popup-booking-intervals').html(res.html_intervals);
+					$('.bk-loading-mask').css('display','none');
+				},
+				error : function()
+				{
+					alert({
+						title: '',
+						content: '<?php echo __('System are errors, Please check again!') ?>'
+					});
+                    $('.bk-loading-mask').css('display','none');
+				}
+			});
+		});
+		$('.booking-data-dell').click(function(){
+			$('.bk-loading-mask').css('display','block');
+            $('.popup-booking-intervals').css('display','none');
+			var strId = $(this).attr('id');
+			var arStrId = strId.split('-');
+			var intId = arStrId[arStrId.length - 1];
+			$('#form-booking-calendar').html('');
+			$.ajax({
+				url: '<?php echo $urlDell; ?>',
+				dataType : 'json',
+				type: 'POST',
+				data: {
+					calendar_id:intId,
+					booking_id : bookingId,
+					booking_type : bookingType,
+					is_inter_default : isInterDefault,
+                    calendar_number : calendarNumber
+				},
+				success : function(res)
+				{
+					if(res.status == true)
+					{
+						alert({
+							title: '',
+							content: '<?php echo __('Data have been deleted') ?>'
+						});
+						$('#booking-list-calendar-items').html(res.html_calendar_items);
+                        $('#bk-tab-price-content .bk-rent-price-content').trigger('contentUpdated');
+						var objData = {
+							'DataURL' : '<?php echo $urlcalendar; ?>',
+							'booking_id': bookingId,
+							'calendar_number' : '<?php echo $calendarNumber; ?>',
+							'booking_type' : bookingType,
+                            'booking_time' : bookingTime,
+							'url_add_item' : '<?php echo $urlEdit; ?>',
+							'currency': bkSymbol,
+							'str_current_date': bkCurrentDate,
+							'booking_label' : '<?php echo __('Booking Calendar'); ?>',
+							'obj_status_text' : {
+								'available': '<?php echo __('Available'); ?>',
+								'special': '<?php echo __('Available'); ?>',
+								'block': '<?php echo __('Block'); ?>',
+								'unavailable': '<?php echo __('Unavailable'); ?>',
+								},
+								'name_day_th' : [
+															'<?php echo __('Sunday'); ?>',
+															'<?php echo __('Monday'); ?>',
+															'<?php echo __('Tuesday'); ?>',
+															'<?php echo __('Wednesday'); ?>',
+															'<?php echo __('Thursday'); ?>',
+															'<?php echo __('Friday'); ?>',
+															'<?php echo __('Saturday'); ?>'
+													],
+								'name_day_short_th' : [
+																'<?php echo __('Mon'); ?>',
+																'<?php echo __('Tue'); ?>',
+																'<?php echo __('Wed'); ?>',
+																'<?php echo __('Thu'); ?>',
+																'<?php echo __('Fri'); ?>',
+																'<?php echo __('Sat'); ?>',
+																'<?php echo __('Sun'); ?>'
+															],
+								'name_day_shortest_th' : [
+															'<?php echo __('Su'); ?>',
+															'<?php echo __('Mo'); ?>',
+															'<?php echo __('Tu'); ?>',
+															'<?php echo __('We'); ?>',
+															'<?php echo __('Th'); ?>',
+															'<?php echo __('Fi'); ?>',
+															'<?php echo __('Sa'); ?>',
+															],
+							'add_text' : '<?php echo __('Add'); ?>',
+							'remove_text' : '<?php echo __('Remove'); ?>',
+							'next_text' : '<?php echo __('Next'); ?>',
+							'pre_text' : '<?php echo __('Pre'); ?>',
+						}
+						$('#booking-calendar').MagebayAnyBooking(objData); 
+						$('#form-booking-calendar').html('');
+					}
+					else
+					{
+						alert({
+						title: '',
+						content: '<?php echo __('System are errors, Please check again!') ?>'
+						});
+					}
+					$('.bk-loading-mask').css('display','none');
+					
+				},
+				error : function()
+				{
+					alert({
+						title: '',
+						content: '<?php echo __('System are errors, Please check again!') ?>'
+					});
+					$('.bk-loading-mask').css('display','none');
+				}
+			});
+			
+		})
+
+        // $('')
+
+	});
+</script>
+
+<script type="text/x-magento-init">
+    {
+        "*" : {
+            "Daytours_BookingLocked/js/locked-date": <?= $block->getDataToLockedDates(\Daytours\BookingLocked\Api\Data\BookingLockedInterface::CALENDAR_ONE) ?>
+        }
+    }
+</script>

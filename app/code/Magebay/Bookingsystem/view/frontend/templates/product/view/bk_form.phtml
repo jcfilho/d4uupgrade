@@ -1,0 +1,26 @@
+<?php
+/**
+ * @var $block \Magebay\Bookingsystem\Block\Booking;
+ */
+$enable = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/enable');
+if($enable == 1)
+{
+	$booking = $block->getBkProduct();
+	if($booking && $booking->getBookingType() == 'per_day')
+	{
+		if($booking->getBookingTime() == 3)
+		{
+			echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Intervals')->setTemplate('Magebay_Bookingsystem::product/view/bk_form_intervals.phtml')->toHtml();
+		}
+		elseif ($block->getBkHelperDate()->checkStandardVersion() && $booking->getBookingTime() == 5)
+        {
+            echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Booking')->setTemplate('Magebay_Bookingsystem::product/view/bk_form_tour.phtml')->toHtml();
+        }
+		elseif($booking->getBookingTime() == 1 || $booking->getBookingTime() == 2  || $booking->getBookingTime() == 4)
+		{
+			echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Booking')->setTemplate('Magebay_Bookingsystem::product/view/bk_form_simple.phtml')->toHtml();
+		}
+	}
+}
+
+?>

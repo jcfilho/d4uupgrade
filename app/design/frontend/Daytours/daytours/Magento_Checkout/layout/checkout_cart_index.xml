@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="header.container">
+            <block name="checkout.modal.security.content" class="Daytours\Checkout\Block\ModalSecurity" template="Daytours_Checkout::modal-security-site.phtml" />
+        </referenceContainer>
+
+        <referenceBlock name="page.main.title" remove="true" />
+        <move element="checkout.cart.crosssell" destination="checkout.cart.container" after="cart.discount" />
+
+        <referenceContainer name="checkout.cart.container">
+            <block class="Magento\Framework\View\Element\Template" name="title-checkout-cart" template="Daytours_Checkout::cart/title-checkout.phtml" before="-"/>
+            <block class="Magento\Cms\Block\Block" name="container.main.bottom" after="-">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">cart-page-sidebar</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceBlock name="checkout.cart.crosssell" template="Magento_Catalog::product/list/items-rel-cross-up.phtml" />
+
+        <!-- Creating inner container to sidebar in cart page and moving elemments to new inner container -->
+        <container name="cart.summary.inner" label="Cart Summary Container inner" htmlTag="div" htmlClass="cart-summary-inner" after="-" />
+        <move element="checkout.cart.summary.title" destination="cart.summary.inner" before="-" />
+        <move element="checkout.cart.shipping" destination="cart.summary.inner" after="checkout.cart.summary.title" />
+        <move element="checkout.cart.totals.container" destination="cart.summary.inner" after="checkout.cart.shipping" />
+        <move element="checkout.cart.methods.bottom" destination="cart.summary.inner" after="checkout.cart.totals.container" />
+        <move element="cart.summary.inner" destination="cart.summary" before="-"/>
+
+        <referenceContainer name="cart.summary">
+            <block class="Magento\Cms\Block\Block" name="sidebar.bottom" after="-" >
+                <arguments>
+                    <argument name="block_id" xsi:type="string">cart-page-sidebar</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
+    </body>
+</page>

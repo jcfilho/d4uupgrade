@@ -1,0 +1,3 @@
+code,website_id,group_id,name,sort_order,is_active
+english,base,main_website_store,English,1,1
+portuguese,base,main_website_store,Portuguese,2,1

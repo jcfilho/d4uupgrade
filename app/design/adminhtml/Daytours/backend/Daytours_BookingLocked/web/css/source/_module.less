@@ -1,0 +1,65 @@
+.content-items-locked{
+
+  .lib-css(position,relative);
+  .lib-css(padding,10px);
+  .lib-css(margin-left,10px);
+
+  .items-locked{
+    .lib-css(position,relative);
+    .lib-css(padding-top,20px);
+    //.lib-css(border, solid 1px #ccc);
+
+
+    .item-locked{
+
+      .lib-css(border-bottom, solid 1px #ccc);
+      .lib-css(width, 140px);
+      .lib-css(padding-top, 3px);
+      .lib-css(padding-bottom, 3px);
+      .lib-css(float, left);
+      .lib-css(margin-right, 15px);
+
+      .date,
+      .remove{
+        float: left;
+      }
+      .date{
+        .lib-css(width, 110px);
+      }
+      .remove{
+        .lib-css(width, 40px);
+        .lib-css(cursor, pointer);
+        .lib-css(margin-left, 5px);
+        .lib-css(color, red);
+        .lib-css(text-align, center);
+        .lib-button(
+                @font-family-name__base,
+                14px,
+                600,
+                pointer,
+                block,
+                0.5,
+                16,
+                auto,
+                0,
+                3px 8px,
+                #fff,
+                #ff5a00,
+                none,
+
+                #fff,
+                #ff5a00,
+                none,
+                #fff,
+                #ff5a00,
+                none
+        );
+        .lib-css(border-radius,10px);
+      }
+
+    }
+  }
+  .bk-base-calendar-info{
+    .lib-css(padding-top,15px)
+  }
+}

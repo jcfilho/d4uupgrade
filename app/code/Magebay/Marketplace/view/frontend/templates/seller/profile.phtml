@@ -1,0 +1,519 @@
+<?php
+/**
+* @Author      : Dream
+* @package     Marketplace
+* @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+* @terms  http://www.magebay.com/terms
+* @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+**/
+?>
+<?php
+$seller = $block->getSellerProfile();
+$arKeyReview = array('price','value','quality');
+if($seller) :  
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+	$customer = $objectManager->create('Magento\Customer\Model\Session');
+	$reviews = $block->getMKsellerReview($seller->getUserId());
+	$reviewItems = $block->getMKReViewItem($seller->getId());
+	$totalReview = 0; $i = 0;
+    if(count($reviews)){
+        foreach($reviews as $key => $review) {
+            if(in_array($key, $arKeyReview)) {
+                $totalReview += $review;
+                $i++;
+            }
+        }
+    }
+    if($totalReview > 0) {
+            $totalReview = $totalReview / $i;
+    }
+    $bannerimg = $seller->getbannerimg()!=''? $block->getMkBaseMediaUrl().$seller->getbannerimg(): $block->getViewFileUrl('Magebay_Marketplace::images/banner-company.jpg');
+?>
+	<div class="mst_mv_wrapper">
+        <?php
+            $moduleManager = \Magento\Framework\App\ObjectManager::getInstance()->create('Magento\Framework\Module\Manager');	
+            if($moduleManager->isEnabled('Magebay_SellerVacation')){ 
+        ?>
+            <?php 
+                $Helper = $this->helper('Magebay\SellerVacation\Helper\Data'); 
+                $data = $Helper->getVacationBySellerId($seller->getUserId());
+                if($data->getData()){
+                    $sellerVacation = $data->getData();
+                }else{
+                    $sellerVacation['vacation_message'] = null;
+                }
+            ?>
+            <?php if($sellerVacation['vacation_message']){ ?>
+        		<center><p style="color:#FF0000;font-size:20px;margin: 0px;height: 30px"><?php echo $sellerVacation['vacation_message'] ?></p></center>
+            <?php } ?>
+        <?php } ?>
+		<div class="mb-d-content">
+            <img class="seller-banner" src="<?php echo $bannerimg; ?>" alt="banner"/>
+        </div>
+		<div class="mk-table">
+			<div class="mb-d-content seller-main-info">			
+				<div class="top-info">
+					<div class="seller-logo">
+						<?php if($seller->getLogoimg() != '') : ?>
+                            <?php $logo = $block->getMkBaseMediaUrl().$seller->getLogoimg(); ?>
+						<?php else : ?>
+                            <?php $logo = $block->getViewFileUrl('Magebay_Marketplace::images/noimage.png'); ?>
+						<?php endif; ?>
+						<a href="<?php echo  $this->getUrl()."marketplace/seller/view/vendor/".$seller->getStoreurl(); ?>" class="seller_logo">
+							<img src="<?php echo $logo; ?>" class="logo_img"/>
+						</a>
+					</div>
+					<div class="seller-name">
+						<h4><?php echo $seller->getStoretitle(); ?></h4>
+						<div class="seller-review c-blue1">
+							<div class="wrapp-rating">
+								<div class="rating" style="width:<?php echo $totalReview; ?>%;"></div>
+							</div>
+							<div class="rating-message"></div>
+							<div>
+								<a class="no-rating-link"><strong><?php echo round($totalReview,2); ?>% </strong><?php echo __('Positive Reviews(%1 ratings).', count($reviews)); ?></a>
+							</div>
+						</div>
+						<div class="short-description">
+							<?php echo $seller->getShortDescription();?>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="seller-contact">
+				<h5><?php echo __('Have a question for %1?',$seller->getStoretitle()); ?></h5>
+				<?php if ($customer->getId() > 0 ) { ?>
+                    <a class="ask-question btn btn-success btn-circle-sm" ><?php echo __('Ask Question'); ?></a>
+				<?php } else { ?>
+                    <a class="contact-me btn btn-success btn-circle-sm" href="<?php echo $block->getUrl() ?>customer/account/login/" ><?php echo __('Ask Question'); ?></a>
+				<?php } ?>			
+			</div>
+		</div>
+		<div class="seller-connect mb-d-content">
+            <h5 class="mst_info_title"><?php echo __('Connect with Us'); ?></h5>			
+            <ul>
+                <li><a href="http://www.facebook.com/<?php echo $seller->getFacebookid() ?>" target="_blank" title="<?php echo __('Find us on Facebook'); ?>"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="http://twitter.com/<?php echo $seller->getTwitterid(); ?>" target="_blank" title="<?php echo __('Find us on Twitter'); ?>"><i class="fa fa-twitter"></i></a></li>
+                <?php if($seller->getInstagramUrl()): ?>
+					<li><a href="<?php echo $seller->getInstagramUrl(); ?>" target="_blank" title="<?php echo __('Find us on Instagram'); ?>"><i class="fa fa-instagram"></i></a></li>
+                <?php endif; if($seller->getGooglePlus()):?>
+					<li><a href="<?php echo $seller->getGooglePlus(); ?>" target="_blank" title="<?php echo __('Find us on Google'); ?>"><i class="fa fa-google-plus"></i></a></li>
+                <?php endif; if($seller->getYoutubeUrl()):?>
+					<li><a href="<?php echo $seller->getYoutubeUrl(); ?>" target="_blank" title="<?php echo __('Find us on Youtube'); ?>"><i class="fa fa-youtube"></i></a></li>
+				<?php endif; if($seller->getPinterestUrl()):?>
+					<li><a href="<?php echo $seller->getPinterestUrl(); ?>" target="_blank" title="<?php echo __('Find us on Pinterest'); ?>"><i class="fa fa-pinterest"></i></a></li>
+                <?php endif; if($seller->getVimeoUrl()):?>
+					<li><a href="<?php echo $seller->getVimeoUrl(); ?>" target="_blank" title="<?php echo __('Find us on Vimeo'); ?>"><i class="fa fa-vimeo"></i></a></li>
+				<?php endif;?>
+			</ul>
+        </div>
+		<div class="seller-detailed">
+			<div class="seller-detail product data items" data-mage-init='{"tabs":{"openedState":"active"}}'>
+				<div class="data item title"
+                     aria-labeledby="tab-label-product-title"
+                     data-role="collapsible" id="tab-label-product">
+                    <a class="data switch"
+                       tabindex="-1"
+                       data-toggle="switch"
+                       href="#product"
+                       id="tab-label-product-title">
+                        <?php /* @escapeNotVerified */ echo __('Product'); ?>
+                    </a>
+                </div>
+				<div class="data item content" id="product" data-role="content">
+                    <form id="seller_form_search_product" method="get" action="">
+    					<div class="mb-d-content">
+    						<div class="input-right-button seller_search">
+    							<input type="text" name="seller_search" id="seller_search" title="<?php /* @escapeNotVerified */ echo __('Search Products') ?>" class="input-text" value="<?php echo $this->getRequest()->getParam('seller_search',null) ?>" placeholder="<?php /* @escapeNotVerified */ echo __('Search Products') ?>"/>
+    							<button class="action search" type="submit" title="<?php /* @escapeNotVerified */ echo __('Search') ?>"><span><?php /* @escapeNotVerified */ echo __('Search') ?></span></button>
+    						</div>
+    					</div>
+                    </form>
+					<?php echo $block->getChildHtml('marketplace.seller.profile.content.products'); ?>
+				</div>
+				<div class="data item title"
+                     aria-labeledby="tab-label-about-title"
+                     data-role="collapsible" id="tab-label-about">
+                    <a class="data switch"
+                       tabindex="-1"
+                       data-toggle="switch"
+                       href="#about"
+                       id="tab-label-about-title">
+                        <?php /* @escapeNotVerified */ echo __('About Us'); ?>
+                    </a>
+                </div>
+				<div class="data item content" id="about" data-role="content">
+                    <?php if($moduleManager->isEnabled('Magebay_SellerAttributeManagement')){ ?>
+						<div class="mst_mv_detail">	
+							<div class="label mst_info_title"><?php echo __('Seller Information');?></div>
+							<div class="mb-d-content">
+							   <?php
+									$value_attribute = \Magento\Framework\App\ObjectManager::getInstance()->create('\Magebay\SellerAttributeManagement\Model\SellerAttributeValue')->getCollection()->addFieldToFilter('seller_id', $seller->getUserId())->getFirstItem();
+									$value = unserialize($value_attribute->getValue());
+									$data_attribute = \Magento\Framework\App\ObjectManager::getInstance()->create('\Magebay\SellerAttributeManagement\Model\SellerAttributeManagement')->getCollection()->addFieldToFilter('status', 1)->setOrder('sort_order','ASC');
+									$i = 0;
+									foreach($data_attribute as $attribute){
+										if($attribute['input_type'] == 'media_image'){
+											$_urlImage = \Magento\Framework\App\ObjectManager::getInstance()->create('Magebay\Marketplace\Block\Account\Account')->getUrlImage(@$value[$attribute['attribute_code']]);
+								?>
+											<div class="<?php echo $i%2==0?'info-seller':'info-seller-normal'?>" style="height: 100px;">
+												<span><?php echo $attribute['default_label']?></span> : <img src="<?php echo $_urlImage ?>" style="height: 80px;" />
+											</div>
+								<?php
+										}elseif($attribute['input_type'] == 'multiselect'){
+											if(@$value[$attribute['attribute_code']]){
+												$vl = '';
+												foreach(@$value[$attribute['attribute_code']] as $dt){
+													$vl .= $dt.', ';
+												}
+											}else{
+												$vl = '';
+											}
+								?>
+											<div class="<?php echo $i%2==0?'info-seller':'info-seller-normal'?>" >
+												<span><?php echo $attribute['default_label']?></span> : <span><?php echo substr($vl,0,-2) ?></span>
+											</div>
+								<?php
+										}else{
+								?>
+											<div class="<?php echo $i%2==0?'info-seller':'info-seller-normal'?>" >
+												<span><?php echo $attribute['default_label']?></span> : <span><?php echo @$value[$attribute['attribute_code']] ?></span>
+											</div>
+								<?php
+										}
+										$i ++;
+									}
+								?>
+								<div style="clear: both;"></div>
+							</div>	
+						</div>
+					<?php } ?>
+					<div class="mb-d-content">
+						<div class="info-description" >
+							<?php echo $seller->getDescription();?>
+						</div>
+					</div>					
+                </div>
+				<?php if($seller->getReturnpolicy() ||  $seller->getShippingpolicy()) : ?>
+					<div class="data item title"
+						 aria-labeledby="tab-label-policies-title"
+						 data-role="collapsible" id="tab-label-policies">
+						<a class="data switch"
+						   tabindex="-1"
+						   data-toggle="switch"
+						   href="#policies"
+						   id="tab-label-policies-title">
+							<?php /* @escapeNotVerified */ echo __('Policies'); ?>
+						</a>
+					</div>
+					<div class="data item content" id="policies" data-role="content">
+						<div class="mst_mv_wrapper" >
+							<div id="return-policies" style="padding-top: 10px;" class="fieldset mst_mv_fieldset" >
+							   <div class="mst_mv_detail">
+								  <div class="label mst_info_title"><?php echo __('Returns Policies'); ?></div>
+								  <div class="mst_content">
+									<p><?php echo $seller->getReturnpolicy(); ?></p>
+								  </div>
+							   </div>
+							</div>
+							<div id="shipping-policies" style="padding-top: 10px; margin-top: 20px;" class="fieldset mst_mv_fieldset" >
+							   <div class="mst_mv_detail">
+								  <div class="label mst_info_title"><?php echo __('Shipping Policies'); ?></div> 	
+								  <div class="mst_content">
+									<p><?php echo $seller->getShippingpolicy(); ?></p>
+								  </div>
+							   </div>
+							</div>
+						</div>
+					</div>
+				<?php endif; ?>
+				<div class="data item title"
+					aria-labeledby="tab-label-reviews-title"
+					data-role="collapsible" id="tab-label-reviews">
+					<a class="data switch"
+						tabindex="-1"
+						data-toggle="switch"
+						href="#reviews"
+						id="tab-label-reviews-title">
+						<?php /* @escapeNotVerified */ echo __('Reviews'); ?>
+					</a>
+				</div>
+				<div class="data item content" id="reviews" data-role="content">
+					<div class="label mst_info_title"><?php echo __('Detailed Rating');?></div>
+					<div class="mb-d-content">
+						<div class="value-review">
+							<div class="price">
+								<span class="reviews_label mst_span" style="width:10%"><?php echo __('Price') ?> </span><span class="reviews_label">:</span>
+								<div class="wrapp-rating">
+									<div class="rating" style="width:<?php echo ceil($reviews['price']);?>%;"></div>
+								</div>
+								<span>&nbsp;&nbsp;&nbsp;(<?php echo $reviews['feedcount']?>)</span>
+								<div class="clear"></div>
+							</div>
+							<div class="value">
+								<span class="reviews_label mst_span" style="width:10%"><?php echo __('Value') ?> </span><span class="reviews_label">:</span>
+								<div class="wrapp-rating" >
+									<div class="rating" style="width:<?php echo ceil($reviews['value']);?>%;"></div>								
+								</div>
+								<span>&nbsp;&nbsp;&nbsp;(<?php echo $reviews['feedcount']?>)</span>
+								<div class="clear"></div>
+							</div>
+							<div class="quality">
+								<span class="reviews_label mst_span" style="width:10%"><?php echo __('Quality') ?> </span><span class="reviews_label">:</span>
+								<div class="wrapp-rating">
+									<div class="rating" style="width:<?php echo ceil($reviews['quality']);?>%;"></div>
+								</div>
+								<span>&nbsp;&nbsp;&nbsp;(<?php echo $reviews['feedcount']?>)</span>
+								<div class="mst_clear"></div>
+							</div>
+						</div>
+					</div>
+					<div class="block review-list">
+						<div class="block-title"><strong><?php echo __('Comments & Reviews') ?></strong></div>
+						<?php $i = 0; if(count($reviewItems)) : ?>
+							<ol class="items review-items">
+    							<?php foreach($reviewItems as $review) : ?>
+    								<li class="item review-item">
+    									<div class="review-title"><?php echo $review->getSummary(); ?></div>
+    									<div class="review-ratings">
+    										<div class="rating-summary item">
+    											<span class="label rating-label"><span><?php echo __('Price'); ?></span></span>
+    											<div class="rating-result">
+    												<span style="width:<?php echo $review->getPrice(); ?>%;"><span><?php echo $review->getPrice(); ?>%</span></span>
+    											</div>
+    										</div>
+    										<div class="rating-summary item">
+    											<span class="label rating-label"><span><?php echo __('Value'); ?></span></span>
+    											<div class="rating-result">
+    												<span style="width:<?php echo $review->getValue(); ?>%;"><span><?php echo $review->getValue(); ?>%</span></span>
+    											</div>
+    										</div>
+    										<div class="rating-summary item">
+    											<span class="label rating-label"><span><?php echo __('Quality'); ?></span></span>
+    											<div class="rating-result">
+    												<span style="width:<?php echo $review->getQuality(); ?>%;"><span><?php echo $review->getQuality(); ?>%</span></span>
+    											</div>
+    										</div>
+    									</div>
+    									<div class="review-content"><?php echo $review->getReview(); ?></div>
+    									<div class="review-details">
+    										<p class="review-author">
+    											<span class="review-details-label"><?php echo __('REVIEW BY:'); ?></span>
+    											<strong class="review-details-value"><?php echo $review->getFirstname().' '.$review->getLastname(); ?></strong>
+    										</p>
+    										<p class="review-date">
+    											<span class="review-details-label"><?php echo __('POSTED ON:'); ?></span>
+    											<time class="review-details-value"><?php echo $review->getCreatedate(); ?></time>
+    										</p>
+    									</div>
+    								</li>
+    							<?php endforeach; ?>
+							</ol>
+						<?php $i++; else : ?>
+                            <div class="mst_empty_msg"><?php echo __('no comment & review available	') ?></div>
+						<?php endif; ?>
+					</div>
+					<div class="box-collateral box-reviews" id="customer-reviews">
+						<?php if(!$block->checkMkCustomerLogin()) : ?>
+							<center><p class="loginmsg"><a href="<?php echo $block->getUrl() ?>customer/account/login/" class="button-large"><?php echo __('Login To Give Feedback'); ?></a></p></center>
+						<?php else : ?>
+							<?php if($block->checkCustomerOrderSeller($seller->getId(),\Magento\Framework\App\ObjectManager::getInstance()->create('Magento\Customer\Model\Session')->getCustomer()->getEmail())>0){ ?>
+								<div class="block review-add">
+									<h2><?php echo __('Write Your Own Feedback'); ?></h2>
+								</div>
+								<div class="block-content">
+                                    <?php 
+                                        $sellerInfor = $block->getInforSeller();
+                                        $url_request = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+                                        $http_mode	= (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']==='on');
+                                        if($http_mode)$url_request = str_replace('http:', 'https:', $url_request);  
+                                    ?>
+									<form  enctype="multipart/form-data"  action="<?php echo $this->getUrl() ?>marketplace/seller/saveReview/vendor/<?php echo $seller->getStoreurl(); ?>" method="post" id="review-form">
+										<input type="hidden" value="<?php echo $block->getMKFormKey(); ?>" name="form_key"/>
+                                        <input type="hidden" name="currently_url" value="<?php echo $url_request ?>" />
+										<span id="input-message-box"></span>
+										<div class="mk-row">
+											<div class="mk-md-6 mk-xs-12">
+												<input type="hidden" value="<?php echo $seller->getStoreurl() ?>" name="seller_storeurl"/>
+												<div class="field nickname_field required" style="margin: 20px 0px">
+													<label for="nickname_field"><span><?php echo __('Nickname'); ?></span></label>
+													<div class="control">
+														<input type="text" data-validate="{required:true}" name="reivew_nickname" id="nickname_field" class="input-text" value=""/>
+													</div>
+												</div>
+												<div class="field summary_field required" style="margin: 20px 0px">
+													<label for="summary_field"><span><?php echo __('Summary of Your Review'); ?></span></label>
+													<div class="control">
+														<input type="text" data-validate="{required:true}" name="reivew_summary" id="summary_field" class="input-text" value=""/>
+													</div>
+												</div>
+												<div class="field review_field required" style="margin: 20px 0px">
+													<label for="review_field"><span><?php echo __('Review'); ?></span></label>
+													<div class="control">
+														<textarea data-validate="{required:true}" name="reivew_review" id="review_field" cols="5" rows="3" class="input-text"></textarea>
+													</div>
+												</div>
+											</div>
+											<div class="mk-md-6 mk-xs-12">
+												<fieldset class="field required review-field-ratings">
+													<h4><?php echo __('How do you rate this Store'); ?> <em class="required mst_empty_msg">*</em></h4>
+													<div class="control">
+														<div id="product-review-table" class="nested">
+															<div class="field choice review-field-rating">
+																<label id="Price_rating_label"><span><?php echo __('Price'); ?></span></label>
+																<div class="control review-control-vote">
+																	<input type="radio" checked="checked" name="reivew_price" id="Price_1" value="20" class="radio"/>
+																	<label id="Price_1_label" class="rating-1" for="Price_1" title="<?php echo __('1 star'); ?>"><span><?php echo __('1 star'); ?></span></label>
+																	<input type="radio" name="reivew_price" id="Price_2" value="40" class="radio"/>
+																	<label id="Price_2_label" class="rating-2" for="Price_2" title="<?php echo __('2 stars'); ?>"><span><?php echo __('2 stars'); ?></span></label>
+																	<input type="radio" name="reivew_price" id="Price_3" value="60" class="radio"/>
+																	<label id="Price_3_label" class="rating-3" for="Price_3" title="<?php echo __('3 stars'); ?>"><span><?php echo __('3 stars'); ?></span></label>
+																	<input type="radio" name="reivew_price" id="Price_4" value="80" class="radio"/>
+																	<label id="Price_4_label" class="rating-4" for="Price_4" title="<?php echo __('4 stars'); ?>"><span><?php echo __('4 stars'); ?></span></label>
+																	<input type="radio" name="reivew_price" id="Price_5" value="100" class="radio"/>
+																	<label id="Price_5_label" class="rating-5" for="Price_5" title="<?php echo __('5 stars'); ?>"><span><?php echo __('5 stars'); ?></span></label>						
+																</div>
+															</div>
+															<div class="field choice review-field-rating">
+																<label id="Price_rating_label"><span><?php echo __('Value'); ?></span></label>
+																<div class="control review-control-vote">
+																	<input type="radio" checked="checked" name="reivew_value" id="Value_1" value="20" class="radio"/>
+																	<label id="Value'_1_label" class="rating-1" for="Value'_1" title="<?php echo __('1 star'); ?>"><span><?php echo __('1 star'); ?></span></label>
+																	<input type="radio" name="reivew_value" id="Value'_2" value="40" class="radio"/>
+																	<label id="Value'_2_label" class="rating-2" for="Value'_2" title="<?php echo __('2 stars'); ?>"><span><?php echo __('2 stars'); ?></span></label>
+																	<input type="radio" name="reivew_value" id="Value'_3" value="60" class="radio"/>
+																	<label id="Value'_3_label" class="rating-3" for="Value'_3" title="<?php echo __('3 stars'); ?>"><span><?php echo __('3 stars'); ?></span></label>
+																	<input type="radio" name="reivew_value" id="Value'_4" value="80" class="radio"/>
+																	<label id="Value'_4_label" class="rating-4" for="Value'_4" title="<?php echo __('4 stars'); ?>"><span><?php echo __('4 stars'); ?></span></label>
+																	<input type="radio" name="reivew_value" id="Value'_5" value="100" class="radio"/>
+																	<label id="Value'_5_label" class="rating-5" for="Value'_5" title="<?php echo __('5 stars'); ?>"><span><?php echo __('5 stars'); ?></span></label>
+																</div>
+															</div>
+															<div class="field choice review-field-rating">
+																<label id="Price_rating_label"><span><?php echo __('Quality'); ?></span></label>
+																<div class="control review-control-vote">
+																	<input type="radio" checked="checked" name="reivew_quanlity" id="Quality_1" value="20" class="radio"/>
+																	<label id="Quality_1_label" class="rating-1" for="Quality_1" title="<?php echo __('1 star'); ?>"><span><?php echo __('1 star'); ?></span></label>
+																	<input type="radio" name="reivew_quanlity" id="Quality_2" value="40" class="radio"/>
+																	<label id="Quality_2_label" class="rating-2" for="Quality_2" title="<?php echo __('2 stars'); ?>"><span><?php echo __('2 stars'); ?></span></label>
+																	<input type="radio" name="reivew_quanlity" id="Quality_3" value="60" class="radio"/>
+																	<label id="Quality_3_label" class="rating-3" for="Quality_3" title="<?php echo __('3 stars'); ?>"><span><?php echo __('3 stars'); ?></span></label>
+																	<input type="radio" name="reivew_quanlity" id="Quality_4" value="80" class="radio"/>
+																	<label id="Quality_4_label" class="rating-4" for="Quality_4" title="<?php echo __('4 stars'); ?>"><span><?php echo __('4 stars'); ?></span></label>
+																	<input type="radio" name="reivew_quanlity" id="Quality_5" value="100" class="radio"/>
+																	<label id="Quality_5_label" class="rating-5" for="Quality_5" title="<?php echo __('5 stars'); ?>"><span><?php echo __('5 stars'); ?></span></label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</fieldset >
+											</div>
+										</div>
+										<div class="buttons-set" style="padding: 10px 0">
+                                            <button type="submit" title="<?php echo __('Submit Review'); ?>" class="button"><span><span><?php echo __('Submit Review'); ?></span></span></button>
+                                        </div>
+									</form>
+								</div>
+							<?php }else{ ?>
+								<center><p class="loginmsg"><a href="<?php echo $block->getUrl() ?>marketplace/seller/view/vendor/<?php echo $seller->getStoreurl(); ?>" class="button-large"><?php echo __('You need to buy items  to review for this seller'); ?></a></p></center>
+							<?php } ?>
+						<?php endif; ?>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> 	
+    <?php if ($customer->getId() > 0 ) { ?>
+    	<div id="ask-popup-mpdal" class="ask-question-content" >
+        	<form id="withdraw-form" action="<?php echo $block->getUrl() ?>marketplace/seller/sendmailSeller/" method="post" novalidate="novalidate">
+            	<fieldset class="fieldset info messages">
+                    <div class="field required">
+                        <label class="label" for="m-subject">
+                            <span><?php echo __('Subject'); ?></span>
+                        </label>
+                        <div class="control">
+                            <input type="text" aria-required="true" id="m-subject" name="subject" title="<?php echo __('Subject'); ?>" class="input-text required-entry" data-validate="{required:true}" />
+                        </div>
+                    </div>
+                    <div class="field field-email required">
+                        <label class="label" for="m-ask">
+                            <span><?php echo __('Message'); ?></span>
+                        </label>
+                        <div class="control">
+                            <textarea aria-required="true" name="ask" id="m-ask" title="<?php echo __('Ask'); ?>" class="input-text required-entry" data-validate="{required:true}" style="height: 100px"></textarea>
+                        </div>
+                    </div>
+                    <input type="hidden" value="<?php echo $seller->getId(); ?>" name="seller_id" /> 
+                    <input type="hidden" value="<?php echo $customer->getId(); ?>" name="customer_id" /> 
+                    <input type="hidden" name="email" value="<?php echo $customer->getCustomer()->getEmail(); ?>" />
+                    <input type="hidden" name="redirect_url" value="<?php echo  $this->getUrl()."marketplace/seller/view/vendor/".$seller->getStoreurl(); ?>" />
+                    <div class="actions-toolbar">
+                        <div class="primary">
+                            <button type="submit" class="action primary" title="<?php echo __('Send'); ?>"><span><?php echo __('Send'); ?></span></button>
+                        </div>
+                    </div>
+            	</fieldset>
+        	</form>
+        </div>
+        <script>
+        	require([
+    			'jquery',
+    			'Magento_Ui/js/modal/modal'
+    		],function(
+        		$,
+    			modal
+    		){
+    			var options = {
+    				type: 'popup',
+    				responsive: true,
+    				innerScroll: true,
+    				modalClass:'ask-question-popup',
+    				title: '<?php echo __('Ask Question about this Product'); ?>',
+    				buttons: [{
+    					text: $.mage.__('Close'),
+    					class: '',
+    					click: function () {
+    						this.closeModal();
+    					}
+    				}]
+    			};
+    
+    			var popup = modal(options, $('#ask-popup-mpdal'));
+    			$('.ask-question').click(function() {
+    				$('#ask-popup-mpdal').modal('openModal');
+    			});
+    			
+    			var dataForm = $('#withdraw-form');
+    			dataForm.mage('validation', {});
+    			var _action=dataForm.attr('action');
+            });
+        </script>
+    <?php } ?>
+    <script type="text/javascript">
+    	require([
+            'jquery'
+        ], function($){
+            (function($) {
+    			jQuery('.no-rating-link').click(function(){
+    				$('#tab-label-reviews-title').click();
+    				$("html, body").delay(200).animate({
+    					scrollTop: $('#reviews').offset().top 
+    				}, 200);
+    			});
+    		})(jQuery);	
+    	});	
+    </script>
+    <script>
+		require(['jquery','mage/mage'],function($){
+			$('#number-page-review').change(function(){
+                var strUlr = $(this).val();
+                window.location.href = strUlr;
+			});
+			var dataForm = $('#review-form');
+			var ignore = null;
+			dataForm.mage('validation', {
+				ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+			}).find('input:text').attr('autocomplete', 'off');
+		})
+	</script>    
+<?php endif; ?>

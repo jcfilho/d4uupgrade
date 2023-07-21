@@ -1,0 +1,91 @@
+<?php
+
+namespace Daytours\Wordpress\Block;
+
+use FishPig\WordPress\Block\Context as WPContext;
+use \Magento\Framework\View\Element\Template\Context as MagentoContext;
+use FishPig\WordPress\Model\ResourceModel\Post\Collection as PostCollection;
+
+
+class CategoryListFooterBlog extends \FishPig\WordPress\Block\Post {
+
+    /**
+     * @var PostCollection
+     */
+    private $postCollection = null;
+
+    /**
+     * @var \FishPig\WordPress\Model\ResourceModel\Post\CollectionFactory
+     */
+    private \FishPig\WordPress\Model\ResourceModel\Post\CollectionFactory $postCollectionFactory;
+
+    public function __construct(
+        \Magento\Framework\View\Element\Template\Context $context,
+        \FishPig\WordPress\Block\Context $wpContext,
+        \FishPig\WordPress\Model\ResourceModel\Post\CollectionFactory $postCollectionFactory,
+        array $data = []
+    )
+    {
+        parent::__construct($context, $wpContext, $data);
+        $this->setTemplate('Daytours_Wordpress::list-to-blog-footer.phtml');
+        $this->postCollectionFactory = $postCollectionFactory;
+    }
+    /**
+     * Cache for post collection
+     *
+     * @var PostCollection
+     */
+//    protected $_postCollection = null;
+//
+//    public function __construct(MagentoContext $context, WPContext $wpContext, array $data = [])
+//    {
+//        parent::__construct($context, $wpContext, $data);
+//        $this->setTemplate('list-to-blog-footer.phtml');
+//    }
+
+    function getPosts($id_category,$count_item){
+
+        if ($this->postCollection === null) {
+            $this->setPostCollection($this->postCollectionFactory->create());
+        }
+
+        $data = $this->postCollection
+//            ->addPostTypeFilter('post')
+            ->setOrderByPostDate('desc')
+            ->addIsViewableFilter();
+            // ->addCategoryIdFilter($id_category);
+//            ->addMetaFieldToFilter('buenos_aires_aco','Buenos Aires')
+//            ->setPageSize($count_item)
+        if( isset($count_item) && $count_item != '' ){
+            $data->setPageSize($count_item);
+        }
+
+        $data->load();
+
+        return $data;
+    }
+
+    /**
+     * @param  PostCollection $collection
+     * @return self
+     */
+    public function setPostCollection(PostCollection $collection): self
+    {
+        if ($this->postCollection !== null) {
+            throw new \FishPig\WordPress\App\Exception('The post collection is already set in this block.');
+        }
+
+        $this->postCollection = $collection;
+
+        if ($pager = $this->getChildBlock('pager')) {
+            $pager->setPostListBlock(
+                $this
+            )->setCollection(
+                $this->postCollection
+            );
+        }
+
+        return $this;
+    }
+
+}

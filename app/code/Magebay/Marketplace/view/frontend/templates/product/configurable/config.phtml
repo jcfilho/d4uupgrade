@@ -1,0 +1,86 @@
+<?php
+/**
+ * @Author      : haunv
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2017 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+ 
+ $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+?>
+ <script>
+	var BASE_URL = '';
+	var FORM_KEY = '<?php echo $objectManager->create("Magento\Framework\Data\Form\FormKey")->getFormKey() ?>';
+</script>
+<div class="entry-edit form-inline" id="super_config" data-panel="product-variations">
+    <div data-bind="scope: 'variation-steps-wizard'" class="product-create-configuration">
+        <div class="product-create-configuration-info">
+            <div class="note" data-role="product-create-configuration-info">
+                <?= /* @escapeNotVerified */  __('Configurable products allow customers to choose options (Ex: shirt color).
+            You need to create a simple product for each configuration (Ex: a product for each color).');?>
+            </div>
+        </div>
+        <div class="product-create-configuration-actions" data-action="product-create-configuration-buttons">
+            <div class="product-create-configuration-action">
+                <button type="button" data-action="open-steps-wizard" title="Create Product Configurations"
+                        class="action-secondary" data-bind="click: open">
+                <span data-role="button-label" data-edit-label="<?= /* @escapeNotVerified */  __('Edit Configurations') ?>">
+                    <?= /* @escapeNotVerified */  $block->isHasVariations()
+                        ? __('Edit Configurations')
+                        : __('Create Configurations')
+                    ?>
+                </span>
+                </button>
+            </div>
+            <div class="product-create-configuration-action" style="display:none" data-bind="scope: 'configurableProductGrid'">
+                <button class="action-tertiary action-menu-item" type="button" data-action="choose"
+                        data-bind="click: showManuallyGrid, visible: button">
+                    <?= /* @noEscape */ __('Add Products Manually');?>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="fieldset">
+        <?php echo $block->getChildHtml('magematrix'); ?>
+
+        <!-- Select Associated Product popup -->
+        <div data-grid-id="associated-products-container">
+            <div class="magebay__data-grid-outer-wrap" data-bind="scope: 'magebaymarket_configurable_associated_product_listing.magebaymarket_configurable_associated_product_listing'">
+                <div data-role="spinner" data-component="magebaymarket_configurable_associated_product_listing.magebaymarket_configurable_associated_product_listing.product_columns" class="magebay__data-grid-loading-mask">
+                    <div class="spinner">
+                        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                </div>
+                <!-- ko template: getTemplate() --><!-- /ko -->
+
+            </div>
+        </div>
+
+        <input type="hidden" name="affect_configurable_product_attributes" value="1" />
+    </div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "configurableProductGrid": {
+                        "component": "Magebay_Marketplace/js/variations/product-grid",
+                        "productsFilter": "magebaymarket_configurable_associated_product_listing.magebaymarket_configurable_associated_product_listing.listing_top.listing_filters",
+                        "productsProvider": "magebaymarket_configurable_associated_product_listing.data_source",
+                        "productsMassAction": "magebaymarket_configurable_associated_product_listing.magebaymarket_configurable_associated_product_listing.product_columns.ids",
+                        "productsColumns": "magebaymarket_configurable_associated_product_listing.magebaymarket_configurable_associated_product_listing.product_columns",
+                        "productsGridUrl": "<?= /* @noEscape */ $block->getUrl('marketplace/product_configurable/associatedGrid', ['componentJson' => true])?>",
+                        "configurableVariations": "configurableVariations"
+                    }
+                }
+            },
+            "Magebay_Marketplace/js/configurable-type-handler": {
+                "blockId": "#super_config",
+                "tabId": "super_config",
+                "hasVariations": <?= /* @noEscape */ $block->isHasVariations() ? 'true' : 'false' ?>
+            }
+        }
+    }
+</script>

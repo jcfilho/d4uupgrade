@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+      <referenceBlock name="magebay_bookingsystem_bookingorders.grid.container">
+         <block class="Magebay\Bookingsystem\Block\Adminhtml\Bookingorders\Grid" name="magebay_bookingsystem_bookingorders.grid" as="grid">
+             <arguments>
+                 <argument name="id" xsi:type="string">newsGrid</argument>
+                 <argument name="dataSource" xsi:type="object">Magento\Sales\Model\ResourceModel\Order\Collection</argument>
+                 <argument name="default_sort" xsi:type="string">entity_id</argument>
+                 <argument name="default_dir" xsi:type="string">desc</argument>
+                 <argument name="save_parameters_in_session" xsi:type="boolean">true</argument>
+                 <argument name="use_ajax" xsi:type="boolean">true</argument>
+                 <argument name="grid_url" xsi:type="url" path="*/*/grid">
+                     <param name="_current">1</param>
+                 </argument>
+             </arguments>
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="magebay_bookingsystem_facilities.grid.columnSet" as="grid.columnSet">
+                    <arguments>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">*/*/edit</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="id" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
+                    </arguments>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="entity_id">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Id</argument>
+                            <argument name="type" xsi:type="string">number</argument>
+                            <argument name="id" xsi:type="string">entity_id</argument>
+                            <argument name="index" xsi:type="string">entity_id</argument>
+                        </arguments>
+                    </block>
+                   <!--  <block class="Magento\Backend\Block\Widget\Grid\Column" as="entity_id_2">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">entity_id_2</argument>
+                            <argument name="index" xsi:type="string">entity_id_2</argument>
+                        </arguments>
+                    </block> -->
+					<block class="Magento\Backend\Block\Widget\Grid\Column" as="bkorder_customer">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Customer Name</argument>
+                            <argument name="index" xsi:type="string">bkorder_customer</argument>
+                        </arguments>
+                    </block>
+					<block class="Magento\Backend\Block\Widget\Grid\Column" as="updated_at">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Purchase Date</argument>
+                            <argument name="index" xsi:type="string">updated_at</argument>
+							<argument name="renderer" xsi:type="string">Magebay\Bookingsystem\Block\Adminhtml\Grid\Renderer\Bookingorders\FormatDate</argument>
+                        </arguments>
+                    </block>
+					<block class="Magento\Backend\Block\Widget\Grid\Column" as="base_grand_total">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Grand Total (base)</argument>
+							<argument name="type" xsi:type="string">number</argument>
+                            <argument name="index" xsi:type="string">base_grand_total</argument>
+							<argument name="renderer" xsi:type="string">Magebay\Bookingsystem\Block\Adminhtml\Grid\Renderer\Bookingorders\FormatBasePrice</argument>
+                        </arguments>
+                    </block>
+					<block class="Magento\Backend\Block\Widget\Grid\Column" as="grand_total">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Grand Total (Purchased)</argument>
+							<argument name="type" xsi:type="string">number</argument>
+                            <argument name="index" xsi:type="string">grand_total</argument>
+							<argument name="renderer" xsi:type="string">Magebay\Bookingsystem\Block\Adminhtml\Grid\Renderer\Bookingorders\PurposePrice</argument>
+                        </arguments>
+                    </block>
+					<block class="Magento\Backend\Block\Widget\Grid\Column" as="status">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Status</argument>
+                            <argument name="index" xsi:type="string">status</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="options" xsi:type="options" model="Magebay\Bookingsystem\Model\System\Config\OrderStatus"/>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="action" acl="Magebay_Bookingsystem::manage_facilities">
+                        <arguments>
+                            <argument name="id" xsi:type="string">action</argument>
+                            <argument name="header" xsi:type="string" translate="true">Action</argument>
+                            <argument name="type" xsi:type="string">action</argument>
+                            <argument name="getter" xsi:type="string">getId</argument>
+                            <argument name="filter" xsi:type="boolean">false</argument>
+                            <argument name="sortable" xsi:type="boolean">false</argument>
+                            <argument name="index" xsi:type="string">stores</argument>
+                            <argument name="is_system" xsi:type="boolean">true</argument>
+                            <argument name="actions" xsi:type="array">
+                                <item name="view_action" xsi:type="array">
+                                    <item name="caption" xsi:type="string" translate="true">View</item>
+                                    <item name="url" xsi:type="array">
+                                        <item name="base" xsi:type="string">sales/order/view</item>
+                                    </item>
+                                    <item name="field" xsi:type="string">order_id</item>
+                                </item>
+                            </argument>
+                            <argument name="header_css_class" xsi:type="string">col-actions
+                            </argument>
+                            <argument name="column_css_class" xsi:type="string">col-actions</argument>
+                        </arguments>
+                    </block>
+                </block>
+         </block>
+      </referenceBlock>
+    </body>
+</page>

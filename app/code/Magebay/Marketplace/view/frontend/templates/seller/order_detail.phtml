@@ -1,0 +1,754 @@
+<?php
+/**
+* @Author      : Kien
+* @package     Marketplace
+* @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+* @terms  http://www.magebay.com/terms
+* @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+**/
+?>
+<?php $order = $block->getMkDetailOrder(); ?>
+<?php $moduleManager = \Magento\Framework\App\ObjectManager::getInstance()->create('Magento\Framework\Module\Manager'); ?>
+<?php if($order) : ?>
+    <div class="order_info_content" >
+        <div id="order-messages"></div>
+        <section class="admin__page-section order-view-account-information">
+            <div class="admin__page-section-title">
+                <span class="title"><?php echo __('Order & Account Information') ?></span>
+            </div>
+            <div class="admin__page-section-content">
+                <div class="admin__page-section-item order-information">
+                    <div class="admin__page-section-item-title">
+                        <span class="title">
+                            <?php echo __('Order # ') ?><?php echo $order->getIncrementId(); ?><!-- (<span>The order confirmation email was sent</span>)-->
+                        </span>
+                    </div>
+                    <div class="admin__page-section-item-content">
+                        <table class="admin__table-secondary order-information-table">
+                            <tbody>
+                                <tr>
+                                    <th><?php echo __('Order Date') ?></th>
+                                    <?php $intUpdateDate = strtotime($order->getCreatedAt()); ?>
+                                    <td><?php echo date('F j, Y, h:i:s A',$intUpdateDate); ?></td>
+                                </tr>
+                                <tr>
+                                    <th><?php echo __('Order Status') ?></th>
+                                    <td><span id="order_status"><?php echo $order->getStatusLabel(); ?></span></td>
+                                </tr>
+                                <tr>
+                                    <th><?php echo __('Purchased From') ?></th>
+                                    <td>Main Website<br/>Main Website Store<br/>Default Store View</td>
+                                </tr>
+                                <tr>
+                                    <th><?php echo __('Placed from IP') ?></th>
+                                    <td><?php echo $order->getRemoteIp() ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="admin__page-section-item order-account-information">
+                    <div class="admin__page-section-item-title">
+                        <span class="title"><?php echo __('Account Information') ?></span>
+                    </div>
+                    <div class="admin__page-section-item-content">
+                        <table class="admin__table-secondary order-account-information-table">
+                            <tbody>
+                                <tr>
+                                    <th><?php echo __('Customer Name') ?></th>
+                                    <td>
+                                        <span><?php echo $order->getCustomerName() ?></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th><?php echo __('Email') ?></th>
+                                    <td><a href="mailto:<?php echo $order->getCustomerEmail(); ?>"><?php echo $order->getCustomerEmail(); ?></a></td>
+                                </tr>
+                                <tr>
+                                    <th><?php echo __('Customer Group') ?></th>
+                                    <td>
+                                        <?php if($order->getCustomerGroupId()):?>
+                                            <?php
+                                                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                                                $groupOptions = $objectManager->get('\Magento\Customer\Model\Group')->load($order->getCustomerGroupId());
+                                                echo $groupOptions->getData('customer_group_code');
+                                            ?>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="admin__page-section order-addresses">
+            <div class="admin__page-section-title">
+                <span class="title"><?php echo __('Address Information') ?></span>
+            </div>
+            <div class="admin__page-section-content">
+                <div class="admin__page-section-item order-billing-address">
+                    <div class="admin__page-section-item-title">
+                        <span class="title"><?php echo __('Billing Address') ?></span>
+                    </div>
+                    <address class="admin__page-section-item-content">
+                        <?php if($order->getBillingAddress()) : ?>
+                        <?php $billdingAddress = $block->getMkOrderAdderess($order->getBillingAddress()->getId()); ?>
+                        <?php echo $billdingAddress->getFirstname() .' '.$billdingAddress->getLastname(); ?><br/>
+                        <?php echo $billdingAddress->getCompany(); ?><br/>
+                        <?php echo $billdingAddress->getData('street'); ?><br/>
+                        <?php echo $billdingAddress->getCity() .', '. $billdingAddress->getRegion() .', '. $billdingAddress->getPostcode(); ?><br/>
+                        <?php echo $block->getBkCountryName($billdingAddress->getCountryId()); ?><br/>
+                        <?php echo __('T:') ?> <?php echo $billdingAddress->getTelephone(); ?>
+                        <?php endif; ?>
+                    </address>
+                </div>
+                <div class="admin__page-section-item order-shipping-address">
+                    <div class="admin__page-section-item-title">
+                        <span class="title"><?php echo __('Shipping Address') ?></span>
+                    </div>
+                    <address class="admin__page-section-item-content">
+                        <?php if($order->getShippingAddress()) : ?>
+                        <?php $shippingAddress = $block->getMkOrderAdderess($order->getShippingAddress()->getId()); ?>
+                        <?php echo $shippingAddress->getFirstname() .' '.$shippingAddress->getLastname(); ?><br/>
+                        <?php echo $shippingAddress->getCompany(); ?><br/>
+                        <?php echo $shippingAddress->getData('street'); ?><br/>
+                        <?php echo $shippingAddress->getCity() .', '. $shippingAddress->getRegion() .', '. $shippingAddress->getPostcode(); ?><br/>
+                        <?php echo $block->getBkCountryName($shippingAddress->getCountryId()); ?><br/>
+                        <?php echo __('T:') ?> <?php echo $shippingAddress->getTelephone(); ?>
+                        <?php endif; ?>
+                    </address>
+                </div>
+            </div>
+        </section>
+        <section class="admin__page-section order-view-billing-shipping">
+            <div class="admin__page-section-title">
+                <span class="title"><?php echo __('Payment & Shipping Method') ?></span>
+            </div>
+            <div class="admin__page-section-content">
+                <div class="admin__page-section-item order-payment-method">
+                    <div class="admin__page-section-item-title">
+                        <span class="title"><?php echo __('Payment Information') ?></span>
+                    </div>
+                    <div class="admin__page-section-item-content">
+                        <?php $payment = $order->getPayment(); ?>
+                        <?php if($payment) : ?>
+                            <?php $dataPayment = $payment->getData(); ?>
+                            <div class="order-payment-method-title">
+                                <?php echo isset($dataPayment['additional_information']['method_title']) ? $dataPayment['additional_information']['method_title'] : ''; ?>       
+                            </div>
+                        <?php endif; ?>
+                        <div class="order-payment-currency">The order was placed using USD.</div>
+                    </div>
+                </div>
+                <div class="admin__page-section-item order-shipping-method">
+                    <div class="admin__page-section-item-title">
+                        <span class="title"><?php echo __('Shipping & Handling Information') ?></span>
+                    </div>
+                    <div class="admin__page-section-item-content">
+                        <strong><?php echo $order->getShippingDescription() ?></strong>
+                        <div id="flat-rate">
+                            <?php 
+                                $data = explode(',',$order->getFlatRateShipping());
+                                foreach($data as $dt){
+                                    $value = explode('-',$dt);
+                                    if($value[0] != \Magento\Framework\App\ObjectManager::getInstance()->create('\Magento\Customer\Model\Session')->getId()){
+                                        continue;
+                                    }
+                                    $seller = \Magento\Framework\App\ObjectManager::getInstance()->create('Magebay\Marketplace\Model\Sellers')->getCollection()->addFieldToFilter('user_id',$value[0])->getFirstItem();
+                                    if($seller->getData('storetitle')){
+                            ?>
+                                        <span class=""><?php echo __('Seller : ').$seller->getData('storetitle') ?> - <?php echo $value[1] ?></span><br />
+                            <?php
+                                    }
+                                }
+                            ?>
+                        </div>
+                        <div id="table-rate">
+                            <?php 
+                                $data = explode(',',$order->getTableRateShipping());
+                                foreach($data as $dt){
+                                    $value = explode('-',$dt);
+                                    if($value[0] != \Magento\Framework\App\ObjectManager::getInstance()->create('\Magento\Customer\Model\Session')->getId()){
+                                        continue;
+                                    }
+                                    $seller = \Magento\Framework\App\ObjectManager::getInstance()->create('Magebay\Marketplace\Model\Sellers')->getCollection()->addFieldToFilter('user_id',$value[0])->getFirstItem();
+                                    if($seller->getData('storetitle')){
+                            ?>
+                                        <span class=""><?php echo __('Seller : ').$seller->getData('storetitle') ?> - <?php echo $value[1] ?></span><br />
+                            <?php
+                                    }
+                                }
+                            ?>
+                        </div>
+                        <div id="store-pickup">
+                            <?php 
+                                $data = explode(',',$order->getStorePickup());
+                                foreach($data as $dt){
+                                    $value = explode('-',$dt);
+                                    if($value[0] != \Magento\Framework\App\ObjectManager::getInstance()->create('\Magento\Customer\Model\Session')->getId()){
+                                        continue;
+                                    }
+                                    $seller = \Magento\Framework\App\ObjectManager::getInstance()->create('Magebay\Marketplace\Model\Sellers')->getCollection()->addFieldToFilter('user_id',$value[0])->getFirstItem();
+                                    if($seller->getData('storetitle')){
+                            ?>
+                                        <span class=""><?php echo __('Seller : ').$seller->getData('storetitle') ?> - <?php echo $value[1] ?></span><br />
+                            <?php
+                                    }
+                                }
+                            ?>
+                        </div>
+                        <span class="price"><?php echo $order->getShippingPrice() ?></span>                        
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="admin__page-section">
+            <div class="admin__page-section-title">
+                <span class="title"><?php echo __('Items Ordered') ?></span>
+            </div>
+            <div class="admin__table-wrapper">
+                <table class="data-table admin__table-primary edit-order-table" style="margin-bottom: 0; " >
+                    <thead>
+                        <tr class="headings">
+                            <th class="col-product"><span><?php echo __('Product') ?></span></th>
+                            <th class="col-status"><span><?php echo __('Item Status') ?></span></th>
+                            <th class="col-price-original"><span><?php echo __('Original Price') ?></span></th>
+                            <th class="col-price"><span><?php echo __('Price') ?></span></th>
+                            <th class="col-ordered-qty"><span><?php echo __('Qty') ?></span></th>
+                            <th class="col-subtotal"><span><?php echo __('Subtotal') ?></span></th>
+                            <th class="col-tax-amount"><span><?php echo __('Tax Amount') ?></span></th>
+                            <th class="col-tax-percent"><span><?php echo __('Tax Percent') ?></span></th>
+                            <th class="col-discont"><span><?php echo __('Discount Amount') ?></span></th>
+                            <th class="col-discont"><span><?php echo __('Admin Commission') ?></span></th>
+                            <th class="col-discont"><span><?php echo __('Seller Total') ?></span></th>
+                            <th class="col-total last"><span><?php echo __('Row Total') ?></span></th>
+                        </tr>
+                    </thead>
+                    <?php $items = $order->getAllVisibleItems(); ?>
+                    <?php $totalPaid = 0; $TotalSellerAmount = 0;?>
+                    <?php if(count($items)) : ?>
+                        <?php 
+                            $vai_ship_sp_ao = 0; 
+                            $vai_ship_sp_thuong = 0;
+                            $vai_ship_sp_thuong_shipped = 0;
+                            $vai_invoi = false;
+                            $vai_canceled = false;
+                        ?>
+                        <?php foreach($items as $item) : ?>
+                            <?php $_product = $item->getProduct(); ?>
+                            <?php 
+                                $productOption = $item->getProductOptions();
+                                $infoBuyRequest = $productOption['info_buyRequest'];
+                            ?>                              
+                            <?php $saleList = $block->getSalelist($order->getId(),$item->getProductId(),@$infoBuyRequest['assignproduct_id']); ?>
+                            <?php if($saleList && $saleList->getId()) : ?>
+                                <?php 
+                                    if($item->getQtyInvoiced() == 0){
+                                        $vai_invoi = true;
+                                    }
+                                    if($item->getQtyCanceled() == 0){
+                                        $vai_canceled = true;
+                                    }
+                                    if(($item->getProductType() == 'downloadable') || ($item->getProductType() == 'virtual')){
+                                        $vai_ship_sp_ao ++;
+                                    }else{
+                                        if($item->getQtyShipped() == 0){
+                                            $vai_ship_sp_thuong ++;
+                                        }else{
+                                            $vai_ship_sp_thuong_shipped ++;
+                                        }
+                                    }
+                                ?>
+                                <tbody>
+                                    <tr>
+                                        <td class="col-product">
+                                            <div id="order_item_<?php echo $item->getId(); ?>">
+                                                <div id="order_item_<?php echo $item->getId(); ?>_title" class="product-title">
+                                                    <?php echo $item->getName(); ?>    
+                                                </div>
+                                                <div class="product-sku-block">
+                                                    <span><?php echo __('SKU:') ?></span>
+                                                    <?php echo $item->getSku(); ?>  
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="col-status"><?php echo $item->getStatus() ?></td>
+                                        <td class="col-price-original">
+                                            <span class="price">
+                                                <?php echo $block->getMkPriceHelper()->currency($item->getOriginalPrice(),true,false); ?>
+                                            </span>
+                                        </td>
+                                        <td class="col-price">
+                                            <div class="price-excl-tax">
+                                                <span class="price">
+                                                    <?php echo $block->getMkPriceHelper()->currency($item->getBasePrice(),true,false); ?>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td class="col-ordered-qty">
+                                            <table class="qty-table">
+                                                <tbody>  
+                                                    <tr>
+                                                        <th><?php echo __('Ordered:') ?></th>
+                                                        <td><strong><?php echo round($item->getQtyOrdered()); ?></strong></td>
+                                                    </tr>
+                                                    <?php if($item->getQtyShipped() != 0){ ?>     
+                                                        <tr>
+                                                            <th><?php echo __('Shipped:') ?></th>
+                                                            <td><strong><?php echo round($item->getQtyShipped()); ?></strong></td>
+                                                        </tr>                                    
+                                                    <?php } ?> 
+                                                    <?php if($item->getQtyInvoiced() != 0){ ?>   
+                                                        <tr>
+                                                            <th><?php echo __('Invoiced:') ?></th>
+                                                            <td><strong><?php echo round($item->getQtyInvoiced()); ?></strong></td>
+                                                        </tr>                                       
+                                                    <?php } ?> 
+                                                    <?php if($item->getQtyCanceled() != 0){ ?>  
+                                                        <tr>
+                                                            <th><?php echo __('Canceled:') ?></th>
+                                                            <td><strong><?php echo round($item->getQtyCanceled()); ?></strong></td>
+                                                        </tr>                                        
+                                                    <?php } ?>  
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td class="col-subtotal">
+                                            <div class="price-excl-tax">
+                                                <span class="price">
+                                                    <?php $subTotalPrice = $item->getBasePrice() * $item->getQtyOrdered(); ?>
+                                                    <?php echo $block->getMkPriceHelper()->currency($subTotalPrice,true,false); ?>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td class="col-tax-amount"><span class="price"><?php echo $block->getMkPriceHelper()->currency(0,true,false); ?></span></td>
+                                        <td class="col-tax-percent">0%</td>
+                                        <td class="col-discont"><span class="price"><?php echo $block->getMkPriceHelper()->currency(0,true,false); ?></span></td>
+                                        <td class="col-admin-commission">
+                                            <span class="price">
+                                                <?php echo $block->getMkPriceHelper()->currency($block->getTotalcommision($order->getId(),$item->getProductId(),$item->getBasePrice()),true,false); ?>
+                                            </span>
+                                        </td>
+                                        <td class="col-seller-total">
+                                            <span class="price">
+                                                <?php echo $block->getMkPriceHelper()->currency($block->getActualparterprocost($order->getId(),$item->getProductId(),$item->getBasePrice()),true,false); ?>
+                                            </span>
+                                        </td>                                                                                                                        
+                                        <td class="col-total last">
+                                            <span class="price">
+                                                <?php 
+                                                    $finalRowPrice = $subTotalPrice;
+                                                    $totalPaid += $finalRowPrice; 
+                                                    $TotalSellerAmount += $block->getActualparterprocost($order->getId(),$item->getProductId(),$item->getBasePrice());
+                                                ?>
+                                                <?php echo $block->getMkPriceHelper()->currency($finalRowPrice,true,false); ?>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </table>
+            </div>
+        </section>
+        <section class="admin__page-section">
+            <div class="admin__page-section-title">
+                <span class="title"><?php echo __('Order Total') ?></span>
+            </div>
+            <div class="admin__page-section-content">
+                <div class="admin__page-section-item order-totals">
+                    <div class="admin__page-section-item-title">
+                        <span class="title"><?php echo __('Order Totals') ?></span>
+                    </div>
+                    <table class="data-table admin__table-secondary order-subtotal-table">
+                        <tbody>
+                            <tr class="col-0">
+                                <td class="label">
+                                    <?php echo __('Subtotal'); ?>                                                       
+                                </td>
+                                <td>
+                                    <span>
+                                        <span class="price">
+                                            <?php echo $block->getMkPriceHelper()->currency($totalPaid,true,false); ?>
+                                        </span>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="col-1">
+                                <td class="label">
+                                    <?php echo __('Shipping & Handling'); ?>                                                   
+                                </td>
+                                <td>
+                                    <span><span class="price"><?php echo $block->getMkPriceHelper()->currency(0,true,false); ?></span></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="col-0">
+                                <td class="label">
+                                    <strong><?php echo __('Total Orderd Amount'); ?></strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span class="price"><?php echo $block->getMkPriceHelper()->currency($totalPaid,true,false); ?></span>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr class="col-1">
+                                <td class="label">
+                                    <strong><?php echo __('Total Paid'); ?></strong>
+                                </td>
+                                <td>
+                                    <strong><span class="price"><?php echo $block->getMkPriceHelper()->currency(0,true,false); ?></span></strong>
+                                </td>
+                            </tr>
+                            <tr class="col-2">
+                                <td class="label">
+                                    <strong><?php echo __('Total Refunded'); ?></strong>
+                                </td>
+                                <td>
+                                    <strong><span class="price"><?php echo $block->getMkPriceHelper()->currency(0,true,false); ?></span></strong>
+                                </td>
+                            </tr>
+                            <tr class="col-3">
+                                <td class="label">
+                                    <strong><?php echo __('Total Due'); ?></strong>
+                                </td>
+                                <td>
+                                    <strong><span class="price"><?php echo $block->getMkPriceHelper()->currency(0,true,false); ?></span></strong>
+                                </td>
+                            </tr>
+                            <tr class="col-5">
+                                <td class="label">
+                                    <strong><?php echo __('Total Admin Commission'); ?></strong>
+                                </td>
+                                <td>
+                                    <strong><span class="price"><?php echo $block->getMkPriceHelper()->currency($totalPaid-$TotalSellerAmount,true,false); ?></span></strong>
+                                </td>
+                            </tr>
+                            <!-- SellerCoupon -->
+                            <?php if($moduleManager->isEnabled('Magebay_SellerCoupon')){ ?>
+                                <tr class="col-4">
+                                    <td class="label">
+                                        <strong><?php echo __('Seller Discount'); ?></strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <span class="price">
+                                                <?php 
+                                                    $sellerCoupon = \Magento\Framework\App\ObjectManager::getInstance()->create('Magebay\SellerCoupon\Model\SellerCoupon')
+                                                                                                                       ->getCollection()
+                                                                                                                       ->addFieldToFilter('seller_id',\Magento\Framework\App\ObjectManager::getInstance()->create('Magento\Customer\Model\Session')->getId())
+                                                                                                                       ->addFieldToFilter('order_id',$order->getId())
+                                                                                                                       ->getFirstItem();
+                                                    echo '-'.$block->getMkPriceHelper()->currency($sellerCoupon->getSellerCouponPrice(),true,false);
+                                                    
+                                                ?>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                            <!-- end SellerCoupon -->
+                            <tr class="col-4">
+                                <td class="label">
+                                    <strong><?php echo __('Total Seller Amount'); ?></strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span class="price">
+                                            <!-- SellerCoupon -->
+                                            <?php if($moduleManager->isEnabled('Magebay_SellerCoupon')){ ?>
+                                                <?php echo $block->getMkPriceHelper()->currency(($TotalSellerAmount-$sellerCoupon->getSellerCouponPrice()),true,false); ?>
+                                            <?php }else{ ?>
+                                                <?php echo $block->getMkPriceHelper()->currency($TotalSellerAmount,true,false); ?>
+                                            <?php } ?>
+                                            <!-- end SellerCoupon -->
+                                        </span>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <div class="seller_button" style="margin-top: 20px;margin-bottom: 20px">
+            <a class="button update_shipping" href="#" style="background: #181818 none repeat scroll 0 0;color: #fff;padding: 10px;">Update Shipping</a>
+            <a class="button update_invoice" href="#" style="background: #181818 none repeat scroll 0 0;color: #fff;padding: 10px;">Invoice</a>
+            <!--<a class="button update_send_email" href="#" style="background: #181818 none repeat scroll 0 0;color: #fff;padding: 10px;">Send Email</a>-->
+            <a class="button update_canel_order" href="#" style="background: #181818 none repeat scroll 0 0;color: #fff;padding: 10px;">Cancel Order</a>
+        </div>
+        <?php 
+            //test button shipping
+            //echo $vai_ship_sp_ao;
+            //echo $vai_ship_sp_thuong;
+            //echo $vai_ship_sp_thuong_shipped;
+        ?>
+        <form style="display: none;" id="seller_shippment_form" class="seller_order_detail_form" action="<?php echo $this->getUrl() ?>marketplace/seller/SaveShipmentMk" method="post">
+            <input type="hidden" value="<?php echo $block->getMkCurrentCustomerId(); ?>" id="sellerid" name="sellerid"/>	
+            <input type="hidden" value="<?php echo $block->getBackUrl() ?>" id="old_url" name="old_url"/>
+            <input type="hidden" value="<?php echo $order->getId(); ?>" name="order_id" />
+            <?php if(count($items)) : ?>
+                <?php foreach($items as $item) : ?>
+                    <?php $_product = $item->getProduct(); ?>
+                    <?php 
+                        $productOption = $item->getProductOptions();
+                        $infoBuyRequest = $productOption['info_buyRequest'];
+                    ?>  
+                    <?php $saleList = $block->getSalelist($order->getId(),$item->getProductId(),@$infoBuyRequest['assignproduct_id']); ?>
+                    <?php if($saleList && $saleList->getId()) : ?>
+                        <input type="hidden" value="<?php echo round($item->getQtyOrdered()); ?>" name="shipment[items][<?php echo $item->getId(); ?>]"/>
+                    <?php else: ?>
+                        <input type="hidden" value="0" name="invoice[items][<?php echo $item->getId(); ?>]"/>
+                    <?php endif;  ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            <div class="shipping_data">
+                <h4><?php echo __('Shipping Information') ?></h4>
+                <table cellspacing="0" id="tracking_numbers_table" class="data-table">
+                    <colgroup>
+                        <col width="100"/>
+                        <col/>
+                        <col/>
+                        <col width="80"/>
+                    </colgroup>
+                    <thead>
+                        <tr class="headings">
+                            <th><?php echo __('Carrier') ?></th>
+                            <th><?php echo __('Title') ?></th>
+                            <th><?php echo __('Number') ?><span class="required"></span></th>
+                            <th class="last"><?php echo __('Action') ?></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <td style="padding:8px;" class="a-center last" colspan="4">
+                                <center>
+                                    <button class="scalable button add_tracking_number" type="button" title="<?php echo __('Add Tracking Number') ?>" id="">
+                                        <span>
+                                            <span>
+                                                <span><?php echo __('Add Tracking Number') ?></span>
+                                            </span>
+                                        </span>
+                                    </button>
+                                </center>
+                            </td>
+                        </tr>
+                    </tfoot>
+                    <input type="hidden" class="row_tracking_add" value="1" />
+                    <tbody id="track_row_container"></tbody>
+                </table>
+                <hr />
+                <div class="shipping_data_option">
+                    <div class="shipping_data_comment" style="float: left;width: 49%;">
+                        <h4><?php echo __('Shipment Comments') ?></h4>
+                        <textarea style="height:6em; width:99%;" cols="5" rows="3" name="shipment[comment_text]" id="shipment_comment_text"></textarea>
+                    </div>
+                    <div class="shipping_data_email" style="float: left;width: 40%;margin-left: 10%">
+                        <h4><?php echo __('Shipment Options') ?></h4>
+                        <div class="field choice admin__field admin__field-option field-append">
+                            <input type="checkbox" value="1" name="shipment[comment_customer_notify]" class="admin__control-checkbox" id="notify_customer" disabled=""/>
+                            <label for="notify_customer" class="admin__field-label">
+                            <span><?php echo __('Append Comments') ?></span></label>
+                        </div>
+                        <div class="field choice admin__field admin__field-option field-email">
+                            <input type="checkbox" value="1" name="shipment[send_email]" class="admin__control-checkbox" id="send_email_shipment"/>
+                            <label for="send_email_shipment" class="admin__field-label">
+                            <span><?php echo __('Email Copy of Shipment') ?></span></label>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+                <div class="buttons-set">
+                    <button style="float: right;" onclick="" class="scalable button" type="submit" title="<?php echo __('Submit') ?>" id="">
+                        <span>
+                            <span>
+                                <span><?php echo __('Submit') ?></span>
+                            </span>
+                        </span>
+                    </button>              
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+        </form>
+        <form style="display: none;" id="seller_invoice_form" class="seller_order_detail_form" action="<?php echo $this->getUrl() ?>marketplace/seller/SaveInvoiceMk" method="post">
+            <input type="hidden" value="<?php echo $block->getMkCurrentCustomerId(); ?>" id="sellerid" name="sellerid"/>	
+            <input type="hidden" value="<?php echo $block->getBackUrl() ?>" id="old_url" name="old_url"/>
+            <input type="hidden" value="<?php echo $order->getId(); ?>" name="order_id" />
+            <?php if(count($items)) : ?>
+                <?php foreach($items as $item) : ?>
+                    <?php $_product = $item->getProduct(); ?>
+                    <?php 
+                        $productOption = $item->getProductOptions();
+                        $infoBuyRequest = $productOption['info_buyRequest'];
+                    ?>  
+                    <?php $saleList = $block->getSalelist($order->getId(),$item->getProductId(),@$infoBuyRequest['assignproduct_id']); ?>
+                    <?php if($saleList && $saleList->getId()) : ?>
+                        <input type="hidden" value="<?php echo round($item->getQtyOrdered()); ?>" name="invoice[items][<?php echo $item->getId(); ?>]"/>
+                    <?php else: ?>
+                        <input type="hidden" value="0" name="invoice[items][<?php echo $item->getId(); ?>]"/>
+                    <?php endif;  ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            <div class="invoice_data">
+                <div class="invoice_data_option">
+                    <div class="invoice_data_comment" style="float: left;width: 49%;">
+                        <h4><?php echo __('Invoice Comments') ?></h4>
+                        <textarea style="height:6em; width:99%;" cols="5" rows="3" name="invoice[comment_text]" id="invoice_comment_text"></textarea>
+                    </div>
+                    <div class="invoice_data_email" style="float: left;width: 40%;margin-left: 10%">
+                        <h4><?php echo __('Invoice Options') ?></h4>
+                        <div class="admin__field admin__field-option field-append">
+                            <input type="checkbox" class="admin__control-checkbox" value="1" name="invoice[comment_customer_notify]" id="notify_customer" disabled=""/>
+                            <label for="notify_customer" class="admin__field-label"><?php echo __('Append Comments') ?></label>
+                        </div>
+                        <div class="admin__field admin__field-option field-email">
+                            <input type="checkbox" class="admin__control-checkbox" value="1" name="invoice[send_email]" id="send_email_invoice"/>
+                            <label for="send_email_invoice" class="admin__field-label"><?php echo __('Email Copy of Invoice') ?></label>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+                <div class="buttons-set">
+                    <button style="float: right;" onclick="" class="scalable button" type="submit" title="<?php echo __('Submit') ?>" id="">
+                    <span>
+                        <span>
+                            <span><?php echo __('Submit') ?></span>
+                        </span>
+                        </span>
+                    </button>              
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+        </form>
+        <form style="display: none;" id="seller_send_mail_form" class="seller_order_detail_form" action="<?php echo $this->getUrl() ?>marketplace/seller/OrderSendMailMk" method="post">
+            <input type="hidden" value="<?php echo $block->getMkCurrentCustomerId(); ?>" id="sellerid" name="sellerid"/>	
+            <input type="hidden" value="<?php echo $block->getBackUrl() ?>" id="old_url" name="old_url"/>
+            <input type="hidden" value="<?php echo $order->getId(); ?>" name="order_id" />
+        </form>
+        <form style="display: none;" id="seller_canel_order_form" class="seller_order_detail_form" action="<?php echo $this->getUrl() ?>marketplace/seller/CanelOrderMk" method="post">
+            <input type="hidden" value="<?php echo $block->getMkCurrentCustomerId(); ?>" id="sellerid" name="sellerid"/>	
+            <input type="hidden" value="<?php echo $block->getBackUrl() ?>" id="old_url" name="old_url"/>
+            <input type="hidden" value="<?php echo $order->getId(); ?>" name="order_id" />
+            <?php if(count($items)) : ?>
+                <?php foreach($items as $item) : ?>
+                    <?php $_product = $item->getProduct(); ?>
+                    <?php 
+                        $productOption = $item->getProductOptions();
+                        $infoBuyRequest = $productOption['info_buyRequest'];
+                    ?>  
+                    <?php $saleList = $block->getSalelist($order->getId(),$item->getProductId(),@$infoBuyRequest['assignproduct_id']); ?>
+                    <?php if($saleList && $saleList->getId()) : ?>
+                        <input type="hidden" value="<?php echo round($item->getQtyOrdered()); ?>" name="items[<?php echo $item->getId(); ?>]"/>
+                    <?php else: ?>
+                        <input type="hidden" value="0" name="items[<?php echo $item->getId(); ?>]"/>
+                    <?php endif;  ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </form>
+        <script type="text/javascript">
+            require([
+                'jquery'
+            ], function ($) {
+                <?php if (($order->getstatus() == 'pending') && $vai_canceled): ?>
+                    $('.update_canel_order').click(function(event){
+                        var result = confirm("<?php echo __('Are you sure you want to cancel this order?') ?>");
+                        if (result) {
+                            $('#seller_canel_order_form').submit();
+                        }
+                        event.preventDefault();
+                    });
+                <?php else: ?>
+                    $('.update_canel_order').css('opacity','0.5');
+                    $('.update_canel_order').click(function(event){
+                        event.preventDefault();
+                    });
+                <?php endif ?>
+                
+                <?php if (!$vai_canceled): ?>
+                    //$('.order-status').html('Canceled');
+                <?php endif; ?>
+                
+                <?php if ($order->canInvoice() && $vai_invoi && $vai_canceled): ?>
+                    $('.update_invoice').click(function(event){
+                        $('#seller_shippment_form').hide();
+                        $('#seller_invoice_form').toggle();
+                        event.preventDefault();
+                    });
+                <?php else: ?>
+                    $('.update_invoice').css('opacity','0.5');
+                    $('.update_invoice').click(function(event){
+                        event.preventDefault();
+                    });
+                <?php endif ?>
+                
+                <?php if(($vai_ship_sp_ao >0 ) && ($vai_ship_sp_thuong == 0) && ($vai_ship_sp_thuong_shipped == 0)) : ?>
+                    $('.update_shipping').hide();
+                <?php else: ?>
+                    <?php if($order->getStatus() == 'holded'): ?>
+                        $('.update_shipping').css('opacity','0.5');
+                        $('.update_shipping').click(function(event){
+                            event.preventDefault();
+                        });
+                    <?php else: ?>
+                        <?php if($vai_ship_sp_thuong > 0) : ?>
+                            <?php if($vai_canceled): ?>
+                                /* update for bookingsystem*/
+                                <?php if($order->canShip()): ?>
+                                    $('.update_shipping').click(function(event){
+                                        $('#seller_invoice_form').hide();
+                                        $('#seller_shippment_form').toggle();
+                                        event.preventDefault();
+                                    });
+                                <?php else : ?>
+                                    $('.update_shipping').hide();
+                                <?php endif ?>
+                                /* end update for bookingsystem*/
+                            <?php else :?>
+                                $('.update_shipping').css('opacity','0.5');
+                                $('.update_shipping').click(function(event){
+                                    event.preventDefault();
+                                });
+                            <?php endif ?>                                                                
+                        <?php else : ?>
+                            $('.update_shipping').css('opacity','0.5');
+                            $('.update_shipping').click(function(event){
+                                event.preventDefault();
+                            });
+                        <?php endif ?>
+                    <?php endif ?>
+                <?php endif ?>
+                
+                $('.add_tracking_number').click(function(){
+                    row = parseInt($('.row_tracking_add').val());
+                    $('#track_row_container').append('<tr class="tr_tracking_'+row+'">'+
+                        '<td>'+
+                            '<select style="width:110px;" class="select carrier" id="trackingC'+row+'" name="tracking['+row+'][carrier_code]">'+
+                                <?php foreach ($block->getCarriers() as $_code => $_name): ?>
+                                    '<option value="<?php /* @escapeNotVerified */ echo $_code ?>"><?php echo $block->escapeHtml($_name) ?></option>'+
+                                <?php endforeach; ?>
+                            '</select>'+
+                        '</td>'+
+                        '<td><input type="text" value="" id="trackingT'+row+'" name="tracking['+row+'][title]" class="input-text number-title" /></td>'+
+                        '<td><input type="text" value="" id="trackingN'+row+'" name="tracking['+row+'][number]" class="input-text  required-entry" /></td>'+
+                        '<td class="last"><a onclick="MST.remmoveRowTracking('+row+');return false;" href="#">Delete</a></td>'+
+                    '</tr>');
+                    row_append = parseInt($('.row_tracking_add').val())+1;
+                    $('.row_tracking_add').val(row_append);
+                });
+                MST={
+                    remmoveRowTracking: function(row){
+                        $('.tr_tracking_'+row).remove();
+                    }
+                }
+            });
+        </script>
+        <script>
+        	require(['jquery','mage/mage'],function($){
+        	   $('.account-nav ul li:eq(5)').addClass('current');
+        	})
+        </script>
+    </div>
+<?php endif; ?>

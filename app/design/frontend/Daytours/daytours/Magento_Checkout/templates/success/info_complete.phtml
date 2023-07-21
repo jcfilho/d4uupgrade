@@ -1,0 +1,67 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+$order_id = $block->getOrderId();
+//$order = $objectManager->create('\Magento\Sales\Model\Order')->load($order_id);
+$order = $objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($order_id);
+$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+$store = $storeManager->getStore();
+
+/** @var \Daytours\EditOrder\Helper\Data $helperEditOrder*/
+
+$helperEditOrder = $this->helper("Daytours\EditOrder\Helper\Data");
+$urlpage = $storeManager->getStore()->getBaseUrl();
+
+?>
+<div class="info_complete_block">
+    <div class="block_left"><img src="<?php echo $this->getViewFileUrl('images/like_success.png') ?>"/></div>
+    <div class="block_right">
+        <?php if($helperEditOrder->isVisibleCompleteOrderButton($order_id)) : ?>
+            <h2><?php echo __('You are one step away from completing your reservation.') ?></h2>
+            <p><?php echo __('To process your service order and send you the vouchers for the tours you have booked, we need you to send us some essential information.')?></p>
+            <div class="bottom_block">
+                <a class="btn btn-default btn-complete-order" href="<?php echo $helperEditOrder->getURLEncrypted($order->getEntityId(),$order->getCustomerEmail(),$order->getStoreId()) ?>"><?php echo __('Complete order') ?></a>
+                <a class="link link-backhome" href="<?php echo $this->getUrl() ?>"><?php echo __('Back to homepage'); ?></a>
+            </div>
+        <?php else: ?>
+            <p>
+                <?php echo __('We are happy that you have chosen to discover South America with us!')?>
+            </p>
+            <p>
+                <?php echo __('If all the information requested for your activity(ies) is complete, you will receive another confirmation e-mail with the voucher within the next 48 hours.')?>
+            </p>
+            <p>
+                <?php echo __('Enjoy your experience!')?>
+            </p>
+            <p>
+                <a class="" href="<?php echo $this->getUrl('travel-guide') ?>"><?php echo __('Don\'t miss our travel tips. Read here.')?></a>
+            </p>
+            <div class="bottom_block">
+                <a class="link link-backhome" href="<?php echo $this->getUrl() ?>"><?php echo __('Back to homepage'); ?></a>
+            </div>
+        <?php endif; ?>
+
+        <div class="share_block">
+            <span class="text_left"><?php echo __('Share with yours friends') ?>:</span>
+            <div class="list_social_network">
+                <a href="javascript:window.open('https://www.facebook.com/sharer/sharer.php?u=<?= $urlpage ?>','daytours-facebook','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=600,height=300')" class="social facebook"><img src="<?php echo $this->getViewFileUrl('images/icons/fb-icon.png') ?>"/></a>
+                <a href="javascript:window.open('https://plus.google.com/share?url=<?= $urlpage ?>','daytours-google','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=600,height=300')" class="social google"><img src="<?php echo $this->getViewFileUrl('images/icons/google-icon.png') ?>"/></a>
+                <a href="javascript:window.open('https://twitter.com/home?status=<?= $urlpage ?>','daytours-twitter','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=600,height=300')" class="social twitter"><img src="<?php echo $this->getViewFileUrl('images/icons/twitter-icon.png') ?>"/></a>
+                <a href="fb-messenger://share/?link=&app_id=<?= $urlpage ?>#" class="social messenger"><img src="<?php echo $this->getViewFileUrl('images/icons/messenger-icon.png') ?>"/></a>
+                <a href="whatsapp://send?text=<?= $urlpage ?>"  id="viber-share"  class="social viber"><img src="<?php echo $this->getViewFileUrl('images/icons/viber-icon.png') ?>"/></a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    require(['jquery'],
+        function($){
+            //$(document).ready(function(){
+            //    var buttonID = "viber-share";
+            //    var text = "Check this out: ";
+            //    document.getElementById(buttonID)
+            //        .setAttribute('href', "https://3p3x.adj.st/?adjust_t=u783g1_kw9yml&adjust_fallback=https%3A%2F%2Fwww.viber.com%2F%3Futm_source%3DPartner%26utm_medium%3DSharebutton%26utm_campaign%3DDefualt&adjust_campaign=Sharebutton&adjust_deeplink=" + encodeURIComponent("viber://forward?text=" + encodeURIComponent('<?//= $urlpage ?>//')));
+            //})
+        })
+</script>

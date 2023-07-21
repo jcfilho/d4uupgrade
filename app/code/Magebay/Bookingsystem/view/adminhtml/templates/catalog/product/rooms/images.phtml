@@ -1,0 +1,53 @@
+<?php $images = $block->getBkRoomImages(); ?>
+<?php $arAjaxUrl = $block->getArrayAjaxUrl(); ?>
+<?php $urlDelete = $arAjaxUrl['url_delete_mage']; ?>
+<?php if(count($images)) : ?>
+	<?php foreach($images as $image) : ?>
+		<div class="room-image">
+			<a href="#" class="room-image-delete" image-room-id="<?php echo 'image-room-id-'.$image->getBkimageDataId(); ?>" id="room-image-delete-<?php echo $image->getId(); ?>"><?php echo __('Dell'); ?> </a>
+			<img width="180" height="180" src="<?php echo $block->getBkBaseUrl().'/'.$image->getBkimagePath(); ?>" />
+		</div>
+	<?php endforeach; ?>
+<?php endif; ?>
+<script>
+require(['jquery','Magento_Ui/js/modal/alert',],
+	function($,alert) {
+		var urlDelete = '<?php  echo $urlDelete; ?>';
+		$('.room-image-delete').click(function(){
+			var imageId = $(this).attr('id');
+			var arImageId = imageId.split('-');
+			var imageRoomId = $(this).attr('image-room-id');
+			imageId = arImageId[3];
+			var arImageRoomId = imageRoomId.split('-');
+			imageRoomId = arImageRoomId[3];
+			$.ajax({
+				url : urlDelete,
+				dataType : 'json',
+				type : 'POST',
+				data : {image_id : imageId,image_room_id : imageRoomId},
+				success : function(res)
+				{
+					var strMessage = '<?php echo __('Image have been deleted success'); ?>';
+					$('#bk-room-list-images').html(res.html_images);
+					if(res.status == false)
+					{
+						strMessage = '<?php echo __('Systems are errors, please checke again!'); ?>'
+					}
+					alert({
+						title: '',
+						content: strMessage
+					});
+					$('.bk-loading-mask').css('display','none');
+				},
+				error : function()
+				{
+					alert({
+						title: '',
+						content: '<?php echo __('Systems are errors, please checke again!') ?>'
+					});
+					$('.bk-loading-mask').css('display','none');
+				}
+			});
+		})
+	})
+</script>

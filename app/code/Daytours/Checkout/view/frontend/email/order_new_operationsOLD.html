@@ -1,0 +1,52 @@
+<!--@subject New Order en {{var website_name}} - {{var order_number}} @-->
+<!--@vars {
+"var website_name":"",
+"var order_id":"",
+"var order_number":"",
+"var client_name":"",
+"var client_email":"",
+"var client_phone":"",
+"var client_country":"",
+"var client_payment_method":""
+} @-->
+
+<p>
+    <strong>INFORMACIÓN DEL CLIENTE</strong><br>
+    ----------------------------------
+</p>
+<table>
+    <tr>
+        <td><strong>Order ID:</strong></td>
+        <td>{{var order_id}}</td>
+    </tr>
+    <tr>
+        <td><strong>Número de orden:</strong></td>
+        <td>{{var order_number}}</td>
+    </tr>
+    <tr>
+        <td><strong>Nombre:</strong></td>
+        <td>{{var client_name}}</td>
+    </tr>
+    <tr>
+        <td><strong>Email:</strong></td>
+        <td>{{var client_email}}</td>
+    </tr>
+    <tr>
+        <td><strong>Teléfono:</strong></td>
+        <td>{{var client_phone}}</td>
+    </tr>
+    <tr>
+        <td><strong>País:</strong></td>
+        <td>{{var client_country}}</td>
+    </tr>
+    <tr>
+        <td><strong>Método de pago:</strong></td>
+        <td>{{var client_payment_method}}</td>
+    </tr>
+</table>
+
+<p>
+    <strong>PRODUCTOS</strong><br>
+    ---------------------------------------
+</p>
+{{layout handle="sales_email_order_items_to_operations" order_id=$order_id area="frontend"}}

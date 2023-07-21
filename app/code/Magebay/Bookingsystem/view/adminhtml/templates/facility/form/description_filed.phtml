@@ -1,0 +1,61 @@
+<?php 
+$params = $block->getBkRequest();
+$id = isset($params['id']) ? $params['id'] : 0;
+$storeId = isset($params['store']) ? $params['store'] : 0;
+$description = '';
+if($id > 0)
+{
+	$facility = $block->getFacility();
+	$description = $facility->getFacilityDescription();
+}
+?>
+<div data-ui-id="adminhtml-facilities-edit-tab-info-0-fieldset-element-form-field-facility-description" class="admin__field field field-facility_description  required _required">
+   <label data-ui-id="adminhtml-facilities-edit-tab-info-0-fieldset-element-textarea-facilities-facility-description-label" for="facilities_facility_description" class="label admin__field-label"><span><?php echo __('Description'); ?></span></label>
+   <div class="admin__field-control control">
+		<?php if($id > 0 && $storeId > 0) : ?>
+			<?php
+				$description2 = $facility->getFacilityDesTranslate();
+				$useDefault = 1;
+				if($description2 != '')
+				{
+					$arDescriptions = $block->getBkJsonDecode($description2);
+					if(count($arDescriptions))
+					{
+						foreach($arDescriptions as $arDescription)
+						{
+							if($arDescription['store_id'] == $storeId)
+							{
+								$description = $arDescription['value'];
+								$useDefault = $arDescription['use_default'];
+								break;
+							}
+						}
+					}
+				}
+			?>
+			<textarea data-ui-id="adminhtml-facilities-edit-tab-info-0-fieldset-element-textarea-facilities-facility-description" class=" required-entry _required textarea admin__control-textarea" cols="15" rows="2" name="facilities[facility_description]" id="facilities_facility_description" <?php if($useDefault == 1) { echo 'disabled="disabled"'; } ?>><?php echo $description; ?></textarea>
+			<input id="facilities_des_default" <?php if($useDefault == 1) { echo 'checked="checked"'; } ?> type="checkbox" name="facilities[des_default]" value="1" /> <?php echo __('Use Default Value'); ?>
+		<?php else : ?>
+			 <textarea data-ui-id="adminhtml-facilities-edit-tab-info-0-fieldset-element-textarea-facilities-facility-description" class=" required-entry _required textarea admin__control-textarea" cols="15" rows="2" name="facilities[facility_description]" id="facilities_facility_description"><?php echo $description; ?></textarea>
+		<?php endif; ?>
+   </div>
+</div>
+<?php if($id > 0 && $storeId > 0) : ?>
+	<script type="text/javascript">// <![CDATA[
+	require(['jquery'],
+		function($) {
+		   $('#facilities_des_default').click(function(){
+			  
+			   if($(this).is(":checked"))
+			   {
+				   $('#facilities_facility_description').prop('disabled',true);
+			   }
+			   else
+			   {
+				   $('#facilities_facility_description').prop('disabled',false);
+			   }
+		   });
+		}
+	);
+	// ]]></script>
+<?php endif; ?>

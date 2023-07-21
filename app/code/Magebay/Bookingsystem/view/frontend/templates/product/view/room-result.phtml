@@ -1,0 +1,61 @@
+<?php $results = $block->getBookingRoomResults(); ?>
+<?php $checkOut = isset($results['room_check_out']) ? $results['room_check_out'] : ''; ?>
+<?php $error = 0; ?>
+<?php $tempCheckOut = isset($results['temp_room_check_out']) ? $results['temp_room_check_out'] : ''; ?>
+<?php $symbol = $block->getBkCurrencySymboy(); ?>
+<?php if($results['str_error'] == '') : ?>
+	<?php if($results['str_note'] != '') : ?>
+		<span class="booking-result-note"><?php echo $results['str_note']; ?> </span>
+	<?php endif; ?>
+	<span class="total-days"><?php echo __('Total Days'); ?> <?php echo $results['total_days']; ?></span>
+			<div class="price-box">
+				<?php if($results['total_promo'] > 0 and $results['total_price'] > $results['total_promo'] ) : ?>
+				<p class="old-price">
+					<span class="price-label"><?php //echo __('Regular Price') ?></span>
+					<span class="price"><?php echo $block->getBkPriceHelper()->currency($results['total_price'],true,false); ?></span>
+				</p>
+				<p class="special-price">
+					<span class="price-label"><?php //echo __('Special Price'); ?></span>
+					<span class="price"><?php echo $block->getBkPriceHelper()->currency($results['total_promo'],true,false); ?></span>
+				</p>
+				<?php else :  ?>
+					<span class="regular-price">
+					<?php //echo __('Regular Price') ?>
+					<span class="price">
+					<?php echo $block->getBkPriceHelper()->currency($results['total_price'],true,false); ?></span>
+					</span>
+				<?php endif; ?>
+			</div>
+<?php else : ?>
+	<?php  $error = 1; ?>
+	<?php  $tempCheckOut = ''; ?>
+	<span class="booking-result-error"><?php echo $results['str_error']; ?></span>
+<?php endif; ?>
+<script>
+require(['jquery'],
+	function ($){
+	var bookingError = '<?php echo $error; ?>';
+	if(bookingError == '1')
+	{
+		if($('#product-addtocart-button').length)
+		{
+			$('#product-addtocart-button').prop('disabled',true);
+		}
+		else
+		{
+			$('#product-updatecart-button').prop('disabled',true);
+		}
+	}
+	else
+	{
+		if($('#product-addtocart-button').length)
+			{
+				$('#product-addtocart-button').prop('disabled',false);
+			}
+			else
+			{
+				$('#product-updatecart-button').prop('disabled',false);
+			}
+	}
+})
+</script>

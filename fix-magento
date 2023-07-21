@@ -1,0 +1,20 @@
+#!/bin/bash
+php bin/magento se:static-content:deploy -f en_US es_AR pt_BR fr_FR
+
+ln -s /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/mage/requirejs/mixins.min.js /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/mage/requirejs/mixins.js
+ln -s /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/requirejs/require.min.js /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/requirejs/require.js
+ln -s /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/Magento_Ui/js/lib/core/storage/local.min.js /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/Magento_Ui/js/lib/core/storage/local.js
+ln -s /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/Mageants_SocialLogin/js/jquery.magnific-popup.min.js /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/Mageants_SocialLogin/js/jquery.magnific-popup.js
+ln -s /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/Mageants_SocialLogin/js/custom.min.js /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/Mageants_SocialLogin/js/custom.js
+ln -s /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/mage/mage.min.js /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/mage/mage.js
+ln -s /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/requirejs/domReady.min.js /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/requirejs/domReady.js
+ln -s /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/mage/url.min.js /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/mage/url.js
+ln -s /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/jquery/jquery.cookie.min.js /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/jquery/jquery.cookie.js
+ln -s /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/mage/translate.min.js /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/mage/translate.js
+ln -s /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/Magento_Theme/js/theme.min.js /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/Magento_Theme/js/theme.js
+ln -s /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/Magento_Theme/js/responsive.min.js /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/Magento_Theme/js/responsive.js
+ln -s /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/mage/translate-inline.min.js /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/mage/translate-inline.js
+ln -s /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/jquery.min.js /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/jquery.js
+ln -s /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/mage/bootstrap.min.js /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/mage/bootstrap.js
+ln -s /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/Daytours_Theme/js/dataPost.min.js /home/a9cafd12/daytours4u.com/html/pub/static/frontend/Daytours/daytours/en_US/Daytours_Theme/js/dataPost.js
+

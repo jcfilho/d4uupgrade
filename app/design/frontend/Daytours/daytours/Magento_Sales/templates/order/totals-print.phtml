@@ -1,0 +1,54 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * @var $block \Magento\Sales\Block\Order\Totals
+ * @see \Magento\Sales\Block\Order\Totals
+ */
+?>
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$currencysymbol= $objectManager
+    ->get('Magento\Store\Model\StoreManagerInterface');
+$currencyCodeBase = $currencysymbol->getStore()->getCurrentCurrencyCode();
+$currency  = $objectManager
+    ->create('Magento\Directory\Model\CurrencyFactory')
+    ->create()->load($currencyCodeBase);
+$currencySymbol= $currency->getCurrencySymbol();
+?>
+<?php foreach ($block->getTotals() as $_code => $_total): ?>
+    <?php if ($_total->getBlockName()): ?>
+        <?php echo $block->getChildHtml($_total->getBlockName(), false); ?>
+    <?php else:?>
+
+        <?php if( is_numeric($_total->getValue()) ): ?>
+            <div class="print-row">
+                <div class="print-col-sm-9 text-align-right">
+                    <?php if ($_total->getStrong()):?>
+                        <?php
+                        if ($_total->getLabel() == "Grand Total") {
+                            //continue;
+                        }
+                        ?>
+                        <strong><?php echo $block->escapeHtml($_total->getLabel());?></strong>
+                    <?php else:?>
+                        <?php echo $block->escapeHtml($_total->getLabel());?>
+                    <?php endif?>
+                </div>
+                <div class="print-col-sm-3 text-align-right">
+                    <?php if ($_total->getStrong()):?>
+                        <div class="price"> <span class="currency_code"><span class="currency_symbol"><strong><?= $currencySymbol ?></span></span> <?= /* @escapeNotVerified */ number_format($_total->getValue(), 2); ?></strong></div>
+                    <?php else:?>
+                        <div class="price"> <span class="currency_code"><span class="currency_symbol"><?= $currencySymbol ?></span></span> <?= /* @escapeNotVerified */ number_format($_total->getValue(), 2); ?></div>
+                    <?php endif?>
+                </div>
+                <div class="clear-both-print"></div>
+            </div>
+        <?php endif; ?>
+    <?php endif?>
+<?php endforeach?>

@@ -1,0 +1,449 @@
+block_id,title,is_active,identifier,content,store_id
+,Category | Destinations-Argentina | english,1,destinations_argentina,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_argentina""}}</div>","admin,english"
+,Category | Destinations-Argentina | spanish,1,destinations_argentina,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_argentina""}}</div>",spanish
+,Category | Destinations-Argentina | portuguese,1,destinations_argentina,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_argentina""}}</div>",portuguese
+,Category | Destinations-Argentina | french,1,destinations_argentina,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_argentina""}}</div>",french
+,Category | Destinations-Brazil | english,1,destinations_brazil,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_brazil""}}</div>","admin,english"
+,Category | Destinations-Brazil | spanish,1,destinations_brazil,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_brazil""}}</div>",spanish
+,Category | Destinations-Brazil | portuguese,1,destinations_brazil,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_brazil""}}</div>",portuguese
+,Category | Destinations-Brazil | french,1,destinations_brazil,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_brazil""}}</div>",french
+,Category | Destinations-Colombia | english,1,destinations_colombia,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_colombia""}}</div>","admin,english"
+,Category | Destinations-Colombia | spanish,1,destinations_colombia,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_colombia""}}</div>",spanish
+,Category | Destinations-Colombia | portuguese,1,destinations_colombia,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_colombia""}}</div>",portuguese
+,Category | Destinations-Colombia | french,1,destinations_colombia,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_colombia""}}</div>",french
+,Category | Destinations-Peru | english,1,destinations_peru,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_peru""}}</div>","admin,english"
+,Category | Destinations-Peru | spanish,1,destinations_peru,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_peru""}}</div>",spanish
+,Category | Destinations-Peru | portuguese,1,destinations_peru,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_peru""}}</div>",portuguese
+,Category | Destinations-Peru | french,1,destinations_peru,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_peru""}}</div>",french
+,Category | Destinations-Bolivia | english,1,destinations_bolivia,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_bolivia""}}</div>","admin,english"
+,Category | Destinations-Bolivia | spanish,1,destinations_bolivia,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_bolivia""}}</div>",spanish
+,Category | Destinations-Bolivia | portuguese,1,destinations_bolivia,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_bolivia""}}</div>",portuguese
+,Category | Destinations-Bolivia | french,1,destinations_bolivia,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_bolivia""}}</div>",french
+,Category | Destinations-Chile | english,1,destinations_chile,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_chile""}}</div>","admin,english"
+,Category | Destinations-Chile | spanish,1,destinations_chile,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_chile""}}</div>",spanish
+,Category | Destinations-Chile | portuguese,1,destinations_chile,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_chile""}}</div>",portuguese
+,Category | Destinations-Chile | french,1,destinations_chile,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_chile""}}</div>",french
+,Category | Destinations-Uruguay | english,1,destinations_uruguay,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_uruguay""}}</div>","admin,english"
+,Category | Destinations-Uruguay | spanish,1,destinations_uruguay,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_uruguay""}}</div>",spanish
+,Category | Destinations-Uruguay | portuguese,1,destinations_uruguay,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_uruguay""}}</div>",portuguese
+,Category | Destinations-Uruguay | french,1,destinations_uruguay,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_uruguay""}}</div>",french
+,Category | Destinations-Paraguay | english,1,destinations_paraguay,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_paraguay""}}</div>","admin,english"
+,Category | Destinations-Paraguay | spanish,1,destinations_paraguay,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_paraguay""}}</div>",spanish
+,Category | Destinations-Paraguay | portuguese,1,destinations_paraguay,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_paraguay""}}</div>",portuguese
+,Category | Destinations-Paraguay | french,1,destinations_paraguay,"<div class=""content"">
+<div class=""container"">
+<div class=""list_categories"">
+<div class=""title"">Cities <span class=""hide-mobile"">to Explore</span> in Argentina</div>
+{{block class=""Daytours\Catalog\Block\Subcategories"" id_category_parent=""7""}}</div>
+<div class=""most-popular-block"">
+<div class=""block-title"">
+<div class=""title"">Most Popular in Argentina</div>
+<a class=""view-all"" href=""#"">All activities in Argentina <i class=""fa fa-long-arrow-right""></i></a></div>
+<div class=""products-wrapper"">{{widget type=""Magento\CatalogWidget\Block\Product\ProductsList"" show_pager=""0"" products_count=""4"" template=""Magento_Catalog::product/widget/grid_slide.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`7`^]^]""}}</div>
+</div>
+</div>
+</div>
+<div class=""about-block-cat1"">{{block class=""Magento\Cms\Block\Block"" block_id=""about_block_destinations_paraguay""}}</div>",french

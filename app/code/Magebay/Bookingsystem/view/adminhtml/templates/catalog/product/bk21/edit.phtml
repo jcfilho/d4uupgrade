@@ -1,0 +1,142 @@
+<?php
+if(!$this->checkBkKey())
+{
+	echo __('Please Enter Key!');
+	return false;
+}
+$id = $this->getRequest()->getParam('id');
+$okBooking = false;
+$bookingId = 0;
+$storeId = $this->getRequest()->getParam('store',0);
+$url = $block->getFromAjaxUrl();
+$urlChange = $block->getChangeTypeAjaxUrl();
+if(!$block->getBkAuthorization())
+{
+	echo __('You don\'t have permission to access here!');
+	return false;
+}
+$message = __('Note: please complete create  product before configuration booking system');
+if($id > 0) {
+	
+	$product = $block->getCoreProduct($id);
+	if($product && $product->getTypeId() == 'booking')
+	{
+		$okBooking = true;
+		$bookingId = $product->getId();
+	}
+	elseif($product && $product->getTypeId() != 'booking')
+	{
+		$message = __('This is not booking product!');
+	}
+}
+else{
+	echo $message;
+} ?>
+<div id="mst-booking-tab" class="entry-edit form-inline">
+   <div data-role="group-fields-product-details-wrapper" id="group-fields-product-details-wrapper">
+		<div class="fieldset-wrapper-title admin__fieldset-wrapper-title">
+			<?php if(!$okBooking && $id > 0) : ?>
+			<div class="admin__field change-type-booking-content" data-bind="" data-index="">
+			   <div class="admin__field-control">
+					<span class="change-type-message"></span>
+					<label><?php echo __('Is Booking Product') ?></label>
+					<select id="change-type-booking">
+						<option value="no"><?php echo __('No') ?></option>
+						<option value="yes"><?php echo __('Yes') ?></option>
+					</select>
+				</div>
+			</div>
+			<script>
+				require([
+						'jquery',
+					],
+					function($) {
+						var urlChange = '<?php echo $urlChange; ?>';
+						//js modal
+						$('#change-type-booking').change(function(){
+							if($(this).val() == 'no')
+							{
+								return false;
+							}
+							$('.bk-loading-mask').css('display','block');
+							$.ajax({
+								url : urlChange,
+								dataType : 'json',
+								type : 'POST',
+								data : {booking_id : '<?php echo $id; ?>'},
+								success : function(res)
+								{
+									if(res.status == 'success')
+									{
+										$('#config-booking-info').css('display','block');
+										$('.change-type-booking-content').css('display','none');
+									}
+									$('.change-type-message').html(res.message);
+									$('.bk-loading-mask').css('display','none');
+								},
+								error : function()
+								{
+									$('.bk-loading-mask').css('display','none');
+								}
+							});
+							
+					   });
+					}
+				)
+		</script>
+			<?php endif; ?>
+			<div class="admin__field" data-bind="" data-index="">
+			   <div class="admin__field-control">
+					<button <?php if(!$okBooking) echo 'style="display: none"'; ?> type="button" class="action-default primary" title="<?php echo __('Booking Configuration'); ?>" id="config-booking-info"><span><?php echo __('Booking Configuration'); ?></span></button>
+				 </div>
+			</div>
+		</div>
+	</div>
+</div>
+	<div id="bk-popup-modal-content" style="display: none"></div>
+	<script>
+	
+	require([
+			'jquery',
+			'Magento_Ui/js/modal/modal',
+			'bk_map_js'
+		],
+		function($, modal,bkMap) {
+			//call available
+			var bookingId = '<?php echo $bookingId; ?>';
+			var storeId = '<?php echo $storeId; ?>';
+			var urlPopup = '<?php echo $url; ?>';
+			//js modal
+			$('#config-booking-info').click(function(){
+				//get content for popup
+				var bookingType = $('#booking_type').val();
+				$('#bk-popup-modal-rent').html('');
+				$('.bk-loading-mask').css('display','block');
+				$.ajax({
+					url : urlPopup,
+					dataType : 'json',
+					type : 'POST',
+					data : {booking_id : bookingId,store : storeId},
+					success : function(res)
+					{
+						$('#bk-popup-modal-content').html(res.html_from);
+						$('.bk-loading-mask').css('display','none');
+					},
+					error : function()
+					{
+					
+					}
+				});
+				var options = {
+					type: 'slide',
+					responsive: true,
+					innerScroll: false,
+					title: '<?php echo __('Configuration Booking') ?>',
+					buttons: []
+				};
+				var popup = modal(options, $('#bk-popup-modal-content'));
+				$('#bk-popup-modal-content').modal('openModal');
+		   });
+		}
+	)
+	</script>

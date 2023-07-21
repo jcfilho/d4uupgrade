@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @Author      : Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etcpage_configuration.xsd">
+    <head>
+        <css src="jquery/fileUploader/css/jquery.fileupload-ui.css"/>
+    </head>
+    <update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magebay\Marketplace\Block\Adminhtml\Payments\Edit" name="magebay.payments.edit" />
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Magebay\Marketplace\Block\Adminhtml\Payments\Edit\Tabs" name="magebay.payments.edit.tabs">
+                <block class="Magebay\Marketplace\Block\Adminhtml\Payments\Edit\Tab\Main" name="magebay.payments.edit.tab.main"/>                
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="string">magebay.payments.edit.tab.main</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

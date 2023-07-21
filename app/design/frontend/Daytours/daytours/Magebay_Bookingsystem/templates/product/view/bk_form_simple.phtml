@@ -1,0 +1,375 @@
+
+<?php
+/**
+ * @var $block \Magebay\Bookingsystem\Block\Booking
+ */
+?>
+<?php $booking = $block->getBkBookingItem(); ?>
+<?php $request = $block->getBookingRequest(); ?>
+<?php $maxBooking = $this->getBkHelperDate()->getFieldSetting('bookingsystem/setting/max_booking') ?>
+<?php $typeTime = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/time_mode'); ?>
+<?php $addonsSelles = $block->getAddonsSelles(); ?>
+<?php $bkIntCurrentTime = $block->getBkTmpTime(); ?>
+<?php $bkCheckInCheckOut = $request['check_in'] != '' ? $request['check_in'] . ' - ' .$request['check_out'] : '' ?>
+<?php $calendarNumber = \Daytours\Bookingsystem\Block\Transfer::CALENDAR_NUMBER_BY_DEFAULT; ?>
+<input type="hidden" name="exist_wishlist" id="exist_wishlist" value="<?php echo (isset($request['exist_wishlist'])) ? '1' : '0' ?>">
+<input type="hidden" name="extra_options_regular_services" id="extra-options-rs" value="">
+<div class="simple-booking-form booking-form">
+	<input id="booking-time-type" type="hidden" name="booking_time_type" value="per_day" />
+	<input type="hidden" name="bk_item_id" value="<?php echo $request['item_id']; ?>"  />
+	<input type="hidden" name="calendar_number" value="<?php echo $calendarNumber ?>"/>
+	<div class="simple-booking-form-input">
+		<?php $firstPrice = $block->getBkCurrentPrice(); ?>
+		<?php if($booking->getBookingTime() == 2) : ?>
+			<div class="booking-per-day-hour booking-per-hour"><span><?php echo $block->getBkPriceHelper()->currency($firstPrice,true,false); ?></span> <?php echo __('Per Time'); ?></div>
+		<?php else : ?>
+			<div class="booking-per-day-hour booking-per-day"><span><?php echo $block->getBkPriceHelper()->currency($firstPrice,true,false); ?></span> <?php echo __('Per Day'); ?></div>
+		<?php endif; ?>
+		<div class="row-6 mt-sm">
+			<div class="col-sm-12 col-xs-12 date-box date-box-checkin fieldset">
+				<div class="input-date field">
+					<label><?php echo __('Date:'); ?></label>
+					<div class="form-group control" >
+						<div class="select-date" >
+						<i id="check-in-button" class="fa fa-calendar input-icon"></i>
+                        <span class="tooltip-box">
+                            <span class="label-tooltip available-tooltip"></span>
+                            <span class="tooltip available-tooltip-content"><?php echo __('Last Minute Booking Available'); ?></span>
+                        </span>
+                        <input type="text"  id="bk-checkin-checkout" name="bk_checkin_checkout" placeholder="<?php echo __('Select Date'); ?>" value="<?php echo ($request['check_in'] != '') ? $request['check_in'] : ''; ?>" class="form-control" onfocus="blur();" />
+                        <input
+							type="hidden"
+							id="check-in"
+							name="check_in"
+							value="<?php echo $request['check_in']; ?>"
+							class="form-control cls-to-add-to-wishlist"
+							data-selector="optionsbooking[check_in]">
+                        <input
+							type="hidden"
+							id="check-out"
+							name="check_out"
+							value="<?php echo $request['check_out']; ?>"
+							class="form-control cls-to-add-to-wishlist"
+							data-selector="optionsbooking[check_out]"
+						/>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			<?php if($booking->getBookingTime() == 20) : ?>
+				<div class="col-sm-12 col-xs-12 date-box">
+					<div class="input-date input-date-service-time">
+						<label><?php echo __('Service Start'); ?></label>
+						<div class="form-group" >
+							<div class="select-time">
+								<select class="to-time cls-to-add-to-wishlist" id="to-time-h" name="to_time_h"
+										data-selector="optionsbooking[to_time_h]">
+									<?php if($typeTime == 2) : ?>
+										<?php for($h2 = 0; $h2 <= 23; $h2++) : ?>
+											<?php $textH2 = $h2 < 10 ? '0'.$h2 : $h2; ?>
+											<option <?php echo ($request['to_time_h'] == $h2) ? 'selected="selected"' : '' ?> value="<?php echo $h2 ?>"><?php echo $textH2 ?></option>
+										<?php endfor; ?>
+									<?php else : ?>
+										<option value="12">12</option>
+										<?php for($h2 = 1; $h2 <= 11; $h2++) : ?>
+											<?php $textH2 = $h2 < 10 ? '0'.$h2 : $h2; ?>
+											<option <?php echo ($request['to_time_h'] == $h2) ? 'selected="selected"' : '' ?> value="<?php echo $h2 ?>"><?php echo $textH2 ?></option>
+										<?php endfor; ?>
+									<?php endif; ?>
+								</select>
+								<select class="to-time cls-to-add-to-wishlist" id="to-time-m" name="to_time_m"
+										data-selector="optionsbooking[to_time_m]">
+									<?php for($m2 = 0; $m2 < 59; $m2++) : ?>
+										<?php $textM2 =  $m2 < 10 ? '0'.$m2 : $m2; ?>
+										<option <?php if($request['to_time_m'] == $m2) echo 'selected="selected"'; ?> value="<?php echo $m2; ?>"><?php echo $textM2; ?></option>
+									<?php endfor; ?>
+								</select>
+								<select class="to-time cls-to-add-to-wishlist" id="to-time-t" name="to_time_t"
+										data-selector="optionsbooking[to_time_t]">
+									<option value="1"><?php echo __('AM') ?></option>
+									<option <?php if($request['to_time_t'] == 2) { echo 'selected="selected"'; } ?> value="2"><?php echo __('PM') ?></option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="input-date input-date-service-time">
+						<label><?php echo __('Service End'); ?></label>
+						<div class="form-group" >
+							<div class="select-time">
+								<select class="from-time cls-to-add-to-wishlist" id="from-time-h" name="from_time_h"
+										data-selector="optionsbooking[from_time_h]">
+									<?php if($typeTime == 2) : ?>
+										<?php for($h1 = 0; $h1 <= 23; $h1++) : ?>
+											<?php $textH1 = $h1 < 10 ? '0'.$h1: $h1; ?>
+											<option <?php echo ($request['from_time_h'] == $h1) ? 'selected="selected"' : ''; ?> value="<?php echo $h1 ?>"><?php echo $textH1 ?></option>
+										<?php endfor; ?>
+									<?php else : ?>
+										<option value="12">12</option>
+										<?php for($h1 = 1; $h1 <= 11; $h1++) : ?>
+											<?php $textH1 = $h1 < 10 ? '0'.$h1: $h1; ?>
+											<option <?php echo ($request['from_time_h'] == $h1) ? 'selected="selected"' : ''; ?> value="<?php echo $h1 ?>"><?php echo $textH1 ?></option>
+										<?php endfor; ?>
+									<?php endif; ?>
+								</select>
+								<select class="from-time cls-to-add-to-wishlist" id="from-time-m" name="from_time_m"
+										data-selector="optionsbooking[from_time_m]">
+									<?php for($m1 = 0; $m1 < 59; $m1++) : ?>
+										<?php $textM1 =  $m1 < 10 ? '0'.$m1 : $m1; ?>
+										<option <?php if($request['from_time_m'] == $m1) echo 'selected="selected"'; ?> value="<?php echo $m1; ?>"><?php echo $textM1; ?></option>
+									<?php endfor; ?>
+								</select>
+								<select class="from-time cls-to-add-to-wishlist" id="from-time-t" name="from_time_t"
+										data-selector="optionsbooking[from_time_t]">
+									<option value="1"><?php echo __('AM') ?></option>
+									<option <?php if($request['from_time_t'] == 2) { echo 'selected="selected"'; } ?> value="2"><?php echo __('PM') ?></option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			<?php endif; ?>
+			<?php if($booking->getBookingTime() == 2) : ?>
+				<?php
+				$defaultLength = $booking->getBookingMinHours();
+				$fixedLength = $booking->getBookingMaxHours();
+				$amountTime = $booking->getBookingFeeNight();
+				$okTime = false;
+				$arStart = $booking->getBookingServiceStart() != '' ? explode(',',$booking->getBookingServiceStart()) : array();
+				$arEnd = $booking->getBookingServiceEnd() != '' ? explode(',',$booking->getBookingServiceEnd()) : array();
+				$startTime = 0;
+				$endTime = 0;
+				if(count($arStart) == 3 && count($arEnd) == 3)
+				{
+					$okTime = true;
+					$arStart[0] = ($arStart[0] < 12 && $arStart[2] == 2) ? $arStart[0] + 12 : $arStart[0];
+					$arEnd[0] = ($arEnd[0] < 12 && $arEnd[2] == 2) ? $arEnd[0] + 12 : $arEnd[0];
+					$startTime = strtotime("{$arStart[0]}:{$arStart[1]}:00");
+					$endTime = strtotime("{$arEnd[0]}:{$arEnd[1]}:00");
+				}
+				if($defaultLength > 0)
+				{
+					$amountTime *= $defaultLength;
+				}
+				?>
+				<div class="col-sm-12 col-xs-12 date-box">
+					<div class="input-date input-date-service-time">
+						<label><?php echo __('Service Start'); ?></label>
+						<div class="form-group" >
+							<?php $startTime1 =  $startTime; ?>
+							<?php if($startTime1 < $endTime) : ?>
+								<select id="service-start" name="service_start" class="cls-to-add-to-wishlist"
+										data-selector="optionsbooking[service_start]">
+									<?php while ($startTime1 < $endTime) : ?>
+										<?php if(($startTime1 + ($amountTime * 60)) >= $endTime) {$startTime1 += $amountTime * 60; break; } ?>
+										<?php $strTime = date('H:i',$startTime1);  ?>
+										<?php $textTime1 = $block->getBkHelperDate()->getTextTimeHours($startTime1); ?>
+										<option <?php echo (isset($request['service_start']) && $request['service_start'] == $strTime) ? 'selected="selected"' : '' ?> value="<?php echo $strTime; ?>"><?php echo $textTime1 ?></option>
+										<?php $startTime1 += $amountTime * 60; endwhile; ?>
+								</select>
+							<?php else :  ?>
+								<p><?php echo __('Time is not available!') ?></p>
+							<?php endif; ?>
+						</div>
+					</div>
+					<?php if($fixedLength == 0) : ?>
+						<div class="input-date input-date-service-time">
+							<label><?php echo __('Service End'); ?></label>
+							<div class="form-group" >
+								<?php $startTime2 =  $startTime; ?>
+								<?php if($startTime2 < $endTime) : ?>
+									<select id="service-end"  name="service_end" class="cls-to-add-to-wishlist"
+											data-selector="optionsbooking[service_end]">
+										<?php $im2 = 0; ?>
+										<?php while ($startTime2 < $endTime) : ?>
+											<?php if($im2 == 0) { $startTime2 += $amountTime * 60; $im2++; continue; } ?>
+											<?php $strTime = date('H:i',$startTime2);  ?>
+											<?php $textTime2 =  $block->getBkHelperDate()->getTextTimeHours($startTime2); ?>
+											<option <?php echo (isset($request['service_end']) && $request['service_end'] == $strTime) ? 'selected="selected"' : '' ?> value="<?php echo $strTime; ?>"><?php echo $textTime2 ?></option>
+											<?php $im2++; $startTime2 += $amountTime * 60; endwhile; ?>
+									</select>
+								<?php endif; ?>
+							</div>
+						</div>
+					<?php endif; ?>
+				</div>
+			<?php endif; ?>
+		</div>
+		<!-- Addons & Cross-sells -->
+		<?php if(count($addonsSelles)) : ?>
+			<div class="addons-cross-sells">
+				<dl>
+					<?php foreach($addonsSelles as $addonsSelle) : ?>
+						<?php $requestAddon =  isset($request['addons'][$addonsSelle->getId()]) ? $request['addons'][$addonsSelle->getId()] : ''; ?>
+						<?php $addonRadioCheckoxClass = ''; ?>
+						<?php if($addonsSelle->getOptionType() == 4 || $addonsSelle->getOptionType() == 5) :  ?>
+							<?php $addonRadioCheckoxClass = 'bk-addon-radio-checkbox';  ?>
+							<?php if($addonsSelle->getOptionRequired() == 1) { $addonRadioCheckoxClass .= ' required-empty'; } ?>
+						<?php endif; ?>
+						<dt>
+							<label for="addon-<?php echo $addonsSelle->getId(); ?>" <?php if ($addonsSelle->getOptionRequired() == 1) { echo 'class="required"'; } ?> >
+								<?php if ( $addonsSelle->getOptionRequired() == 1) { echo '<em>*</em>'; } ?>
+								<?php $title = $block->getBkHelperText()->showTranslateText($addonsSelle->getOptionTitle(),$addonsSelle->getOptionTitleTranslate()); ?>
+								<?php echo $title; ?>
+								<?php
+								if ( $addonsSelle->getOptionPrice() > 0 ) {
+									echo  '<span class="price-notice"> +<span class="price">'.$block->getBkPriceHelper()->currency($addonsSelle->getOptionPrice(), true, false).'</span></span>';
+								}
+								?>
+							</label>
+						</dt>
+						<dd <?php if($addonRadioCheckoxClass != '') { ?>class="<?php echo $addonRadioCheckoxClass; ?>" id="bk-addon-radio-checkbox-<?php echo $addonsSelle->getId(); ?>"<?php } ?>>
+							<div class="addons-sells-item input-box">
+								<?php if($addonsSelle->getOptionType() == 2) : ?>
+									<select
+										class="select-addons-item<?php if($addonsSelle->getOptionRequired() == 1) echo ' required-empty'; ?> cls-to-add-to-wishlist"
+										name="addons[<?php echo $addonsSelle['option_id'] ?>]"
+										id="addons_<?php echo $addonsSelle['option_id'] ?>"
+										data-selector="optionsbooking[<?php echo $addonsSelle['option_id'] ?>]"
+									>
+										<option value=""><?php echo __('Select Options'); ?></option>
+										<?php $selectValues = $block->getBkOptionSelectValues($addonsSelle->getId()); ?>
+										<?php if(count($selectValues)) : ?>
+											<?php foreach($selectValues as $selectValue) : ?>
+												<option value="<?php echo $selectValue->getId(); ?>" <?php if($requestAddon == $selectValue->getId()) { echo 'selected="selected"'; } ?>>
+													<?php $valueTitle = $block->getBkHelperText()->showTranslateText($selectValue->getDropdownTitle(),$selectValue->getDropdownTitleTranslate()); ?>
+													<?php echo $valueTitle; ?>
+													<?php
+													if ( $selectValue->getDropdownPrice() > 0 ) { echo ' +'.$block->getBkPriceHelper()->currency( $selectValue->getDropdownPrice(), true, false); }
+													?>
+												</option>
+											<?php endforeach; ?>
+										<?php endif; ?>
+									</select>
+								<?php elseif($addonsSelle->getOptionType() == 3) : ?>
+									<select
+										multiple
+										class="select-addons-item<?php if($addonsSelle->getOptionRequired() == 1) echo ' required-empty'; ?> cls-to-add-to-wishlist"
+										name="addons[<?php echo $addonsSelle['option_id'] ?>][]"
+										id="addons_<?php echo $addonsSelle['option_id'] ?>"
+										data-selector="optionsbooking[<?php echo $addonsSelle['option_id'] ?>]"
+									>
+										<?php $selectValues = $block->getBkOptionSelectValues($addonsSelle->getId()); ?>
+										<?php if(count($selectValues)) : ?>
+											<?php foreach($selectValues as $selectValue) : ?>
+												<option value="<?php echo $selectValue->getId(); ?>" <?php if(is_array($requestAddon) && count($requestAddon) && in_array($selectValue->getId(),$requestAddon)) { echo 'selected="selected"'; } ?>>
+													<?php $valueTitle = $block->getBkHelperText()->showTranslateText($selectValue->getDropdownTitle(),$selectValue->getDropdownTitleTranslate()); ?>
+													<?php echo $valueTitle; ?>
+													<?php
+													if ( $selectValue->getDropdownPrice() > 0 ) { echo ' +'.$block->getBkPriceHelper()->currency( $selectValue->getDropdownPrice(), true, false); }
+													?>
+												</option>
+											<?php endforeach; ?>
+										<?php endif; ?>
+									</select>
+								<?php elseif($addonsSelle->getOptionType() == 4) : ?>
+									<?php $readioValues = $block->getBkOptionSelectValues($addonsSelle->getId()); ?>
+									<?php if(count($readioValues)) : ?>
+										<?php foreach($readioValues as $key => $readioValue) : ?>
+											<div class="addons-input-item">
+												<input
+													type="radio"
+													name="addons[<?php echo $addonsSelle['option_id'] ?>]"
+													id="addons_<?php echo $addonsSelle['option_id'] ?>_<?= $key ?>"
+													value="<?php echo $readioValue->getId(); ?>"
+													<?php if($requestAddon == $readioValue->getId()) { echo 'checked="checked"'; } ?>
+													class="cls-to-add-to-wishlist"
+													data-selector="optionsbooking[<?php echo $addonsSelle['option_id'] ?>]"
+												/>
+												<?php $valueTitle = $block->getBkHelperText()->showTranslateText($readioValue->getDropdownTitle(),$readioValue->getDropdownTitleTranslate()); ?>
+												<span class="bk-addon-title"><?php echo $valueTitle; ?>
+													<?php
+													if ( $selectValue->getDropdownPrice() > 0 ) { echo ' +'.$block->getBkPriceHelper()->currency( $readioValue->getDropdownPrice(), true, false); }
+													?>
+										</span>
+											</div>
+										<?php endforeach; ?>
+									<?php endif; ?>
+								<?php elseif($addonsSelle->getOptionType() == 5) : ?>
+									<?php $checkboxValues = $block->getBkOptionSelectValues($addonsSelle->getId()); ?>
+									<?php if(count($checkboxValues)) : ?>
+										<?php foreach($checkboxValues as $key => $checkboxValue) : ?>
+											<div class="addons-input-item">
+												<input
+													type="checkbox"
+													name="addons[<?php echo $addonsSelle['option_id'] ?>][]"
+													id="addons_<?php echo $addonsSelle['option_id'] ?>_<?= $key ?>"
+													value="<?php echo $checkboxValue->getId(); ?>"
+													<?php if(is_array($requestAddon) && count($requestAddon) && in_array($checkboxValue->getId(),$requestAddon)) { echo 'checked="checked"'; } ?>
+													class="cls-to-add-to-wishlist"
+													data-selector="optionsbooking[<?php echo $addonsSelle['option_id'] ?>][<?= $checkboxValue->getId() ?>]"
+												/>
+												<?php $valueTitle = $block->getBkHelperText()->showTranslateText($checkboxValue->getDropdownTitle(),$checkboxValue->getDropdownTitleTranslate()); ?>
+												<span class="bk-addon-title"><?php echo $valueTitle; ?>
+													<?php
+													if ( $checkboxValue->getDropdownPrice() > 0 ) { echo ' +'.$block->getBkPriceHelper()->currency( $checkboxValue->getDropdownPrice(), true, false); }
+													?>
+										</span>
+											</div>
+										<?php endforeach; ?>
+									<?php endif; ?>
+								<?php else : ?>
+									<input
+										class="txt-addons-item input-text <?php if($addonsSelle->getOptionRequired() == 1) echo 'required-empty'; ?> cls-to-add-to-wishlist"
+										type="text"
+										name="addons[<?php echo $addonsSelle->getId(); ?>]"
+										id="addons_<?php echo $addonsSelle->getId(); ?>"
+										value="<?php echo $requestAddon; ?>"
+										data-selector="optionsbooking[<?php echo $addonsSelle['option_id'] ?>]"
+									/>
+								<?php endif; ?>
+							</div>
+						</dd>
+					<?php endforeach; ?>
+				</dl>
+			</div>
+		<?php endif; ?>
+		<!--end Addons & Cross-sells-->
+		<!-- hidden input -->
+		<input type="hidden" id="temp-check-in" name="temp_check_in" value="<?php echo $request['temp_check_in']; ?>" />
+		<input type="hidden" id="temp-check-out" name="temp_check_out" value="<?php echo $request['temp_check_out']; ?>" />
+	</div>
+	<div class="booking-book">
+<!--		<div class="booking-quantity">-->
+<!--            <span>--><?php //echo __('Qty'); ?><!--</span>-->
+<!--			<select name="qty" id="booking-qty">-->
+<!--				--><?php //for($i = 1; $i <= $maxBooking; $i++ ) : ?>
+<!--					<option --><?php //echo $request['qty'] == $i ? 'selected="selected"' : ''; ?><!-- value="--><?php //echo $i; ?><!--">--><?php //echo $i; ?><!--</option>-->
+<!--				--><?php //endfor; ?>
+<!--			</select>-->
+<!--		</div>-->
+		<!--default price-->
+		<input type="hidden" name="magebay_base_product_price" id="magebay-base-product-price" value="0" />
+		<input type="hidden" name="bookingsystem_total_price" id="bookingsystem-total-price" value="0" />
+		<div class="booking-results">
+		
+		</div>
+		<div class="booking-message-discount">
+			<?php $textDayHours = $booking->getBookingTime() == 2 ? __('Items') : __('days'); ?>
+			<?php $discounts = $block->getBkDiscounts(); ?>
+			<?php if(count($discounts)) : ?>
+				<span class="discount-label"><b><?php echo __('Available discount for checkout:'); ?></b></span>
+				<?php foreach($discounts as $discount) : ?>
+					<?php if($discount['discount_type'] == '1') : ?>
+						<span class="last-minute"><?php echo __('For reservations statring until %1 you get a %2 discount ',$discount['date_condition'],$discount['type_amount_text']); ?> <?php if($discount['discount_max_items'] > 0)  { echo __('for a maximum of %1 %2',$discount['discount_max_items'],$textDayHours); } ?></span>
+					<?php elseif($discount['discount_type'] == '2') : ?>
+						<span class="first-moment"><?php echo __('For reservations stating after %1 you get a %2 discount ',$discount['date_condition'],$discount['type_amount_text']); ?> <?php if($discount['discount_max_items'] > 0)  { echo __('for a maximum of %1 %2',$discount['discount_max_items'],$textDayHours); } ?></span>
+					<?php else : ?>
+						<span class="length-reservations"><?php echo __('For reservations of more than %1 %2 you get a %3 discount ',$discount['discount_period'],$textDayHours,$discount['type_amount_text']); ?> <?php if($discount['discount_max_items'] > 0) { echo __('for a maximum of %1 %2',$discount['discount_max_items'],$textDayHours); } ?></span>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			<?php endif; ?>
+		</div>
+		<?php
+//		if($request['action'] == 'configure')
+//		{
+//			echo $this->getLayout()->createBlock('Magento\Catalog\Block\Product\View')->setTemplate('Magebay_Bookingsystem::product/view/configure/updatecart.phtml')->toHtml();
+//		}
+//		else
+//		{
+//			echo $this->getLayout()->createBlock('Magento\Catalog\Block\Product\View')->setTemplate('Magebay_Bookingsystem::product/view/addtocart.phtml')->toHtml();
+//		}
+		?>
+	</div>
+</div>
+

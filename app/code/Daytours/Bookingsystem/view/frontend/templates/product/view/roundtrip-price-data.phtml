@@ -1,0 +1,15 @@
+<?php
+/**
+ * @var $block \Daytours\Bookingsystem\Block\RountripPrice
+ */
+?>
+
+<?php if( $block->ifProductIsTransfer() ): ?>
+    <script type="text/x-magento-init">
+    {
+        "*":{
+            "transferRountripPrice" :  <?= $block->getJsonData() ?>
+        }
+    }
+    </script>
+<?php endif; ?>

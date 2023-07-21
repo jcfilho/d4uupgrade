@@ -1,0 +1,24 @@
+.payment-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.payment-modal .modal-inner-wrap {
+    border-radius: 10px;
+    width: 50%;
+    height: 90%;
+ 
+}
+
+.payment-modal .modal-inner-wrap .modal-content {
+    overflow-y: scroll;
+}
+
+@media (max-width: 600px) {
+    .payment-modal .modal-inner-wrap {
+        border-radius: 0;
+        width: 100%;
+        height: 100%;
+    }
+} 

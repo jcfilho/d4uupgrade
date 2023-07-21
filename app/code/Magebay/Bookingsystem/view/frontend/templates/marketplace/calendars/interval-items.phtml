@@ -1,0 +1,182 @@
+<?php
+$checkIn = $this->getCheckIn();
+$checkOut = $this->getCheckOut();
+$intervals = $this->getIntervalsData();
+$bookingId = 0;
+$typeTime = $block->getBkConfig('bookingsystem/setting/time_mode');
+?>
+<?php if(count($intervals)) : ?>
+    <?php foreach ($intervals as $interval) : if($checkIn != $interval['intervalhours_check_in']) { continue;  }  $bookingId = $interval['intervalhours_booking_id']; ?>
+        <div class="bk-list-item ">
+            <?php $tempTextTime = explode('_',$interval['intervalhours_booking_time']); ?>
+            <?php
+            if($typeTime == 1)
+            {
+                $textType1 = __('AM');
+                if($tempTextTime[0] >= 12)
+                {
+                    $textType1 = __('PM');
+                    if($tempTextTime[0] > 12)
+                    {
+                        $tempTextTime[0] -= 12;
+                    }
+                }
+                $typeType2 = __('AM');
+                if($tempTextTime[2] >= 12)
+                {
+                    $typeType2 = __('PM');
+                    if($tempTextTime[2] > 12)
+                    {
+                        $tempTextTime[2] -= 12;
+                    }
+                }
+                $tempTextTime = $tempTextTime[0].':'.$tempTextTime[1] .' '. $textType1. ' ' .$tempTextTime[2].':'.$tempTextTime[3].' '. $typeType2;
+            }
+            else
+            {
+                $tempTextTime = $tempTextTime[0].':'.$tempTextTime[1] .' ' .$tempTextTime[2].':'.$tempTextTime[3];
+            }
+            ?>
+            <span class="booking-data"><?php echo $interval['intervalhours_label']; ?></span>
+            <span class="booking-data"><?php echo $tempTextTime; ?></span>
+            <span class="booking-data"><?php echo $interval['intervalhours_quantity']; ?></span>
+            <span class="booking-data"><?php echo $block->getBkPriceHelper()->currency($interval['intervalhours_price'],true,false); ?></span>
+            <span class="booking-data"><?php echo $interval['intervalhours_status'] == 1 ? __('Enable') : __('Disable'); ?></span>
+            <span class="booking-data booking-interval-edit" id="booking-item-inter-edit-<?php echo $interval['intervalhours_id']; ?>"><?php echo __('Edit') ?></span>
+            <span class="booking-data booking-interval-delete" booking-interval-delete-bkid="<?php echo $interval['intervalhours_booking_id']; ?>" id="booking-item-inter-delelte-<?php echo $interval['intervalhours_id']; ?>"><?php echo __('Delete') ?></span>
+        </div>
+    <?php endforeach; ?>
+<?php else: ?>
+	<span><?php echo __('Item not found. Please add new'); ?>
+<?php endif; ?>
+<?php if($bookingId == 0) { $bookingId = $this->getRequest()->getParam('booking_id',0); } ?>
+<?php
+$arAjaxUrl = $block->getIntervalsAjaxUrl();
+$urlEdit = $arAjaxUrl['edit'];
+$urlDell = $arAjaxUrl['delete'];
+?>
+<script>
+    require(['jquery','Magento_Ui/js/modal/alert'],function ($,alert) {
+        var urlEdit = '<?php echo $urlEdit; ?>';
+        var urlDell = '<?php echo $urlDell; ?>';
+        var checkIn = '<?php echo $checkIn; ?>';
+        var checkOut = '<?php echo $checkOut; ?>';
+        var bookingId = '<?php echo $bookingId; ?>';
+        $('.booking-interval-edit').click(function (){
+            var elementId = $(this).attr('id');
+            var intervalId = 0;
+            if(elementId == 'add-new-interval')
+            {
+
+            }
+            else {
+                 intervalId = elementId.replace('booking-item-inter-edit-',"");
+            }
+            $('#booking-loader').css('display','block');
+            var textMessage = '<?php echo __('System error, Please try again !')?>';
+            $.ajax({
+                url : urlEdit,
+                dataType : 'json',
+                type : 'POST',
+                data : {interval_id : intervalId, check_in : checkIn, check_out : checkOut, booking_id : bookingId},
+                success : function (response) {
+                    if(response.status == 'success')
+                    {
+                        $('.bk-intervals-form').html(response.html_interval);
+						$('.bk-intervals-form').css('display','block');
+                    }
+                    else
+                    {
+                        alert({
+                            title : '',
+                            content : textMessage
+                        })
+                    }
+                    $('#booking-loader').css('display','none');
+                },
+                error : function () {
+                    alert({
+                        title : '',
+                        content : textMessage
+                    })
+                    $('#booking-loader').css('display','none');
+                }
+            })
+        });
+		$('#add-new-interval').click(function (){
+            var elementId = $(this).attr('id');
+            var intervalId = 0;
+            if(elementId == 'add-new-interval')
+            {
+
+            }
+            else {
+                 intervalId = elementId.replace('booking-item-inter-edit-',"");
+            }
+            $('#booking-loader').css('display','block');
+            var textMessage = '<?php echo __('System error, Please try again !')?>';
+            $.ajax({
+                url : urlEdit,
+                dataType : 'json',
+                type : 'POST',
+                data : {interval_id : intervalId, check_in : checkIn, check_out : checkOut, booking_id : bookingId},
+                success : function (response) {
+                    if(response.status == 'success')
+                    {
+                        $('.bk-intervals-form').html(response.html_interval);
+                        $('#booking-loader').css('display','none');
+                    }
+                    else
+                    {
+                        alert({
+                            title : '',
+                            content : textMessage
+                        })
+                    }
+                    $('#booking-loader').css('display','none');
+                },
+                error : function () {
+                    alert({
+                        title : '',
+                        content : textMessage
+                    })
+                    $('#booking-loader').css('display','none');
+                }
+            })
+        });
+        $('.booking-interval-delete').click(function (){
+            var textMessage = '<?php echo __('System error, Please try again !')?>';
+            var elementId = $(this).attr('id');
+            var intervalId = elementId.replace('booking-item-inter-delelte-',"");
+            var bookingId = $(this).attr('booking-interval-delete-bkid');
+            $('#booking-loader').css('display','block');
+            $.ajax({
+                url : urlDell,
+                dataType : 'json',
+                type : 'POST',
+                data : {interval_id : intervalId, check_in : checkIn, check_out : checkOut,booking_id: bookingId},
+                success : function(res)
+                {
+                    if(res.status == 'success')
+                    {
+                        textMessage = '<?php echo __('You have been updated data successfully') ?>';
+                        $('.booking-table-item-intervals .booking-list-items-content').html(res.html_intervals);
+                        $('#booking-loader').css('display','none');
+                    }
+                },
+                error : function () {
+                    alert({
+                        title : '',
+                        content : textMessage
+                    })
+                    $('#booking-loader').css('display','none');
+                }
+            })
+        })
+        //close form
+        $('#close-form-interval').click(function () {
+            $('.popup-booking-intervals').css('display','none');
+            $('#add-new-calendar').css('display','block');
+        })
+    })
+</script>

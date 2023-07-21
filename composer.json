@@ -1,0 +1,116 @@
+{
+    "name": "magento/project-community-edition",
+    "description": "eCommerce Platform for Growth (Community Edition)",
+    "type": "project",
+    "version": "2.2.2",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "magento/magento-composer-installer": true,
+            "magento/inventory-composer-installer": true,
+            "laminas/laminas-dependency-plugin": true
+        }
+    },
+    "require": {
+        "amasty/amcart": "^1.15",
+        "amasty/module-seo-toolkit": "^2.1",
+        "cweagans/composer-patches": "^1.7",
+        "ebanx/benjamin": "^1.26",
+        "ebanx/ebanx": "^1.12",
+        "ebanx/magento2-gateway-ebanx": "^1.7",
+        "ebizmarts/mailchimp-lib": "^3.0",
+        "fishpig/magento2-wordpress-integration": "^3.0",
+        "fishpig/magento2-wordpress-integration-multisite": "^3.0",
+        "magento/product-community-edition": "2.4.5-p2",
+        "mageplaza/module-currency-formatter": "^4.0",
+        "mageplaza/module-delete-orders": "^4.0",
+        "mailchimp/mc-magento2": "103.4.50",
+        "olegkoval/magento2-regenerate-url-rewrites": "^1.6",
+        "oxcom/magento2-currency-services": "^2.0"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Magento\\Framework\\": "lib/internal/Magento/Framework/",
+            "Magento\\Setup\\": "setup/src/Magento/Setup/",
+            "Magento\\": "app/code/Magento/",
+			"Zend\\Mvc\\Controller\\": "setup/src/Zend/Mvc/Controller/"
+        },
+        "psr-0": {
+            "": [
+                "app/code/"
+            ]
+        },
+        "files": [
+            "app/etc/NonComposerComponentRegistration.php"
+        ],
+        "exclude-from-classmap": [
+            "**/dev/**",
+            "**/update/**",
+            "**/Test/**"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Magento\\Sniffs\\": "dev/tests/static/framework/Magento/Sniffs/",
+            "Magento\\Tools\\": "dev/tools/Magento/Tools/",
+            "Magento\\Tools\\Sanity\\": "dev/build/publication/sanity/Magento/Tools/Sanity/",
+            "Magento\\TestFramework\\Inspection\\": "dev/tests/static/framework/Magento/TestFramework/Inspection/",
+            "Magento\\TestFramework\\Utility\\": "dev/tests/static/framework/Magento/TestFramework/Utility/"
+        }
+    },
+    "conflict": {
+        "gene/bluefoot": "*"
+    },
+    "minimum-stability": "stable",
+    "repositories": {
+        "0": {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        },
+        "amasty": {
+            "type": "composer",
+            "url": "https://composer.amasty.com/community/"
+        },
+        "amasty1": {
+            "type": "composer",
+            "url": "https://composer1.amasty.com/community/"
+        },
+        "mageplaza": {
+            "type": "composer",
+            "url": "https://repo.mageplaza.com"
+        },
+        "fishpig": {
+            "type": "composer",
+            "url": "https://repo.fishpig.co.uk/"
+        }
+
+    },
+    "extra": {
+        "magento-force": "override",
+        "composer-exit-on-patch-failure": true,
+        "component_paths": {
+            "trentrichardson/jquery-timepicker-addon": "lib/web/jquery/jquery-ui-timepicker-addon.js",
+            "components/jquery": [
+                "lib/web/jquery.js",
+                "lib/web/jquery/jquery.min.js",
+                "lib/web/jquery/jquery-migrate.js"
+            ],
+            "blueimp/jquery-file-upload": "lib/web/jquery/fileUploader",
+            "components/jqueryui": [
+                "lib/web/jquery/jquery-ui.js"
+            ],
+            "twbs/bootstrap": [
+                "lib/web/jquery/jquery.tabs.js"
+            ],
+            "tinymce/tinymce": "lib/web/tiny_mce_4"
+        },
+        "patches-file": "composer.patches.json"
+    }
+}

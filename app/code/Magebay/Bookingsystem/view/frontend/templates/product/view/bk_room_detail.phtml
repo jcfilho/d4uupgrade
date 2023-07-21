@@ -1,0 +1,730 @@
+<?php $room = $this->getBkRoom(); ?>
+<?php $bkProduct = $block->getRoomBkProduct($room->getRoomBookingId()) ?>
+<?php $roomTypes = $block->getBkRoomTypeTitle(); ?>
+<?php $itemId = $this->getRequest()->getParam('itemId',0); ?>
+<?php $detailAjaxUrl = $block->getRoomAjaxUrl($room->getRoomBookingId(),$room->getId(),$itemId); ?>
+<?php $urlcalendar = $detailAjaxUrl['url_calendar']; ?>
+<?php $urlRoomBooking = $detailAjaxUrl['url_room_booking']; ?>
+<?php $hotelfacilities = $block->getBkFacilities($room->getRoomBookingId(),'hotel'); ?>
+<?php $facilities = $block->getBkFacilities($room->getId(),'room'); ?>
+<?php $formatDateLabel = $block->getBkHelperDate()->getFormatDateLabel(); ?>
+<?php $maxBooking = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/max_booking'); ?>
+<?php $formatDate = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/format_date'); ?>
+<?php $params = $this->getRequest()->getParams(); ?>
+<?php $searchParams = array(); ?>
+<?php parse_str($params['data_search'],$searchParams ); ?>
+<?php $roomTypeTitles = $block->getBkRoomTypeTitle(); ?>
+<?php $checkIn = ''; ?>
+<?php $checkOut = ''; ?>
+<?php $tempCheckIn = ''; ?>
+<?php $tempCheckOut = ''; ?>
+<?php $qty = 1; ?>
+<?php $symbol = $block->getBkCurrencySymboy(); ?>
+<?php $addonsSelles = $block->getRoomAddonsSelles($room->getId()); ?>
+<?php $bkIntCurrentTime = $block->getBkTmpTime(); ?>
+<?php $strCurrentTime = date('Y-m-d',$bkIntCurrentTime); ?>
+<?php $strDisableDays = $room->getDisableDays(); ?>
+<?php
+$checkIn = isset($searchParams['search_check_in']) ? $searchParams['search_check_in'] : '';
+$checkOut = isset($searchParams['search_check_out']) ? $searchParams['search_check_out'] : '';
+/* if edit cart */
+$requestOptions = array();
+$qty = 1;
+if($itemId > 0)
+{
+	$requestOptions = $block->getBkRoomRequestOptions($itemId,$room->getRoomBookingId());
+	$checkIn = isset($requestOptions['room_check_in']) ?  $requestOptions['room_check_in'] : '';
+	$checkOut = isset($requestOptions['room_check_out']) ?  $requestOptions['room_check_out'] : '';
+	$qty  = isset($requestOptions['qty']) ?  $requestOptions['qty'] : 0;
+}
+if($block->getBkHelperDate()->validateBkDate($checkIn,$formatDate))
+{
+	$tempCheckIn =  $block->getBkHelperDate()->convertFormatDate($checkIn,$formatDate);
+}
+else
+{
+	$checkIn = '';
+}
+if($block->getBkHelperDate()->validateBkDate($checkOut,$formatDate))
+{
+	$tempCheckOut = $block->getBkHelperDate()->convertFormatDate($checkOut,$formatDate);
+}
+else
+{
+	$checkOut = ''; 
+}
+$orderItems = $block->getAllUnavailableDays($room->getRoomBookingId(),$room->getId(),1);
+$strOrderItems = '{}';
+$currentCalendars = $block->getCurrnetBkCalendars($room->getId(),'hotel');
+$jsonCurrentCalendars = '{}';
+if(count($currentCalendars))
+{
+    $jsonCurrentCalendars = json_encode($currentCalendars->getData());
+}
+if(count($orderItems))
+{
+    $strOrderItems = json_encode($orderItems);
+}
+?>
+<?php $longFormatDateLabel = $block->getBkHelperDate()->getLongFormatDateLabel(); ?>
+<?php $strCurrentDate = date($formatDate,$bkIntCurrentTime); ?>
+<?php $startDay =  $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/start_day'); ?>
+<!--add hidden input use for backend-->
+<input type="hidden" id="room-check-message" name="room_check_message" value="<?php echo __('You added %1 to your shopping cart.',$bkProduct->getName()); ?>" />
+<input type="hidden" id="bk-hotel-current-room-param-<?php echo $room->getRoomBookingId(); ?>" name="bk_hotel_current_room_param_<?php echo $room->getRoomBookingId(); ?>" value="" />
+<?php $showCalendar = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/show_calendar'); ?>
+<div class="modal-header">
+	<button type="button" class="close booking-close-popup" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<h4 class="modal-title" id="room-model-label">
+		<?php echo __('You are booking %1 ',$roomTypeTitles[$room->getRoomType()]); ?>
+	</h4>
+	<span class="room-add-success" style="color: green; font-weight: bold; float: left;"></span>
+</div>
+<div class="modal-body" >
+	<!--room id-->
+	
+	<div class="row">
+		<div class="col-xs-7 room-popup-left">
+			<div id="owl-room-images" class="owl-carousel">
+				<?php  $images = $block->getBkRoomImages($room->getId()); ?>
+					<?php if(count($images)) : ?>
+						<?php $i=0;?>
+						<?php foreach($images as $image) : ?>
+							<?php $i++; if($i==1){$active="active";} else {$active="";}?>
+							<div class="item <?php echo $active;?>">
+								<img src="<?php echo $block->imageResize($image->getBkimagePath(),585,450); ?>" alt="<?php echo $roomTypeTitles[$room->getRoomType()]; ?>" />
+							</div>
+						<?php endforeach;?>
+					<?php endif; ?>
+			</div>
+		</div>
+		<!--from booking-->
+		<div class="col-xs-5 booking-room-item">
+				<input type="hidden" name="room_id" value="<?php echo $room->getId(); ?>" />
+				<input type="hidden" id="temp-check-in" name="temp_check_in" value="<?php echo $tempCheckIn; ?>" />
+				<input type="hidden" id="temp-check-out" name="temp_check_out" value="<?php echo $tempCheckOut; ?>" />
+				<input type="hidden" id="temp-room-type" name="temp_room_type" value="<?php echo $room->getRoomType(); ?>" />
+				<div class="form-room-booking">
+					<div class="input-box-room box-checkin">
+						<label><?php echo __('Select Date'); ?> </label>
+						<div class="form-group booking">
+						<i id="room-check-in-button" class="fa fa-calendar input-icon input-icon-hightlight"></i>
+                        <input class="form-control" type="text" id="room-bk-checkin-checkout" name="room_checkin_checkout" value="<?php echo ($checkIn != '' && $checkOut != '') ?  $checkIn . ' - '. $checkOut : ''; ?>" onfocus="blur();">
+						<input  class="form-control" type="hidden" id="room-check-in" name="room_check_in" value="<?php echo $checkIn ?>">
+						<input  class="form-control" type="hidden" id="room-check-out" name="room_check_out" value="<?php echo $checkOut ?>">
+						</div>
+					</div>
+				</div>
+				<!-- Addons & Cross-sells -->
+				<?php if(count($addonsSelles)) : ?>
+					<div class="addons-cross-sells">
+						<dl>
+						<?php foreach($addonsSelles as $addonsSelle) : ?>
+							<?php $addonRadioCheckoxClass = ''; ?>
+							<?php if($addonsSelle->getOptionType() == 4 || $addonsSelle->getOptionType() == 5) :  ?> 
+								<?php $addonRadioCheckoxClass = 'bk-addon-radio-checkbox';  ?>
+								<?php if($addonsSelle->getOptionRequired() == 1) { $addonRadioCheckoxClass .= ' required-empty'; } ?>
+							<?php endif; ?>
+							<?php $requestAddon =  isset($requestOptions['addons'][$addonsSelle->getId()]) ? $requestOptions['addons'][$addonsSelle->getId()] : '';?>
+							<dt>
+							<label for="addon-<?php echo $addonsSelle['option_id'] ?>" <?php if ( $addonsSelle['is_required'] ) { echo 'class="required"'; } ?> >
+							<?php if ( $addonsSelle->getOptionRequired() == 1 ) { echo '<em>*</em>'; } ?>
+							<?php $title = $block->getBkHelperText()->showTranslateText($addonsSelle->getOptionTitle(),$addonsSelle->getOptionTitleTranslate()); ?>
+							<?php echo $title; ?> 
+							<?php
+							if ( $addonsSelle->getOptionPrice() > 0 ) { 
+								echo  '<span class="price-notice"> +<span class="price">'.$block->getBkPriceHelper()->currency($addonsSelle->getOptionPrice(), true, false).'</span></span>';
+							}
+							?>
+							</label>
+							</dt>
+							<dd <?php if($addonRadioCheckoxClass != '') { ?>class="<?php echo $addonRadioCheckoxClass; ?>" id="bk-addon-radio-checkbox-<?php echo $addonsSelle->getId(); ?>"<?php } ?>>
+							<div class="addons-sells-item input-box">
+								<?php if($addonsSelle->getOptionType() == 2) : ?>
+									<select class="select-addons-item<?php if($addonsSelle->getOptionRequired() == 1) echo ' required-empty'; ?>" name="addons[<?php echo $addonsSelle->getId(); ?>]">
+										<option value=""><?php echo __('Select Options'); ?></option>
+										<?php $selectValues = $block->getBkOptionSelectValues($addonsSelle->getId()); ?>
+										<?php if(count($selectValues)) : ?>
+											<?php foreach($selectValues as $selectValue) : ?>
+												<option value="<?php echo $selectValue->getId(); ?>" <?php if($requestAddon == $selectValue->getId()) { echo 'selected="selected"'; } ?>>
+												<?php $valueTitle = $block->getBkHelperText()->showTranslateText($selectValue->getDropdownTitle(),$selectValue->getDropdownTitleTranslate()); ?>
+												<?php echo $valueTitle; ?>
+												<?php
+													if ( $selectValue->getDropdownPrice() > 0 ) { echo ' +'.$block->getBkPriceHelper()->currency( $selectValue->getDropdownPrice(), true, false); }
+												?>
+												</option>
+											<?php endforeach; ?>
+										<?php endif; ?>
+									</select>
+									<?php elseif($addonsSelle->getOptionType() == 3) : ?>
+										<select multiple class="select-addons-item<?php if($addonsSelle->getOptionRequired() == 1) echo ' required-empty'; ?>" name="addons[<?php echo $addonsSelle['option_id'] ?>][]">
+											<?php $selectValues = $block->getBkOptionSelectValues($addonsSelle->getId()); ?>
+											<?php if(count($selectValues)) : ?>
+												<?php foreach($selectValues as $selectValue) : ?>
+													<option value="<?php echo $selectValue->getId(); ?>" <?php if(is_array($requestAddon) && count($requestAddon) && in_array($selectValue->getId(),$requestAddon)) { echo 'selected="selected"'; } ?>>
+													<?php $valueTitle = $block->getBkHelperText()->showTranslateText($selectValue->getDropdownTitle(),$selectValue->getDropdownTitleTranslate()); ?>
+													<?php echo $valueTitle; ?> 
+													<?php
+														if ( $selectValue->getDropdownPrice() > 0 ) { echo ' +'.$block->getBkPriceHelper()->currency( $selectValue->getDropdownPrice(), true, false); }
+													?>
+													</option>
+												<?php endforeach; ?>
+											<?php endif; ?>
+										</select>
+									<?php elseif($addonsSelle->getOptionType() == 4) : ?>
+										<?php $readioValues = $block->getBkOptionSelectValues($addonsSelle->getId()); ?>
+										<?php if(count($readioValues)) : ?>
+											<?php foreach($readioValues as $readioValue) : ?>
+												<div class="addons-input-item">
+													<input type="radio" name="addons[<?php echo $addonsSelle['option_id'] ?>]" value="<?php echo $readioValue->getId(); ?>"  <?php if($requestAddon == $readioValue->getId()) { echo 'checked="checked"'; } ?>  />
+													<?php $valueTitle = $block->getBkHelperText()->showTranslateText($readioValue->getDropdownTitle(),$readioValue->getDropdownTitleTranslate()); ?>
+													<span class="bk-addon-title"><?php echo $valueTitle; ?> 
+													<?php
+														if ( $readioValue->getDropdownPrice() > 0 ) { echo ' +'.$block->getBkPriceHelper()->currency( $readioValue->getDropdownPrice(), true, false); }
+													?>
+													</span>
+												</div>
+											<?php endforeach; ?>
+										<?php endif; ?>
+									<?php elseif($addonsSelle->getOptionType() == 5) : ?>
+									<?php $checkboxValues = $block->getBkOptionSelectValues($addonsSelle->getId()); ?>
+										<?php if(count($checkboxValues)) : ?>
+											<?php foreach($checkboxValues as $checkboxValue) : ?>
+												<div class="addons-input-item">
+													<input type="checkbox" name="addons[<?php echo $addonsSelle['option_id'] ?>][]" value="<?php echo $checkboxValue->getId(); ?>"  <?php if(is_array($requestAddon) && count($requestAddon) && in_array($checkboxValue->getId(),$requestAddon)) { echo 'checked="checked"'; } ?>  />
+													<?php $valueTitle = $block->getBkHelperText()->showTranslateText($checkboxValue->getDropdownTitle(),$checkboxValue->getDropdownTitleTranslate()); ?>
+													<span class="bk-addon-title"><?php echo $valueTitle; ?> 
+													<?php
+														if ( $checkboxValue->getDropdownPrice() > 0 ) { echo ' +'.$block->getBkPriceHelper()->currency( $checkboxValue->getDropdownPrice(), true, false); }
+													?>
+													</span>
+												</div>	
+											<?php endforeach; ?>
+										<?php endif; ?>
+								<?php else : ?>
+									<input class="txt-addons-item input-text <?php if($addonsSelle->getOptionRequired() == 1) echo ' required-empty'; ?>" type="text" name="addons[<?php echo $addonsSelle['option_id']; ?>]" value="<?php echo $requestAddon; ?>" />
+								<?php endif; ?>
+							</div>
+							</dd>
+						<?php endforeach; ?>
+						</dl>
+					</div>
+				<?php endif;  ?>
+				<!--end Addons & Cross-sells-->
+				<div class="booking-room-results">
+				
+				</div>
+				<div class="booking-quantity">
+					<?php echo __('Qty') ?>
+					<select name="qty" id="booking-qty">
+					<?php for($i = 1; $i <= $maxBooking; $i++ ) : ?>
+						<option <?php echo $qty == $i ? 'selected="selected"' : ''; ?> value="<?php echo $i; ?>"><?php echo $i; ?></option>
+					<?php endfor; ?>
+					</select>
+				</div>
+				<div class="btn-booking-book">
+					<?php if($itemId > 0) : ?>
+					<?php echo $this->getLayout()->createBlock('Magento\Catalog\Block\Product\View')->setBkProduct($bkProduct)->setTemplate('Magebay_Bookingsystem::product/view/configure/updatecart.phtml')->toHtml(); ?>
+					<?php else : ?>
+					<?php echo $this->getLayout()->createBlock('Magento\Catalog\Block\Product\View')->setBkProduct($bkProduct)->setTemplate('Magebay_Bookingsystem::product/view/addtocart.phtml')->toHtml();  ?>
+					<?php endif; ?>
+				</div>
+		</div>
+		<!--end form-->
+		<div class="col-xs-12">
+			<div class="room-message-discount">
+				<?php $discounts = $this->getBkRoomDiscounts($room->getId()); ?>
+				<?php if(count($discounts)) : ?>
+					<span class="discount-label"><b><?php echo __('Available discount for checkout:'); ?></b></span>
+					<br/>
+					<?php foreach($discounts as $discount) : ?>
+						<?php if($discount['discount_type'] == '1') : ?>
+							<span class="last-minute"><?php echo __('For reservations statring until %1 you get a %2 discount ',$discount['date_condition'],$discount['type_amount_text']); ?> <?php if($discount['discount_max_items'] > 0)  { echo __('for a maximum of %1 days',$discount['discount_max_items']); } ?></span>
+						<?php elseif($discount['discount_type'] == '2') : ?>
+							<span class="first-moment"><?php echo __('For reservations stating after %1 you get a %2 discount ',$discount['date_condition'],$discount['type_amount_text']); ?> <?php if($discount['discount_max_items'] > 0)  { echo __('for a maximum of %1 days',$discount['discount_max_items']); } ?></span>
+						<?php else : ?>
+							<span class="length-reservations"><?php echo __('For reservations of more than %1 days you get a %2 discount ',$discount['discount_period'],$discount['type_amount_text']); ?> <?php if($discount['discount_max_items'] > 0) { echo __('for a maximum of %1 days',$discount['discount_max_items']); } ?></span>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				<?php endif; ?>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<!--show info room and hotel-->
+		<div role="tabpanel" class="tab-info-book" style="padding:20px 0;">
+		  <!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li class="room-infor-tab active"><a href="#room-description"><?php echo __('Description') ?></a></li>
+				<?php if(count($facilities)) : ?>
+					<li class="room-infor-tab "><a href="#room-facilities"><?php echo __('Room Facilities'); ?></a></li>
+				<?php endif; ?>
+				<?php if(count($hotelfacilities)) : ?>
+					<li class="room-infor-tab "><a href="#hotelfacilities" ><?php echo __('Hotel Facilities'); ?></a></li>
+				<?php endif; ?>
+			</ul>
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div class="tab-pane active" id="room-description">
+					<?php $description = $block->getBkHelperText()->showTranslateText($room->getRoomDescription(),$room->getRoomDesTranslate()); ?>
+					<?php echo $description; ?>
+				</div>
+				<?php  if($facilities) : ?>
+					<div class="tab-pane" id="room-facilities">
+						<table class="data-table">
+							<colgroup>
+								<col width="25%"><col width="25%"><col width="50%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="title-td"><?php echo __('Title') ?></th>
+									<th class="image-td"><?php echo __('Image') ?></th>
+									<th class="description-td"><?php echo __('Description') ?></th>
+								</tr>
+							</thead>
+							<tbody>
+							<?php foreach($facilities as $facility) : ?>
+								<tr class="first odd">
+								<?php $title = $block->getBkHelperText()->showTranslateText($facility->getFacilityTitle(),$facility->getFacilityTitleTransalte()); ?>
+									<td class="title-td"><?php echo $title;?></td>
+									<td class="image-td">
+										<?php if ( $facility->getFacilityIconClass() ) { ?>
+											<?php 
+											$icon_class = explode('-', $facility->getFacilityIconClass() );
+											$type_font = $icon_class[0];
+											?>
+											<i class="ace-icon <?php echo $type_font.' '.$facility->getFacilityIconClass(); ?> size-icon"></i>
+										<?php } else { ?>
+											<?php if($facility->getFacilityImage()) : ?>
+												<img src="<?php echo $block->imageResize($facility->getFacilityImage(),100,100); ?>" />
+											<?php endif; ?>
+										<?php } ?>
+									</td>
+									<?php $description = $block->getBkHelperText()->showTranslateText($facility->getFacilityDescription(),$facility->getFacilityDesTranslate()); ?>
+									<td class="description-td"><?php echo $description;?></td>
+								</tr>
+							<?php endforeach;?>
+							</tbody>
+						</table>
+					</div>
+				<?php endif; ?>
+				<?php if(count($hotelfacilities)) : ?>
+					<div class="tab-pane" id="hotelfacilities">
+						<table class="data-table">
+							<colgroup>
+								<col width="25%"><col width="25%"><col width="50%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="title-td"><?php echo __('Title'); ?></th>
+									<th class="image-td"><?php echo __('Image'); ?></th>
+									<th class="description-td"><?php echo __('Description'); ?></th>
+								</tr>
+							</thead>
+							<tbody>
+							<?php foreach($hotelfacilities as $facility) : ?>
+								<tr class="first odd">
+								<?php $title = $block->getBkHelperText()->showTranslateText($facility->getFacilityTitle(),$facility->getFacilityTitleTransalte()); ?>
+									<td class="title-td"><?php echo $title;?></td>
+									<td class="image-td">
+										<?php if ( $facility->getFacilityIconClass() ) { ?>
+											<?php 
+											$icon_class = explode('-', $facility->getFacilityIconClass() );
+											$type_font = $icon_class[0];
+											?>
+											<i class="ace-icon <?php echo $type_font.' '.$facility->getFacilityIconClass(); ?> size-icon"></i>
+										<?php } else { ?>
+											<?php if($facility->getFacilityImage()) : ?>
+												<img src="<?php echo $block->imageResize($facility->getFacilityImage(),100,100); ?>" />
+											<?php endif; ?>
+										<?php } ?>
+									</td>
+									<?php $description = $block->getBkHelperText()->showTranslateText($facility->getFacilityDescription(),$facility->getFacilityDesTranslate()); ?>
+									<td class="description-td"><?php echo $description;?></td>
+								</tr>
+							<?php endforeach; ?>
+							</tbody>
+						</table>
+					</div>
+				<?php endif; ?>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div id="room-calendar-<?php echo $room->getId(); ?>"></div>
+	<div class="clear"></div>
+</div>
+<script>
+require([
+			'jquery',
+			"jquery/ui",
+			"bk_owl_carousel",
+            'bk_calendar_rage',
+			"bk_calendar_room",
+
+		],
+	function ($){
+		$('.nav-tabs li a').click(function(e){
+
+			var bkTab = $(this).attr('href');
+			$('.room-infor-tab').removeClass('active');
+			$('.tab-content .tab-pane').css('display','none');
+			$(this).parent().addClass('active');
+			$(bkTab).css('display','block');
+			e.preventDefault()
+
+		});
+		$("#owl-room-images").owlCarousel({
+				navigation : false,
+				slideSpeed : 300,
+				paginationSpeed : 400,
+				singleItem : true
+            });
+		//symbol
+		var symbol = '<?php echo $symbol; ?>';
+		//jQuery calendar
+		var showCalendar = '<?php echo $showCalendar; ?>';
+		var textJqueryCalendar = new magebayTextJqueryCalendar();
+		var strFormatDate = '<?php echo $formatDateLabel ?>';
+		var urlRoomBooking = '<?php echo $urlRoomBooking; ?>';
+		var strCurrentTime = '<?php echo $strCurrentTime; ?>';
+		var strDisableDays = '<?php echo $strDisableDays; ?>';
+		var roomHotelId = '<?php echo $room->getRoomBookingId(); ?>';
+        var objOrderItems = JSON.parse('<?php echo $strOrderItems; ?>');
+        var objCalendars = JSON.parse('<?php echo $jsonCurrentCalendars; ?>');
+        console.log(objOrderItems);
+        var arDisableDay = [];
+        if($.trim(strDisableDays) != '')
+        {
+            arDisableDay = strDisableDays.split(',');
+        }
+		//if load
+		var bookingTime = $('#room-booking-time-type').val();
+        var strLongFormatDate = '<?php echo strtoupper($longFormatDateLabel); ?>';
+        var startDay = parseInt('<?php echo $startDay; ?>');
+        var strCurrentDate = '<?php echo $strCurrentDate; ?>';
+        var applyLabel = '<?php echo __('Apply') ?>';
+        var cancelLabel = '<?php echo __('Clear') ?>';
+        $('#room-bk-checkin-checkout').daterangepicker(
+            {
+                locale: {
+                    format: strLongFormatDate,
+                    firstDay: startDay,
+                    daysOfWeek : textJqueryCalendar.getdayNamesMin(),
+                    monthNames: textJqueryCalendar.getShortMonth(),
+                    applyLabel : applyLabel,
+                    cancelLabel: cancelLabel,
+                },
+                minDate : strCurrentDate,
+                isInvalidDate: function(date){
+                    return nationalDays(date);
+                }
+            }
+        );
+        var checkIn = $('#room-check-in').val();
+        var checkOut = $('#room-check-out').val();
+        if(checkIn != '' && checkOut != '')
+        {
+            $('#room-bk-checkin-checkout').val(checkIn + ' - ' + checkOut);
+        }
+        else {
+            $('#room-bk-checkin-checkout').val('');
+        }
+        $('input[name="room_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
+            var checkIn = picker.startDate.format(strLongFormatDate);
+            var checkOut = picker.endDate.format(strLongFormatDate);
+            var standardCheckIn  = picker.startDate.format('YYYY-MM-DD');
+            var standardCheckOut  = picker.endDate.format('YYYY-MM-DD');
+            $(this).val(checkIn + ' - ' +checkOut);
+            $('#room-check-in').val(checkIn);
+            $('#room-check-out').val(checkOut);
+            $('#temp-check-in').val(standardCheckIn);
+            $('#temp-check-out').val(standardCheckOut);
+            getRoomResults();
+        });
+        $('input[name="room_checkin_checkout"]').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+            $('#room-check-in').val('');
+            $('#room-check-out').val('');
+        });
+		//quantity change ke ke
+		$('#booking-qty').change(function(){
+			getRoomResults();
+		})
+		$('.select-addons-item').change(function(){
+			getRoomResults();
+		});
+		$('.txt-addons-item').change(function(){
+			getRoomResults();
+		});
+		if($('.bk-addon-radio-checkbox').length)
+		{
+			$('.bk-addon-radio-checkbox input').click(function(){
+				getRoomResults();
+			})
+			$('.bk-addon-radio-checkbox span.bk-addon-title').click(function(){
+				if($(this).prev('input').is(":checked"))
+				{
+					$(this).prev('input').prop('checked',false);
+				}
+				else
+				{
+					$(this).prev('input').prop('checked',true);
+				}
+				getRoomResults();
+			})
+		}
+		$('.booking-close-popup').click(function(){
+			$('.magebay-booking-popup').css('display','none');
+			$('#booking-room-content').html('');
+		});
+		$('.magebay-booking-popup-overlay').click(function () {
+            $('.magebay-booking-popup').css('display','none');
+            $('#booking-room-content').html('');
+        })
+		function getRoomResults()
+		{
+			var checkIn = $('#room-check-in').val();
+			var checkOut = $('#room-check-out').val();
+			if($.trim(checkIn) == '' || $.trim(checkOut) == '')
+			{
+				return false;
+			}
+			if(!checkRequiredAddons())
+			{
+				return false;
+			}
+			$('.booking-room-results').html('');
+			$('#booking-loader').css('display','block');
+			var currentRoomParam = $('#product_addtocart_form').serialize();
+			$.ajax({
+				url : urlRoomBooking,
+				dataType : 'json',
+				type : 'POST',
+				data : $('#product_addtocart_form').serialize(),
+				success : function(res)
+				{
+					$('.booking-room-results').html(res.booking_result);
+					var tempCheckIn = $('#temp-check-in').val();
+					var tempCheckOut = $('#temp-check-out').val();
+					$('#bk-hotel-current-room-param-'+roomHotelId).val(currentRoomParam);
+					selectedDays(tempCheckIn,tempCheckOut);
+					$('#booking-loader').css('display','none');
+				},
+				error : function()
+				{
+
+				}
+			});
+		}
+
+		var roomContentId = 'room-calendar-<?php echo $room->getId(); ?>';
+		var bookingId = '<?php echo $room->getId(); ?>';
+		var bookingType = 'hotel';
+		//jQuery for field
+		if(showCalendar == '1')
+		{
+            var bkStartDay = startDay + 1;
+			var objData = {
+				'data_url' : '<?php echo $urlcalendar; ?>',
+				'booking_id': bookingId,
+				'booking_type' : bookingType,
+				'url_booking' : urlRoomBooking,
+				'currency' : symbol,
+				'booking_label' : '<?php echo __('Booking Calendar'); ?>',
+				'str_current_date': strCurrentTime,
+                'first_day' : bkStartDay,
+				'obj_status_text' : {
+						'available': '<?php echo __('Available'); ?>',
+						'special': '<?php echo __('Available'); ?>',
+						'block': '<?php echo __('Block'); ?>',
+						'unavailable': '<?php echo __('Unavailable'); ?>',
+					},
+				'name_day_th' : [
+											'<?php echo __('Sunday'); ?>',
+											'<?php echo __('Monday'); ?>',
+											'<?php echo __('Tuesday'); ?>',
+											'<?php echo __('Wednesday'); ?>',
+											'<?php echo __('Thursday'); ?>',
+											'<?php echo __('Friday'); ?>',
+											'<?php echo __('Saturday'); ?>'
+									],
+				'name_day_short_th' : [
+												'<?php echo __('Mon'); ?>',
+												'<?php echo __('Tue'); ?>',
+												'<?php echo __('Wed'); ?>',
+												'<?php echo __('Thu'); ?>',
+												'<?php echo __('Fri'); ?>',
+												'<?php echo __('Sat'); ?>',
+												'<?php echo __('Sun'); ?>'
+											],
+				'name_day_shortest_th' : [
+											'<?php echo __('Su'); ?>',
+											'<?php echo __('Mo'); ?>',
+											'<?php echo __('Tu'); ?>',
+											'<?php echo __('We'); ?>',
+											'<?php echo __('Th'); ?>',
+											'<?php echo __('Fi'); ?>',
+											'<?php echo __('Sa'); ?>',
+											],
+				'add_text' : '<?php echo __('Add'); ?>',
+				'remove_text' : '<?php echo __('Remove'); ?>',
+				'next_text' : '<?php echo __('Next'); ?>',
+				'pre_text' : '<?php echo __('Prev'); ?>',
+				'format_date' : strFormatDate,
+				'disable_day' : strDisableDays
+			};
+			$('#'+roomContentId).MagebayAnyBookingHotel(objData);
+		}
+		function checkRequiredAddons()
+		{
+			var okAddons = true;
+			if($('.txt-addons-item').length)
+			{
+				$('.txt-addons-item').each(function(){
+					var strClass = $(this).attr('class');
+					if(strClass.indexOf('required-empty') > -1 && ($.trim($(this).val()) == '' || isNaN($(this).val())))
+					{
+						okAddons = false;
+						return false;
+					}
+				});
+			}
+			if(okAddons && $('.select-addons-item').length)
+			{
+				$('.select-addons-item').each(function(){
+					var strClass = $(this).attr('class');
+					if(strClass.indexOf('required-empty') > -1 && ($.trim($(this).val()) == ''))
+					{
+						okAddons = false;
+						return false;
+					}
+				});
+			}
+			if(okAddons && $('.bk-addon-radio-checkbox').length)
+			{
+				$('.bk-addon-radio-checkbox').each(function(){
+					var strClass = $(this).attr('class');
+					var strCkId = $(this).attr('id');
+					if(strClass.indexOf('required-empty') > -1)
+					{
+						var tempCkOk = false;
+						$('#'+strCkId +' input').each(function(){
+							if($(this).is(":checked"))
+							{
+								tempCkOk = true;
+								return false;
+							}
+						});
+						if(tempCkOk == false)
+						{
+							okAddons = false;
+							return false;
+						}
+					}
+				});
+			}
+			return okAddons;
+		}
+		function selectedDays(date1,date2)
+		{
+			$('.day-selected').removeClass('day-selected');
+			if(date2 == '')
+				return false;
+			var date1 = new Date(date1);
+			var date2 = new Date(date2);
+			var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+			var oneDay = 1000 * 3600 * 24;
+			var day1 = date1.getTime();
+			var day2 = date2.getTime();
+			if(date1.getTime() > date2.getTime())
+			{
+				day1 = date2.getTime();
+				day2 = date1.getTime();
+			}
+			while(day1 <= day2)
+			{
+				var objDate = new Date(day1);
+				var month = objDate.getMonth() + 1;
+				month = month >= 10 ? month : '0'+month;
+				strDay = objDate.getDate() >= 10 ? objDate.getDate() : '0'+objDate.getDate();
+				var strDate = objDate.getFullYear()+'-'+month+'-'+strDay;
+				if($('#0_'+strDate).length)
+				{
+					$('#0_'+strDate).addClass('day-selected');
+				}
+				if($('#2_'+strDate).length)
+				{
+					$('#2_'+strDate).addClass('day-selected');
+				}
+				if($('#1_'+strDate).length)
+				{
+					$('#1_'+strDate).addClass('day-selected');
+				}
+				day1 += oneDay;
+			}
+		}
+        function nationalDays(date) {
+            var m = date.month(), d = date.date() < 10 ? '0'+date.date() : date.date() , y = date.year();
+            var mMonth = m+1;
+            mMonth = mMonth < 10 ? '0'+mMonth : mMonth;
+            var textCrrentDate = y + '-' + mMonth + '-' + d;
+            var dayObj = new Date(textCrrentDate);
+            var qty = 0;
+            if(objCalendars)
+            {
+                for(var key in objCalendars)
+                {
+                    var tempDate = objCalendars[key];
+                    if(tempDate['calendar_default_value'] == '1')
+                    {
+                        qty = parseInt(tempDate['calendar_qty']);
+                    }
+                    tempStartDate = new Date(tempDate['calendar_startdate']);
+                    tempEndDate = new Date(tempDate['calendar_enddate']);
+                    if(tempStartDate.getTime() <= dayObj.getTime() && dayObj.getTime() <= tempEndDate.getTime())
+                    {
+                        if(tempDate['calendar_status'] == 'block' || tempDate['calendar_status'] == 'unavailable')
+                        {
+                            qty = 0;
+                        }
+                        else{
+                            qty = parseInt(tempDate['calendar_qty']);
+                        }
+
+                    }
+                }
+            }
+            if(objOrderItems)
+            {
+                for(keyorder in objOrderItems)
+                {
+                    var orderDate = objOrderItems[keyorder];
+                    var orderStartDate = new Date(orderDate['check_in']);
+                    var orderEndDate = new Date(orderDate['check_out']);
+                    if(bookingTime == '2')
+                    {
+                        if(orderStartDate.getTime() <= dayObj.getTime() && dayObj.getTime() <= orderEndDate.getTime())
+                        {
+                            qty -= parseInt(orderDate['qty']);
+                        }
+                    }
+                    else{
+                        if(orderStartDate.getTime() <= dayObj.getTime() && dayObj.getTime() < orderEndDate.getTime())
+                        {
+                            qty -= parseInt(orderDate['qty']);
+                        }
+                    }
+
+                }
+            }
+            if($.inArray(''+dayObj.getDay(), arDisableDay) != -1 || qty <= 0)
+            {
+                return true;
+            }
+            else(qty > 0)
+            {
+                return false;
+            }
+        }
+	});
+</script>

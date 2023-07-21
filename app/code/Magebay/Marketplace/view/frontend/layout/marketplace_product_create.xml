@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @Author      : haunv
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2017 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+	<body>
+		<referenceContainer name="content">
+			<block class="Magebay\Marketplace\Block\Product\AddProduct" name="magebay_marketplace.seller_product_add_new" template="product/add/form.phtml" cacheable="false" >
+				<block class="Magebay\Marketplace\Block\Product\Categories" name="categoriecollection" template="product/add/categorytree.phtml"/>
+				<block class="Magebay\Marketplace\Block\Product\Gallery" name="magebay_gallery" template="product/add/upload.phtml"/>
+				<block class="Magebay\Marketplace\Block\Product\Price\Tier" name="magebay_price_tier" template="product/price/tier.phtml"/>				
+				<block class="Magebay\Marketplace\Block\Product\CustomOpt\Options" name="magebay_custom_options" template="product/customoptions/options.phtml">
+					<block class="Magebay\Marketplace\Block\Product\CustomOpt\Options\Option" name="magebay_options_box" template="product/customoptions/options/option.phtml"/>
+				</block>
+				<block class="Magebay\Marketplace\Block\Product\Downloadable" name="marketplace_product_downloadable_item" template="product/downloadable.phtml" >
+					<block class="Magebay\Marketplace\Block\Product\Downloadable\Links" name="marketplace_product_downloadable_links" template="product/downloadable/links.phtml" />
+					<block class="Magebay\Marketplace\Block\Product\Downloadable\Samples" name="marketplace_product_downloadable_samples" template="product/downloadable/samples.phtml"/>
+				</block>
+				<block class="Magebay\Marketplace\Block\Product\Bundle" name="marketplace_product_bundle_container" />
+				<block class="Magebay\Marketplace\Block\Product\Configurable\Config" name="magebay_product_config_container" template="product/configurable/config.phtml" >
+					<block class="Magebay\Marketplace\Block\Product\Configurable\Config\Matrix" template="product/configurable/matrix.phtml" as="magematrix">
+						<block class="Magebay\Marketplace\Block\Product\Component\StepsWizard" name="variation-steps-wizard" template="Magebay_Marketplace::product/configurable/stepswizard.phtml" >
+							<block class="Magebay\Marketplace\Block\Product\Configurable\Steps\SelectAttributes" name="step1" template="Magebay_Marketplace::product/configurable/attribute/steps/select_attributes.phtml">
+								<arguments>
+									<argument name="config" xsi:type="array">
+										<item name="multiselectName" xsi:type="string">magebaymarket_product_attributes_listing.magebaymarket_product_attributes_listing.product_attributes_columns.ids</item>
+										<item name="providerName" xsi:type="string">magebaymarket_product_attributes_listing.magebaymarket_product_attributes_listing_data_source</item>
+									</argument>
+								</arguments>
+								<uiComponent name="magebaymarket_product_attributes_listing"/>
+							</block>
+							<block class="Magebay\Marketplace\Block\Product\Configurable\Steps\AttributeValues" name="step2" template="Magebay_Marketplace::product/configurable/attribute/steps/attributes_values.phtml">
+								<arguments>
+									<argument name="config" xsi:type="array">
+										<item name="dataScope" xsi:type="string">productFormConfigurable</item>
+									</argument>
+								</arguments>
+							</block>
+							<block class="Magebay\Marketplace\Block\Product\Configurable\Steps\Bulk" name="step3" template="Magebay_Marketplace::product/configurable/attribute/steps/bulk.phtml"/>
+							<block class="Magebay\Marketplace\Block\Product\Configurable\Steps\Summary" name="step4" template="Magebay_Marketplace::product/configurable/attribute/steps/summary.phtml"/>
+						</block>
+					</block>
+				</block>
+			</block>
+		</referenceContainer>
+    </body>
+</page>

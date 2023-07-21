@@ -1,0 +1,112 @@
+<?php
+/**
+ * @Author      : Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+$data = $this->getRequest()->getPost();
+$paymentDetail = $block->getPaymentMethodById($data['payment_id']);
+$check_amount_pay = $block->checkAmountPay($data['can_withdraw'],$data['amount']);
+?>
+<?php if($check_amount_pay){ ?>
+    <div style="" id="vendors_tabs_main_section_content">
+        <div class="entry-edit">
+            <form method="post" action="<?php echo $this->getUrl('marketplace/seller/WithdrawProcess') ?>" id="withdraw-confirm-form">
+                <input type="hidden" name="payment_id" value="<?php echo $paymentDetail['id'] ?>" />
+                <div id="vendors_form" class="fieldset field">
+                    <div class="hor-scroll">
+                        <table cellspacing="0" class="form-list">
+                            <tbody>
+                                <tr>
+                                    <td class="label">
+                                        <label class="label" for="payment_method"><?php echo __('Payment Method') ?></label>
+                                    </td>
+                                    <td class="value">
+                                        <?php echo $paymentDetail['name'] ?>         
+                                    </td>
+                                </tr>
+                                <?php if($data['email']){ ?>
+                                    <tr>
+                                        <td class="label">
+                                            <label class="label" for="payment_account"><?php echo $paymentDetail['name'] ?>  <?php echo __('Email Account') ?></label>
+                                        </td>
+                                        <td class="value">
+                                            <input type="hidden" name="payment_email" value="<?php echo $data['email'] ?>" />
+                                            <?php echo $data['email'] ?>             
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                                <tr>
+                                    <td class="label">
+                                        <label class="label" for="amount"><?php echo __('Amount') ?></label>
+                                    </td>
+                                    <td class="value">
+                                        <input type="hidden" name="transaction_amount" value="<?php echo $data['amount'] ?>" />
+                                        <?php echo $block->getPrice($data['amount']) ?>            
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label">
+                                        <label class="label" for="fee"><?php echo __('Withdrawal Fee') ?></label>
+                                    </td>
+                                    <td class="value">
+                                        <input type="hidden" name="amount_fee" value="<?php echo $paymentDetail['fee'] ?>" />
+                                        <?php echo $block->getPrice($paymentDetail['fee']) ?>             
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label">
+                                        <label class="label" for="net_amount"><?php echo __('Net Amount') ?></label>
+                                    </td>
+                                    <td class="value">
+                                        <input type="hidden" name="amount_paid" value="<?php echo ($data['amount'] - $paymentDetail['fee']) ?>" />
+                                        <?php echo $block->getPrice($data['amount'] - $paymentDetail['fee']) ?>            
+                                    </td>
+                                </tr>
+                                <?php if($data['info']){ ?>
+                                    <tr>
+                                        <td class="label">
+                                            <label class="label" for="additional_info"><?php echo $paymentDetail['name'] ?>  <?php echo __('Info') ?></label>
+                                        </td>
+                                        <td class="value">
+                                            <span id="additional_info">
+                                                <input type="hidden" name="payment_additional" value="<?php echo $data['info'] ?>" />
+                                                <?php echo $data['info'] ?> 
+                                            </span>            
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <button title="<?php echo __('Save'); ?>" class="action save primary" type="submit"><span><?php echo __('Withdraw'); ?></span></button>
+                    </div>
+                    <div class="primary" style="float: right;">
+                        <a class="left" onclick="javascript: window.history.back();" href="javascript:;">
+                            <?php echo __('Back'); ?>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+<?php }else{ ?>
+    <p>
+	   <strong><?php echo __('The amount withdraw need less than'); ?>:</strong> 
+		<b class="value" style="color: #ff3333;">
+			<?php echo $block->getPrice($data['can_withdraw']) ?>
+        </b>
+	</p>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <a class="left" onclick="javascript: window.history.back();" href="javascript:;">
+                <?php echo __('Click go to withdraw again'); ?>
+            </a>
+        </div>
+    </div>
+<?php } ?>

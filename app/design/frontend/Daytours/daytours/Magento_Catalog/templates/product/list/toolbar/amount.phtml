@@ -1,0 +1,64 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+/**
+ * Product list toolbar
+ *
+ * @var \Magento\Catalog\Block\Product\ProductList\Toolbar $block
+ * @var \Magento\Framework\Locale\LocaleFormatter $localeFormatter
+ */
+?>
+<p class="toolbar-amount 3333" id="toolbar-amount">
+    <?php if ($block->getLastPageNum() > 1):?>
+        <?= $block->escapeHtml(
+            __(
+                'Items %1-%2 of %3',
+                '<span class="toolbar-number">' . $localeFormatter->formatNumber($block->getFirstNum()) . '</span>',
+                '<span class="toolbar-number">' . $localeFormatter->formatNumber($block->getLastNum()) . '</span>',
+                '<span class="toolbar-number">' . $localeFormatter->formatNumber($block->getTotalNum()) . '</span>'
+            ),
+            ['span']
+        ) ?>
+    <?php elseif ($block->getTotalNum() == 1):?>
+        <?= $block->escapeHtml(
+            __(
+                '%1 Item',
+                '<span class="toolbar-number">' . $localeFormatter->formatNumber($block->getTotalNum()) . '</span>'
+            ),
+            ['span']
+        ) ?>
+    <?php else:?>
+        <?= $block->escapeHtml(
+            __(
+                '%1 Items',
+                '<span class="toolbar-number">' . $localeFormatter->formatNumber($block->getTotalNum()) . '</span>'
+            ),
+            ['span']
+        ) ?>
+    <?php endif; ?>
+</p>
+<script>
+    require(['jquery'], function($) {
+        <?php
+        $countProductTextDesktop = '';
+        $countProductTextMobile = '';
+        $countProduct = $localeFormatter->formatNumber($block->getTotalNum());
+        if ($countProduct == 1) {
+            $countProductTextDesktop =  __('Activity in');
+            $countProductTextMobile = __('Activity');
+        } else {
+            $countProductTextDesktop = __('Activities in');
+            $countProductTextMobile = __('Activities');
+        }
+
+        ?>
+        $('body .count-products-category-view-desktop').html('<?= $countProduct . ' ' . $countProductTextDesktop ?>');
+        $('body .count-products-category-view-mobile').html('<?= $countProduct ?>');
+        $('body .count-products-category-view-mobile-text').html('<?= $countProductTextMobile ?>');
+
+    });
+</script>

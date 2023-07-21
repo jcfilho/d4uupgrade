@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+
+    <type name="Magento\CatalogSearch\Block\Result">
+        <plugin name="title_search_daytours"
+                type="Magenest\Customize\Plugin\Block\Search\Result"
+                sortOrder="1"
+                disabled="false" />
+    </type>
+
+</config>

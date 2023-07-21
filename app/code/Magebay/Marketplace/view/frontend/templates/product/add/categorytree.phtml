@@ -1,0 +1,59 @@
+<?php
+/**
+ * @Author      : haunv
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2017 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+$categories = $block->getStoreCategories(true,false,true);
+$elementName = 'product[category_ids][]';
+$_productDetail = $block->getProduct();
+$_categoryArray = $_productDetail->getCategoryIds();
+$__categoryArray = array();
+foreach($_categoryArray as $_itemCate) {
+	$_itemCategory = $block->getCategory($_itemCate);
+	$_pathParent = explode('/', $_itemCategory->getPath());
+	$__categoryArray[$_itemCate] = $_pathParent;
+}
+?>
+<label class="label col-sm-3"><span><?php echo __('Categories') ?></span></label>
+<div class="controll categories-tree col-sm-9">
+	<!-- <label><span><?php echo __('Categories') ?></span></label> -->
+    <?php
+    foreach($categories as $category){
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        if($objectManager->create('Magebay\Marketplace\Helper\Data')->getAllowedCategoriesForSeller() != 'all'){
+            $allow_category = explode(',',$objectManager->create('Magebay\Marketplace\Helper\Data')->getAllowedCategoriesForSeller());        
+            if (!in_array($category->getId(), $allow_category)) {
+                continue;
+            }
+        }
+		$_childHtml = '';
+    	if (!$category->getIsActive()) {
+    		continue;
+    	}
+		//$_childCategories = $category->getAllChildren(true);
+		$call_child = false;
+		$data_child = array();
+		foreach($__categoryArray as $_key => $_pathParent) {
+			if(in_array($category->getId(), $_pathParent) && $category->getId() != $_pathParent[count($_pathParent)-1]) {
+				$call_child = true;
+				array_push($data_child, $_key);
+			}
+		}
+		if($call_child) {
+			$_childHtml = $block->getLayout()->createBlock('Magebay\Marketplace\Block\Product\Categories')->setTemplate('product/add/childcategories.phtml')->setCategoryId($category->getId())->setDataChild($data_child)->toHtml();
+		}
+	?>	
+    	<div class="category-block">
+        	<?php if($childrenCategories = $category->getChildrenCount()){ ?>
+        		<span class="<?php if($_childHtml){ ?>mst-pull <?php } else { ?>mst-push<?php } ?> level-1" data-level="1"></span>
+        	<?php } ?>
+        	<span class="mst-folder"></span>
+        	<span class="category-name"><?php echo $block->escapeHtml($category->getName()) ?></span>
+        	<input type="checkbox" name="<?php /* @escapeNotVerified */ echo $elementName ?>" value="<?php echo $category->getId() ?>" <?php if(in_array($category->getId(),$_categoryArray)) echo 'checked' ?> class="checkbox mst-checkbox" />
+			<?php echo $_childHtml ?>
+    	</div>
+    <?php } ?>
+</div>

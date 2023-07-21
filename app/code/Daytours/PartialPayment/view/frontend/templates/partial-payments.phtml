@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * @var \Daytours\PartialPayment\Block\PartialPayment $block
+ */
+?>
+
+<?php
+$orders = $block->getOrdersWithDueAmountByCustomerLogged();
+?>
+<div id="partial-payment-component" data-bind="scope:'partialpaymentcomponent'">
+    <!-- ko template: getTemplate() -->
+    <!-- /ko -->
+    <?php if ($orders) : ?>
+        <div class="partial-payment">
+            <div class="table-wrapper orders-history">
+                <table class="data table table-order-items history" id="my-orders-table">
+                    <caption class="table-caption"><?= __("Orders") ?></caption>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="col id"><?= __("Order Number") ?></th>
+                            <th scope="col" class="col id"><?= __("Date") ?></th>
+                            <th scope="col" class="col id"><?= __("Full Name") ?></th>
+                            <th scope="col" class="col id"><?= __("Email") ?></th>
+                            <th scope="col" class="col id"><?= __("Due Amount") ?></th>
+                            <th scope="col" class="col id"><?= __("Currency") ?></th>
+                            <!-- <th scope="col" class="col id">Status</th> -->
+                            <th scope="col" class="col id"><?= __("Actions") ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($orders as $current) : ?>
+                            <tr>
+                                <td class="col id">#<?= $current->getEntityId() ?></td>
+                                <td class="col id"><?= $current->getCreatedAt() ?></td>
+                                <td class="col id"><?= $current->getCustomerLastname() . " " . $current->getCustomerFirstname() ?></td>
+                                <td class="col id"><?= $current->getCustomerEmail() ?></td>
+                                <td class="col id">$<?= $current->getTotalDue() ?></td>
+                                <td class="col id"><?= $current->getOrderCurrency()->getCode() ?></td>
+                                <!-- <td class="col id"><?= $current->getState() ?></td> -->
+                                <td class="col id"><button id="<?= $current->getEntityId() ?>" data-bind="click: showDetails.bind(this,'<?= $current->getEntityId() ?>')">Pay</button></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <?php else : ?>
+        <h1><?= __("No data yet") ?></h1>
+    <?php endif; ?>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "#partial-payment-component": {
+            "Magento_Ui/js/core/app": {
+               "components": {
+                    "partialpaymentcomponent": {
+                        "component": "Daytours_PartialPayment/js/partial-payment"
+                    }
+                }
+            }
+        }
+    }
+</script>

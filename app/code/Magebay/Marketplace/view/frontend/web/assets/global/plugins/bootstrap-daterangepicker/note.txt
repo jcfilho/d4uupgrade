@@ -1,0 +1,1 @@
+remove line 80 : firstDay: moment.localeData().firstDayOfWeek()

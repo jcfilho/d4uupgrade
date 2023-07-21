@@ -1,0 +1,5 @@
+.booking-item-day.booking-day-past,.booking-item-day.day-unavailable{cursor: default}
+#calendar-header-btn-add-month,#calendar-header-btn-romove-month {background: none;}
+.booking-per-day-hour, .booking-per-day{display: none;}
+.date-box-checkin .select-date input#bk-checkin-checkout{text-align: left;}
+/*.booking-results{display: none;}*/

@@ -1,0 +1,13 @@
+<?php
+
+/** @var \Daytours\EditOrder\Helper\Data $helperEditOrder*/
+$helperEditOrder = $this->helper("Daytours\EditOrder\Helper\Data");
+
+if( $helperEditOrder->ifMissingFieldsToPostOrderCurrentProduct() ){
+    ?>
+    <div class="important-post-order">
+        <div class="important-post-order-content">
+            <?= __('After your payment is done, you will be requested to complete personal details for every passenger indispensable to confirm your booking.') ?>
+        </div>
+    </div>
+<?php } ?>

@@ -1,0 +1,74 @@
+<?php
+$id = $this->getRequest()->getParam('id');
+$okBooking = false;
+$bookingId = 0;
+$storeId = $this->getRequest()->getParam('store',0);
+$url = $block->getFromAjaxUrl();
+if($id > 0) {
+	$product = $block->getCoreProduct($id);
+	if($product && $product->getTypeId() == 'booking')
+	{
+		$okBooking = true;
+		$bookingId = $product->getId();
+	}
+} ?>
+<div id="mst-booking-tab" class="entry-edit form-inline">
+<?php if($okBooking) : ?>
+   <div data-role="group-fields-product-details-wrapper" id="group-fields-product-details-wrapper">
+		<div class="fieldset-wrapper-title admin__fieldset-wrapper-title">
+			<div class="admin__field" data-bind="" data-index="">
+			   <div class="admin__field-control">
+					<button type="button" class="action-default primary" title="<?php echo __('Config Booking'); ?>" id="config-booking-info"><span><?php echo __('Config Booking'); ?></span></button>
+				 </div>
+			</div>
+		</div>
+	</div>
+	<div id="bk-popup-modal-content" style="display: none"></div>
+	<script>
+	
+	require([
+			'jquery',
+			'Magento_Ui/js/modal/modal'
+		],
+		function($, modal) {
+			//call available
+			var bookingId = '<?php echo $bookingId; ?>';
+			var storeId = '<?php echo $storeId; ?>';
+			var urlPopup = '<?php echo $url; ?>';
+			//js modal
+			$('#config-booking-info').click(function(){
+				//get content for popup
+				var bookingType = $('#booking_type').val();
+				$('#bk-popup-modal-rent').html('');
+				$('.bk-loading-mask').css('display','block');
+				$.ajax({
+					url : urlPopup,
+					dataType : 'json',
+					type : 'POST',
+					data : {booking_id : bookingId,store : storeId},
+					success : function(res)
+					{
+						$('#bk-popup-modal-content').html(res.html_from);
+						$('.bk-loading-mask').css('display','none');
+					},
+					error : function()
+					{
+					
+					}
+				});
+				var options = {
+					type: 'slide',
+					responsive: true,
+					innerScroll: false,
+					title: '<?php echo __('Config Booking') ?>',
+					buttons: []
+				};
+				var popup = modal(options, $('#bk-popup-modal-content'));
+				$('#bk-popup-modal-content').modal('openModal');
+		   });
+		}
+	)
+	</script>
+<?php else : ?>
+<?php echo __('Note: please complete create  product before configuration booking system'); ?>
+<?php endif; ?>

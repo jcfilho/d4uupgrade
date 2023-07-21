@@ -1,0 +1,158 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+
+/** @var \Magento\Framework\UrlInterface $urlInterface */
+$urlInterface = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\UrlInterface');
+$currentUrl = $urlInterface->getCurrentUrl();
+?>
+
+
+
+<?php if ($post = $this->getPost()): ?>
+    <?php $tagString = $post->getTermCollectionAsString('array_tags') ?>
+    <?php $categoryString = $post->getTermCollectionAsString('one_category'); ?>
+
+    <div class="post-view">
+        <a class="link-parent" href="<?php echo $categoryString['url'] ?>"><i class="fa fa-angle-left"></i><span><?php echo $categoryString['name'] ?></span></a>
+        <h1 class="post-title"><strong><?php echo $this->escapeHtml($post->getPostTitle()) ?></strong></h1>
+        <div class="post-meta post-meta-top">
+            <div class="post-date post-meta-item pull-left">
+                <img src="<?php echo $this->getViewFileUrl('images/icon-date.png') ?>"/>
+                <span><?php echo $post->getPostDate() ?></span>
+                <a href="<?php echo $post->getUser()->getUrl() ?>" class="author-link"><?php echo $post->getUser() ->getDisplayName() ?></a>
+            </div>
+            <div class="share_block pull-right">
+                <span class="text_left"><?php echo __('Share whith yours friends:') ?></span>
+                <div class="list_social_network">
+                    <a href="javascript:window.open('https://www.facebook.com/sharer/sharer.php?u=<?= $currentUrl ?>','daytours-facebook','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=600,height=300')" class="social facebook"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/fb-icon.png'); ?>"/></a>
+                    <a href="javascript:window.open('https://twitter.com/home?status=<?= $currentUrl ?>','daytours-twitter','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=600,height=300')" class="social google"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/google-icon.png'); ?>"/></a>
+                    <a href="javascript:window.open('https://plus.google.com/share?url=<?= $currentUrl ?>','daytours-plus-google','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=600,height=300')" class="social twitter"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/twitter-icon.png'); ?>"/></a>
+                    <!--
+                    Please note that it works only on mobile. For more information see here:
+                    https://developers.facebook.com/docs/sharing/messenger/web
+                    -->
+                    <a href="fb-messenger://share/?link=&app_id=<?= $currentUrl ?>" class="social messenger"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/messenger-icon.png'); ?>"/></a>
+                    <a href="whatsapp://send?text=<?= $currentUrl ?>"  id="viber-share" class="social viber"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/viber-icon.png'); ?>"/></a>
+
+                </div>
+            </div>
+        </div>
+        <div class="categories-post">
+            <span class="label"><?= __('Tags:') ?> </span>
+            <div class="list-tag">
+                <?php foreach ($tagString as $tag): ?>
+                    <div class="tag-post argentina"><?= $tag['name'] ?></div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <div class="post-entry">
+            <div class="post-content">
+                <?php if (($content = trim($post->getContent())) !== ''): ?>
+                    <?php
+                     $_img_matches = [];
+                     $conditionalJsPatternImg = '/<img[^>]* src=\"([^\"]*)\"[^>]*>/';
+                     preg_match_all($conditionalJsPatternImg, $content, $_img_matches);
+                     foreach($_img_matches[0] as $img){ 
+                         $newImg = $img;
+                         if(strpos($img,"class")){
+                             $str = $newImg;
+                             $patternPicos = '/[<|>]/'; // < >
+                             $patternClass = '/class=([^=]*)([^(a-z|A-Z|0-9|\-|_)])*("|([^(a-z|A-Z|0-9|\-|_)]).*")/';
+                             $patterFinalClass = '/["|\']$/i';
+                             $class = "";
+                             $str = preg_replace($patternPicos,'',$str); //Quito los picos < >
+                             preg_match($patternClass ,$str,$clase);//Otengo la clase
+                             if(strlen($class) != 0 && !strpos($class,'lazy')){
+                                 $clase[0] = preg_replace($patterFinalClass,' lazy"',$clase[0]);//Modifico la clase
+                                 $newImg = preg_replace($patternClass,$clase[0],$str);//Sustuyo la clase modificada en el string
+                                 $newImg = str_replace('src=','data-original=',$newImg);
+                                 $newImg = str_replace('<img ','<img src="https://www.daytours4u.com/pub/media/wysiwyg/Loader.gif" ',$newImg);
+                             }
+                         }
+                         else{
+                             $newImg = str_replace('src=','data-original=',$newImg);
+                             $newImg = str_replace('<img ','<img class="lazy" src="https://www.daytours4u.com/pub/media/wysiwyg/Loader.gif" ',$newImg);
+                         }
+                         //echo $newImg;
+                         $content = str_replace($img,$newImg,$content);
+                        } 
+                        $content = str_replace('class="','class="lazy ',$content);
+                        $content = str_replace('src=','data-original=',$content);
+                        $newImg = str_replace('<img ','<img src="https://www.daytours4u.com/pub/media/wysiwyg/Loader.gif" ',$content);
+                        $re = '%# Collapse ws everywhere but in blacklisted elements.
+                        (?>             # Match all whitespans other than single space.
+                          [^\S ]\s*     # Either one [\t\r\n\f\v] and zero or more ws,
+                        | \s{2,}        # or two or more consecutive-any-whitespace.
+                        ) # Note: The remaining regex consumes no text at all...
+                        (?=             # Ensure we are not in a blacklist tag.
+                          (?:           # Begin (unnecessary) group.
+                            (?:         # Zero or more of...
+                              [^<]++    # Either one or more non-"<"
+                            | <         # or a < starting a non-blacklist tag.
+                              (?!/?(?:textarea|pre)\b)
+                            )*+         # (This could be "unroll-the-loop"ified.)
+                          )             # End (unnecessary) group.
+                          (?:           # Begin alternation group.
+                            <           # Either a blacklist start tag.
+                            (?>textarea|pre)\b
+                          | \z          # or end of file.
+                          )             # End alternation group.
+                        )  # If we made it here, we are not in a blacklist tag.
+                        %ix';
+                        $content = preg_replace($re, " ", $content);
+                        echo str_replace('.png','.png.webp', $content);
+
+                        // echo $content;
+                        ?>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="post-meta post-meta-bottom">
+            <div class="post-date post-meta-item pull-left">
+                <img src="<?php echo $this->getViewFileUrl('images/icon-date.png') ?>"/>
+                <span><?php echo $post->getPostDate() ?></span>
+                <a href="<?php echo $post->getUser()->getUrl() ?>" class="author-link"><?php echo $post->getUser() ->getDisplayName() ?></a>
+            </div>
+            <div class="share_block pull-right">
+                <span class="text_left">Share whith yours friends:</span>
+                <div class="list_social_network">
+                    <a href="javascript:window.open('https://www.facebook.com/sharer/sharer.php?u=<?= $currentUrl ?>','daytours-facebook','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=600,height=300')" class="social facebook"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/fb-icon.png'); ?>"/></a>
+                    <a href="javascript:window.open('https://twitter.com/home?status=<?= $currentUrl ?>','daytours-twitter','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=600,height=300')" class="social google"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/google-icon.png'); ?>"/></a>
+                    <a href="javascript:window.open('https://plus.google.com/share?url=<?= $currentUrl ?>','daytours-plus-google','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=600,height=300')" class="social twitter"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/twitter-icon.png'); ?>"/></a>
+                    <!--
+                    Please note that it works only on mobile. For more information see here:
+                    https://developers.facebook.com/docs/sharing/messenger/web
+                    -->
+                    <a href="fb-messenger://share/?link=&app_id=<?= $currentUrl ?>" class="social messenger"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/messenger-icon.png'); ?>"/></a>
+                    <a href="whatsapp://send?text=<?= $currentUrl ?>"  id="viber-share" class="social viber"><img src="<?php echo $this->getViewFileUrl('images/icons/blue/viber-icon.png'); ?>"/></a>
+
+                </div>
+            </div>
+        </div>
+        <div class="categories-post">
+            <span class="label"><?= __('Tags:') ?> </span>
+            <div class="list-tag">
+                <?php foreach ($tagString as $tag): ?>
+                    <div class="tag-post argentina"><?= $tag['name'] ?></div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <div id="comments" class="comments-wrapper"></div>
+    </div>
+<script>
+    require(['jquery'],
+        function($){
+        // $(document).ready(function(){
+        //     var buttonID = "viber-share";
+        //     var text = "Check this out: ";
+        //     document.getElementById(buttonID)
+        //         .setAttribute('href', "https://3p3x.adj.st/?adjust_t=u783g1_kw9yml&adjust_fallback=https%3A%2F%2Fwww.viber.com%2F%3Futm_source%3DPartner%26utm_medium%3DSharebutton%26utm_campaign%3DDefualt&adjust_campaign=Sharebutton&adjust_deeplink=" + encodeURIComponent("viber://forward?text=" + encodeURIComponent(window.location.href)));
+        // })
+    })
+</script>
+<?php endif; ?>

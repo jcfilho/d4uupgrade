@@ -1,0 +1,99 @@
+<?php 
+/**
+* @Author      : Kien
+* @package     Marketplace
+* @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+* @terms  http://www.magebay.com/terms
+* @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+**/
+$_transactionCollection = $block->getTransactions();
+$_transactionDetail = $block->getDetailTransaction();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$params = $this->getRequest()->getPost();
+$transactionId = isset($params['transaction_id']) ? $params['transaction_id'] : '';
+$fromDate = isset($params['from_date']) ? $params['from_date'] : '';
+$toDate = isset($params['to_date']) ? $params['to_date'] : '';
+$limit = $this->getRequest()->getParam('limit',5);
+
+$paymentDetail = $block->getPaymentMethodById($this->getRequest()->getParam('payment_id'));
+?>
+<!-- Withdrawal Detail -->
+<form method="post" action="<?php echo $this->getUrl('marketplace/seller/WithdrawConfirm') ?>" id="withdraw-form">
+    <fieldset class="fieldset info withdrawal">
+        <legend class="legend"><?php echo __($paymentDetail['name'].' Withdrawal'); ?></legend>
+        <?php if($paymentDetail['note']){ ?>
+            <div style="border: 1px solid #d3d3d3; padding: 10px;margin: 10px 0;border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;background: #fffeed;">
+                <?php echo $paymentDetail['note'] ?>
+            </div>
+        <?php } ?>
+        <br/>
+        <p>
+            <span>
+                <?php echo __('You can withdraw up to'); ?>
+            </span> 
+            <strong>
+                <?php echo $block->getPrice($_transactionDetail['amountremain']-$block->getPendingAmount(\Magento\Framework\App\ObjectManager::getInstance()->create('Magento\Customer\Model\Session')->getId())) ?>
+                <input type="hidden" name="can_withdraw" value="<?php echo ($_transactionDetail['amountremain']-$block->getPendingAmount(\Magento\Framework\App\ObjectManager::getInstance()->create('Magento\Customer\Model\Session')->getId())) ?>" />
+            </strong>
+        </p>
+        <p>
+            <span>
+                <?php echo __('Fee'); ?>:
+            </span> 
+            <strong>
+                <?php echo $block->getPrice($paymentDetail['fee']) ?>
+            </strong>
+        </p>
+        <input type="hidden" name="payment_id" value="<?php echo $paymentDetail['id'] ?>" />
+        <?php if($paymentDetail['email_account']){ ?>
+            <div class="field field-email required">
+                <label for="email" class="label">
+                    <span><?php echo __($paymentDetail['name'].' email account'); ?></span>
+                </label>
+                <div class="control">
+                    <input type="text" data-validate="{required:true}" class="input-text required-entry validate-email" title="<?php echo __($paymentDetail['name'].' email account'); ?>" name="email" id="email" aria-required="true" />
+                </div>
+            </div>
+        <?php } ?>
+        <div class="field field-amount required">
+            <label for="amount" class="label">
+                <span><?php echo __('Amount to withdraw'); ?></span>
+            </label>
+            <div class="control">
+                <input type="text" data-validate="{required:true}" class="input-text required-entry validate-number validate-digits-range digits-range-<?php echo $paymentDetail['minamount']?$paymentDetail['minamount']:'' ?>-<?php echo $paymentDetail['maxamount']?$paymentDetail['maxamount']:'' ?>" title="<?php echo __('Amount to withdraw'); ?>" name="amount" id="amount" aria-required="true" />
+                <p id="note_withdraw_amount" class="note">
+                    <span>Min <?php echo $paymentDetail['minamount']?$block->getPrice($paymentDetail['minamount']):'0' ?>, Max <?php echo $paymentDetail['maxamount']?$block->getPrice($paymentDetail['maxamount']):'unlimited' ?></span>
+                </p>
+            </div>
+        </div>
+        <?php if($paymentDetail['additional']){ ?>
+            <div class="field field-info required">
+                <label for="info" class="label"><span><?php echo __($paymentDetail['name'].' Info'); ?></span></label>
+                <div class="control">
+                    <textarea style="height: 200px" data-validate="{required:true}" class="input-text required-entry" title="<?php echo __($paymentDetail['name'].' Info'); ?>" id="info" name="info" aria-required="true"></textarea>
+                </div>
+            </div>
+        <?php } ?>
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button title="Continue" class="action continue primary" type="submit"><span>Continue</span></button>
+        </div>
+        <div class="primary" style="float: right;">
+            <a class="left" onclick="javascript: window.history.back();" href="javascript:;">
+                <?php echo __('Back'); ?>
+            </a>
+        </div>
+    </div>
+</form>
+<script>
+    require([
+        "jquery",
+        "mage/mage"
+    ], function($){
+        var dataForm = $('#withdraw-form');
+        dataForm.mage('validation', {});
+        var _action=dataForm.attr('action');
+    });
+</script>
+<!-- End Withdrawal Detail -->

@@ -1,0 +1,161 @@
+<?php 
+$bookings = $block->getListBookings();
+$priceHelper = $block->getBkPriceHelper();
+$formatDate = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/format_date');;
+$checkIn = $block->getBkRequest()->getParam('check_in','');
+$checkOut = $block->getBkRequest()->getParam('check_out','');
+$addUrl = '';
+$urlSearch = $block->getBkAjaxUrl();
+if($checkIn != '' && $checkOut != '')
+{
+	$checkIn = $this->getBkHelperDate()->convertFormatDate($checkIn);
+	$checkOut = $this->getBkHelperDate()->convertFormatDate($checkOut);
+	$addUrl = "?check-in=$checkIn&check-out=$checkOut";
+}
+$enableAddress = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/booking_address');
+$_imagehelper = $block->getBkCatalogHelper();
+if(count($bookings)) : ?>
+<div class="list-book" id="list-rent-booking">
+	<?php foreach($bookings as $booking) : ?>
+	   <div class="booking-item item-book">
+		  <div class="row">
+			 <div class="col-md-3">
+				<div class="image-book">
+					<?php  $productImage = $_imagehelper->init($booking, 'product_page_image_small')->keepAspectRatio(true)->resize(200, 200)->getUrl(); ?>
+					<a href="<?php echo $booking->getProductUrl().$addUrl; ?>" class="product-image booking-hotel-item"><img src="<?php echo $productImage; //$this->helper('catalog/image')->init($booking, 'small_image')->keepFrame(false)->resize(185); ?>" width="185" /></a>
+				</div>
+			 </div>
+			 <div class="col-md-6">
+				<div class="product-reviews-summary">
+				   <div class="rating-summary">
+					  <div class="rating-result">
+						<span style="width: <?php echo $booking->getBookingRate(); ?>%;"></span>
+					  </div>
+				   </div>
+				   <?php if($booking->getBookingRate() > 0) : ?>
+						<span class="booking-item-rating-number"><b><?php echo round(($booking->getBookingRate()/ 20),1) ?></b> <?php echo __('Of') ?> 5</span>
+					<?php endif; ?>
+				  <span class="amount"><a href="#">(<?php echo $booking->getBookingReview(); ?> <?php echo __('reviews'); ?>)</a></span>
+				</div>
+				<div class="name-book">	
+					<a href="<?php echo $booking->getProductUrl().$addUrl; ?>" class="product-name"><?php echo $booking->getName()?></a>
+				</div>
+				<div class="booking-item-address">
+					<?php if($enableAddress == 1 && $booking->getBookingAddress() != '') :  ?>
+						<i class="fa fa-map-marker"></i>
+						<?php $bookingAddress = $booking->getBookingAddress().', '.$booking->getBookingCity(); ?>
+						<?php 
+							if($booking->getBookingState() != '' || $booking->getBookingStateId() > 0)
+							{
+								$states = '';
+								if($booking->getBookingStateId() > 0)
+								{
+									$states = $block->getBkRegionName($booking->getBookingStateId());
+								}
+								else
+								{
+									$states = $booking->getBookingState();
+								}
+								$bookingAddress .= ', '.$states;
+							}
+						?>
+						<?php 
+						$strCountry = $block->getBkCountryName($booking->getBookingCountry());
+						$bookingAddress .= ', '. $strCountry;
+						?>
+						<?php echo $bookingAddress; ?>
+					<?php endif; ?>
+				</div>
+			 </div>
+			 <div class="col-md-3">
+				<div class="info-book">
+				   <div class="price-book">
+					  <span class="price <?php echo $booking->getBookingPromo() > 0 ? 'booking-price-old' : '' ?>"><?php echo $priceHelper->currency($booking->getBookingPrice(),true,false); ?></span>
+						<?php if($booking->getBookingPromo() > 0) : ?>
+							<span class="price booking-promo"><?php echo $priceHelper->currency($booking->getBookingPromo(),true,false); ?></span>
+						<?php endif; ?>
+				   </div>
+				   <div class="detail-booking btn-primary">
+					  <a href="<?php echo $booking->getProductUrl().$addUrl; ?>" class="btn_goto"><?php echo __('Book Now'); ?></a>
+				   </div>
+				</div>
+			 </div>
+		  </div>
+	   </div>
+	<?php endforeach; ?>
+   <!-- pages -->
+</div>
+<?php $numberItems = $block->getBkHelperDate()->getFieldSetting('bookingsystem/search_setting/number_items'); ?>
+<?php $count = $bookings->getSize(); ?>
+<?php if($count > $numberItems) : ?>
+<?php $page = $this->getBkRequest()->getParam('page',1); ?>
+<div class="toolbar-bottom">
+	<div class="pages-booking">
+		<ul class="pagination">
+				<li class="paginate_button previous <?php if($page == 1) echo 'disabled'; ?>" id="dynamic-table_previous">
+					<?php if($page > 1) : ?>
+					<a href="#" class="btn-booking-page-pt" id="booking-page-pre-<?php echo ($page - 1); ?>"><?php echo __('<<'); ?></a>
+					<?php else : ?>
+						<a><?php echo __('<<') ?></a>
+					<?php endif; ?>
+				</li>
+				<?php $i = 0; ?>
+				<?php $j = 1; ?>
+				<?php while($i < $count) : ?>
+					<?php if($page == $j) : ?>
+						<li class="paginate_button <?php if($page == $j) echo 'active'; ?>" ><a><?php echo $j; ?></a></li>
+					<?php else : ?>
+						<li class="paginate_button" ><a href="#" class="btn-booking-page-pt" id="booking-page-middle-<?php echo $j; ?>"><?php echo $j; ?></a></li>
+					<?php endif; ?>
+				<?php $j++; ?>
+				<?php $i += $numberItems; ?>
+				<?php endwhile; ?>
+				<li class="paginate_button next <?php if(($j - 1) == $page) echo 'disabled' ?>" id="dynamic-table_next">
+					<?php if(($j - 1) > $page) : ?>
+					<a href="#" class="<?php echo ($j - 1) > $page ? 'btn-booking-page-pt' : '' ?>" id="booking-page-next-<?php echo ($page + 1); ?>"><?php echo __('>>'); ?></a>
+					<?php else : ?>
+						<a><?php echo __('>>'); ?></a>
+					<?php endif; ?>
+				</li>
+			</ul>
+	</div>
+</div>
+<?php endif; ?>
+<?php  ?>
+<script>
+require([
+			'jquery',
+		],
+	function ($){
+	$('.btn-booking-page-pt').click(function(e){
+		$('#booking-loader').css('display','block');
+		$('#booking-rent-contents').html('');
+		var urlSearch = '<?php echo $urlSearch; ?>';
+		var elementId = $(this).attr('id');
+		var arElememtId = elementId.split('-');
+		elementId = arElememtId[3];
+		urlSearch += 'page/'+elementId;
+		$.ajax({
+			url : urlSearch,
+			dataType : 'json',
+			type : 'POST',
+			data: $('#booking-search').serialize(),
+			success : function(res)
+			{
+				$('#booking-loader').css('display','none');
+				$('#booking-rent-contents').html(res.html_items);
+			},
+			error : function()
+			{
+				
+				$('#booking-loader').css('display','none');
+			}
+		});
+		e.preventDefault();
+	})
+})
+
+</script>
+<?php else : ?>
+<p style="color : red;"><?php echo __('Booking Not Found'); ?><p>
+<?php endif; ?>

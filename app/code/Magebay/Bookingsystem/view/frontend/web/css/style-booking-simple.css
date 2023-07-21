@@ -1,0 +1,200 @@
+/*custome style . remember copy to module */
+.bk-booking-content
+{
+    float: left;
+    width: 100%
+}
+.simple-booking-form  {
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding: 15px 20px;
+    border: 1px solid #ed8323;
+    -webkit-box-shadow: 0 2px 1px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 1px rgba(0,0,0,0.15);
+    float: left;
+    width: 100%;
+}
+.simple-booking-form  .booking-update-cart
+{
+    float: left;
+    width: 300px;
+}
+.simple-booking-form .simple-booking-form-input , .simple-booking-form  .booking-book{ }
+.simple-booking-form-input .date-box .input-date {
+    float: left;
+    width: 100%;
+}
+.simple-booking-form-input .date-box .input-date label {
+    float: left;
+    font-size: 14px;
+    font-weight: 600;
+}
+.simple-booking-form-input .date-box .input-date input {
+    float: left;
+    min-height: 30px;
+}
+.simple-booking-form-input .date-box .select-time {
+    float: left;
+    margin-left: 1px;
+}
+.simple-booking-form-input .date-box .select-time select {
+    height: 34px;
+    width: 65px;
+}
+.simple-booking-form-input .booking-per-hour,.simple-booking-form-input .booking-fee-night {
+    float: left;
+    width: 100%;
+    font-size: 20px;
+    color: #DB7B00;
+}
+.simple-booking-form-input .booking-fee-night {
+    font-size: 15px;
+}
+.simple-booking-form-input .booking-sale-total {
+    font-weight: bold;
+}
+
+.booking-book .booking-quantity, .booking-book .booking-results {
+    float: left;
+    width: 100%;
+}
+.booking-book .booking-quantity select {
+    width: 40px;
+}
+.booking-book .booking-results {
+    margin-top: 10px ;
+}
+.booking-results span {
+    float: left;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 0 0 5px;
+    width: 100%;
+}
+.booking-results span.booking-result-error {
+    color: red;
+}
+.booking-results .price-box {
+    float: left;
+    width: 100%;
+}
+.booking-results .price-box p {
+    float: left;
+    width: 100%;
+}
+.booking-results .price-box .special-price {
+    padding-left: 0;
+}
+.booking-results div.price-box p.old-price span {
+    text-decoration: line-through;
+}
+/* Edit By Duc*/
+.booking-form .form-group { position: relative; float: left; width: 100%; }
+.booking-form .form-group .form-control { box-shadow: none; border-radius: 0; line-height: 1.6em; height: 34px; }
+.booking-form .form-group .select-time select { line-height: 1.6em; }
+.booking-form .form-control:active, .form-control:focus { border: 1px solid #ed8323; }
+.booking-form .form-group .input-icon {
+    color: #b3b3b3;
+    display: block;
+    height: 32px;
+    left: 1px;
+    line-height: 32px;
+    position: absolute;
+    text-align: center;
+    top: 2px;
+    transition: all 0.3s ease 0s;
+    width: 32px;
+    z-index: 2;
+}
+.booking-form .form-group .form-control  { padding-left: 32px; }
+.booking-form .form-group .select-date  { clear: none;float: left;width: auto; margin:0 10px 0 0; }
+.booking-form .form-group .select-time  { clear: none;float: left;  margin:0;}
+.booking-form .date-box .form-group .input-text  { max-width: 250px; }
+.btn-booking-book .button {
+    background: #ed8323 none repeat scroll 0 0;
+    border-color: #e27513;
+    height: 40px;
+    padding: 0 30px;
+}
+.btn-booking-book .button:hover { border-radius: 10px; }
+.btn-booking-book .button span { border: none; }
+.booking-form { margin: 0 0 10px; }
+
+#service .image-td img , #service .price-td img{  }
+.tab-info-book .tab-content { margin: 10px 0; }
+/* addons-cross-sells */
+.addons-cross-sells {clear: both;float: left;width: 100%; text-align: left;}
+.addons-cross-sells 	label  { font-size: 14px;font-weight: 600;text-transform: capitalize; }
+.addons-cross-sells 	label span  { font-weight: normal; }
+.addons-cross-sells 	dd  { margin-bottom: 10px;}
+.addons-cross-sells 	dd select , .addons-cross-sells dd input.input-text  { max-width: 250px; width: 100%; }
+/*style discount */
+.booking-message-discount
+{
+    float: left;
+    width: 100%;
+}
+.booking-message-discount span
+{
+    float: left;
+    width: 100%;
+}
+.booking-message-discount .last-minute, .booking-message-discount .first-moment
+{
+    color: #00AEFF;
+    font-weight: bold;
+}
+.booking-message-discount .length-reservations
+{
+    color: blue;
+    font-weight: bold;
+}
+@media only screen and (max-width: 771px) {
+    .booking-form .form-group .select-time  { margin: 3px 0 0 0;}
+}
+/*------- New code ---------*/
+.row-6:after { clear: both; content: "."; display: block; font-size: 0; line-height: 0;  overflow: hidden; }
+.row-6 { margin-left:-6px;margin-right:-6px; }
+.row-6 > div { padding-left:6px;padding-right:6px; }
+.mt-sm { margin-top: 10px; }
+.data-table { border: 1px solid #ddd; }
+.data-table thead th { padding:6px;text-transform: uppercase; font-weight: 400; text-align: center;border-bottom:1px solid #ddd;border-left:1px solid #ddd;border-right:1px solid #ddd; }
+.data-table tbody th, .data-table tbody td { padding:6px 10px; border-bottom:1px solid #ddd;border-left:1px solid #ddd;border-right:1px solid #ddd;}
+.tab-info-book .image-td { text-align: center; }
+.addons-cross-sells dt > label { margin:0; }
+.addons-cross-sells label.required > em { float: right; color: red; margin-left: 2px; }
+.booking-message-discount { margin: 0 0 10px; }
+.booking-room-item .booking-quantity { margin: 10px 0; }
+.date-box-checkin .select-date
+{
+    width: 55% !important;
+}
+.date-box-checkin .select-date input#bk-checkin-checkout
+{
+    width: 100%;
+    text-align: center;
+}
+.input-date-service-time
+{
+    width: 50% !important;
+}
+.price-box-item {
+    float: left;
+    width: 100%;
+}
+.price-box-item label {
+    float: left;
+    width: 40%;
+}
+.price-box-item span {
+    float: left;
+    width: 40%;
+}
+.number-person-lable {
+    float: left;
+    width: 80%;
+}
+.number-persions {
+    float: left;
+    width: 18% !important;
+}

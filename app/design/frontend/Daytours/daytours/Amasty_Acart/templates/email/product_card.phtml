@@ -1,0 +1,92 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2023 Amasty (https://www.amasty.com)
+ * @package Abandoned Cart Email Base for Magento 2
+ */
+/**
+ * @var \Amasty\Acart\Block\Email\Items\Quote $block
+ * @var \Amasty\Acart\ViewModel\Email\ProductViewModel $viewModel
+ * @var \Magento\Framework\Escaper $escaper
+ */
+
+$item = $block->getData('item');
+$quote = $block->getQuote();
+$viewModel = $block->getData('viewModel');
+$helper = $viewModel->getOutputHelper();
+$imageHelper = $viewModel->getProductImageHelper();
+$product = $viewModel->getProduct($item, $block->getData('showConfigurableImage'));
+$jsonHelper = $this->helper('Magento\Framework\Json\Helper\Data');
+
+
+$nameInQuote = $helper->productAttribute($product, $product->getName(), 'name');
+$priceInQuote = $viewModel->getPrice($quote, $item, $product, $block->getData('showPriceIncTax'));;
+$productImage = $imageHelper->init($product, 'mini_cart_product_thumbnail')->getUrl();
+?>
+
+<tr style="border-bottom: none;">
+    <td colspan="2" class="item-info item-info-name-price" >
+        <p class="product-name"><?= $nameInQuote ?></p>
+        <p class="item-price">
+            <?= $priceInQuote ?>
+        </p>
+        <div class="clear"></div>
+    </td>
+</tr>
+<tr>
+    <td class="product-image">
+            <span style="background-image: url('<?=$productImage?>');
+                    background-position:center center;
+                    background-size:cover;
+                    width:93px;
+                    height:62px;
+                    display: block;
+                    padding: 0 10px 0 10px;
+                    -webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;">
+            </span>
+    </td>
+    <td class="item-info item-info-detail">
+        <?php if ($block->getData('showOptionList') && $options = $viewModel->getProductOptions($item, $product)): ?>
+            <div class="options-items">
+                <div class="options-items-left">
+                    <dl class="item-options">
+                        <?php
+                        if( isset($options['options'])){
+
+                            foreach ($options['options'] as $option){
+                                ?>
+                                <dt><strong><em><?= $escaper->escapeHtml($option['label']) ?> ?>:</em></strong></dt>
+                                <dd>
+                                    <?= /* @escapeNotVerified */  nl2br($option['value']) ?>
+                                </dd>
+                                <div class="clear clearfix"></div>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </dl>
+                </div>
+                <div class="options-items-right">
+                    <dl class="item-options">
+                        <?php
+                        if( isset($options['info_buyRequest'])){
+                            $infoBuyRequest = $options['info_buyRequest'];
+                            if( isset($infoBuyRequest['extra_options_regular_services'])){
+                                if( !empty($infoBuyRequest['extra_options_regular_services']) ){
+                                    $regularService = $jsonHelper->jsonDecode($infoBuyRequest['extra_options_regular_services']);
+                                    foreach ($regularService as $itemR) {
+                                        echo '<dt><strong><em>'.$itemR['label'].':</em></strong></dt>';
+                                        echo '<dd><span class="price-item">'.$itemR['price'].'</span> </span><span class="qty-item"> x '.$itemR['qty'].'</span></dd>';
+                                        echo '<div class="clear clearfix"></div>';
+                                    }
+                                }
+                            }
+                        }
+                        ?>
+                    </dl>
+                </div>
+                <div class="clear"></div>
+            </div>
+        <?php endif; ?>
+    </td>
+</tr>

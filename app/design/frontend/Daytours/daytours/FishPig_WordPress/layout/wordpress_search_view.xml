@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<page layout="2columns-right" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<body>
+		<referenceContainer name="content">
+			<block class="FishPig\WordPress\Block\Search\View" name="wp.search.view" template="post/list/wrapper.phtml">
+				<block class="FishPig\WordPress\Block\Post\ListPost" name="wp.post.list" template="post/list-search.phtml">
+					<block class="FishPig\WordPress\Block\Post\PostList\Pager" name="wp.post_list.pager" as="pager" />
+				</block>
+			</block>
+			<referenceBlock name="breadcrumbs" remove="true" />
+		</referenceContainer>
+		<referenceContainer name="sidebar.main">
+			<!--<block class="Daytours\Wordpress\Block\RecentArticles" name="sidebar.recent"  template="Daytours_Wordpress::list-recent-articles.phtml" after="search.sidebar.bloc" />-->
+			<!--<block class="FishPig\WordPress\Block\Sidebar\Widget\Cloud" name="sidebar.tags"  template="FishPig_WordPress::sidebar/widget/cloud.phtml" after="sidebar.recent"/>-->
+		</referenceContainer>
+		<referenceBlock name="page.main.title" remove="true" />
+
+	</body>
+</page>

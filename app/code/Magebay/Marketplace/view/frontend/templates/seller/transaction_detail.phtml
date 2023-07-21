@@ -1,0 +1,161 @@
+<?php 
+/**
+ * @Author      : Kien
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+?>
+<?php 
+    $transaction = $block->getMkDetailTransaction(); 
+    $paymentDetail = $block->getPaymentMethodById($transaction['payment_id']);
+?>
+<?php if($transaction) : ?>
+    <div class="mst_mv_wrapper">
+        <div class="block block-multivendor">
+            <div class="block-title">
+                <strong>
+                    <span>
+                        <h4>
+                            <?php echo $transaction['transaction_id_online']?__('Unique Transaction ID # '.$transaction['transaction_id_online'].' - '):__('Transaction Id : '.$transaction['transaction_id'].' - '); ?>
+                            <?php if ($transaction->getPaidStatus() == 1) echo __('Pending') ?>
+                            <?php if ($transaction->getPaidStatus() == 2) echo __('Completed') ?>
+                            <?php if ($transaction->getPaidStatus() == 3) echo __('Canceled') ?> 
+                        </h4>
+                    </span>
+                </strong>
+                <strong>
+                    <span>
+                        <h4><?php echo __('Amount : '.$block->getMkPriceHelper()->currency($transaction['transaction_amount'],true,false)); ?></h4>
+                    </span>
+                </strong>
+                <strong>
+                    <span>
+                        <h4><?php echo __('Message : '.$transaction['admin_comment']); ?></h4>
+                    </span>
+                </strong>
+                <strong>
+                    <span>
+                        <h4><?php echo __('Date : '.$transaction['created_at']); ?></h4>
+                    </span>
+                </strong>
+            </div>
+        </div>
+        <div id="mst_mv_print_order" class="fieldset mst_mv_fieldset">
+            <div class="page-title title-buttons">
+                <h1><?php echo __('Withdrawal information'); ?></h1>
+            </div>
+            <div id="withdrawal_form" class="fieldset ">
+                <div class="hor-scroll">
+                    <table cellspacing="0" class="form-list">
+                        <tbody>
+                            <tr>
+                                <td class="label">
+                                    <label for="payment_method"><?php echo __('Payment Method') ?></label>
+                                </td>
+                                <td class="value">
+                                    <?php 
+                                        if($transaction['transaction_id_online']){
+                                            echo 'Marketplace Paypal Adaptive';
+                                        }else{
+                                            $paymentDetail = $block->getPaymentMethodById($transaction['payment_id']);
+                                            echo $paymentDetail['name'];
+                                        }
+                                    ?>        
+                                </td>
+                            </tr>
+                            <?php if($transaction['payment_email']){ ?>
+                                <tr>
+                                    <td class="label">
+                                        <label for="payment_account"><?php echo $transaction['transaction_id_online']?'Paypal':$paymentDetail['name'] ?>  <?php echo __('Email Account') ?></label>
+                                    </td>
+                                    <td class="value">
+                                        <?php echo $transaction['payment_email'] ?>             
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                            <tr>
+                                <td class="label">
+                                    <label for="amount"><?php echo __('Amount') ?></label>
+                                </td>
+                                <td class="value">
+                                    <?php echo $block->getPrice($transaction['transaction_amount']) ?>            
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">
+                                    <label for="fee"><?php echo __('Withdrawal Fee') ?></label>
+                                </td>
+                                <td class="value">
+                                    <?php echo $block->getPrice($transaction['amount_fee']) ?>             
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">
+                                    <label for="net_amount"><?php echo __('Net Amount') ?></label>
+                                </td>
+                                <td class="value">
+                                    <?php echo $block->getPrice($transaction['amount_paid']) ?>            
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">
+                                    <label for="status"><?php echo __('Status') ?></label>
+                                </td>
+                                <td class="value">
+                                    <?php if ($transaction->getPaidStatus() == 1) echo '<span class="status_yellow">'.__('Pending').'</span>' ?>
+                                    <?php if ($transaction->getPaidStatus() == 2) echo '<span class="status_green">'.__('Completed').'</span>' ?>
+                                    <?php if ($transaction->getPaidStatus() == 3) echo '<span class="status_gray">'.__('Canceled').'</span>' ?>      
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">
+                                    <label for="created_at"><?php echo __('Created At') ?></label>
+                                </td>
+                                <td class="value">
+                                    <?php echo $transaction->getCreatedAt() ?>        
+                                </td>
+                            </tr>
+                            <?php if($transaction['payment_additional']){ ?>                            
+                                <tr>
+                                    <td colspan="2">
+                                        <div style="border: 1px solid #d3d3d3; padding: 10px;margin: 10px 0;border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;background: #fffeed;">
+                                            <h3><?php echo __('Additional Info') ?></h3>
+                                            <?php echo $transaction['payment_additional'] ?> 
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php } ?>                                
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="buttons-set">
+            <p class="back-link">
+                <a class="left" onclick="javascript: window.history.back();" href="javascript:;"><?php echo __('Back'); ?></a>
+            </p>
+        </div>
+    </div>
+    <style>
+        .status_green, .status_yellow, .status_gray {
+            border-radius: 15px;
+            color: #ffffff;
+            display: block;
+            font-weight: bold;
+            padding: 2px 5px;
+            text-align: center;
+            width: 100px;
+        }
+        .status_gray {
+            background-color: #999999;
+        }
+        .status_green {
+            background-color: #468847;
+        }
+        .status_yellow{
+            background-color: #f89406;
+        }
+    </style>
+<?php endif; ?>

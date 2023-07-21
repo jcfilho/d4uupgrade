@@ -1,0 +1,124 @@
+<?php 
+/**
+ * @Author      : Dream
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+ /* var Magebay\Marketplace\Block\Seller */
+?>
+<?php 
+    $seller = $block->getSellerProfile();
+    $arKeyReview = array('price','value','quality');
+?>
+<?php if($seller) : ?>
+    <?php $reviews = $block->getMKsellerReview($seller->getUserId()); ?>
+    <?php $totalReview = 0; $i = 0; ?>
+    <?php 
+        if(count($reviews)){
+            foreach($reviews as $key => $review) {
+                if(in_array($key, $arKeyReview)) {
+                    $totalReview += $review;
+                    $i++;
+                }
+            }
+        }
+        if($totalReview > 0) {
+            $totalReview = $totalReview / $i;
+        }
+    ?>
+    <div class="mst_mv_wrapper">
+        <div data-bind="scope: 'multivendor'" class="block block-multivendor" style="margin: 0px;">
+            <div class="block-title" style="margin: 0px;">
+                <strong>
+                    <span>
+                        <h4 style="font-size:21px;border-top: 1px solid #DDDDDD;border-right: 1px solid #DDDDDD;border-left: 1px solid #DDDDDD;margin: 0px;">
+                            <?php echo __('Seller Information'); ?>
+                        </h4>
+                    </span>
+                </strong>
+            </div>
+            <div class="block-content">
+                <div class="fieldset mst_mv_fieldset">
+                    <?php if($seller->getLogoimg() != '') : ?>
+                        <?php $logo = $block->getMkBaseMediaUrl().$seller->getLogoimg(); ?>
+                    <?php else : ?>
+                        <?php $logo = $block->getViewFileUrl('Magebay_Marketplace::images/noimage.png'); ?>
+                    <?php endif; ?>
+                    <a href="<?php echo  $this->getUrl()."marketplace/seller/view/vendor/".$seller->getStoreurl(); ?>" class="seller_logo">
+                        <img src="<?php echo $logo; ?>" class="logo_img"/>
+                    </a>
+                    <div class="block-content" id="info">
+                        <div class="mst_seller mv-row first">
+                            <div class="storename mv-row">
+                                <span class="mst_storename_icon mst_icon"></span>
+                                <a href="<?php echo  $this->getUrl()."marketplace/seller/view/vendor/".$seller->getStoreurl(); ?>" class="store-name"><?php echo $seller->getStoretitle() ?></a>
+                            </div>
+                            <div class="mst_feedback mv-row">
+                                <a href="<?php echo  $this->getUrl()."marketplace/seller/review/vendor/".$seller->getStoreurl(); ?>">
+                                    <div class="wrapp-rating">
+                                        <div class="rating" style="width:<?php echo $totalReview; ?>%;"></div>
+                                    </div>
+                                    <div class="rating-message">
+                                    </div>
+                                </a>
+                                <br/>
+                                <a href="<?php echo $block->getUrl() ?>marketplace/seller/review/vendor/<?php echo $seller->getStoreurl(); ?>" class="positive-reviews">
+                                    <strong><?php echo round($totalReview,2); ?>% </strong><?php echo __('Positive Reviews'); ?>
+                                </a>
+                            </div>
+                            <div class="connect mv-row">
+                                <?php echo __('Connect with Us'); ?>				
+                                <ul>
+                                    <li>			
+                                        <a href="http://www.facebook.com/<?php echo $seller->getFacebookid() ?>" target="_blank"><?php echo __('Find us on Facebook'); ?></a>		
+                                    </li>
+                                    <li>			
+                                        <a href="http://twitter.com/<?php echo $seller->getTwitterid(); ?>" target="_blank"><?php echo __('Follow us on Twitter'); ?></a>		
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mst_term mv-row">
+                                <a href="#return-policies" class="store-name"><?php echo __('Return Policy'); ?></a>
+                            </div>
+                            <div class="mst_term mv-row">
+                                <a href="#shipping-policies" class="store-name"><?php echo __('Shipping Policy'); ?></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fieldset mst_mv_fieldset contact_seller">
+                    <form action="<?php echo $block->getUrl(); ?>marketplace/seller/sendmailSeller/" method="post" id="contact_seller_form">
+                        <label class="label">
+                            <?php echo __('Email :'); ?>
+                        </label>
+                        <input type="text" data-validate="{required:true, 'validate-email':true}" name="email"/>
+                        <label class="label">
+                            <?php echo __('Subject :'); ?>
+                        </label>
+                        <input type="text" data-validate="{required:true}" name="subject"/>
+                        <label class="label">
+                            <?php echo __('Ask :')  ?>
+                        </label>
+                        <textarea data-validate="{required:true}" name="ask"></textarea>
+                        <input type="hidden" value="<?php echo $seller->getId(); ?>" name="seller_id"/> 
+                        <?php $customer = \Magento\Framework\App\ObjectManager::getInstance()->create('Magento\Customer\Model\Session'); ?>
+                        <input type="hidden" value="<?php echo $customer->getId(); ?>" name="customer_id"/> 
+                        <input type="hidden" value="<?php echo $block->getUrl() ?>marketplace/seller/view/vendor/<?php echo $seller->getStoreurl(); ?>" name="back_url"/>
+                        <button type="submit" title="<?php echo __('Send'); ?>" class="button"><span><span><?php echo __('Send'); ?></span></span></button>
+                    </form>
+                </div>	
+            </div>
+        </div>
+    </div>
+	<script>
+        require(['jquery','mage/mage'],function($){
+            var dataForm = $('#contact_seller_form');
+            var ignore = null;
+            dataForm.mage('validation', {
+                ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+            }).find('input:text').attr('autocomplete', 'off');
+        })
+	</script>
+<?php endif; ?>

@@ -1,0 +1,45 @@
+block_id,title,is_active,identifier,content,store_id
+,Category | Destinations | Top Banner | english,1,banner_destinations,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""/""}}"">Home</a></div>
+<div class=""name"">Destinations</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>","admin,english"
+,Category | Destinations | Top Banner | spanish,1,banner_destinations,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""/""}}"">Home</a></div>
+<div class=""name"">Destinations</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",spanish
+,Category | Destinations | Top Banner | portuguese,1,banner_destinations,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""/""}}"">Home</a></div>
+<div class=""name"">Destinations</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",portuguese
+,Category | Destinations | Top Banner | french,1,banner_destinations,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""/""}}"">Home</a></div>
+<div class=""name"">Destinations</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",french

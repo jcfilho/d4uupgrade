@@ -1,0 +1,17 @@
+<?php
+/** @var \Daytours\Customer\Block\Account\Login\Popup $block */
+?>
+<?php if ($block->showUpPopup()): ?>
+    <script>
+        require([
+            "jquery"
+        ], function ($) {
+            $(window).load(function () {
+                $("body .popup-with-form").trigger('click');
+            });
+            <?php if($block->getBeforeAuthorizationUrl()): ?>
+            $("#currentUrl").val("<?= $block->getBeforeAuthorizationUrl() ?>");
+            <?php endif; ?>
+        });
+    </script>
+<?php endif; ?>

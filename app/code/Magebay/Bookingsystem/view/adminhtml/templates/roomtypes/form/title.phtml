@@ -1,0 +1,62 @@
+<?php 
+$params = $block->getBkRequest();
+$id = isset($params['id']) ? $params['id'] : 0;
+$storeId = isset($params['store']) ? $params['store'] : 0;
+$title = '';
+if($id > 0)
+{
+	$roomtype = $block->getRoomtype();
+	$title = $roomtype->getRoomtypeTitle();
+}
+?>
+<div data-ui-id="adminhtml-roomtypes-edit-tab-info-0-fieldset-element-form-field-roomtype-title" class="admin__field field field-roomtype_title  required _required">
+   <label data-ui-id="adminhtml-roomtypes-edit-tab-info-0-fieldset-element-text-roomtypes-roomtype-title-label" for="roomtypes_roomtype_title" class="label admin__field-label"><span><?php echo __('Title'); ?></span></label>
+   <div class="admin__field-control control">                            
+		<?php if($id > 0 && $storeId > 0) : ?>
+			<?php
+				$title2 = $roomtype->getRoomtypeTitleTransalte();
+				$useDefault = 1;
+				if($title2 != '')
+				{
+					$arTitles = $block->getBkJsonDecode($title2);
+					if(count($arTitles))
+					{
+						foreach($arTitles as $arTitle)
+						{
+							if($arTitle['store_id'] == $storeId)
+							{
+								$title = $arTitle['value'];
+								$useDefault = $arTitle['use_default'];
+								break;
+							}
+						}
+					}
+				}
+			?>
+			<input type="text" class=" input-text admin__control-text required-entry _required" value="<?php echo $title; ?>" data-ui-id="adminhtml-roomtypes-edit-tab-info-0-fieldset-element-text-roomtypes-roomtype-title" name="roomtypes[roomtype_title]" id="roomtypes_roomtype_title" <?php if($useDefault == 1) { echo 'disabled="disabled"'; } ?>>
+			<input id="roomtypes_title_default" <?php if($useDefault == 1) { echo 'checked="checked"'; } ?> type="checkbox" name="roomtypes[title_default]" value="1" /> <?php echo __('Use Default Value'); ?>
+		<?php else : ?>
+			 <input type="text" class=" input-text admin__control-text required-entry _required" value="<?php echo $title; ?>" data-ui-id="adminhtml-roomtypes-edit-tab-info-0-fieldset-element-text-roomtypes-roomtype-title" name="roomtypes[roomtype_title]" id="roomtypes_roomtype_title">
+		<?php endif; ?>
+		
+   </div>
+</div>
+<?php if($id > 0 && $storeId > 0) : ?>
+	<script type="text/javascript">// <![CDATA[
+	require(['jquery'],
+		function($) {
+		   $('#roomtypes_title_default').click(function(){
+			  
+			   if($(this).is(":checked"))
+			   {
+				   $('#roomtypes_roomtype_title').prop('disabled',true);
+			   }
+			   else
+			   {
+				   $('#roomtypes_roomtype_title').prop('disabled',false);
+			   }
+		   });
+		}
+	);
+	// ]]></script>
+<?php endif; ?>

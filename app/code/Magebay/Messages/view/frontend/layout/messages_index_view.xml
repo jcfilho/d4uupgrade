@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">    
+    <update handle="customer_account"/>
+	<head>
+		<css src="Magebay_Messages::css/messages.css" />
+	</head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magebay\Messages\Block\View" name="magebay_Messages_Messages_view" template="magebay/view.phtml" cacheable="false" />
+        </referenceContainer>
+    </body>
+</page>

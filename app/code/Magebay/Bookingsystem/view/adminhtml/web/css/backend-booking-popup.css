@@ -1,0 +1,610 @@
+.popup-booking-left{
+    float: left;
+    margin-left: 0px;
+    width: 60%;
+    border: 1px solid #ccc;
+}
+.popup-booking-right
+{
+    float: left;
+    width: 40%;
+    text-align: left;
+    padding-top: 5px;
+}
+.bk-base-calendar-info
+{
+    float: left;
+    width: 100%;
+}
+.kb-extract-calendar-info
+{
+    border-top: 1px solid #ccc;
+    float: left;
+    margin-top: 10px;
+    padding-top: 10px;
+    width: 100%;
+}
+#booking-calendar {
+    float: left;
+    margin-bottom: 0px;
+    min-height: 565px;
+    width: 99%;
+    margin-top:10px;
+}
+.booking-popup-header {
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    float: left;
+    text-align: left;
+    width: 100%;
+}
+.booking-popup-header h2 {
+    font-weight: normal;
+    line-height: 30px;
+    margin: 0;
+    padding: 5px 10px;
+}
+.booking-popup-content
+{
+    float: left;
+    width: 100%;
+}
+#booking-light-box > a {
+    color: #333;
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute;
+    right: 5px;
+    text-decoration: none;
+    top: 5px;
+}
+/* Style new booking task */
+/*
+.bk-config-task ul {
+    width: 100%;
+}
+.bk-config-task ul li {
+    float: left;
+    list-style: none;
+    width: 25%;
+    border-top: 1px solid #ccc;
+    height: 40px;
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+.bk-config-task ul li:first-child {
+    border-left: 1px solid #ccc;
+}
+.bk-config-task ul li.active {
+    background: #ccc;
+}
+.bk-config-task ul li a {
+    font-weight: bold;
+}
+.bk-config-task ul li.active a {
+    color: red;
+} */
+
+.bk-config-task ul>li.active>a,.bk-config-task ul>li.active>a:focus,.bk-config-task ul>li.active>a:hover { border-width:0; }
+.bk-config-task ul>li>a { border:none; color:#666; display: block; padding: 10px 15px; text-transform: capitalize; font-weight: 500; }
+.bk-config-task ul>li.active>a,.bk-config-task ul>li>a:hover { border:none; color:#fff !important;background:#f26c4f !important; border-radius:0;  }
+.bk-config-task ul>li>a::after {content:"";background:#f26c4f;height:2px;position:absolute;width:100%;left:0;bottom:-1px;transition:all 250ms ease 0;transform:scale(0);}
+.bk-config-task ul>li>a { transition:all 0.3s ease; }
+.bk-config-task ul>li.active>a::after,.bk-config-task ul>li:hover>a::after { transform:scale(1);}
+/* .block-formadd-newproduct .tab-nav >li>a::after { background:#21527d none repeat scroll 0 0; color:#fff; } */
+.bk-config-task ul>li {margin-bottom:-1px;display:table-cell;width:1%;float:none;text-align:center;}
+.bk-config-task ul {background:#efefef; position: relative; }
+
+/* end popup */
+.booking-button
+{
+    float: right;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#add-new-calendar
+{
+    margin: 10px;
+}
+#booking-update-calendar
+{
+    float: left;
+}
+/* style list item booking */
+.booking-field
+{
+    float: left;
+    margin-left: 10px;
+    width: 70%;
+}
+
+.booking-space-days{
+    border: 1px solid;
+    margin: 5px 0;
+    width: 100%;
+    float: left;
+}
+.booking-field-item > label {
+    float: left;
+    width: 18%;
+}
+.booking-field-item {
+    float: left;
+    margin-top: 5px;
+    text-align: left;
+    width: 100%;
+}
+/* Style for new booknig type */
+.bk-type-content {
+    margin: 10px 0;
+}
+.bk-type-content-item {
+    float: left;
+    width: 16%;
+    border: 1px solid #ccc;
+    border-left: unset;
+    height: 185px;
+    cursor: pointer;
+    text-align: center;
+    padding: 20px;
+}
+.bk-type-content .active {
+    background: #ccc;
+}
+.bk-type-content-item-first {
+    border-left: 1px solid #ccc;
+}
+.bk-type-content-item .fa , .bk-type-content-item img { }
+.bk-type-content-item img {
+    width: 60px;
+    margin-top: 5px;
+}
+.bk-type-content-item h2 {
+    width: 100%;
+    margin: 10px 0;
+    text-align: center;
+}
+
+
+.booking-field .booking-field-item {
+    margin-top: 10px;
+}
+
+.booking-field-item .booking-field-item {
+    line-height: 35px;
+}
+
+.booking-field-item input {
+    line-height: 20px;
+    padding: 0 5px;
+}
+
+.booking-field-item select {
+    height: 22px;
+    line-height: 22px;
+}
+.booking-list-items-header span.booking-label,
+.booking-list-items-content .booking-data {
+    padding: 10px 0;
+}
+/* field update room */
+.booking-room-content {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    float: left;
+    width: 100%;
+}
+.filed-room-type {
+    float: left;
+    margin-left: 10px;
+    text-align: left;
+}
+.show-temporary-image {
+    float: left;
+    margin-left: 10px;
+    text-align: left;
+    width: 100%;
+}
+.room-field
+{
+    float: left;
+    width: 99%;
+}
+.room-field label
+{
+    float: left;
+    width: 40%;
+}
+.room-field input {
+    float: left;
+    height: 25px;
+    line-height: 25px;
+    margin-left: 0;
+    padding: 0 5px;
+}
+.room-field > select {
+    width: 145px;
+}
+.room-field > textarea {
+    width: 290px;
+}
+.room-field label {
+    float: left;
+    font-weight: bold;
+    width: 20%;
+}
+.room-field {
+    float: left;
+    line-height: 25px;
+    padding: 5px;
+    width: 99%;
+}
+.show-temporary-image .room-field label
+{
+    float: left;
+    width: auto;
+}
+.list-temporary-image {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    float: left;
+    padding-top: 10px;
+    width: 100%;
+}
+.list-temporary-image .room-image
+{
+    float : left;
+    margin-left: 5px;
+    position: relative;
+}
+.list-temporary-image .room-image a
+{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+/* Tab section */
+#bk-tabs-container {
+    padding: 5px;
+}
+.bk-tabs-menu {
+    clear: both;
+    float: left;
+    height: auto;
+    width: 20%;
+}
+
+.bk-tabs-menu li {
+    border: medium none;
+    float: left;
+    height: 30px;
+    width: 100%;
+    line-height: 30px;
+    margin-right: 10px;
+    text-align:right;
+    list-style : none;
+    background: rgba(101,170,235,1);
+    background: -moz-linear-gradient(left, rgba(101,170,235,1) 0%, rgba(46,126,163,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(101,170,235,1)), color-stop(100%, rgba(46,126,163,1)));
+    background: -webkit-linear-gradient(left, rgba(101,170,235,1) 0%, rgba(46,126,163,1) 100%);
+    background: -o-linear-gradient(left, rgba(101,170,235,1) 0%, rgba(46,126,163,1) 100%);
+    background: -ms-linear-gradient(left, rgba(101,170,235,1) 0%, rgba(46,126,163,1) 100%);
+    background: linear-gradient(to right, rgba(101,170,235,1) 0%, rgba(46,126,163,1) 100%);
+    border-bottom: #fff solid 1px;
+}
+
+.bk-tabs-menu li.current {
+    background: #dddddd none repeat scroll 0 0;
+    border-bottom: 1px solid #dddddd;
+    position: relative;
+    z-index: 5;
+}
+
+.bk-tabs-menu li a {
+    padding: 10px;
+    /* text-transform: uppercase; */
+    color: #fff;
+    text-decoration: none;
+}
+
+.bk-tabs-menu .current a {
+    color: #000;
+    font-weight:bold;
+}
+.tab {
+    background-color: #ffffff;
+    border: 3px solid #dddddd;
+    float: left;
+    margin-bottom: 20px;
+    width: 78%;
+}
+.bk-tab-content {
+    display: none;
+    padding: 10px;
+    text-align: left;
+    width: auto;
+}
+
+#tab-1 {
+    display: block;
+}
+.booking-data-edit {
+    color: #fb9c52;
+}
+.booking-data-dell, .booking-data-del, .booking-data-delete {
+    color: #ff0000;
+}
+/* new code */
+
+.bk-room-main-row {
+    border: none;
+}
+.bk-room-price-row {
+    float: left;
+    width: 100%;
+    border: none;
+    border-top: 1px solid #ccc;
+}
+.field-room-option-header
+{
+    float: left;
+    width: 100%;
+}
+.bk-room-price-row .field-room-option-input-type {
+    float: left;
+    width: 30%;
+    margin: 5px;
+}
+.bk-room-option-content .fieldset-wrapper-title
+{
+    float: left;
+    width: 100%;
+}
+.bk-room-option-content .fieldset-wrapper-title div.actions
+{
+    float: right;
+}
+.field-room-discount-input-type-condition .input-text { width: 90px; }
+.field-room-discount-input-type-condition .input-text ~ span { font-size: 12px; color: #999; }
+.mt-sm { margin-top: 10px; }
+.mb_sm { margin-bottom: 10px; }
+#form-bookking-room .fieldset-wrapper-title > strong { display: inline-block;margin-bottom: 5px; }
+.p_content { padding: 8px; }
+.fields > label { margin-bottom: 3px;display: block; }
+.fields > .control { margin-bottom: 8px; }
+.fields .control select, .fields .control .input-text  { height: 28px;min-width: 90px; }
+.fields .control .input-text { max-width:100%;padding-left: 7px; }
+.control-booking-fileds-button { margin-bottom: 20px; }
+.list-temporary-image .room-image-delete { font-size: 0; }
+.list-temporary-image .room-image-delete:before { color: #9e9e9e;content: "";display: inline-block;font-family: "Admin Icons";font-size: 1.8rem;font-weight: normal;line-height: inherit;overflow: hidden;text-align: center;vertical-align: middle;opacity: 0; }
+.list-temporary-image .room-image:hover .room-image-delete:before { -webkit-transition: all 0.3s ease 0s;transition: all 0.3s ease 0s;opacity: 1; }
+.input-right-bt { position: relative; }
+.input-right-bt > input { padding: 4px 10px;width: 100%; }
+.input-right-bt > button { position: absolute; right: 0px;top:0;height:100%; }
+.input-right-bt > input#pac-input { padding-right: 120px; }
+/*------2.1----*/
+.mb-ms { margin-bottom: 10px; }
+
+.bk-popup-modal-contenter{
+    float: left;
+    width: 100%;
+}
+.bk-config-task
+{
+    float: left;
+    width: 100%;
+    margin: 10px 0px 15px 0px;
+}
+#bk-tab-type-content > div {
+    float: left;
+    width: 100%;
+}
+.hour-period-time-item {
+    list-style: none;
+    float: left;
+    width: 20%;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-left: none;
+}
+.hour-period-time-item:first-child {
+    border-left: 1px solid #ccc;
+}
+.hour-period-time li.active {
+    background: #ccc;
+}
+#booking-add-option, #booking-add-discount, #booking-reset-map
+{
+    color: #fff;
+    background: #f26c4f;
+}
+#booking-list-room-items button.bk-room-dell, #booking-list-room-items button.bk-room-edit {
+    background: #f26c4f;
+    color: white;
+}
+.bk-popup-modal-room-content button, #form-bookking-room button {
+    background: #f26c4f !important;
+    color: #fff !important;
+}
+#booking-options-content button.action-delete, #booking-discounts-content button.action-delete
+{
+    background: #f26c4f;
+    color: #fff;
+}
+.bk-popup-modal-contenter .form-inline .field:after, .modal-content:after { clear: both; }
+.modal-content:after, .modal-content:before,
+.bk-popup-modal-contenter .form-inline .field:after,.bk-popup-modal-contenter .form-inline .field:before { content: "";display: table; }
+.bk-popup-modal-contenter fieldset { border: 1px solid #ccc; padding: 30px 15px 20px; }
+.bk-popup-modal-contenter .form-inline .field { margin-bottom: 15px;position: relative; }
+.bk-popup-modal-contenter .form-inline .field > .label { float: left; width: 25%; line-height: 34px; padding-right: 30px; }
+.bk-popup-modal-contenter .form-inline .field > .control { float: left;margin: 0;width: 50%; }
+.bk-popup-modal-contenter .form-inline .field > .control .input-text { height:34px;padding: 4px 10px;width: 100%;border: 1px solid #adadad; }
+.bk-popup-modal-contenter .form-inline .field > .field-service { width: 20%;color: #999;float: left;font-size: 12px;letter-spacing: 0.05em;padding: 7px 0 0 15px; }
+.bk-popup-modal-contenter .form-inline .field > .field-service:before { content: attr(value-scope) !important;display: block;margin-bottom: 5px;white-space: nowrap; }
+.bk-popup-modal-contenter .field .error { color: red; font-size: 12px; }
+.room-field > input, .room-field > select { height: 28px; }
+.room-field > input, .room-field textarea { width: 180px;border: 1px solid #ddd; }
+.bk-room-option-content .fieldset-wrapper-title { padding:0; }
+#bk-popup-modal-room { position: relative; }
+#bk-popup-modal-room .booking-popup-header .booking-button { margin-right: 75px; }
+#bk-popup-modal-room > .bk-rent-hotel-close { position: absolute; right: 0px; top: 10px;}
+/* new style for extract person */
+.kb-extract-calendar-info h2 {
+    text-align: center;
+    width: 100%;
+}
+.kb-extract-calendar-info .kb-extract-person-content-btn {
+    float: left;
+    width: 100%;
+}
+.kb-extract-calendar-info .kb-extract-person-content-btn button {
+    float: right;
+}
+.kb-extract-calendar-info .kb-extract-person-header {
+    background: rgb(221, 221, 221) none repeat scroll 0 0;
+    float: left;
+    width: 100%;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+}
+.kb-extract-calendar-info .kb-extract-person-header span {
+    float: left;
+    width: 15%;
+    border-right: 1px solid #ccc;
+    padding: 10px 0;
+    text-align: center;
+}
+.kb-extract-calendar-info .kb-extract-person-header span:last-child
+{
+    border-right: none;
+}
+.kb-extract-calendar-info .kb-extract-person-header span.kb-extract-person-title {
+    width: 39%;
+}
+.kb-extract-person-content {
+    border: 1px solid rgb(221, 221, 221);
+    float: left;
+    width: 100%;
+}
+.kb-extract-person-item {
+    float: left;
+    width: 100%;
+    cursor: pointer;
+}
+.kb-extract-person-item span.kb-extract-txt {
+    border-right: 1px solid #ccc;
+    float: left;
+    padding: 10px 0;
+    text-align: center;
+    width: 15%;
+}
+.kb-extract-person-item span.kb-extract-txt:last-child
+{
+    border-right: none;
+}
+.kb-extract-person-item span.kb-extract-txt-fist {
+    width: 39%;
+}
+.kb-extract-person-item span.kb-extract-txt input {
+    height: 34px;
+    width: 80%;
+}
+/* new style for time slot */
+.bk-time-slot-item {
+    float: left;
+    width: 100%;
+}
+.bk-time-slot-btn {
+    float: left;
+    width: 100%;
+}
+#time-slot-add-new {
+    float: right;
+}
+.time-time-slot-header {
+    background: rgb(221, 221, 221) none repeat scroll 0 0;
+    float: left;
+    width: 100%;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+}
+.bk-time-slot-label {
+    float: left;
+    text-align: center;
+    width: 14%;
+    padding: 10px 0px;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+.bk-time-slot-label-day
+{
+    width: 20%;
+}
+.bk-time-slot-label:last-child {
+    border-right: medium none;
+    width: 8% !important;
+}
+.bk-time-slot-content {
+    float: left;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+.bk-time-slot-label-time {
+    width: 22%;
+}
+.bk-time-slot-item > span {
+    padding: 10px 0px ;
+    border-right: 1px solid #ccc;
+    text-align: center;
+}
+.bk-time-slot-item > span > input {
+    width: 90% !important;
+}
+.time-slot-enable-days input {
+    float: left;
+}
+.time-slot-enable-days {
+    text-align: left;
+}
+.bk-time-slot-item > span.bk-time-slot-item-txt {
+    float: left;
+    width: 14%;
+}
+.bk-time-slot-item-time {
+    float: left;
+    width: 22%;
+}
+.bk-time-slot-item-time select.time-slot-minutes {
+    margin-left: 3px;
+}
+.bk-time-slot-item-delele {
+    border-right: none !important;
+}
+
+.bk-time-slot-item span.time-slot-item-days input[type="text"] {
+    width: 100%;
+}
+.bk-time-slot-item span.time-slot-item-days {
+    position: relative;
+    float: left;
+    width: 20%;
+}
+.bk-time-slot-item > span:last-child {
+    border-right: none;
+    float: left;
+    text-align: center !important;
+    width: 8% !important;
+}
+.time-slot-item-days ul {
+    position: absolute;
+    z-index: 99999;
+    border: 1px solid;
+    background: #E9F1F1;
+    padding: 5px;
+    width: 100%;
+}
+.time-slot-item-days ul li {
+    list-style: none;
+}

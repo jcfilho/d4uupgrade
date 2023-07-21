@@ -1,0 +1,80 @@
+<div data-role="loader" class="bk-loading-mask">
+   <div class="popup popup-loading">
+      <div class="popup-inner">
+	  <img src="<?php echo $block->getViewFileUrl('images/loader-2.gif'); ?>" alt="Loading..."><?php echo __('Please wait...'); ?></div>
+   </div>
+</div>
+<script>
+function magebayTextJqueryCalendar()
+{
+	
+}
+magebayTextJqueryCalendar.prototype = {
+	//get month name for Jquery-ui calendar
+	getMonthNames : function()
+	{
+		return ["<?php echo __('January'); ?>",
+				"<?php echo __('February'); ?>",
+				"<?php echo __('March'); ?>",
+				"<?php echo __('April'); ?>",
+				"<?php echo __('May'); ?>",
+				"<?php echo __('June'); ?>",
+				"<?php echo __('July'); ?>",
+				"<?php echo __('August'); ?>",
+				"<?php echo __('September'); ?>",
+				"<?php echo __('October'); ?>",
+				"<?php echo __('November'); ?>",
+				"<?php echo __('December'); ?>"
+				];
+	},
+	getShortMonth : function ()
+	{
+		return ["<?php echo __('Jan'); ?>",
+				"<?php echo __('Feb'); ?>",
+				"<?php echo __('Mar'); ?>",
+				"<?php echo __('Apr'); ?>",
+				"<?php echo __('May'); ?>",
+				"<?php echo __('Jun'); ?>",
+				"<?php echo __('Jul'); ?>",
+				"<?php echo __('Aug'); ?>",
+				"<?php echo __('Sep'); ?>",
+				"<?php echo __('Oct'); ?>",
+				"<?php echo __('Nov'); ?>",
+				"<?php echo __('Dec'); ?>"
+				];
+	},
+	getdayNames : function()
+	{
+		return ["<?php echo __('Sunday'); ?>",
+				"<?php echo __('Monday'); ?>",
+				"<?php echo __('Tuesday'); ?>",
+				"<?php echo __('Wednesday'); ?>",
+				"<?php echo __('Thursday'); ?>",
+				"<?php echo __('Friday'); ?>",
+				"<?php echo __('Saturday'); ?>"
+				];
+	},
+	getdayNamesShort : function()
+	{
+		return ["<?php echo __('Sun'); ?>",
+				"<?php echo __('Mon'); ?>",
+				"<?php echo __('Tue'); ?>",
+				"<?php echo __('Wed'); ?>",
+				"<?php echo __('Thu'); ?>",
+				"<?php echo __('Fri'); ?>",
+				"<?php echo __('Sat'); ?>"
+				];
+	},
+	getdayNamesMin : function()
+	{
+		return ["<?php echo __('Su'); ?>",
+				"<?php echo __('Mo'); ?>",
+				"<?php echo __('Tu'); ?>",
+				"<?php echo __('We'); ?>",
+				"<?php echo __('Th'); ?>",
+				"<?php echo __('Fr'); ?>",
+				"<?php echo __('Sa'); ?>"
+				];
+	}
+}
+</script>

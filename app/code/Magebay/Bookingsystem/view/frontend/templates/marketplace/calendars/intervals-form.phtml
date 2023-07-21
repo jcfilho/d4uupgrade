@@ -1,0 +1,44 @@
+<?php
+//var Magebay\Bookingsystem\Block\Adminhtml\Calendars
+//$urlSave = $arAjaxUrl['url_save_price_session'];
+$checkIn = $this->getCheckIn();
+$checkOut = $this->getCheckOut();
+$intervals = $this->getIntervalsData();
+?>
+<div class="bk-intervals-price">
+	<h3><?php echo __('Manager Interval Items') ?></h3>
+    <button type="button" id="add-new-interval"><?php echo __('Add New'); ?></button>
+    <button type="button" id="close-form-interval"><?php echo __('Close'); ?></button>
+    <div class="bk-intervals-form">
+
+    </div>
+    <?php //if(count($intervals)) : ?>
+        <div class="booking-table-items booking-table-item-intervals">
+            <div class="booking-list-items-header">
+                <span class="booking-label"><?php echo __('Title'); ?></span>
+                <span class="booking-label"><?php echo __('Time'); ?></span>
+                <span class="booking-label"><?php echo __('Qty'); ?></span>
+                <span class="booking-label"><?php echo __('Price') ?></span>
+                <span class="booking-label"><?php echo __('Status') ?></span>
+                <span class="booking-label"><?php echo __('Edit') ?></span>
+                <span class="booking-label"><?php echo __('Delete') ?></span>
+            </div>
+            <div class="booking-list-items-content">
+                <?php $dataSend = array(
+                    'intervals_data'=>$intervals,
+                    'check_in'=>$checkIn,
+                    'check_out'=>$checkOut,
+                ); ?>
+               <?php echo $this->getLayout()->createBlock('Magebay\Bookingsystem\Block\Marketplace\Calendars')->setData($dataSend)->setTemplate('Magebay_Bookingsystem::marketplace/calendars/interval-items.phtml')->toHtml(); ?>
+            </div>
+        </div>
+    <?php //endif; ?>
+</div>
+
+<script>
+    require(['jquery','Magento_Ui/js/modal/alert'],function ($,alert) {
+        //get available
+
+    })
+</script>
+<div class="clear"></div>

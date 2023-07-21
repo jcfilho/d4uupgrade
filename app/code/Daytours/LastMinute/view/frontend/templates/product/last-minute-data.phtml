@@ -1,0 +1,15 @@
+<?php
+/**
+ * @var $block \Daytours\LastMinute\Block\LastMinuteData
+ */
+?>
+
+<?php if( $block->ifHasLastminute() ){ ?>
+<script type="text/x-magento-init">
+    {
+        "*":{
+            "lastMinuteAssignData" :  <?= $block->getJsonData() ?>
+        }
+    }
+</script>
+<?php } ?>

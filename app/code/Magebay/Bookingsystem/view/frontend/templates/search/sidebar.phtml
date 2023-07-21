@@ -1,0 +1,116 @@
+<?php $facilities = $block->getBkFacilities(); ?>
+<?php $params = $this->getBkRequest()->getParams(); ?>
+<?php $bookings = $this->getListBookings(); ?>
+<?php $bookingIds = array(); if($bookings) { $bookingIds = $bookings->getAllIds(); } ?>
+<?php $url = $block->getBkAjaxUrl(); ?>
+<?php $bkHelperText = $this->helper('Magebay\Bookingsystem\Helper\BkText'); ?>
+<li>
+	<?php $rates = $this->getRateProductIds($bookingIds); ?>
+	<?php $starsParams = isset($params['stars']) ? $params['stars'] : array(); ?>
+	<h5 class="booking-filters-title"><?php echo __('Star Rating'); ?></h5>
+	<?php if(count($rates[5])) : ?>
+		<?php $rate5 = array_intersect($rates[5],$bookingIds); ?>
+		<div class="item-checkbox" >
+			<input type="checkbox" <?php if(isset($starsParams[5])) { echo 'checked="checked"'; } ?> class="i-check rent-service-filter" name="stars[5]" id="star_rent_5" value="5" style="position: absolute; opacity: 0;"><label for="star_rent_5"  ><?php echo __('5 star'); ?>(<?php echo count($rate5); ?>)</label>
+		</div>
+	<?php endif; ?>
+	<?php if(count($rates[4])) : ?>
+		<?php $rate4 = array_intersect($rates[4],$bookingIds); ?>
+		<div class="item-checkbox">
+			<input type="checkbox" <?php if(isset($starsParams[4])) { echo 'checked="checked"'; } ?>  class="i-check rent-service-filter" id="star_rent_4" name="stars[4]" value="4" style="position: absolute; opacity: 0;"><label for="star_rent_4"  ><?php echo __('4 star'); ?>(<?php echo count($rate4); ?>)</label>
+		</div>
+	<?php endif; ?>
+	<?php if(count($rates[3])) : ?>
+		<?php $rate3 = array_intersect($rates[3],$bookingIds); ?>
+		<div class="item-checkbox">
+			<input type="checkbox" <?php if(isset($starsParams[3])) { echo 'checked="checked"'; } ?>  class="i-check rent-service-filter" id="star_rent_3" name="stars[3]" value="3" style="position: absolute; opacity: 0;"><label for="star_rent_3"  ><?php echo __('3 star'); ?>(<?php echo count($rate3); ?>)</label>
+		</div>
+	<?php endif; ?>
+	<?php if(count($rates[2])) : ?>
+		<?php $rate2 = array_intersect($rates[2],$bookingIds); ?>
+		<div class="item-checkbox">
+			<input type="checkbox" <?php if(isset($starsParams[2])) { echo 'checked="checked"'; } ?>  class="i-check rent-service-filter" id="star_rent_2" name="stars[2]" value="2" style="position: absolute; opacity: 0;"><label for="star_rent_2"  ><?php echo __('2 star'); ?>(<?php echo count($rate2); ?>)</label>
+		</div>
+	<?php endif; ?>
+	<?php if(count($rates[1])) : ?>
+		<?php $rate1 = array_intersect($rates[1],$bookingIds); ?>
+			<div class="item-checkbox">
+				<input type="checkbox" <?php if(isset($starsParams[1])) { echo 'checked="checked"'; } ?>  class="i-check rent-service-filter" id="star_rent_1" name="stars[1]" value="1" style="position: absolute; opacity: 0;"><label for="star_rent_1"  ><?php echo __('1 star'); ?>(<?php echo count($rate1); ?>)</label>
+			</div>
+	<?php endif; ?>
+	<div class="item-checkbox">
+		<?php $rate0 = array_intersect($rates[0],$bookingIds); ?>
+		<input type="checkbox" <?php if(isset($starsParams[0])) { echo 'checked="checked"'; } ?>  class="i-check rent-service-filter" id="star_rent_0" name="stars[0]" value="0" style="position: absolute; opacity: 0;"><label for="star_rent_0"  ><?php echo __('Unrated'); ?>(<?php echo count($rate0); ?>)</label>
+	</div>
+</li>
+<?php if(count($facilities)) : ?>
+	<li>
+		<h5 class="booking-filters-title"><?php echo __('Facilities'); ?></h5>
+			<?php $facilitiesParams = isset($params['facilities']) ? $params['facilities'] : array(); ?>
+			<?php foreach($facilities as $facility) : ?>
+				<?php $strFacilites = $facility->getFacilityBookingIds(); ?>
+				<?php if($strFacilites != '') : ?>
+					<?php $bkFacilities = array_intersect($bookingIds,explode(',',$strFacilites)) ?>
+					<?php if(count($bkFacilities)) : ?>
+						<div class="item-checkbox" >
+							<?php $title = $bkHelperText->showTranslateText($facility->getFacilityTitle(),$facility->getFacilityTitleTransalte()); ?>
+							<input type="checkbox" <?php if(isset($facilitiesParams[$facility->getId()])) { echo 'checked="checked"';} ?> class="i-check facilities-filter" id="facility-<?php echo $facility->getId(); ?>" name="facilities[<?php echo $facility->getId(); ?>]" value="<?php echo $facility->getId(); ?>" style="position: absolute; opacity: 0;"><label for="facility-<?php echo $facility->getId(); ?>"  ><?php echo $title; ?>(<?php echo count($bkFacilities); ?>)</label>
+						</div>
+					<?php endif; ?>
+				<?php endif; ?>
+			<?php endforeach; ?>
+	</li>
+<?php endif; ?>	
+<?php $attributes = $block->getBkHelperDate()->getFieldSetting('bookingsystem/search_setting/booking_attibute'); ?>
+<?php if($attributes != '') : ?>
+	<?php $attributes = explode(',',$attributes); ?>
+	<?php $paramsAttr = isset($params['booking_attibute']) ? $params['booking_attibute'] : array(); ?>
+	<?php if(count($attributes)) : ?>
+		<?php foreach($attributes as $attributeName) : ?>
+		<li>
+			<?php $attribute = $block->getBkAttribute()->loadByCode(\Magento\Catalog\Model\Product::ENTITY, $attributeName); ?>
+			<h5><?php echo $attribute->getStoreLabel(); ?></h5>
+			<?php $attrType = $attribute->getFrontendInput(); ?>
+			<br/>
+			<?php $attributeOptions = $block->getBkproductAttributeRepository()->get($attributeName)->getOptions(); ?>
+			<?php foreach($attributeOptions as $attributeOption) : ?>
+				<?php if($attributeOption['value'] != '') : ?>
+					<?php $productIds = $this->getAttrBookingIds($attributeName,$attrType,$attributeOption['value']); ?>
+					<?php $attrBookingIds = array_intersect($bookingIds,$productIds); ?>
+					<?php if(count($attrBookingIds)) : ?>
+						<div class="item-checkbox">
+							<input type="checkbox" <?php if(isset($paramsAttr[$attributeName][$attributeOption['value']])) { echo 'checked="checked"'; } ?> style="position: absolute; opacity: 0;" value="<?php echo $attributeOption['value']; ?>" name="booking_attibute[<?php echo $attributeName ?>][<?php echo $attributeOption['value']; ?>]" id="booking-attribute-<?php echo $attributeName; ?>-<?php echo $attributeOption['value']; ?>" class="i-check booking-attr-filter"><label for="booking-attribute-<?php echo $attributeName; ?>-<?php echo $attributeOption['value'] ?>"><?php echo $attributeOption['label']; ?>(<?php echo count($attrBookingIds); ?>)</label>
+						</div>
+					<?php endif; ?>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		</li>
+		<?php endforeach; ?>
+	<?php endif; ?>
+<?php endif; ?>
+<script>
+require([
+			'jquery',
+		],
+	function ($){
+	var urlSearchLeft = '<?php echo $url; ?>';
+	$('.facilities-filter,.booking-attr-filter,.rent-service-filter').click(function(){
+		$('#booking-loader').css('display','block');
+		$.ajax({
+			url : urlSearchLeft,
+			dataType : 'json',
+			type : 'POST',
+			data: $('#booking-search').serialize(),
+			success : function(res)
+			{
+				$('#booking-rent-contents').html(res.html_items);
+				$('#booking-search-sidebar').html(res.html_sidebar);
+				$('#booking-loader').css('display','none');
+			},
+			error : function()
+			{
+				$('#booking-loader').css('display','none');
+			}
+		});
+	})
+});

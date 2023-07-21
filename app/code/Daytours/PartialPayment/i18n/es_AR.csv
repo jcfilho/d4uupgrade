@@ -1,0 +1,20 @@
+Orders,Orders
+"Order Number","Número de pedido"
+Date,Date
+"Full Name","Nombre Completo"
+Email,Email
+"Due Amount","Monto adeudado"
+Currency,Moneda
+Actions,Acciones
+"No data yet","No hay datos aún"
+"Partial payment","Pago Parcial"
+"Guarantee your reservation with a partial payment","Garantiza tu reserva con un pago parcial"
+"Pay Partially","Pagar Parcialmente"
+"Login Required","Inicio de sesión requerido"
+"Order #","Pedido #"
+"All amounts has been converted to USD currency","Todos los montos han sido convertidos a USD"
+"Paid Amount","Monto pagado"
+Total,Total
+Cancel,Cancelar
+Continue,Continuar
+"Partial Payments","Pagos parciales"

@@ -1,0 +1,19 @@
+.top-menu a { color: #c6cfda; }
+.top-menu a:hover { color: #c6cfda; }
+.modal-content {border: medium none !important;box-shadow: none !important;}
+.modal-content .thumbnail-preview {text-align: center !important;}
+.block-maketplace-profile .label.col-sm-3 { display: inline-block;padding: 8px 15px 0;text-align: right; }
+.page-header-fixed .page-container { margin-top: 0 !important; }
+.page-layout-market-layout .page-title-wrapper { display: none; }
+.sticky-header  .page-head-actions { position: fixed; left: 0;position: fixed;right: 0;top: 0; z-index: 500; margin-left: 235px; width: calc(100% - 235px);  }
+.sticky-header.page-sidebar-closed   .page-head-actions { margin-left: 50px; width: calc(100% - 50px); }
+@media only screen and (max-width: 680px) {
+	.sticky-header  .page-head-actions { width: 100% !important; margin: 0 !important; }
+}
+.page-layout-market-layout #gotop { display: none !important; }
+.page-layout-market-layout .page-wrapper { }
+.page-layout-market-layout .page-footer { background-color: #364150; }
+.page-layout-market-layout .page-footer .page-footer-inner a { color: #c54125 !important; }
+
+.page-layout-market-layout button.button { background: #333; color: #fff; }
+.option-product-box .opthead li { font-weight: bold; }

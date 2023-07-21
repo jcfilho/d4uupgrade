@@ -1,0 +1,104 @@
+<?php $arAjaxUrl = $this->getBkAjaxUrl(); ?>
+<?php $urlView = $arAjaxUrl['url_view']; ?>
+<?php $intToday = $block->getBkTmpTime(); ?>
+<?php $strToday = date('Y-m-d'); ?>
+<div id="calendar"></div>
+<?php 
+$strReports = $block->getBookingReport();
+?>
+<?php $storeId = $this->getRequest()->getParam('store'); ?>
+<script>
+require([
+		'jquery',
+		'Magento_Ui/js/modal/modal',
+		'bk_moment_min',
+		'bk_fullcalendar_min'
+	],
+	function ($,modal){
+	var urlView = '<?php echo $urlView; ?>';
+	var strToday = '<?php echo $strToday; ?>'
+	var date = new Date(strToday);
+	var d = date.getDate();
+	var m = date.getMonth();
+	var y = date.getFullYear();
+	var strReport = jQuery.parseJSON('<?php echo $strReports ?>');
+	var storeId = '<?php echo $storeId; ?>';
+	var calendar = $('#calendar').fullCalendar({
+		//isRTL: true,
+		 buttonHtml: {
+			prev: '<i class="ace-icon fa fa-chevron-left"></i>',
+			next: '<i class="ace-icon fa fa-chevron-right"></i>'
+		},
+	
+		header: {
+			left: 'prev,next today',
+			center: 'title',
+			right: 'month,agendaWeek,agendaDay'
+		},
+		events: strReport
+		,
+		editable: false,
+		droppable: false, // this allows things to be dropped onto the calendar !!!
+		 
+		selectable: false,
+		selectHelper: true,
+		select: function(start, end, allDay) {
+			
+			bootbox.prompt("New Event Title:", function(title) {
+				if (title !== null) {
+					calendar.fullCalendar('renderEvent',
+						{
+							title: title,
+							start: start,
+							end: end,
+							allDay: allDay,
+							className: 'label-info'
+						},
+						true // make the event "stick"
+					);
+				}
+			});
+			
+			calendar.fullCalendar('unselect');
+		},
+		eventClick: function(calEvent, jsEvent, view) {
+			var orderId = calEvent.order_id;
+			var qtItemId = calEvent.qt_item_id;
+			$('#popup-order-detail-content').html('');
+			$('#bk-loading-mask').css('display','block');
+			$.ajax
+			({
+				url : urlView,
+				dataType : 'json',
+				type : 'POST',
+				data : {order_id : orderId, qt_item_id : qtItemId, store_id : storeId},
+				success : function(res)
+				{
+					$('#popup-order-detail-content').html(res.html_detail);
+					$('#bk-loading-mask').css('display','none');
+				},
+				error : function()
+				{
+					$('#bk-loading-mask').css('display','none');
+				}
+			});
+			var options = {
+				type: 'popup',
+				responsive: true,
+				innerScroll: false,
+				title: '<?php echo __('Detail Order') ?>',
+				buttons: [{
+					text: $.mage.__('Close'),
+					class: '',
+					click: function () {
+						this.closeModal();
+					}
+				}]
+			};
+			var popup = modal(options, $('#popup-order-detail-content'));
+			$('#popup-order-detail-content').modal('openModal');
+		}
+		
+	});
+})
+</script>

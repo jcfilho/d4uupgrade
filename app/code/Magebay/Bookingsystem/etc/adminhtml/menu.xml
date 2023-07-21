@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+ 
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
+    <menu>
+        <add id="Magebay_Bookingsystem::booking_menu" title="Booking System" module="Magebay_Bookingsystem" sortOrder="20" resource="Magebay_Bookingsystem::bookingsystem" />
+        <add id="Magebay_Bookingsystem::booking_dashboard" title="Dashboard" module="Magebay_Bookingsystem" sortOrder="1" parent="Magebay_Bookingsystem::booking_menu" action="bookingsystem/dashboard/index" resource="Magebay_Bookingsystem::dashboard" />
+        <add id="Magebay_Bookingsystem::manage_bookings" title="Manage Items" module="Magebay_Bookingsystem" sortOrder="2" parent="Magebay_Bookingsystem::booking_menu" action="bookingsystem/bookings/index" resource="Magebay_Bookingsystem::manage_bookings" />
+        <add id="Magebay_Bookingsystem::manage_facilities" title="Manage Facilities" module="Magebay_Bookingsystem" sortOrder="3" parent="Magebay_Bookingsystem::booking_menu" action="bookingsystem/facilities/index" resource="Magebay_Bookingsystem::manage_facilities" />
+        <add id="Magebay_Bookingsystem::add_facility" title="Add new Facility" module="Magebay_Bookingsystem" sortOrder="4" parent="Magebay_Bookingsystem::booking_menu" action="bookingsystem/facilities/new" resource="Magebay_Bookingsystem::add_facility" />
+        <add id="Magebay_Bookingsystem::manage_roomtypes" title="Manage Room Types" module="Magebay_Bookingsystem" sortOrder="5" parent="Magebay_Bookingsystem::booking_menu" action="bookingsystem/roomtypes/index" resource="Magebay_Bookingsystem::manage_roomtypes" />
+        <add id="Magebay_Bookingsystem::add_roomtype" title="Add New Room Type" module="Magebay_Bookingsystem" sortOrder="6" parent="Magebay_Bookingsystem::booking_menu" action="bookingsystem/roomtypes/new" resource="Magebay_Bookingsystem::add_roomtype" />
+        <add id="Magebay_Bookingsystem::manage_booking_orders" title="Booking Orders" module="Magebay_Bookingsystem" sortOrder="7" parent="Magebay_Bookingsystem::booking_menu" action="bookingsystem/bookingorders/index" resource="Magebay_Bookingsystem::add_roomtype" />
+		<add id="Magebay_Bookingsystem::configuration" title="Booking Setting" module="Magebay_Bookingsystem" sortOrder="10" parent="Magebay_Bookingsystem::booking_menu" action="adminhtml/system_config/edit/section/bookingsystem" resource="Magebay_Bookingsystem::configuration" />
+	</menu>
+</config>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="catalog_product_delete_after_done">
+        <observer name="delete_bookings" instance="Magebay\Bookingsystem\Observer\Adminhtml\deleteBooking" />
+    </event>
+	 <event name="catalog_product_save_after">
+        <observer name="magebay_booking_save_produt" instance="Magebay\Bookingsystem\Observer\Adminhtml\SaveProductData" />
+    </event>
+	 <event name="sales_quote_add_item">
+        <observer name="magebay.booking.quote_add_item" instance="Magebay\Bookingsystem\Observer\Adminhtml\QuoteAddItem" />
+    </event>
+	<event name="sales_quote_product_add_after">
+        <observer name="magebay.booking.add_product_after" instance="Magebay\Bookingsystem\Observer\Adminhtml\AddProductAfter" />
+    </event>
+</config>

@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @Author      : haunv
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2017 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+-->
+<page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd" label="Customer My Account (All Pages)" design_abstraction="custom">
+	<head>    
+		<css src="Magebay_Marketplace::css/marketplace.css" />	
+		<css src="jquery/fileUploader/css/jquery.fileupload-ui.css"/>		
+	</head>    
+	<body>        
+        <referenceBlock name="customer_account_navigation_block">
+			<block class="Magebay\Marketplace\Block\Html\Links" name="magebay.customer_account_navigation" before="customer_account_navigation"  template="Magebay_Marketplace::account/navigation.phtml">
+				<arguments>
+					<argument name="css_class" xsi:type="string">nav items</argument>
+				</arguments>
+				<block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-account-marketplace-dashboard">
+					<arguments>
+						<argument name="label" xsi:type="string" translate="true">Seller Dashboard</argument>
+						<argument name="path" xsi:type="string">marketplace/seller/dashboard</argument>
+					</arguments>
+				</block>
+				<block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-account-seller-profile">
+					<arguments>
+						<argument name="label" xsi:type="string" translate="true">Seller Profile</argument>
+						<argument name="path" xsi:type="string">marketplace/seller/account</argument>
+					</arguments>
+				</block>
+				<block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-create-attribute">
+					<arguments>
+						<argument name="label" xsi:type="string" translate="true">Create Attribute</argument>
+						<argument name="path" xsi:type="string">marketplace/product_attribute/add</argument>
+					</arguments>
+				</block>            				
+				<block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-create-product">
+					<arguments>
+						<argument name="label" xsi:type="string" translate="true">New Product</argument>
+						<argument name="path" xsi:type="string">marketplace/product/set</argument>
+					</arguments>
+				</block>    
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-product-list">
+					<arguments>
+						<argument name="label" xsi:type="string" translate="true">My Products List</argument>
+						<argument name="path" xsi:type="string">marketplace/seller/myProducts</argument>
+					</arguments>
+				</block>  
+				<block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-list-order">
+					<arguments>
+						<argument name="label" xsi:type="string" translate="true">My Orders</argument>
+						<argument name="path" xsi:type="string">marketplace/seller/myOrders</argument>
+					</arguments>
+				</block>  
+				<block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-report">
+					<arguments>
+						<argument name="label" xsi:type="string" translate="true">Advanced Report</argument>
+						<argument name="path" xsi:type="string">marketplace/seller/report</argument>
+					</arguments>
+				</block>
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-list-transaction">
+					<arguments>
+						<argument name="label" xsi:type="string" translate="true">Withdrawals</argument>
+						<argument name="path" xsi:type="string">marketplace/seller/myTransactions</argument>
+					</arguments>
+				</block>
+			</block>            
+        </referenceBlock>
+    </body>
+</page>

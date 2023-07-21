@@ -1,0 +1,353 @@
+block_id,title,is_active,identifier,content,store_id
+,Category | Destinations-Argentina | Top Banner | english,1,banner_destinations_argentina,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Argentina</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>","admin,english"
+,Category | Destinations-Argentina | Top Banner | spanish,1,banner_destinations_argentina,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Argentina</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",spanish
+,Category | Destinations-Argentina | Top Banner | portuguese,1,banner_destinations_argentina,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Argentina</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",portuguese
+,Category | Destinations-Argentina | Top Banner | french,1,banner_destinations_argentina,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Argentina</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",french
+,Category | Destinations-Brazil | Top Banner | english,1,banner_destinations_brazil,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Brazil</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>","admin,english"
+,Category | Destinations-Brazil | Top Banner | spanish,1,banner_destinations_brazil,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Brazil</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",spanish
+,Category | Destinations-Brazil | Top Banner | portuguese,1,banner_destinations_brazil,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Brazil</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",portuguese
+,Category | Destinations-Brazil | Top Banner | french,1,banner_destinations_brazil,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Brazil</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",french
+,Category | Destinations-Colombia | Top Banner | english,1,banner_destinations_colombia,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Colombia</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>","admin,english"
+,Category | Destinations-Colombia | Top Banner | spanish,1,banner_destinations_colombia,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Colombia</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",spanish
+,Category | Destinations-Colombia | Top Banner | portuguese,1,banner_destinations_colombia,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Colombia</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",portuguese
+,Category | Destinations-Colombia | Top Banner | french,1,banner_destinations_colombia,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Colombia</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",french
+,Category | Destinations-Peru | Top Banner | english,1,banner_destinations_peru,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Peru</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>","admin,english"
+,Category | Destinations-Peru | Top Banner | spanish,1,banner_destinations_peru,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Peru</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",spanish
+,Category | Destinations-Peru | Top Banner | portuguese,1,banner_destinations_peru,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Peru</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",portuguese
+,Category | Destinations-Peru | Top Banner | french,1,banner_destinations_peru,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Peru</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",french
+,Category | Destinations-Bolivia | Top Banner | english,1,banner_destinations_bolivia,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Bolivia</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>","admin,english"
+,Category | Destinations-Bolivia | Top Banner | spanish,1,banner_destinations_bolivia,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Bolivia</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",spanish
+,Category | Destinations-Bolivia | Top Banner | portuguese,1,banner_destinations_bolivia,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Bolivia</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",portuguese
+,Category | Destinations-Bolivia | Top Banner | french,1,banner_destinations_bolivia,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Bolivia</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",french
+,Category | Destinations-Chile | Top Banner | english,1,banner_destinations_chile,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Chile</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>","admin,english"
+,Category | Destinations-Chile | Top Banner | spanish,1,banner_destinations_chile,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Chile</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",spanish
+,Category | Destinations-Chile | Top Banner | portuguese,1,banner_destinations_chile,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Chile</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",portuguese
+,Category | Destinations-Chile | Top Banner | french,1,banner_destinations_chile,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Chile</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",french
+,Category | Destinations-Uruguay | Top Banner | english,1,banner_destinations_uruguay,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Uruguay</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>","admin,english"
+,Category | Destinations-Uruguay | Top Banner | spanish,1,banner_destinations_uruguay,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Uruguay</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",spanish
+,Category | Destinations-Uruguay | Top Banner | portuguese,1,banner_destinations_uruguay,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Uruguay</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",portuguese
+,Category | Destinations-Uruguay | Top Banner | french,1,banner_destinations_uruguay,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Uruguay</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",french
+,Category | Destinations-Paraguay | Top Banner | english,1,banner_destinations_paraguay,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Paraguay</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>","admin,english"
+,Category | Destinations-Paraguay | Top Banner | spanish,1,banner_destinations_paraguay,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Paraguay</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",spanish
+,Category | Destinations-Paraguay | Top Banner | portuguese,1,banner_destinations_paraguay,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Paraguay</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",portuguese
+,Category | Destinations-Paraguay | Top Banner | french,1,banner_destinations_paraguay,"<div class=""banner_category_list"" style=""background-image: url('{{view url='images/banner_destinations.jpg'}}');"">
+<div class=""container"">
+<div class=""container_content"">
+<div class=""content_text"">
+<div class=""title""><i class=""fa fa-angle-left""></i><a style=""color: #ffffff;"" href=""{{store url=""destinations.html""}}"">Destinations</a></div>
+<div class=""name"">Paraguay</div>
+<div class=""des"">The Best Experiences &amp; Things to Do</div>
+</div>
+</div>
+</div>
+</div>",french

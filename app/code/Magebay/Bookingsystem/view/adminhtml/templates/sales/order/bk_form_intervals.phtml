@@ -1,0 +1,157 @@
+<?php $booking = $block->getBkBookingItem(); ?>
+<?php $maxBooking = $this->getBkHelperDate()->getFieldSetting('bookingsystem/setting/max_booking');  ?>
+<?php $addonsSelles = $block->getAddonsSelles(); ?>
+<?php $bkIntCurrentTime = $block->getBkTmpTime(); ?>
+<?php $request = $this->getBkRequestOption(); ?>
+<?php 
+$curIntervals = '';
+$arCurIntervals = isset($request['intervals_hours']) ? $request['intervals_hours'] : array();
+if(count($arCurIntervals))
+{
+	$curIntervals = implode(',',$arCurIntervals);
+}
+?>
+<div class="simple-booking-form booking-form">
+<input type="hidden" name="bk_item_id" value=""  />
+<input type="hidden" name="is_bk_back_end" value="1"  />
+<input type="hidden" id="bk-old-order-item-id-<?php echo $booking->getId(); ?>" name="bk_order_item_id" value="<?php echo isset($request['bk_order_item_id']) ? $request['bk_order_item_id'] : 0; ?>"  />
+<input type="hidden" id="temp-list-intervals-<?php echo $booking->getId(); ?>" name="temp_list_intervals_<?php echo $booking->getId(); ?>" value="<?php echo $curIntervals; ?>" />
+<input type="hidden" id="temp-current-check-in-<?php echo $booking->getId(); ?>" name="temp_current_check_in_<?php echo $booking->getId(); ?>" value="<?php echo isset($request['temp_check_in']) ? $request['temp_check_in'] : ''; ?>" />
+	<div class="simple-booking-form-input">
+		<?php $firstPrice = $block->getBkCurrentPrice(); ?>
+		<div class="booking-per-day"><?php echo $block->getBkPriceHelper()->currency($firstPrice,true,false); ?> <?php echo __('Per Session'); ?></div>
+		<div class="date-box date-box-checkin">
+			<div class="input-date">
+				<label><?php echo __('Check In'); ?></label> 
+				<div class="form-group" >
+					<div class="select-date" >
+					<i id="check-in-button-<?php echo $booking->getId(); ?>" class="fa fa-calendar input-icon"></i>
+					<input class="form-control input-text" name="check_in" id="check-in-<?php echo $booking->getId(); ?>" value="<?php echo isset($request['check_in']) ? $request['check_in'] : ''; ?>"/>
+					</div>
+				</div>
+			</div>
+			<div id="time-intervals-hours-<?php echo $booking->getId(); ?>" class="select-time-intervals-<?php echo $booking->getId(); ?>">
+
+			</div>
+		</div>
+		<?php if(count($addonsSelles)) : ?>
+			<div class="addons-cross-sells">
+				<dl>
+				<?php foreach($addonsSelles as $addonsSelle) : ?>
+					<?php $addonRadioCheckoxClass = ''; ?>
+					<?php if($addonsSelle->getOptionType() == 4 || $addonsSelle->getOptionType() == 5) :  ?> 
+						<?php $addonRadioCheckoxClass = 'bk-addon-radio-checkbox-'.$booking->getId();  ?>
+						<?php if($addonsSelle->getOptionRequired() == 1) { $addonRadioCheckoxClass .= ' required-empty'; } ?>
+					<?php endif; ?>
+					<?php $requestAddon =  isset($request['addons'][$addonsSelle->getId()]) ? $request['addons'][$addonsSelle->getId()] : ''; ?>
+					<dt>
+					<label for="addon-<?php echo $addonsSelle->getId(); ?>" <?php if ($addonsSelle->getOptionRequired()) { echo 'class="required"'; } ?> >
+					<?php if ( $addonsSelle->getOptionRequired() == 1) { echo '<em>*</em>'; } ?>
+					<?php $title = $block->getBkHelperText()->showTranslateText($addonsSelle->getOptionTitle(),$addonsSelle->getOptionTitleTranslate()); ?>
+					<?php echo $title; ?> 
+					<?php
+					if ( $addonsSelle->getOptionPrice() > 0 ) { 
+						echo  '<span class="price-notice"> +<span class="price">'.$block->getBkPriceHelper()->currency($addonsSelle->getOptionPrice(), true, false).'</span></span>';
+					}
+					?>
+					</label>
+					</dt>
+					<dd <?php if($addonRadioCheckoxClass != '') { ?>class="<?php echo $addonRadioCheckoxClass; ?>" id="bk-addon-radio-checkbox-<?php echo $addonsSelle->getId(); ?>"<?php } ?>>
+					<div class="addons-sells-item input-box">
+						<?php if($addonsSelle->getOptionType() == 2) : ?>
+							<select class="select-addons-item-<?php echo $booking->getId(); ?><?php if($addonsSelle->getOptionRequired() == 1) echo ' required-empty'; ?>" name="addons[<?php echo $addonsSelle['option_id'] ?>]">
+								<option value=""><?php echo __('Select Options'); ?></option>
+								<?php $selectValues = $block->getBkOptionSelectValues($addonsSelle['option_id']); ?>
+								<?php if(count($selectValues)) : ?>
+									<?php foreach($selectValues as $selectValue) : ?>
+										<option value="<?php echo $selectValue->getDropdownPrice(); ?>" <?php if($requestAddon == $selectValue->getDropdownPrice()) { echo 'selected="selected"'; } ?>>
+										<?php $valueTitle = $block->getBkHelperText()->showTranslateText($selectValue->getDropdownTitle(),$selectValue->getDropdownTitleTranslate()); ?>
+										<?php echo $valueTitle; ?> 
+										<?php
+											if ( $selectValue->getDropdownPrice() > 0 ) { echo ' +'.$block->getBkPriceHelper()->currency( $selectValue->getDropdownPrice(), true, false); }
+										?>
+										</option>
+									<?php endforeach; ?>
+								<?php endif; ?>
+							</select>
+						<?php elseif($addonsSelle->getOptionType() == 3) : ?>
+							<select multiple class="select-addons-item-<?php echo $booking->getId(); ?><?php if($addonsSelle->getOptionRequired() == 1) echo ' required-empty'; ?>" name="addons[<?php echo $addonsSelle['option_id'] ?>][]">
+								<?php $selectValues = $block->getBkOptionSelectValues($addonsSelle->getId()); ?>
+								<?php if(count($selectValues)) : ?>
+									<?php foreach($selectValues as $selectValue) : ?>
+										<option value="<?php echo $selectValue->getDropdownPrice(); ?>" <?php if(is_array($requestAddon) && count($requestAddon) && in_array($selectValue->getDropdownPrice(),$requestAddon)) { echo 'selected="selected"'; } ?>>
+										<?php $valueTitle = $block->getBkHelperText()->showTranslateText($selectValue->getDropdownTitle(),$selectValue->getDropdownTitleTranslate()); ?>
+										<?php echo $valueTitle; ?> 
+										<?php
+											if ( $selectValue->getDropdownPrice() > 0 ) { echo ' +'.$block->getBkPriceHelper()->currency( $selectValue->getDropdownPrice(), true, false); }
+										?>
+										</option>
+									<?php endforeach; ?>
+								<?php endif; ?>
+							</select>
+						<?php elseif($addonsSelle->getOptionType() == 4) : ?>
+							<?php $readioValues = $block->getBkOptionSelectValues($addonsSelle->getId()); ?>
+							<?php if(count($readioValues)) : ?>
+								<?php foreach($readioValues as $readioValue) : ?>
+									<input type="radio" name="addons[<?php echo $addonsSelle['option_id'] ?>]" value="<?php echo $readioValue->getDropdownPrice(); ?>"  <?php if($requestAddon == $readioValue->getDropdownPrice()) { echo 'checked="checked"'; } ?>  />
+									<?php $valueTitle = $block->getBkHelperText()->showTranslateText($readioValue->getDropdownTitle(),$readioValue->getDropdownTitleTranslate()); ?>
+									<span class="bk-addon-title"><?php echo $valueTitle; ?> 
+									<?php
+										if ( $selectValue->getDropdownPrice() > 0 ) { echo ' +'.$block->getBkPriceHelper()->currency( $readioValue->getDropdownPrice(), true, false); }
+									?>
+									</span>
+								<?php endforeach; ?>
+							<?php endif; ?>
+						<?php elseif($addonsSelle->getOptionType() == 5) : ?>
+						<?php $checkboxValues = $block->getBkOptionSelectValues($addonsSelle->getId()); ?>
+							<?php if(count($checkboxValues)) : ?>
+								<?php foreach($checkboxValues as $checkboxValue) : ?>
+									<input type="checkbox" name="addons[<?php echo $addonsSelle['option_id'] ?>][]" value="<?php echo $checkboxValue->getDropdownPrice(); ?>"  <?php if(is_array($requestAddon) && count($requestAddon) && in_array($checkboxValue->getDropdownPrice(),$requestAddon)) { echo 'checked="checked"'; } ?>  />
+									<?php $valueTitle = $block->getBkHelperText()->showTranslateText($checkboxValue->getDropdownTitle(),$checkboxValue->getDropdownTitleTranslate()); ?>
+									<span class="bk-addon-title"><?php echo $valueTitle; ?> 
+									<?php
+										if ( $checkboxValue->getDropdownPrice() > 0 ) { echo ' +'.$block->getBkPriceHelper()->currency( $checkboxValue->getDropdownPrice(), true, false); }
+									?>
+									</span>
+								<?php endforeach; ?>
+							<?php endif; ?>
+						<?php else : ?>
+							<input class="txt-addons-item-<?php echo $booking->getId(); ?> input-text<?php if($addonsSelle->getOptionRequired() == 1) echo ' required-empty'; ?>" type="text" name="addons[<?php echo $addonsSelle->getId(); ?>]" value="<?php echo $requestAddon; ?>" />
+						<?php endif; ?>
+					</div>
+					</dd>
+				<?php endforeach; ?>
+				</dl>
+			</div>
+		<?php endif; ?>
+		<!--end Addons & Cross-sells-->
+		<!-- hidden input -->
+		<input type="hidden" id="temp-check-in-<?php echo $booking->getId(); ?>" name="temp_check_in" value="<?php echo isset($request['temp_check_in']) ? $request['temp_check_in'] : ''; ?>" />
+	</div>
+	<div class="booking-book">
+		<?php echo __('Qty'); ?> <input class="bk-quantity" id="bk-create-order-quy-<?php echo $booking->getId(); ?>" name="bk_create_order_quy_<?php echo $booking->getId(); ?>" value="1" />
+		<!--default price-->
+		<div class="bk-results-action booking-results">
+		
+		</div>
+		<div class="booking-message-discount">
+			<?php $discounts = $block->getBkDiscounts(); ?>
+			<?php if(count($discounts)) : ?>
+					<span class="discount-label"><b><?php echo __('Available discount for checkout:'); ?></b></span>
+				<?php foreach($discounts as $discount) : ?>
+					<?php if($discount['discount_type'] == '1') : ?>
+						<span class="last-minute"><?php echo __('For reservations statring until %1 you get a %2 discount ',$discount['date_condition'],$discount['type_amount_text']); ?> <?php if($discount['discount_max_items'] > 0)  { echo __('for a maximum of %1 sessions',$discount['discount_max_items']); } ?></span>
+					<?php elseif($discount['discount_type'] == '2') : ?>
+						<span class="first-moment"><?php echo __('For reservations stating after %1 you get a %2 discount ',$discount['date_condition'],$discount['type_amount_text']); ?> <?php if($discount['discount_max_items'] > 0)  { echo __('for a maximum of %1 sessions',$discount['discount_max_items']); } ?></span>
+					<?php else : ?>
+						<span class="length-reservations"><?php echo __('For reservations of more than %1 sessions you get a %2 discount ',$discount['discount_period'],$discount['type_amount_text']); ?> <?php if($discount['discount_max_items'] > 0) { echo __('for a maximum of %1 sessions ',$discount['discount_max_items']); } ?></span>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			<?php endif; ?>
+		</div>
+	</div>
+	<span style="display: none">
+		<input type="hidden" id="bk-create-order-final-price-<?php echo $booking->getId() ?>" class="input-text admin__control-text  required-entry" name="bk_create_order_final_price" />
+	</span>
+</div>
+

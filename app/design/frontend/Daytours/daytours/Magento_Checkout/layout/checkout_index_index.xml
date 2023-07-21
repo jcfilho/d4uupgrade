@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="checkout" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="header.container">
+            <block name="checkout.modal.security.content" class="Daytours\Checkout\Block\ModalSecurity" template="Daytours_Checkout::modal-security-site.phtml" />
+            <block name="checkout.track.fb" class="Magento\Framework\View\Element\Template" template="Daytours_Checkout::fb-track.phtml" />
+        </referenceContainer>
+        <referenceBlock name="checkout.root">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="checkout" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="cms-block" xsi:type="array">
+                                    <item name="component" xsi:type="string">Daytours_Checkout/js/view/cms-block</item>
+                                    <item name="sortOrder" xsi:type="string">200</item>
+                                </item>
+                                <item name="sidebar" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="summary" xsi:type="array">
+                                            <item name="children" xsi:type="array">
+                                                <item name="totals" xsi:type="array">
+                                                    <item name="sortOrder" xsi:type="string">99</item>
+                                                </item>
+                                                <item name="cart_items" xsi:type="array">
+                                                    <item name="sortOrder" xsi:type="string">99</item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                        <item name="cms-block-sidebar" xsi:type="array">
+                                            <item name="component" xsi:type="string">Daytours_Checkout/js/view/cms-block-sidebar</item>
+                                            <item name="sortOrder" xsi:type="string">110</item>
+                                            <item name="displayArea" xsi:type="string">cms-block-sidebar</item>
+                                            <item name="config" xsi:type="array">
+                                                <item name="template" xsi:type="string">Daytours_Checkout/cms_block_sidebar</item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                                <item name="steps" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="billing-step" xsi:type="array">
+                                            <item name="children" xsi:type="array">
+                                                <item name="payment" xsi:type="array">
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="payments-list" xsi:type="array">
+                                                            <item name="children" xsi:type="array">
+                                                                <!--<item name="before-place-order" xsi:type="array">-->
+                                                                    <!--<item name="componentDisabled" xsi:type="boolean">true</item>-->
+                                                                <!--</item>-->
+                                                            </item>
+                                                        </item>
+
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+
+                                </item>
+                                <!--<item name="after-place-agreements" xsi:type="array">-->
+                                    <!--<item name="component" xsi:type="string">uiComponent</item>-->
+                                    <!--<item name="displayArea" xsi:type="string">after-place-agreements</item>-->
+                                    <!--<item name="dataScope" xsi:type="string">before-place-order</item>-->
+                                    <!--<item name="provider" xsi:type="string">checkoutProvider</item>-->
+                                    <!--<item name="sortOrder" xsi:type="string">100</item>-->
+                                    <!--<item name="config" xsi:type="array">-->
+                                        <!--<item name="template" xsi:type="string">Magento_Checkout/payment/before-place-order</item>-->
+                                    <!--</item>-->
+                                    <!--<item name="children" xsi:type="array">-->
+                                        <!--<item name="agreements" xsi:type="array">-->
+                                            <!--<item name="component" xsi:type="string">Magento_CheckoutAgreements/js/view/checkout-agreements</item>-->
+                                            <!--<item name="sortOrder" xsi:type="string">100</item>-->
+                                            <!--<item name="displayArea" xsi:type="string">after-place-agreements</item>-->
+                                            <!--<item name="dataScope" xsi:type="string">checkoutAgreements</item>-->
+                                            <!--<item name="provider" xsi:type="string">checkoutProvider</item>-->
+                                        <!--</item>-->
+                                    <!--</item>-->
+                                <!--</item>-->
+
+
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+        <referenceContainer name="page.messages" remove="true"/>
+    </body>
+</page>

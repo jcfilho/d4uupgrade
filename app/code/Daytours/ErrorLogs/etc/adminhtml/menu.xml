@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Daytours_ErrorLogs::menu_item"
+           title="Error Logs" 
+           module="Daytours_ErrorLogs"
+           sortOrder="10" 
+           parent="Daytours4u_Theme::main"
+           action="errorlogs/post/index"
+           resource="Daytours_ErrorLogs::menu_item"
+           />
+    </menu>
+</config>

@@ -1,0 +1,250 @@
+<?php
+$isseller = $this->helper('Magebay\Marketplace\Helper\Data')->checkIsSeller();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$moduleManager = $objectManager->create('Magento\Framework\Module\Manager'); 
+?>
+<div class="page-sidebar navbar-collapse collapse">
+    <!-- BEGIN SIDEBAR MENU -->
+	<ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px; text-align: left;">
+		<!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
+		<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+		<li class="sidebar-toggler-wrapper hide">
+			<div class="sidebar-toggler">
+				<span></span>
+			</div>
+		</li>
+		<!-- END SIDEBAR TOGGLER BUTTON -->
+		<!-- class for <li> : active open -->
+		<li class="nav-item start">
+			<a href="<?php echo $this->getUrl('marketplace/seller/dashboard') ?>" class="nav-link">
+				<i class="fa fa-dashboard"></i>
+				<span class="title"><?php echo __('Dashboard'); ?></span>
+				<span class="selected"></span>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a href="<?php echo $this->getUrl('marketplace/seller/myOrders') ?>" class="nav-link">
+				<i class="fa fa-cart-plus"></i>
+				<span class="title"><?php echo __('Sales'); ?></span>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a href="javascript:;" class="nav-link sb-nav-toggle">
+				<i class="fa fa-cubes"></i>
+				<span class="title"><?php echo __('Product Listings'); ?></span>
+				<span class="arrow"></span>
+			</a>
+			<ul class="sub-menu">
+				<li class="nav-item">
+					<a href="<?php echo $this->getUrl('marketplace/seller/myProducts') ?>" class="nav-link">
+						<i class="fa fa-dot-circle-o"></i>
+						<span class="title"><?php echo __('Manage Products'); ?></span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="<?php echo $this->getUrl('marketplace/product/set') ?>" class="nav-link">
+						<i class="fa fa-dot-circle-o"></i>
+						<span class="title"><?php echo __('Create Product'); ?></span>
+					</a>
+				</li>
+				<!-- <li class="nav-item">
+					<a href="<?php echo $this->getUrl('marketplace/product_attribute/add') ?>" class="nav-link">
+						<i class="fa fa-dot-circle-o"></i>
+						<span class="title"><?php echo __('Create Attribute'); ?></span>
+					</a>
+				</li> -->
+				<?php if ( $moduleManager->isEnabled('Magebay_SellerAssignProduct') ) { ?>
+					<li class="nav-item">
+						<a href="<?php echo $this->getUrl('sellerassignproduct/index/NewProduct') ?>">
+							<i class="fa fa-mouse-pointer"></i>
+							<span class="title"><?php echo __('Assign Product'); ?></span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="<?php echo $this->getUrl('sellerassignproduct/index/index') ?>">
+							<i class="fa fa-list-alt"></i>
+							<span class="title"><?php echo __('Assign Product List'); ?></span>
+						</a>
+					</li>
+				<?php } ?> 
+			</ul>
+		</li>
+        <?php if ( $moduleManager->isEnabled('Magebay_Messages') ) { ?>        
+    		<?php 
+			$seller = $block->getSellerProfile();
+			$unread_msg = $block->getMessageUnread();
+			?>
+    		<li class="nav-item">
+    			<a href="<?php echo $this->getUrl('messages/index/index') ?>" class="nav-link">
+    				<i class="fa fa-comment-o"></i>
+    				<span class="title"><?php echo __('Messages'); ?> (<b><?php echo $unread_msg->count() ?></b>)</span>
+    			</a>
+    		</li>
+        <?php } ?>        
+		<li class="nav-item">
+			<a href="<?php echo $this->getUrl('marketplace/seller/myTransactions') ?>" class="nav-link">
+				<i class="fa fa-usd"></i>
+				<span class="title"><?php echo __('Withdrawals'); ?></span>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a href="javascript:;" class="nav-link sb-nav-toggle">
+				<i class="fa fa-cubes"></i>
+				<span class="title"><?php echo __('Shipping Methods'); ?></span>
+				<span class="arrow"></span>
+			</a>
+			<ul class="sub-menu">
+			<?php if ( $moduleManager->isEnabled('Magebay_SellerFlatRateShipping') ) { ?>        
+				<li class="nav-item">
+					<a href="<?php echo $this->getUrl('sellerflatrateshipping/index/index') ?>" class="nav-link">
+						<i class="fa fa-truck"></i>
+						<span class="title"><?php echo __('Flat Rate Shipping'); ?></span>
+					</a>
+				</li>
+			<?php } ?>  
+			<?php if ( $moduleManager->isEnabled('Magebay_SellerTableRateShipping') ) { ?>        
+				<li class="nav-item">
+					<a href="<?php echo $this->getUrl('sellertablerateshipping/index/index') ?>" class="nav-link">
+						<i class="fa fa-truck"></i>
+						<span class="title"><?php echo __('Table Rate Shipping'); ?></span>
+					</a>
+				</li>
+			<?php } ?>   
+			<?php if ( $moduleManager->isEnabled('Magebay_SellerDHLShipping') ) { ?>        
+				<li class="nav-item">
+					<a href="<?php echo $this->getUrl('sellerdhlshipping/shipping/view') ?>" class="nav-link">
+						<i class="fa fa-truck"></i>
+						<span class="title"><?php echo __('DHL Shipping'); ?></span>
+					</a>
+				</li>
+			<?php } ?> 
+			<?php if ( $moduleManager->isEnabled('Magebay_SellerUpsShipping') ) { ?>        
+				<li class="nav-item">
+					<a href="<?php echo $this->getUrl('sellerupsshipping/index/index') ?>" class="nav-link">
+						<i class="fa fa-truck"></i>
+						<span class="title"><?php echo __('UPS Shipping'); ?></span>
+					</a>
+				</li>
+			<?php } ?> 
+			<?php if ( $moduleManager->isEnabled('Magebay_SellerUspsShipping') ) { ?>        
+				<li class="nav-item">
+					<a href="<?php echo $this->getUrl('selleruspsshipping/index/index') ?>" class="nav-link">
+						<i class="fa fa-truck"></i>
+						<span class="title"><?php echo __('USPS Shipping'); ?></span>
+					</a>
+				</li>
+			<?php } ?>
+			<?php if ( $moduleManager->isEnabled('Magebay_SellerFedExShipping') ) { ?>        
+				<li class="nav-item">
+					<a href="<?php echo $this->getUrl('sellerfedexshipping/index/index') ?>" class="nav-link">
+						<i class="fa fa-truck"></i>
+						<span class="title"><?php echo __('FedEx Shipping'); ?></span>
+					</a>
+				</li>
+			<?php } ?>
+			</ul>
+		</li>	
+        <?php if ( $moduleManager->isEnabled('Magebay_SellerStoreLocator') ) { ?>
+			<li class="nav-item">
+                <a href="<?php echo $this->getUrl('sellerstorelocator/index/view') ?>">
+                    <i class="fa fa-map-marker"></i>
+    				<span class="title"><?php echo __('My Store Locator'); ?></span>
+				</a>
+            </li>
+		<?php } ?>
+        <?php if ( $moduleManager->isEnabled('Magebay_SellerStorePickup') ) { ?>
+			<li class="nav-item">
+    			<a href="javascript:;" class="nav-link sb-nav-toggle">
+    				<i class="fa fa-angle-double-down"></i>
+    				<span class="title"><?php echo __('Manage Store Pickup'); ?></span>
+    				<span class="arrow"></span>
+    			</a>
+    			<ul class="sub-menu">
+    				<li class="nav-item">
+    					<a href="<?php echo $this->getUrl('sellerstorepickup/index/add') ?>" class="nav-link">
+    						<i class="fa fa-plus-circle"></i>
+    						<span class="title"><?php echo __('Add New Store'); ?></span>
+    					</a>
+    				</li>
+    				<li class="nav-item">
+    					<a href="<?php echo $this->getUrl('sellerstorepickup/index/liststore') ?>" class="nav-link">
+    						<i class="fa fa-list-alt"></i>
+    						<span class="title"><?php echo __('View All Stores'); ?></span>
+    					</a>
+    				</li>
+    			</ul>
+    		</li>
+		<?php } ?>
+        <?php if ( $moduleManager->isEnabled('Magebay_SellerVacation') ) { ?>
+			<li class="nav-item">
+                <a href="<?php echo $this->getUrl('sellervacation/index/view') ?>">
+                    <i class="fa fa-bed"></i>
+    				<span class="title"><?php echo __('Vacation Setting'); ?></span>
+				</a>
+            </li>
+		<?php } ?>
+        <?php if ( $moduleManager->isEnabled('Magebay_SellerMassImportExport') ) { ?>
+			<li class="nav-item">
+    			<a href="javascript:;" class="nav-link sb-nav-toggle">
+    				<i class="fa fa-angle-double-down"></i>
+    				<span class="title"><?php echo __('Mass Import/Export'); ?></span>
+    				<span class="arrow"></span>
+    			</a>
+    			<ul class="sub-menu">
+    				<li class="nav-item">
+    					<a href="<?php echo $this->getUrl('sellermassimportexport/index/import') ?>" class="nav-link">
+    						<i class="fa fa-sign-in"></i>
+    						<span class="title"><?php echo __('Import Product'); ?></span>
+    					</a>
+    				</li>
+    				<li class="nav-item">
+    					<a href="<?php echo $this->getUrl('sellermassimportexport/index/export') ?>" class="nav-link">
+    						<i class="fa fa-external-link"></i>
+    						<span class="title"><?php echo __('Export Product'); ?></span>
+    					</a>
+    				</li>
+    			</ul>
+    		</li>
+		<?php } ?>    
+        <?php if ( $moduleManager->isEnabled('Magebay_SellerMembership') && \Magento\Framework\App\ObjectManager::getInstance()->create('Magebay\Marketplace\Helper\Data')->getSellerMembershipIsEnabled() ) { ?>
+			<li class="nav-item">
+                <a href="<?php echo $this->getUrl('sellermembership/index/view') ?>">
+                    <i class="fa fa-users"></i>
+    				<span class="title"><?php echo __('Seller Membership'); ?></span>
+				</a>
+            </li>
+		<?php } ?>
+        <?php if ( $moduleManager->isEnabled('Magebay_SellerCoupon') ) { ?>
+			<li class="nav-item">
+                <a href="<?php echo $this->getUrl('sellercoupon/index/index') ?>">
+                    <i class="fa fa-money"></i>
+    				<span class="title"><?php echo __('Seller Coupon'); ?></span>
+				</a>
+            </li>
+		<?php } ?>     
+		<li class="nav-item">
+			<a href="<?php echo $this->getUrl('marketplace/seller/report') ?>" class="nav-link">
+				<i class="fa fa-line-chart"></i>
+				<span class="title"><?php echo __('Advanced Report'); ?></span>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a href="<?php echo $this->getUrl('marketplace/seller/account') ?>" class="nav-link">
+				<i class="fa fa-user-md"></i>
+				<span class="title"><?php echo __('Profile'); ?></span>
+			</a>
+		</li>
+		<!-- <li class="nav-item">
+			<a href="<?php echo $this->getUrl('#') ?>" class="nav-link">
+				<i class="fa fa-cog"></i>
+				<span class="title"><?php echo __('Settings'); ?></span>
+			</a>
+		</li> -->
+	</ul>
+	<!-- END SIDEBAR MENU -->
+</div>
+<!-- BEGIN QUICK SIDEBAR -->
+<a href="javascript:;" class="page-quick-sidebar-toggler">
+	<i class="icon-login"></i>
+</a>
+<!-- END QUICK SIDEBAR -->				

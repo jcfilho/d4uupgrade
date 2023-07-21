@@ -1,0 +1,380 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/* @var $block \Magento\Catalog\Block\Product\AbstractProduct */
+?>
+
+<?php
+switch ($type = $block->getType()) {
+
+    case 'related-rule':
+        if ($exist = $block->hasItems()) {
+            $type = 'related';
+            $class = $type;
+
+            $image = 'related_products_list';
+            $title = __('Related Products');
+            $items = $block->getAllItems();
+            $limit = $block->getPositionLimit();
+            $shuffle = (int) $block->isShuffled();
+            $canItemsAddToCart = $block->canItemsAddToCart();
+
+            $showAddTo = true;
+            $showCart = true;
+            $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+            $description = false;
+        }
+        break;
+
+    case 'related':
+        /** @var \Magento\Catalog\Block\Product\ProductList\Related $block */
+        if ($exist = $block->getItems()->getSize()) {
+            $type = 'related';
+            $class = $type;
+
+            $image = 'related_products_list';
+            $title = __('Related Products');
+            $items = $block->getItems();
+            $limit = 0;
+            $shuffle = 0;
+            $canItemsAddToCart = $block->canItemsAddToCart();
+
+            $showAddTo = true;
+            $showCart = true;
+            $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+            $description = false;
+        }
+        break;
+
+    case 'upsell-rule':
+        if ($exist = $block->hasItems()) {
+            $type = 'upsell';
+            $class = $type;
+
+            $image = 'upsell_products_list';
+            $title = __('We found other products you might like!');
+            $items = $block->getAllItems();
+            $limit = $block->getPositionLimit();
+            $shuffle = (int) $block->isShuffled();
+
+            $showAddTo = false;
+            $showCart = false;
+            $templateType = null;
+            $description = false;
+            $canItemsAddToCart = false;
+        }
+        break;
+
+    case 'upsell':
+        /** @var \Magento\Catalog\Block\Product\ProductList\Upsell $block */
+        if ($exist = count($block->getItemCollection()->getItems())) {
+            $type = 'upsell';
+            $class = $type;
+
+            $image = 'upsell_products_list';
+            $title = __('We found other products you might like!');
+            $items = $block->getItemCollection()->getItems();
+            $limit = $block->getItemLimit('upsell');
+            $shuffle = 0;
+
+            $showAddTo = false;
+            $showCart = false;
+            $templateType = null;
+            $description = false;
+            $canItemsAddToCart = false;
+        }
+        break;
+
+    case 'crosssell-rule':
+        /** @var \Magento\Catalog\Block\Product\ProductList\Crosssell $block */
+        if ($exist = $block->hasItems()) {
+            $type = 'crosssell';
+            $class = $type;
+
+            $image = 'cart_cross_sell_products';
+            $title = __('More Choices:');
+            $items = $block->getItemCollection();
+
+            $showAddTo = true;
+            $showCart = true;
+            $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+            $description = false;
+            $canItemsAddToCart = false;
+        }
+        break;
+
+    case 'crosssell':
+        /** @var \Magento\Catalog\Block\Product\ProductList\Crosssell $block */
+        if ($exist = count($block->getItems())) {
+            $type = 'crosssell';
+            $class = $type;
+
+            $image = 'cart_cross_sell_products';
+            $title = __('More Choices:');
+            $items = $block->getItems();
+
+            $showAddTo = true;
+            $showCart = true;
+            $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+            $description = false;
+            $canItemsAddToCart = false;
+        }
+        break;
+
+    case 'new':
+        if ($exist = $block->getProductCollection()) {
+            $type = 'new';
+            $mode = 'grid';
+            $type = $type . ' ' . $mode;
+
+            $class = 'widget' . ' ' . $type;
+
+            $image = 'new_products_content_widget_grid';
+            $title = __('New Products');
+            $items = $exist;
+
+            $showAddTo = true;
+            $showCart = true;
+            $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+            $description = ($mode == 'list') ? true : false;
+            $canItemsAddToCart = false;
+        }
+        break;
+
+    case 'other':
+        break;
+}
+?>
+
+<?php if ($exist):?>
+<div class="aside-wrapper">
+<div class="page-main rel-up-cross-products">
+    <?php if ($type == 'related' || $type == 'upsell'): ?>
+        <?php if ($type == 'related'): ?>
+            <div class="block <?= /* @escapeNotVerified */ $class ?>" data-mage-init='{"relatedProducts":{"relatedCheckbox":".related.checkbox"}}' data-limit="<?= /* @escapeNotVerified */ $limit ?>" data-shuffle="<?= /* @escapeNotVerified */ $shuffle ?>">
+                <div class="block-title title">
+                    <h3><?= __('You will also like these') ?></h3>
+                    <strong id="block-<?= /* @escapeNotVerified */ $class ?>-heading" role="heading" aria-level="2" style="display: none;"><?= /* @escapeNotVerified */ $title ?></strong>
+                </div>
+        <?php else: ?>
+            <div class="block <?= /* @escapeNotVerified */ $class ?>" data-mage-init='{"upsellProducts":{}}' data-limit="<?= /* @escapeNotVerified */ $limit ?>" data-shuffle="<?= /* @escapeNotVerified */ $shuffle ?>">
+                <div class="block-title title">
+                    <h3><?= __('You will also like these') ?></h3>
+                    <strong id="block-<?= /* @escapeNotVerified */ $class ?>-heading" role="heading" aria-level="2" style="display: none;"><?= /* @escapeNotVerified */ $title ?></strong>
+                </div>
+        <?php endif; ?>
+    <?php else: ?>
+        <div class="block <?= /* @escapeNotVerified */ $class ?>">
+            <div class="block-title title">
+                <h3><?= __('You may also like') ?></h3>
+                <strong id="block-<?= /* @escapeNotVerified */ $class ?>-heading" role="heading" aria-level="2" style="display: none;"><?= /* @escapeNotVerified */ $title ?></strong>
+            </div>
+    <?php endif; ?>
+
+
+            <div class="block-content content" aria-labelledby="block-<?= /* @escapeNotVerified */ $class ?>-heading">
+                <?php if ($type == 'related' && $canItemsAddToCart): ?>
+                    <div class="block-actions" style="display: none">
+                        <?= /* @escapeNotVerified */ __('Check items to add to the cart or') ?>
+                        <button type="button" class="action select" role="select-all"><span><?= /* @escapeNotVerified */ __('select all') ?></span></button>
+                    </div>
+                <?php endif; ?>
+                <div class="">
+                    <ol class="products list items product-items owl-carousel <?= $class ?>">
+                        <?php $iterator = 1; ?>
+                        <?php foreach ($items as $_item): ?>
+                            <?php $available = ''; ?>
+                            <?php if (!$_item->isComposite() && $_item->isSaleable() && $type == 'related'): ?>
+                                <?php if (!$_item->getRequiredOptions()): ?>
+                                    <?php $available = 'related-available'; ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                            <?php if ($type == 'related' || $type == 'upsell'): ?>
+                                <?= /* @escapeNotVerified */ ($iterator++ == 1) ? '<li class="product-block">' : '</li><li class="product-block">' ?>
+                            <?php else: ?>
+                                <?= /* @escapeNotVerified */ ($iterator++ == 1) ? '<li class="product-block">' : '</li><li class="product-block">' ?>
+                            <?php endif; ?>
+                            <div class="product-item-info <?= /* @escapeNotVerified */ $available ?>">
+                                <div class="product-item-infomain">
+                                <?= /* @escapeNotVerified */ '<!-- ' . $image . '-->' ?>
+                                    <div class="product-image">
+                                        <div class="product-img">
+                                            <a href="<?= /* @escapeNotVerified */ $block->getProductUrl($_item) ?>" class="product photo product-item-photo">
+                                                <div style="background-image: url(<?= $block->getImage($_item, $image)->getImageUrl(); ?>)"></div>
+
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-item-name">
+                                        <a class="product-item-link" title="<?= $block->escapeHtml($_item->getName()) ?>" href="<?= /* @escapeNotVerified */ $block->getProductUrl($_item) ?>"><?= $block->escapeHtml($_item->getName()) ?></a>
+                                    </div>
+                                    <?php if ($templateType): ?>
+                                        <?php
+                                        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                                        $RatingOb = $objectManager->create('Magento\Review\Model\Rating')->getEntitySummary($_item->getId());
+                                        if($RatingOb->getCount()>0) {
+                                            $ratings = $RatingOb->getSum() / $RatingOb->getCount();
+                                            $ratingCount = $RatingOb->getCount();
+                                            echo $block->getReviewsSummaryHtml($_item, $templateType, true);
+                                        } else{
+                                            $ratings = 0;
+                                            $ratingCount = 0;
+                                        }
+                                        ?>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="product-item-details">
+                                    <?php // Price ?>
+                                    <div class="product-item-price">
+                                        <span><?= __('from') ?></span>
+                                        <?php if($_item->getSpecialPrice()){ ?>
+                                            <?php if($_item->getPrice()){ ?>
+                                                <?php if($_item->getPrice()!=$_item->getFinalPrice()){ ?>
+                                                    <span class="old-price"><span class="unit">USD</span>$<?= round($_item->getPrice(),1);?></span>
+                                                <?php } ?>
+                                            <?php } ?>
+                                        <?php } ?>
+                                        <?php if($_item->getFinalPrice()){ ?>
+                                            <br/>
+                                            <span class="current-price"><span class="unit">USD</span>$<?= round($_item->getFinalPrice(),1);?></span>
+                                        <?php } ?>
+                                    </div>
+
+
+                                    <?php if ($showAddTo || $showCart): ?>
+                                        <div class="product actions product-item-actions">
+                                            <?php if ($showCart): ?>
+                                                <div class="actions-primary">
+                                                    <?php if ($_item->isSaleable()): ?>
+                                                        <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
+                                                            <a href="<?= $block->getProductUrl($_item) ?>" class="action tocart primary"  title="<?= $block->escapeHtmlAttr(__('Book Now')) ?>">
+                                                                <span><?= $block->escapeHtml(__('Book Now')) ?></span>
+                                                            </a>
+                                                        <?php else: ?>
+                                                            <?php $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
+                                                            $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()])
+                                                            ?>
+                                                            <a href="<?= $block->getProductUrl($_item) ?>" class="action tocart primary"  title="<?= $block->escapeHtmlAttr(__('Book Now')) ?>">
+                                                                <span><?= $block->escapeHtml(__('Book Now')) ?></span>
+                                                            </a>
+                                                        <?php endif; ?>
+                                                    <?php else: ?>
+                                                        <?php if ($_item->getIsSalable()): ?>
+                                                            <div class="stock available"><span><?= /* @escapeNotVerified */ __('In stock') ?></span></div>
+                                                        <?php else: ?>
+                                                            <div class="stock unavailable"><span><?= /* @escapeNotVerified */ __('Out of stock') ?></span></div>
+                                                        <?php endif; ?>
+                                                    <?php endif; ?>
+                                                </div>
+                                            <?php endif; ?>
+
+                                            <?php if ($showAddTo): ?>
+                                                <div class="secondary-addto-links actions-secondary" data-role="add-to-links">
+                                                    <?php if ($addToBlock = $block->getChildBlock('addto')): ?>
+                                                        <?= $addToBlock->setProduct($_item)->getChildHtml() ?>
+                                                    <?php endif; ?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <?= ($iterator == count($items)+1) ? '</li>' : '' ?>
+                        <?php endforeach ?>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="testing"></div>
+    <script>
+        require([
+            'jquery',
+            'js/owl.carousel'
+        ], function ($,carousel) {
+            'use strict';
+
+            $(window).on('load', function () {
+                if($('.owl-carousel.<?= $class ?>').length > 0){
+                    <?php if( $class == 'crosssell' ){ ?>
+                    var owl = $('.owl-carousel.<?= $class ?>').owlCarousel({
+                        nav:true,
+                        responsive:{
+                            0: {
+                                items: 1,
+                                stagePadding : 15
+                                // stagePadding : 42
+                            },
+                            320: {
+                                items: 1,
+                                stagePadding : 15
+                            },
+                            480: {
+                                items: 1,
+                                stagePadding : 42
+                            },
+                            520: {
+                                items: 2,
+                                stagePadding : 15
+                            },
+                            640: {
+                                items: 2,
+                                stagePadding : 15
+                            },
+                            767: {
+                                items: 2,
+                                stagePadding : 15
+                            },
+                            860: {
+                                items: 2
+                            },
+                            1200: {
+                                items: 3
+                            }
+                        }
+                    });
+                    <?php } else{ ?>
+                        var owl = $('.owl-carousel.<?= $class ?>').owlCarousel({
+                            nav:true,
+                            autoHeight: false,
+                            responsive:{
+                                0: {
+                                    items: 1,
+                                    stagePadding : 15
+                                },
+                                320: {
+                                    items: 1,
+                                    stagePadding : 15
+                                },
+                                480: {
+                                    items: 1,
+                                    stagePadding : 42
+                                },
+                                520: {
+                                    items: 2,
+                                    stagePadding : 15
+                                },
+                                640: {
+                                    items: 2,
+                                    stagePadding : 15
+                                },
+                                860: {
+                                    items: 3
+                                },
+                                1200: {
+                                    items: 4
+                                }
+                            }
+                        });
+                    <?php } ?>
+                }
+            })
+        })
+    </script>
+        <?php endif;?>

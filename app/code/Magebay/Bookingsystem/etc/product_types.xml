@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Catalog/etc/product_types.xsd">
+    <type name="booking" label="Booking" modelInstance="Magebay\Bookingsystem\Model\Product\Type\Booking" isQty="true" indexPriority="10" sortOrder="10">
+        <customAttributes>
+            <attribute name="refundable" value="true"/>
+        </customAttributes>
+    </type>
+</config>

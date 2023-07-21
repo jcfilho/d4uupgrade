@@ -1,0 +1,61 @@
+<?php $facilities = $this->getBkFacilities(); ?>
+<?php $facilityIds = $this->getBkFacilitiesById(); ?>
+<?php $storeId = $this->getBkStoreId(); ?>
+<div class="fieldset-wrapper admin__collapsible-block-wrapper opened">
+	<div class="fieldset-wrapper-title">
+		<strong>
+            <span><?php echo __('Facilities') ?></span>
+        </strong>
+	</div>
+	<div class="fieldset-wrapper-content in collapse">
+		<fieldset class="fieldset">
+			<div id="booking-list-facility-items" class="booking-table-items">
+				<div class="booking-list-items-header">
+					<span class="booking-label booking-label-facility-input">
+						<input type="checkbox" class="" title="<?php echo __('Check All') ?>" value="" id="bk-facilities-check-all" <?php if(count($facilities) == count($facilityIds)) echo 'checked="checked"'; ?> />
+					</span>
+					<span class="booking-label"><?php echo __('Title'); ?></span>
+					<span class="booking-label booking-label-facility-description"><?php echo __('Description'); ?></span>
+				</div>
+				<div class="booking-list-items-content">
+					<?php if(count($facilities )) : ?>
+						<?php foreach($facilities  as $facility) : ?>
+							<div class="bk-list-item">
+								<span class="booking-data booking-data-facility-input">
+									<input type="checkbox" class="bk-facility-item" value="<?php echo $facility->getId(); ?>" name="bookings[facilities][]" <?php if(array_key_exists($facility->getId(),$facilityIds)) echo 'checked="checked"'; ?> />
+								</span>
+								<span class="booking-data">
+									<?php $title = $this->getBkStrText($facility->getFacilityTitle(),$facility->getFacilityTitleTransalte(),$storeId); ?>
+									<?php echo $title; ?>				
+								</span>
+								<span class="booking-data booking-data-facility-description">
+									<?php $description = $this->getBkStrText($facility->getFacilityDescription(),$facility->getFacilityDesTranslate(),$storeId); ?>
+									<?php $description = $this->shortDescription($description,50); ?>
+									<?php echo $description; ?>
+								</span>
+							</div>
+						<?php endforeach; ?>
+						<script>
+							require([
+									'jquery',
+								],
+								function($) {
+									//code for bk facilities
+									$('#bk-facilities-check-all').click(function(){
+										if($(this).is(":checked"))
+										{
+											$('.bk-facility-item').prop('checked',true);
+										}
+										else
+										{
+											$('.bk-facility-item').prop('checked',false);
+										}
+									})
+								})
+						</script>
+					<?php endif; ?>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+</div>

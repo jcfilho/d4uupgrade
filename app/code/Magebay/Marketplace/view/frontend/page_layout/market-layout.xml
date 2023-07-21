@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+	<container name="market.wrapper" htmlTag="div" htmlClass="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+		<container htmlTag="div" htmlClass="page-wrapper">
+			<!-- david -->
+			<container name="after.body.start" as="after.body.start" before="-" label="Page Top"/>
+			
+			<container name="market.head" as="market_head" htmlTag="div" htmlClass="page-header-wrap" cacheable="false"  >
+				<!-- <block class="Magento\Framework\View\Element\Template" name="market.after.body.start" template="Magebay_Marketplace::layout/head.phtml"/> -->
+				<block class="Magebay\Marketplace\Block\SellerBackend" name="market.after.body.start" template="Magebay_Marketplace::layout/head.phtml" cacheable="false" />
+			</container>
+			<container name="market.main" htmlTag="div" htmlClass="page-container">
+				<container name="market.left" htmlTag="div" htmlClass="page-sidebar-wrapper">
+					<block class="Magebay\Marketplace\Block\SellerBackend" name="market.sidebar.main" template="Magebay_Marketplace::layout/sidebar.phtml" cacheable="false" />
+				</container> 
+				<container name="main" htmlTag="div" htmlClass="page-content-wrapper">
+					<container name="market.content" htmlTag="div" htmlClass="page-content">
+						<container name="market.page.messages" htmlTag="div" htmlClass="page messages" before="-">
+							<block class="Magento\Framework\View\Element\Template" name="market.ajax.message.placeholder" template="Magento_Theme::html/messages.phtml"/>
+							<block class="Magento\Framework\View\Element\Messages" name="market.messages" template="Magento_Theme::messages.phtml"/>
+						</container>
+						<block class="Magento\Framework\View\Element\Template" name="market.before.main.columns" template="Magebay_Marketplace::layout/top_content.phtml" before="-" />
+					</container>
+				</container>
+			</container>
+			<container name="market.footer" htmlTag="div" htmlClass="page-footer">
+				<block class="Magento\Framework\View\Element\Template" name="market.footer.content" template="Magebay_Marketplace::layout/footer.phtml"/>
+			</container>
+			
+			<!-- David -->
+            <container name="before.body.end" as="before_body_end" after="-" label="Page Bottom"/>
+
+		</container>
+	</container>
+</layout>

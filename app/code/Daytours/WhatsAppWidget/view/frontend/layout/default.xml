@@ -1,0 +1,12 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd"> 
+
+    <head>
+        <css src="Daytours_WhatsAppWidget::css/whatsapp-widget.css"/>
+        <link src="Daytours_WhatsAppWidget::js/whatsapp-widget.js" />
+    </head>
+    <body> 
+        <referenceContainer name="page.wrapper">
+            <block after="-" class="Daytours\WhatsAppWidget\Block\WhatsAppWidget" name="whatsapp-widget" template="Daytours_WhatsAppWidget::whatsapp-widget.phtml" />
+        </referenceContainer>
+    </body> 
+</page>

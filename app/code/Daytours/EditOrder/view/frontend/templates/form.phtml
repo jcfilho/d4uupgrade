@@ -1,0 +1,498 @@
+<?php
+/* @var \Daytours\EditOrder\Block\Form $block */
+$order = $block->getOrder();
+$namePrefixForm1 = '';
+$namePrefixForm2 = '';
+$namePrefixForm3 = '';
+$namePrefixForm4 = '';
+?>
+<form
+    id="form-complete-order"
+    method="post"
+    action="<?= $block->getUrl("editorder/order/editPost") ?>"
+    data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+    data-mage-init='{"validation":{}}'
+    class="form-post-purchase">
+
+    <?= $block->getBlockHtml('formkey') ?>
+    <p class="description">
+        <?= __('The following information is required to complete order #%1. The details below are INDISPENSABLE to confirm your tours and issue your vouchers or tickets. The personal information requested, is a requirement of the local authorities; for this reason, the passenger is responsible for the accuracy of this information as well as for any errors or omissions in the data.',$order->getIncrementId()) ?>
+    </p>
+    <p class="description">
+        <?= __('Once you have completed all the requested information you will not be able to edit it. If you need help please') ?> <a href="<?= $block->getUrl('contact') ?>"><?= __('contact us') ?></a>
+    </p>
+
+    <?php foreach ($order->getItems() as $orderItem): ?>
+        <?php
+        $product = $orderItem->getProduct();
+        $block->setCurrentProduct($product);
+        $block->setCurrentItem($orderItem);
+        ?>
+    <?php
+        if(
+            $product->getPostCompraForm1()
+         || $product->getPostCompraForm2()
+         || $product->getPostCompraForm3()
+         || $product->getPostCompraForm4()
+        ) :
+        ?>
+        <h3 class="product-name">
+            <?= $product->getName() ?>
+        </h3>
+    <?php endif; ?>
+
+    <?php if( $product->getPostCompraForm1() ) : ?>
+    <?php $namePrefixForm1 = 'form1'. "[{$orderItem->getId()}][{$product->getId()}]"; ?>
+    <!-- FORM 1 -->
+        <fieldset class="fieldset row">
+            <div class="field required col-lg-4 col-md-4  col-xs-12">
+                <label class="label" for="hotel"><span><?php /* @escapeNotVerified */ echo __('Hotel / Accommodation name') ?></span></label>
+                <div class="control">
+                    <input
+                            name="<?= $namePrefixForm1 ?>[hotel]"
+                            id="hotel"
+                            title="<?php /* @escapeNotVerified */ echo __('Hotel / Accommodation name') ?>"
+                            value=""
+                            class="input-text"
+                            type="text"
+                            data-validate="{required:true}"/>
+                </div>
+            </div>
+            <div class="field required col-lg-4 col-md-4  col-xs-12">
+                <label class="label" for="address"><span><?= $block->escapeHtml(__('Address')) ?></span></label>
+                <div class="control">
+                    <input
+                            name="<?= $namePrefixForm1 ?>[address]"
+                            id="address"
+                            title="<?= $block->escapeHtmlAttr(__('Address')) ?>"
+                            value=""
+                            class="input-text"
+                            type="text"
+                            data-validate="{required:true}"
+                            />
+                </div>
+            </div>
+        </fieldset>
+    <!--  -->
+    <?php endif; ?>
+
+    <?php if( $product->getPostCompraForm2() ) : ?>
+    <?php $namePrefixForm2 = 'form2'. "[{$orderItem->getId()}][{$product->getId()}]"; ?>
+    <?php $namePrefixForm3 = 'form3'. "[{$orderItem->getId()}][{$product->getId()}]"; ?>
+    <!-- FORM 2 -->
+        <fieldset class="fieldset row">
+            <div class="field required col-lg-4 col-md-4  col-xs-12">
+                <label class="label" for="arrival_flight_details"><span><?php /* @escapeNotVerified */ echo __('Arrival flight details') ?></span></label>
+                <div class="control">
+                    <input
+                            name="<?= $namePrefixForm2 ?>[arrival_flight_details]"
+                            id="arrival_flight_details"
+                            title="<?php /* @escapeNotVerified */ echo __('Arrival flight details') ?>"
+                            value=""
+                            class="input-text" type="text"
+                            data-validate="{required:true}"/>
+                </div>
+            </div>
+            <div class="field required col-lg-4 col-md-4  col-xs-12">
+                <label class="label" for="arrival_date"><span>
+                        <?= $block->escapeHtml(__('Arrival date')) ?>
+                    </span></label>
+                <div class="control">
+                    <input
+                            data-dependent="<?= $namePrefixForm3 ?>[departing_date]"
+                            name="<?= $namePrefixForm2 ?>[arrival_date]"
+                            id="arrival_date"
+                            title="<?= $block->escapeHtmlAttr(__('Arrival date')) ?>"
+                            value=""
+                            class="input-text arrival-date"
+                            type="text"
+                            data-validate="{required:true}"
+                            placeholder="DD/MM/YYYY"
+                            readonly />
+                </div>
+            </div>
+            <div class="field required col-lg-4 col-md-4  col-xs-12">
+                <label class="label"><?php echo __('Est. Arrival time'); ?></label>
+                <div class="control">
+                    <select style="width:auto;" class="select-hours" name="<?= $namePrefixForm2 . '[est_arrival_time_hour]'; ?>">
+                        <option value="00">00</option>
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">14</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                    </select>
+                    &nbsp;:&nbsp;
+                    <select style="width:auto;" class="select-hours" name="<?= $namePrefixForm2 . '[est_arrival_time_minute]'; ?>">
+                        <option value="00">00</option>
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">14</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                        <option value="31">31</option>
+                        <option value="32">32</option>
+                        <option value="33">33</option>
+                        <option value="34">34</option>
+                        <option value="35">35</option>
+                        <option value="36">36</option>
+                        <option value="37">37</option>
+                        <option value="38">38</option>
+                        <option value="39">39</option>
+                        <option value="40">40</option>
+                        <option value="41">41</option>
+                        <option value="42">42</option>
+                        <option value="43">43</option>
+                        <option value="44">44</option>
+                        <option value="45">45</option>
+                        <option value="46">46</option>
+                        <option value="47">47</option>
+                        <option value="48">48</option>
+                        <option value="49">49</option>
+                        <option value="50">50</option>
+                        <option value="51">51</option>
+                        <option value="52">52</option>
+                        <option value="53">53</option>
+                        <option value="54">54</option>
+                        <option value="55">55</option>
+                        <option value="56">56</option>
+                        <option value="57">57</option>
+                        <option value="58">58</option>
+                        <option value="59">59</option>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+    <!--  -->
+    <?php endif; ?>
+
+    <?php if( $product->getPostCompraForm3() ) : ?>
+    <?php //$namePrefixForm3 = 'form3'. "[{$orderItem->getId()}][{$product->getId()}]"; ?>
+    <!-- FORM 3 -->
+        <fieldset class="fieldset row">
+            <div class="field required col-lg-4 col-md-4  col-xs-12">
+                <label class="label" for="departing_flight_details">
+                    <span><?php /* @escapeNotVerified */ echo __('Departing flight details') ?></span>
+                </label>
+                <div class="control">
+                    <input name="<?= $namePrefixForm3 ?>[departing_flight_details]" id="departing_flight_details" title="<?php /* @escapeNotVerified */ echo __('Departing flight details') ?>" value="" class="input-text" type="text" data-validate="{required:true}"/>
+                </div>
+            </div>
+            <div class="field required col-lg-4 col-md-4  col-xs-12">
+                <label class="label" for="departing_date">
+                    <span><?= $block->escapeHtml(__('Departing date')) ?></span>
+                </label>
+                <div class="control">
+                    <input
+                            name="<?= $namePrefixForm3 ?>[departing_date]"
+                            id="departing_date"
+                            title="<?= $block->escapeHtmlAttr(__('Departing date')) ?>"
+                            value=""
+                            class="input-text departing-date"
+                            type="text"
+                            data-validate="{required:true}"
+                            placeholder="DD/MM/YYYY"
+                            readonly />
+                </div>
+            </div>
+            <div class="field required col-lg-4 col-md-4  col-xs-12">
+                <label class="label"><?php echo __('Departure time'); ?></label>
+                <div class="control">
+                    <select style="width:auto;" class="select-hours" name="<?= $namePrefixForm3 . '[departure_time_hour]'; ?>">
+                        <option value="00">00</option>
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">14</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                    </select>
+                    &nbsp;:&nbsp;
+                    <select style="width:auto;" class="select-hours" name="<?= $namePrefixForm3 . '[departure_time_minute]'; ?>">
+                        <option value="00">00</option>
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">14</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                        <option value="31">31</option>
+                        <option value="32">32</option>
+                        <option value="33">33</option>
+                        <option value="34">34</option>
+                        <option value="35">35</option>
+                        <option value="36">36</option>
+                        <option value="37">37</option>
+                        <option value="38">38</option>
+                        <option value="39">39</option>
+                        <option value="40">40</option>
+                        <option value="41">41</option>
+                        <option value="42">42</option>
+                        <option value="43">43</option>
+                        <option value="44">44</option>
+                        <option value="45">45</option>
+                        <option value="46">46</option>
+                        <option value="47">47</option>
+                        <option value="48">48</option>
+                        <option value="49">49</option>
+                        <option value="50">50</option>
+                        <option value="51">51</option>
+                        <option value="52">52</option>
+                        <option value="53">53</option>
+                        <option value="54">54</option>
+                        <option value="55">55</option>
+                        <option value="56">56</option>
+                        <option value="57">57</option>
+                        <option value="58">58</option>
+                        <option value="59">59</option>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+    <!--  -->
+    <?php endif; ?>
+    <?php if( $product->getPostCompraForm4() ) : ?>
+    <!-- FORM 4 -->
+        <fieldset class="fieldset row">
+            <?php if ($product->getExtraInfo()): ?>
+                <?php $adultChildCounts = $block->getAdultChildCounts($orderItem); ?>
+                <?php foreach ($adultChildCounts as $title => $total): ?>
+                    <?php for ($i = 1; $i <= $total; $i++): ?>
+                        <?php $namePrefix = ($title == 'Adult' ? 'adults' : 'children') . "[{$orderItem->getId()}][{$product->getId()}][$i]"; ?>
+                        <div class="clear clearfix col-xs-12">
+                            <strong><?php echo __($title) . " " . $i; ?></strong>
+                        </div>
+                        <div class="field required col-lg-4 col-md-4 col-xs-12">
+                            <label class="label"><?php echo __('Full name as in the passport'); ?></label>
+                            <div class="control">
+                                <input data-validate='{"required":true}' type="text"
+                                       name="<?php echo $namePrefix . '[name]'; ?>"/>
+                            </div>
+                        </div>
+                        <div class="field required  col-lg-4 col-md-4  col-xs-12">
+                            <label class="label"><?php echo __('Passport number'); ?></label>
+                            <div class="control">
+                                <input data-validate='{"required":true}' type="text"
+                                       name="<?php echo $namePrefix . '[passport_number]'; ?>"/>
+                            </div>
+                        </div>
+                        <div class="field required  col-lg-4 col-md-4  col-xs-12">
+                            <label class="label"><?php echo __('Date of Birth'); ?></label>
+                            <div class="control">
+                                <input readonly class="calendar-date-post-purchase" data-validate='{"required":true}' type="text"
+                                       name="<?php echo $namePrefix . '[date_of_birth]'; ?>"
+                                       placeholder="DD/MM/YYYY"/>
+                            </div>
+                        </div>
+
+                        <div class="field required col-lg-4 col-md-4  col-xs-12">
+                            <label class="label"><?php echo __('Nationality'); ?></label>
+                            <div class="control">
+                                <input data-validate='{"required":true}' type="text"
+                                       name="<?php echo $namePrefix . '[nationality]'; ?>"/>
+                            </div>
+                        </div>
+                        <div class="field required col-lg-4 col-md-4  col-xs-12">
+                            <label class="label"><?php echo __('Gender'); ?></label>
+                            <div class="control">
+                                <select name="<?php echo $namePrefix . '[gender]'; ?>">
+                                    <option value="<?php echo __('Male'); ?>"><?php echo __('Male'); ?></option>
+                                    <option value="<?php echo __('Female'); ?>"><?php echo __('Female'); ?></option>
+                                </select>
+                            </div>
+                        </div>
+
+                    <?php endfor; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </fieldset>
+    <!--  -->
+    <?php endif; ?>
+
+    <?php endforeach; ?>
+
+    <!-- REGISTER CUSTOMER -->
+    <fieldset class="fieldset row register-customer">
+        <div class="field col-xs-12">
+            <input type="checkbox" id="checkbox-register-customer" class="checkbox-register-customer" name="checkbox_register_customer" checked>
+            <label class="label-checkbox-register-customer" for="checkbox-register-customer"><?= __('Create account on Daytours4u') ?></label>
+        </div>
+    </fieldset>
+    <!-- -->
+
+    <input type="hidden" name="order_id" value="<?= $order->getId() ?>"/>
+    <div class="control control-submit-form">
+        <button type="button" class="action save primary" title="Save">
+            <span>
+                <?php echo __('Complete Order'); ?>
+            </span>
+        </button>
+    </div>
+</form>
+
+<script type="text/javascript">
+    function magebayTextJqueryCalendar()
+    {
+
+    }
+    magebayTextJqueryCalendar.prototype = {
+        //get month name for Jquery-ui calendar
+        getMonthNames : function()
+        {
+            return ["<?php echo __('January'); ?>",
+                "<?php echo __('February'); ?>",
+                "<?php echo __('March'); ?>",
+                "<?php echo __('April'); ?>",
+                "<?php echo __('May'); ?>",
+                "<?php echo __('June'); ?>",
+                "<?php echo __('July'); ?>",
+                "<?php echo __('August'); ?>",
+                "<?php echo __('September'); ?>",
+                "<?php echo __('October'); ?>",
+                "<?php echo __('November'); ?>",
+                "<?php echo __('December'); ?>"
+            ];
+        },
+        getShortMonth : function ()
+        {
+            return ["<?php echo __('Jan'); ?>",
+                "<?php echo __('Feb'); ?>",
+                "<?php echo __('Mar'); ?>",
+                "<?php echo __('Apr'); ?>",
+                "<?php echo __('May'); ?>",
+                "<?php echo __('Jun'); ?>",
+                "<?php echo __('Jul'); ?>",
+                "<?php echo __('Aug'); ?>",
+                "<?php echo __('Sep'); ?>",
+                "<?php echo __('Oct'); ?>",
+                "<?php echo __('Nov'); ?>",
+                "<?php echo __('Dec'); ?>"
+            ];
+        },
+        getdayNames : function()
+        {
+            return ["<?php echo __('Sunday'); ?>",
+                "<?php echo __('Monday'); ?>",
+                "<?php echo __('Tuesday'); ?>",
+                "<?php echo __('Wednesday'); ?>",
+                "<?php echo __('Thursday'); ?>",
+                "<?php echo __('Friday'); ?>",
+                "<?php echo __('Saturday'); ?>"
+            ];
+        },
+        getdayNamesShort : function()
+        {
+            return ["<?php echo __('Sun'); ?>",
+                "<?php echo __('Mon'); ?>",
+                "<?php echo __('Tue'); ?>",
+                "<?php echo __('Wed'); ?>",
+                "<?php echo __('Thu'); ?>",
+                "<?php echo __('Fri'); ?>",
+                "<?php echo __('Sat'); ?>"
+            ];
+        },
+        getdayNamesMin : function()
+        {
+            return ["<?php echo __('Su'); ?>",
+                "<?php echo __('Mo'); ?>",
+                "<?php echo __('Tu'); ?>",
+                "<?php echo __('We'); ?>",
+                "<?php echo __('Th'); ?>",
+                "<?php echo __('Fr'); ?>",
+                "<?php echo __('Sa'); ?>"
+            ];
+        }
+    }
+</script>
+
+<script type="text/x-magento-init">
+	{
+		"body" : {
+			"form-post-venta" : {}
+		}
+	}
+</script>

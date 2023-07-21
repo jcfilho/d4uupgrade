@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @Author      : David
+ * @package     Marketplace
+ * @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+ * @terms  http://www.magebay.com/terms
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ **/
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etcpage_configuration.xsd">
+    <head>
+        <css src="jquery/fileUploader/css/jquery.fileupload-ui.css"/>
+    </head>
+    <update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magebay\Marketplace\Block\Adminhtml\Sellers\Edit" name="magebay.sellers.edit" />
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Magebay\Marketplace\Block\Adminhtml\Sellers\Edit\Tabs" name="magebay.sellers.edit.tabs">
+                <block class="Magebay\Marketplace\Block\Adminhtml\Sellers\Edit\Tab\Main" name="magebay.sellers.edit.tab.main"/>                
+                <block class="Magebay\Marketplace\Block\Adminhtml\Sellers\Edit\Tab\Payment" name="magebay.sellers.edit.tab.payment"/>
+				<block class="Magebay\Marketplace\Block\Adminhtml\Sellers\Edit\Tab\Commission" name="magebay.sellers.edit.tab.commission"/>				
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="string">magebay.sellers.edit.tab.main</argument>
+                </action>
+				<!--
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">meta_section</argument>
+                    <argument name="block" xsi:type="string">magebay.sellers.edit.tab.payment</argument>
+                </action>
+                -->
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">commission_section</argument>
+                    <argument name="block" xsi:type="string">magebay.sellers.edit.tab.commission</argument>
+                </action>
+
+            </block>
+        </referenceContainer>
+    </body>
+</page>

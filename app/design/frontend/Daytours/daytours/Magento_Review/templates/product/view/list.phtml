@@ -1,0 +1,98 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var Magento\Review\Block\Product\View\ListView $block */
+
+$_items = $block->getReviewsCollection()->getItems();
+$format = $block->getDateFormat() ?: \IntlDateFormatter::SHORT;
+$_size = 2;
+?>
+<?php if (true):?>
+    <div class="block review-list" id="customer-reviews">
+        <h2 class="block-title">
+            <strong><?= $block->escapeHtml(__('What do our clients say about this activity?')) ?></strong>
+        </h2>
+        <div class="block-content">
+            <div class="toolbar review-toolbar">
+                <?= $block->getChildHtml('toolbar') ?>
+            </div>
+            <ol class="items review-items">
+                <?php foreach ($_items as $_review):?>
+                    <li class="item review-item" itemscope itemprop="review" itemtype="http://schema.org/Review" style="display: none;">
+                        <p class="review-date">
+                            <span class="review-details-label"><?= $block->escapeHtml(__('Posted on')) ?></span>
+                            <time class="review-details-value" itemprop="datePublished" datetime="<?= $block->escapeHtmlAttr($block->formatDate($_review->getCreatedAt(), $format)) ?>"><?= $block->escapeHtml(date('jS F, Y',strtotime($_review->getCreatedAt()))) ?></time>
+                        </p>
+                        <div class="review-rating-inf">
+                            <p class="review-nickname" itemprop="author"><?= $block->escapeHtml($_review->getNickname()) ?></p>
+
+                            <?php if (count($_review->getRatingVotes())): ?>
+                                <div class="review-ratings">
+                                    <?php $sumRating = 0; ?>
+                                    <?php foreach ($_review->getRatingVotes() as $_vote): ?>
+                                        <?php $sumRating = $sumRating + (int)$_vote->getPercent(); ?>
+                                        <div class="rating-summary item" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating" style="display: none;">
+                                            <span class="label rating-label"><span><?= $block->escapeHtml($_vote->getRatingCode()) ?></span></span>
+                                            <div class="rating-result" title="<?= $block->escapeHtmlAttr($_vote->getPercent()) ?>%">
+                                                <meta itemprop="worstRating" content = "1"/>
+                                                <meta itemprop="bestRating" content = "100"/>
+                                                <span style="width:<?= $block->escapeHtmlAttr($_vote->getPercent()) ?>%">
+                                                    <span itemprop="ratingValue"><?= $block->escapeHtml($_vote->getPercent()) ?>%</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+
+                                    <div class="rating-summary">
+                                        <span class="label" style="display: none"><span>Rating:</span></span>
+                                        <div class="rating-result" title="<?= $sumRating/count($_review->getRatingVotes()); ?>%">
+                                             <span style="width:<?= $sumRating/count($_review->getRatingVotes()); ?>%">
+                                                 <span><?= $sumRating/count($_review->getRatingVotes()); ?>%</span>
+                                             </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div style="clear: both"></div>
+                        <div class="review-title" itemprop="name"><?= $block->escapeHtml($_review->getTitle()) ?></div>
+                        <div class="review-content" itemprop="description">
+                            <?= nl2br($block->escapeHtml($_review->getDetail())) ?>
+                        </div>
+                        <span class="view-more"></span>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+            <div class="toolbar review-toolbar">
+                <span class="view-more__reviews" <?php if (count($_items) <= $_size) echo 'style="display: none;"'; ?>>View more reviews</span>
+                <?= $block->getChildHtml('toolbar') ?>
+            </div>
+        </div>
+    </div>
+    <script>
+        require([
+            'jquery'
+        ], function ($,carousel,$tr,urlBuilder) {
+            'use strict';
+            $('.review-list .review-item .view-more').click(function () {
+                $(this).parents('.review-item').toggleClass('full-content');
+            });
+
+            // view more reviews
+            var slice = <?php echo $_size ?>;
+            $(".review-list .review-item").slice(0, slice).show();
+            $(".review-list .view-more__reviews").on('click', function (e) {
+                e.preventDefault();
+                $(".review-list .review-item:hidden").slice(0, slice).slideDown();
+                if ($(".review-list .review-item:hidden").length == 0) {
+                    $(this).fadeOut('slow');
+                }
+            });
+        })
+    </script>
+<?php endif;?>

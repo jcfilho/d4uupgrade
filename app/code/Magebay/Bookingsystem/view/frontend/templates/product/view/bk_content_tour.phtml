@@ -1,0 +1,588 @@
+<div id="booking-calendar"></div>
+<?php /* js for booking simple */ ?>
+<?php $booking = $block->getBkBookingItem(); ?>
+<?php $request = $block->getBookingRequest(); ?>
+<?php $bookingId = $booking->getId(); ?>
+<?php $itemId = $request['item_id']; ?>
+<?php $arUrl = $block->getBkUrlAjax($bookingId,$itemId); ?>
+<?php $urlcalendar = $arUrl['url_calendar']; ?>
+<?php $urlBooking = $arUrl['url_booking']; ?>
+<?php $formatDateLabel = $block->getBkHelperDate()->getFormatDateLabel(); ?>
+<?php $longFormatDateLabel = $block->getBkHelperDate()->getLongFormatDateLabel(); ?>
+<?php $bookingTime = $booking->getBookingTime(); ?>
+<?php $bookingType = $booking->getBookingType(); ?>
+<?php $symbol = $block->getBkCurrencySymboy() ?>
+<?php $showCalendar = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/show_calendar') ?>
+<?php $bkIntCurrentTime = $block->getBkTmpTime(); ?>
+<?php $strCurrentTime = date('Y-m-d',$bkIntCurrentTime); ?>
+<?php $formatDate = $this->getBkHelperDate()->getFieldSetting('bookingsystem/setting/format_date'); ?>
+<?php $strCurrentDate = date($formatDate,$bkIntCurrentTime); ?>
+<?php $startDay =  $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/start_day'); ?>
+<?php $facilities = $block->getBkFacilities($booking->getId(),'per_day');?>
+<?php $enableAddress = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/booking_address') ?>
+<?php $strDisableDays = $booking->getDisableDays(); ?>
+<?php $arrayOrderItems = $block->getBkOrderArray($bookingId); ?>
+<?php $tourType = $booking->getBookingTourType(); ?>
+<?php $fixedDays = $booking->getBookingMinDays(); ?>
+<?php $defaultTourType = $booking->getBookingTourType() > 0 ? $booking->getBookingTourType() : 1; ?>
+<?php
+$okMap = 0;
+if($enableAddress == 1)
+{
+    if($booking->getBookingLat() != 0 && $booking->getBookingLon() != 0)
+    {
+        $okMap = 1;
+    }
+}
+$orderItems = $block->getAllUnavailableDays($bookingId);
+$strOrderItems = '{}';
+$currentCalendars = $block->getCurrnetBkCalendars($bookingId);
+$jsonCurrentCalendars = '{}';
+if(count($currentCalendars))
+{
+    $jsonCurrentCalendars = json_encode($currentCalendars->getData());
+}
+if(count($orderItems))
+{
+    $strOrderItems = json_encode($orderItems);
+}
+?>
+<?php $mapApyKey = $block->getBkHelperDate()->getFieldSetting('bookingsystem/setting/map_apy_key'); ?>
+<div class="row booking-product-infor">
+    <div role="tabpanel" class="tab-info-book" style="padding:20px 0;">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs booking-nav-tabs" role="tablist">
+            <?php if($okMap == 1) : ?>
+                <li class="booking-infor-tab active"><a href="#booking-map"><?php echo __("Map") ?></a></li>
+            <?php endif; ?>
+            <?php if(count($facilities)) : ?>
+                <li class="booking-infor-tab<?php if($okMap == 0) echo 'active'; ?>"><a href="#facilities"><?php echo __('Facilities'); ?></a></li>
+            <?php endif; ?>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <?php if($okMap == 1) : ?>
+                <div class="tab-pane active" id="booking-map">
+                    <div id="booking-map-canvas" style="width:100%; height:600px"></div>
+                    <div id="map-info-content">
+                        <div id="item-formation">
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php  if($facilities) : ?>
+                <div class="tab-pane<?php if($okMap == 0) echo ' active'; ?>" id="facilities">
+                    <table class="data-table">
+                        <colgroup>
+                            <col width="25%"><col width="25%"><col width="50%">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th class="title-td"><?php echo __('Title') ?></th>
+                            <th class="image-td"><?php echo __('Image') ?></th>
+                            <th class="description-td"><?php echo __('Description') ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($facilities as $facility) : ?>
+                            <tr class="first odd">
+                                <?php $title = $block->getBkHelperText()->showTranslateText($facility->getFacilityTitle(),$facility->getFacilityTitleTransalte()); ?>
+                                <td class="title-td"><?php echo $title;?></td>
+                                <td class="image-td">
+                                    <?php if ( $facility->getFacilityIconClass() != '') { ?>
+                                        <?php
+                                        $icon_class = explode('-', $facility->getFacilityIconClass() );
+                                        $type_font = $icon_class[0];
+                                        ?>
+                                        <i class="ace-icon <?php echo $type_font.' '.$facility->getFacilityIconClass(); ?> size-icon"></i>
+                                    <?php } else { ?>
+                                        <?php if($facility->getFacilityImage()) : ?>
+                                            <img src="<?php echo $block->imageResize($facility->getFacilityImage(),100,100); ?>" />
+                                        <?php endif; ?>
+                                    <?php } ?>
+                                </td>
+                                <?php $description = $block->getBkHelperText()->showTranslateText($facility->getFacilityDescription(),$facility->getFacilityDesTranslate()); ?>
+                                <td class="description-td"><?php echo $description;?></td>
+                            </tr>
+                        <?php endforeach;?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+<span style="display: none">
+    <button type="button" id="re-load-bk-rice">sss</button>
+</span>
+<?php if($okMap == 1) : ?>
+    <?php $zoom = $this->getBkHelperDate()->getFieldSetting('bookingsystem/setting/map_zoom'); ?>
+    <?php
+    /* infor to show detail on map */
+    $imageMap = $this->helper('Magento\Catalog\Helper\Image')->init($booking, 'product_page_image_medium')->keepAspectRatio(true)->resize(200, 200)->getUrl();
+    $summary = $block->getBkReview($booking->getId());
+    $rate = 0;
+    if($summary->getId())
+    {
+        $rate = $summary->getRatingSummary();
+    }
+    $reviewsCount = 0;
+    if ( $summary->getReviewsCount() > 0 )
+    {
+        $reviewsCount = $summary->getReviewsCount();
+    }
+    $imageMap  = (string)$imageMap ;
+    $reviewSummary = $rate;
+    $reviewStart = round( ( $rate/20 ), 1);
+    $bookingName = $booking->getName();
+    $intCurrentTime = $block->getBkTmpTime();
+    $checkIn = date('Y-m-d',$intCurrentTime);
+    //get room has lowest price
+    $bookingPrice = $block->getBkCurrentPrice();
+    $bookingPrice = $block->getBkPriceHelper()->currency($bookingPrice,false,false);
+    ?>
+    <?php if(trim($mapApyKey) != '') : ?>
+        <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $mapApyKey; ?>&v=3.exp&libraries=places"></script>
+    <?php else : ?>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+    <?php endif; ?>
+    <?php $symbol = $block->getBkCurrencySymboy(); ?>
+<?php endif; ?>
+<script>
+    require([
+            'jquery',
+            "jquery/ui",
+            'bk_calendar_rage',
+            'bk_calendar_simple'
+        ],
+        function ($,jqueryUi,dateRange,bkCalendar){
+            var showCalendar = '<?php echo $showCalendar; ?>';
+            var symbol = '<?php echo $symbol; ?>';
+            var urlBooking = '<?php echo $urlBooking; ?>';
+            var okMap = '<?php echo $okMap; ?>';
+            var tourType = '<?php echo $tourType; ?>';
+            var fixedDays = '<?php echo $fixedDays; ?>';
+            var defaultTourType = '<?php echo $defaultTourType; ?>';
+            var textJqueryCalendar = new magebayTextJqueryCalendar();
+            /* var dateHelper = new helperDate(); */
+            var strFormatDate = '<?php echo $formatDateLabel ?>';
+            var bookingId = '<?php echo $bookingId; ?>';
+            var bookingType = '<?php echo $bookingType; ?>';
+            var bookingTime = '<?php echo $bookingTime; ?>';
+            var strCurrentTime = '<?php echo $strCurrentTime; ?>';
+            var strDisableDays = '<?php echo $strDisableDays; ?>';
+            var objOrderItems = JSON.parse('<?php echo $strOrderItems; ?>');
+            var objCalendars = JSON.parse('<?php echo $jsonCurrentCalendars; ?>');
+            var checkIn = $('#check-in').val();
+            var checkOut = $('#check-out').val();
+            var isloadPerson = 0;
+            var arDisableDay = [];
+            if($.trim(strDisableDays) != '')
+            {
+                arDisableDay = strDisableDays.split(',');
+            }
+            if($.trim(checkIn) != '' && $.trim(checkOut) != '' && showCalendar != '1')
+            {
+                isloadPerson = 2;
+                getResults();
+            }
+            //end load
+            $('.booking-nav-tabs li a').click(function(e){
+                var bkTab = $(this).attr('href');
+                $('.booking-infor-tab').removeClass('active');
+                $('.tab-content .tab-pane').css('display','none');
+                $(this).parent().addClass('active');
+                $(bkTab).css('display','block');
+                if(bkTab == '#booking-map' && okMap == 1)
+                {
+                    showMap();
+                }
+                e.preventDefault()
+            });
+            //jquery date
+            var strLongFormatDate = '<?php echo strtoupper($longFormatDateLabel); ?>';
+            var startDay = parseInt('<?php echo $startDay; ?>');
+            var strCurrentDate = '<?php echo $strCurrentDate; ?>';
+            var applyLabel = '<?php echo __('Apply') ?>';
+            var cancelLabel = '<?php echo __('Clear') ?>';
+            var bkSimpleDate = (tourType == '2' || parseInt(fixedDays) > 0 ) ? true : false;
+            $('#bk-checkin-checkout').daterangepicker(
+                {
+                    singleDatePicker: bkSimpleDate,
+                    showDropdowns: bkSimpleDate,
+                    locale: {
+                        format: strLongFormatDate,
+                        firstDay: startDay,
+                        daysOfWeek : textJqueryCalendar.getdayNamesMin(),
+                        monthNames: textJqueryCalendar.getShortMonth(),
+                        applyLabel : applyLabel,
+                        cancelLabel: cancelLabel,
+                    },
+                    minDate : strCurrentDate,
+                    isInvalidDate: function(date){
+                        return nationalDays(date);
+                    }
+                }
+            );
+            if(checkIn != '' && checkOut != '')
+            {
+                $('#bk-checkin-checkout').val(checkIn + ' - ' + checkOut);
+            }
+            else {
+                $('#bk-checkin-checkout').val('');
+            }
+            $('input[name="bk_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
+                var checkIn = picker.startDate.format(strLongFormatDate);
+                var checkOut = picker.endDate.format(strLongFormatDate);
+                var standardCheckIn  = picker.startDate.format('YYYY-MM-DD');
+                var standardCheckOut  = picker.endDate.format('YYYY-MM-DD');
+                isloadPerson = 1;
+                if(bkSimpleDate)
+                {
+                    $(this).val(checkIn);
+                }
+                else
+                {
+                    $(this).val(checkIn +' - '+ checkOut);
+                }
+                $('#check-in').val(checkIn);
+                $('#check-out').val(checkOut);
+                getResults();
+            });
+            $('input[name="bk_checkin_checkout"]').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
+                $('#check-in').val('');
+                $('#check-out').val('');
+            });
+            $("#re-load-bk-rice").click(function () {
+                isloadPerson = 0;
+                getResults();
+            })
+            //check / uncheck all
+            if($('.txt-addons-item').length)
+            {
+                $('.txt-addons-item').change(function(){
+                    getResults();
+                })
+            }
+            if($('.select-addons-item').length)
+            {
+                $('.select-addons-item').change(function(){
+                    getResults();
+                })
+            }
+            if($('.bk-addon-radio-checkbox').length)
+            {
+                $('.bk-addon-radio-checkbox input').click(function(){
+                    getResults();
+                });
+                $('.bk-addon-radio-checkbox .bk-addon-title').click(function(){
+                    if($(this).prev('input').is(":checked"))
+                    {
+                        $(this).prev('input').prop('checked',false);
+                    }
+                    else
+                    {
+                        $(this).prev('input').prop('checked',true);
+                    }
+                    getResults();
+                })
+            }
+            function getResults()
+            {
+                if (!$('#product_addtocart_form').valid()) {
+                    return false;
+                }
+                var checkIn = $('#check-in').val();
+                var bookingTimeType = $('#booking-time-type').val();
+                if($.trim(checkIn) == '' && bookingTimeType == 'per_day')
+                {
+                    return false;
+                }
+                if(!checkRequiredAddons())
+                {
+                    return false;
+                }
+                $('#booking-loader').css('display','block');
+                $('.booking-results').html('');
+                $.ajax({
+                    url : urlBooking,
+                    dataType : 'json',
+                    type : 'POST',
+                    data : $('#product_addtocart_form').serialize(),
+                    success : function(res)
+                    {
+                        if(isloadPerson != 2)
+                        {
+                            $('.booking-results').html(res.html_result);
+                        }
+                        if($('.bk-extract-price-person').length && isloadPerson != 0)
+                        {
+                            $('.bk-extract-price-person').html(res.html_person);
+                        }
+                        isloadPerson = 0;
+                        $('#booking-loader').css('display','none');
+                    },
+                    error : function()
+                    {
+
+                    }
+                });
+
+            }
+            if(showCalendar == '1')
+            {
+                bkSimpleDate = bkSimpleDate ? 1 : 2;
+                //get calendar
+                var bkStartDay = startDay + 1;
+                var objData = {
+                    'data_url' : '<?php echo $urlcalendar; ?>',
+                    'booking_id': bookingId,
+                    'booking_type' : bookingType,
+                    'url_booking' : urlBooking,
+                    'booking_time' : bookingTime,
+                    'currency': symbol,
+                    'booking_label' : '<?php echo __('Booking Calendar'); ?>',
+                    'str_current_date': strCurrentTime,
+                    'first_day' : bkStartDay,
+                    'bk_simple_date' : bkSimpleDate,
+                    'default_tour_type' : defaultTourType,
+                    'obj_status_text' : {
+                        'available': '<?php echo __('Available'); ?>',
+                        'special': '<?php echo __('Available'); ?>',
+                        'block': '<?php echo __('Block'); ?>',
+                        'unavailable': '<?php echo __('Unavailable'); ?>',
+                    },
+                    'name_day_th' : [
+                        '<?php echo __('Sunday'); ?>',
+                        '<?php echo __('Monday'); ?>',
+                        '<?php echo __('Tuesday'); ?>',
+                        '<?php echo __('Wednesday'); ?>',
+                        '<?php echo __('Thursday'); ?>',
+                        '<?php echo __('Friday'); ?>',
+                        '<?php echo __('Saturday'); ?>'
+                    ],
+                    'name_day_short_th' : [
+                        '<?php echo __('Mon'); ?>',
+                        '<?php echo __('Tue'); ?>',
+                        '<?php echo __('Wed'); ?>',
+                        '<?php echo __('Thu'); ?>',
+                        '<?php echo __('Fri'); ?>',
+                        '<?php echo __('Sat'); ?>',
+                        '<?php echo __('Sun'); ?>'
+                    ],
+                    'name_day_shortest_th' : [
+                        '<?php echo __('Su'); ?>',
+                        '<?php echo __('Mo'); ?>',
+                        '<?php echo __('Tu'); ?>',
+                        '<?php echo __('We'); ?>',
+                        '<?php echo __('Th'); ?>',
+                        '<?php echo __('Fi'); ?>',
+                        '<?php echo __('Sa'); ?>',
+                    ],
+                    'add_text' : '<?php echo __('Add'); ?>',
+                    'remove_text' : '<?php echo __('Remove'); ?>',
+                    'next_text' : '<?php echo __('Next'); ?>',
+                    'pre_text' : '<?php echo __('Prev'); ?>',
+                    'format_date' : strFormatDate,
+                    'disable_day' : strDisableDays
+                };
+                $('#booking-calendar').MagebayAnyBooking(objData);
+            }
+            // code for map
+            <?php if($okMap == 1) : ?>
+            showMap();
+            function showMap()
+            {
+                var imageMap = '<?php echo $imageMap; ?>';
+                var reviewSummary = '<?php echo $reviewSummary; ?>';
+                var reviewStart = '<?php echo $reviewStart; ?>';
+                var reviewsCount = '<?php echo $reviewsCount; ?>';
+                var bookingName = '<?php echo $bookingName; ?>';
+                var bookingPrice = parseFloat('<?php echo $bookingPrice; ?>');
+                var markers = [];
+                var bounds;
+                var pinColor = "FE7569";
+                var latCenter = parseFloat('<?php echo $booking->getBookingLat() ? $booking->getBookingLat() : 0 ; ?>');
+                var lonCenter =  parseFloat('<?php echo $booking->getBookingLon() ? $booking->getBookingLon() : 0; ?>');
+                var zoomMap = parseInt('<?php echo $zoom; ?>');;
+                if(latCenter == 0 || lonCenter == 0)
+                {
+                    latCenter = 40.8516701;
+                    lonCenter = -93.2599318;
+                }
+                var newYork = new google.maps.LatLng(latCenter, lonCenter);
+                var mapOptions = {
+                    zoom: zoomMap,
+                    center: newYork,
+                    scrollwheel: false,
+                    scaleControl: false,
+                    zoomControlOptions: {
+                        position: google.maps.ControlPosition.TOP_LEFT
+                    },
+                };
+                map = new google.maps.Map(document.getElementById('booking-map-canvas'), mapOptions);
+                infoWindow = new google.maps.InfoWindow({
+                    content: document.getElementById('map-info-content')
+                });
+                posi =  new google.maps.LatLng(latCenter,lonCenter);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: posi,
+                    //icon: mapIcon
+                });
+
+                marker.name = bookingName;
+                marker.price = bookingPrice;
+                marker.image = imageMap;
+                marker.review_summary = reviewSummary;
+                marker.review_count = reviewsCount;
+                marker.review_start = reviewStart;
+                google.maps.event.addListener(marker,'click',showInfoWindow);
+                markers.push(marker);
+            }
+            function showInfoWindow()
+            {
+                var symbol = '<?php echo $symbol; ?>';
+                marker = this;
+                $('.item-map-active').removeClass('item-map-active');
+                $('#booking-item-'+marker.booking_item).addClass('item-map-active');
+                var originLat = marker.origin_lat;
+                var originLon = marker.origin_lon;
+                var name = marker.name;
+                var content = '<div>';
+                content += '<div class="popup-image">';
+                content += 	'<img src="'+marker.image+'">';
+                content += '</div>';
+                if(marker.price > 0)
+                {
+                    content += '<div class="price-box"><span class="price ">'+symbol+marker.price+'</span></div>';
+                }
+                content += '<div class="ratings">';
+                content += 	'<div class="rating-box">';
+                content += 		'<div class="rating" style="width: '+marker.review_summary+'%;"></div>';
+                content +=  		'<span class="booking-item-rating-number"><b>'+marker.review_start+'</b> of 5</span>';
+                content +=		'<span class="amount">('+marker.review_count+' reviews)</span>';
+                content +=	'</div>';
+                content += '</div>';
+                content += '</div>';
+                infoWindow.open(map, marker);
+                document.getElementById('item-formation').innerHTML = content;
+            }
+            <?php endif; ?>
+            function checkRequiredAddons()
+            {
+                var okAddons = true;
+                if($('.txt-addons-item').length)
+                {
+                    $('.txt-addons-item').each(function(){
+                        var strClass = $(this).attr('class');
+                        if(strClass.indexOf('required-empty') > -1 && ($.trim($(this).val()) == '' || isNaN($(this).val())))
+                        {
+                            okAddons = false;
+                            return false;
+                        }
+                    });
+                }
+                if(okAddons && $('.select-addons-item').length)
+                {
+                    $('.select-addons-item').each(function(){
+                        var strClass = $(this).attr('class');
+                        if(strClass.indexOf('required-empty') > -1 && ($.trim($(this).val()) == ''))
+                        {
+                            okAddons = false;
+                            return false;
+                        }
+                    });
+                }
+                if(okAddons && $('.bk-addon-radio-checkbox').length)
+                {
+                    $('.bk-addon-radio-checkbox').each(function(){
+                        var strClass = $(this).attr('class');
+                        var strCkId = $(this).attr('id');
+                        if(strClass.indexOf('required-empty') > -1)
+                        {
+                            var tempCkOk = false;
+                            $('#'+strCkId +' input').each(function(){
+                                if($(this).is(":checked"))
+                                {
+                                    tempCkOk = true;
+                                    return false;
+                                }
+                            });
+                            if(tempCkOk == false)
+                            {
+                                okAddons = false;
+                                return false;
+                            }
+                        }
+                    });
+                }
+                return okAddons;
+            }
+
+            function nationalDays(date) {
+                var m = date.month(), d = date.date() < 10 ? '0'+date.date() : date.date() , y = date.year();
+                var mMonth = m+1;
+                mMonth = mMonth < 10 ? '0'+mMonth : mMonth;
+                var textCrrentDate = y + '-' + mMonth + '-' + d;
+                var dayObj = new Date(textCrrentDate);
+                var qty = 0;
+                if(objCalendars)
+                {
+                    for(var key in objCalendars)
+                    {
+                        var tempDate = objCalendars[key];
+                        if(tempDate['calendar_default_value'] == '1')
+                        {
+                            qty = parseInt(tempDate['calendar_qty']);
+                        }
+                        tempStartDate = new Date(tempDate['calendar_startdate']);
+                        tempEndDate = new Date(tempDate['calendar_enddate']);
+                        if(tempStartDate.getTime() <= dayObj.getTime() && dayObj.getTime() <= tempEndDate.getTime())
+                        {
+                            if(tempDate['calendar_status'] == 'block' || tempDate['calendar_status'] == 'unavailable')
+                            {
+                                qty = 0;
+                            }
+                            else{
+                                qty = parseInt(tempDate['calendar_qty']);
+                            }
+
+                        }
+                    }
+                }
+                if(objOrderItems)
+                {
+                    for(keyorder in objOrderItems)
+                    {
+                        var orderDate = objOrderItems[keyorder];
+                        var orderStartDate = new Date(orderDate['check_in']);
+                        var orderEndDate = new Date(orderDate['check_out']);
+                        if(bookingTime == '2')
+                        {
+                            if(orderStartDate.getTime() <= dayObj.getTime() && dayObj.getTime() <= orderEndDate.getTime())
+                            {
+                                qty -= parseInt(orderDate['qty']);
+                            }
+                        }
+                        else{
+                            if(orderStartDate.getTime() <= dayObj.getTime() && dayObj.getTime() < orderEndDate.getTime())
+                            {
+                                qty -= parseInt(orderDate['qty']);
+                            }
+                        }
+
+                    }
+                }
+                if($.inArray(''+dayObj.getDay(), arDisableDay) != -1 || qty <= 0)
+                {
+                    return true;
+                }
+                else(qty > 0)
+                {
+                    return false;
+                }
+            }
+        });
+</script>

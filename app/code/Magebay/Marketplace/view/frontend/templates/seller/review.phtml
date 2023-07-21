@@ -1,0 +1,214 @@
+<?php
+/**
+* @Author      : Dream
+* @package     Marketplace
+* @copyright   Copyright (c) 2016 MAGEBAY (http://www.magebay.com)
+* @terms  http://www.magebay.com/terms
+* @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+**/
+?>
+<?php
+$seller = $block->getSellerProfile();
+$limit = $this->getRequest()->getParam('limit',5);
+if($seller) : ?>
+    <?php $reviews = $block->getMKReViewItem($seller->getId()); ?>
+	<div class="mst_mv_wrapper">
+        <div class="block block-multivendor">
+            <div class="block-title">
+                <strong>
+                    <span>
+                        <h4><?php echo __('Comments & Reviews') ?></h4>
+                    </span>
+                </strong>
+            </div>
+        </div>
+        <div class="fieldset mst_mv_fieldset">
+            <div class="grid">
+                <div class="wrap-mv-content">
+                    <?php $i = 0; if(count($reviews)) : ?>
+                        <?php foreach($reviews as $review) : ?>
+                            <div class="mst_itembox <?php if($i == 0) { echo 'mst_first_order'; } ?>">
+                                <div style="padding:7px 7px 0px 7px;">
+                                    <div class="mst_itembox_line">
+                                        <div class="mst_itembox_details">
+                                            <span class="mst_title_label"><?php echo __('REVIEW BY:'); ?> </span>
+                                            <span class="mst_label"><strong><?php echo $review->getFirstname().' '.$review->getLastname(); ?></strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="mst_itembox_line">
+                                        <div class="mst-review-details">
+                                            <div class="value-review">
+                                                <div class="price">
+                                                    <span class="reviews_label mst_span"><?php echo __('Price'); ?> </span><span class="reviews_label">:</span>
+                                                    <div class="wrapp-rating">
+                                                        <div style="width:<?php echo $review->getPrice(); ?>%;" class="rating"></div>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="value">
+                                                    <span class="reviews_label mst_span"> <?php echo __('Value'); ?> </span><span class="reviews_label">:</span>
+                                                    <div class="wrapp-rating">
+                                                        <div style="width:<?php echo $review->getValue(); ?>%;" class="rating"></div>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="quality">
+                                                    <span class="reviews_label mst_span"><?php echo __('Quality'); ?> </span><span class="reviews_label">:</span>
+                                                    <div class="wrapp-rating">
+                                                        <div style="width:<?php echo $review->getQuality(); ?>%;" class="rating"></div>
+                                                    </div>
+                                                    <div class="mst_clear"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mst_review-desc">
+                                            <div class="comment"><?php echo $review->getReview(); ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="mst_itembox_line">
+                                        <div class="mst_itembox_details">
+                                            <span class="mst_title_label"><?php echo __('POSTED ON:'); ?> </span>
+                                            <span class="mst_label"><?php echo $review->getCreatedate(); ?></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php $i++; else : ?>
+                    <div class="mst_empty_msg"><?php echo __('no comment & review available	') ?></div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php if ($block->getPagerHtml()): ?>
+                <div class="toolbar bottom" style="margin-top: 20px">
+                    <?php echo $block->getPagerHtml(); ?>
+                </div>
+            <?php endif ?>
+            <div class="clear"></div>
+        </div>
+	</div>
+	<div class="box-collateral box-reviews" id="customer-reviews">
+        <div class="form-add">
+            <?php if(!$block->checkMkCustomerLogin()) : ?>
+				<center><p class="loginmsg"><a href="<?php echo $block->getUrl() ?>customer/account/login/" class="button-large"><?php echo __('Login To Give Feedback'); ?></a></p></center>
+			<?php else : ?>
+                <?php
+                    if($block->checkCustomerOrderSeller($seller->getId(),\Magento\Framework\App\ObjectManager::getInstance()->create('Magento\Customer\Model\Session')->getCustomer()->getEmail())>0){
+                ?>
+                        <div class="reviewform">
+                            <div class="mst_mv_wrapper">
+                                <div class="block block-multivendor">
+                                    <div class="block-title">
+                                        <strong>
+                                            <span>
+                                                <h4><?php echo __('Write Your Own Feedback'); ?></h4>
+                                            </span>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="fieldset mst_mv_fieldset">
+                                    <form enctype="multipart/form-data" action="<?php echo $this->getUrl() ?>marketplace/seller/saveReview/vendor/<?php echo $seller->getStoreurl(); ?>" method="post" id="review-form">
+                                        <input type="hidden" value="<?php echo $block->getMKFormKey(); ?>" name="form_key"/>
+                                        <h4><?php echo __('How do you rate this Store'); ?> <em class="required mst_empty_msg">*</em></h4>
+                                        <span id="input-message-box"></span>
+                                        <table class="data-table" id="product-review-table">
+                                            <colgroup>
+                                                <col/>
+                                                <col width="10%"/>
+                                                <col width="10%"/>
+                                                <col width="10%"/>
+                                                <col width="10%"/>
+                                                <col width="10%"/>
+                                            </colgroup>
+                                            <thead>
+                                                <tr class="first last">
+                                                    <th>&nbsp;</th>
+                                                    <th><span class="nobr"><?php echo __('1 star'); ?></span></th>
+                                                    <th><span class="nobr"><?php echo __('2 stars'); ?></span></th>
+                                                    <th><span class="nobr"><?php echo __('3 stars'); ?></span></th>
+                                                    <th><span class="nobr"><?php echo __('4 stars'); ?></span></th>
+                                                    <th><span class="nobr"><?php echo __('5 stars'); ?></span></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="first odd">
+                                                    <th><?php echo __('Price'); ?></th>
+                                                    <td class="value"><input type="radio" checked="checked" name="reivew_price" id="Price_1" value="20" class="radio"/></td>
+                                                    <td class="value"><input type="radio" name="reivew_price" id="Price_2" value="40" class="radio"/></td>
+                                                    <td class="value"><input type="radio" name="reivew_price" id="Price_3" value="60" class="radio"/></td>
+                                                    <td class="value"><input type="radio" name="reivew_price" id="Price_4" value="80" class="radio"/></td>
+                                                    <td class="value last"><input type="radio" name="reivew_price" id="Price_5" value="100" class="radio"/></td>
+                                                </tr>
+                                                <tr class="even">
+                                                    <th><?php echo __('Value'); ?></th>
+                                                    <td class="value"><input type="radio" checked="checked" name="reivew_value" id="Value_1" value="20" class="radio"/></td>
+                                                    <td class="value"><input type="radio" name="reivew_value" id="Value_2" value="40" class="radio"/></td>
+                                                    <td class="value"><input type="radio" name="reivew_value" id="Value_3" value="60" class="radio"/></td>
+                                                    <td class="value"><input type="radio" name="reivew_value" id="Value_4" value="80" class="radio"/></td>
+                                                    <td class="value last"><input type="radio" name="reivew_value" id="Value_5" value="100" class="radio"/></td>
+                                                </tr>
+                                                <tr class="last odd">
+                                                    <th><?php echo __('Quality'); ?></th>
+                                                    <td class="value"><input type="radio" checked="checked" name="reivew_quanlity" id="Quality_1" value="20" class="radio"/></td>
+                                                    <td class="value"><input type="radio" name="reivew_quanlity" id="Quality_2" value="40" class="radio"/></td>
+                                                    <td class="value"><input type="radio" name="reivew_quanlity" id="Quality_3" value="60" class="radio"/></td>
+                                                    <td class="value"><input type="radio" name="reivew_quanlity" id="Quality_4" value="80" class="radio"/></td>
+                                                    <td class="value last"><input type="radio" name="reivew_quanlity" id="Quality_5" value="100" class="radio"/></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <input type="hidden" value="<?php echo $seller->getStoreurl() ?>" name="seller_storeurl"/>
+                                        <div class="form-list" style="padding: 10px">
+                                            <div>
+                                                <label for="nickname_field" class="required"><?php echo __('Nickname'); ?><em class="mst_empty_msg">*</em></label>
+                                                <div class="input-box">
+                                                    <input type="text" data-validate="{required:true}" name="reivew_nickname" id="nickname_field" class="input-text" value=""/>
+                                                </div>
+                                            </div><br />
+                                            <div>
+                                                <label for="summary_field" class="required"><?php echo __('Summary of Your Review'); ?><em class="mst_empty_msg">*</em></label>
+                                                <div class="input-box">
+                                                    <input type="text" data-validate="{required:true}" name="reivew_summary" id="summary_field" class="input-text" value=""/>
+                                                </div>
+                                            </div><br />
+                                            <div>
+                                                <label for="review_field" class="required"><?php echo __('Review'); ?><em class="mst_empty_msg">*</em></label>
+                                                <div class="input-box">
+                                                    <textarea data-validate="{required:true}" name="reivew_review" id="review_field" cols="5" rows="3" class="input-text"></textarea>
+                                                </div>
+                                            </div><br />
+                                        </div>
+                                        <div class="buttons-set" style="padding: 10px">
+                                            <button type="submit" title="Submit Review" class="button"><span><span><?php echo __('Submit Review'); ?></span></span></button>
+                                        </div>
+                                        <?php 
+                                            $sellerInfor = $block->getInforSeller();
+                                            $url_request = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+                                            $http_mode	= (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']==='on');
+                                            if($http_mode)$url_request = str_replace('http:', 'https:', $url_request);  
+                                        ?>
+                                        <input type="hidden" name="currently_url" value="<?php echo $url_request ?>" />
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                <?php }else{ ?>
+                    <center><p class="loginmsg"><a href="<?php echo $block->getUrl() ?>marketplace/seller/view/vendor/<?php echo $seller->getStoreurl(); ?>" class="button-large"><?php echo __('You need to buy items  to review for this seller'); ?></a></p></center>
+                <?php } ?>
+            <?php endif; ?>
+        </div>
+	</div>
+	<script>
+		require(['jquery','mage/mage'],function($){
+			$('#number-page-review').change(function(){
+                var strUlr = $(this).val();
+                window.location.href = strUlr;
+			});
+			var dataForm = $('#review-form');
+			var ignore = null;
+			dataForm.mage('validation', {
+				ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+			}).find('input:text').attr('autocomplete', 'off');
+		})
+	</script>
+<?php endif; ?>

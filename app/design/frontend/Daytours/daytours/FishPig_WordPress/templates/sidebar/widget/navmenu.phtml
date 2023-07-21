@@ -1,0 +1,40 @@
+<?php
+/**
+ *
+ *
+ *
+ */
+?>
+<?php $tree = [$this->getMenu()->getMenuTreeArray()] ?>
+<?php if (count($tree) > 0): ?>
+<div class="div-menu">
+    <span class="open-close-wp-mobile"></span>
+    <ul id="wp-page-list" class="menu-wordpress-in-magento">
+        <?php echo $this->getTreeHtml(); ?>
+    </ul>
+
+</div>
+
+<script>
+    require([
+        'jquery'
+    ],function($){
+        $('document').ready(function(){
+            $('body').on('click','.open-close-wp-mobile',function(){
+               $('body .menu-wordpress-in-magento').slideToggle('slow');
+            });
+
+            $('body').on('click','.icon-to-slide-mobile',function(){
+                    if( !$(this).hasClass('active-mobil-wp') ){
+                        $(this).parent().find('ul.sub-menu:first').slideToggle('slow');
+                        $(this).addClass('active-mobil-wp')
+                    }else{
+                        $(this).parent().find('ul.sub-menu:first').slideToggle('slow');
+                        $(this).removeClass('active-mobil-wp')
+                    }
+            })
+        })
+    })
+</script>
+
+<?php endif; ?>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+
+    <event name="sales_order_place_after">
+        <observer name="daytours_lastminute_save_order_after" instance="Daytours\LastMinute\Observer\Frontend\SaveOrder"/>
+        <observer name="daytours_lastminute_email_provider_save_order_after" instance="Daytours\LastMinute\Observer\Frontend\SendEmailToProvider"/>
+    </event>
+</config>

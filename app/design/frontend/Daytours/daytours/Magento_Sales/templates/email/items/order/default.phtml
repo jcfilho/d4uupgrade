@@ -1,0 +1,131 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * @var $block \Magento\Sales\Block\Order\Email\Items\DefaultItems
+ * @var $_item \Magento\Sales\Model\Order\Item
+ * @var $_item \Daytours\Provider\Helper\Data
+ */
+
+/**  */
+$_item = $block->getItem();
+$_order = $_item->getOrder();
+$product = $_item->getProduct();
+$helperProvider = $this->helper('Daytours\Provider\Helper\Data');
+
+
+
+$imageSize = (int)$block->getConfig('sales_email/imageconfig/image_resize');
+if($imageSize <=10)
+    $imageSize = 135;
+$_imagehelper = $this->helper('Magento\Catalog\Helper\Image');
+if($childProd = current($_item->getChildrenItems()))
+{
+    $productImage = $_imagehelper->init($childProd->getProduct(), 'mini_cart_product_thumbnail')->getUrl();
+}
+else
+{
+    $productImage = $_imagehelper->init($_item->getProduct(), 'mini_cart_product_thumbnail')->getUrl();
+}
+?>
+<tr>
+    <td class="product-image">
+        <span style="background-image: url('<?=$productImage?>');
+                background-position:center center;
+                background-size:cover;
+                width:93px;
+                height:62px;
+                display: block;
+                padding: 0 10px 0 10px;
+                -webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;">
+
+        </span>
+    <td class="item-info<?php if ($block->getItemOptions()): ?> has-extra<?php endif; ?>">
+        <p class="product-name"><?= $block->escapeHtml($_item->getName()) ?></p>
+        <?php if ($block->getItemOptions()): ?>
+            <dl class="item-options">
+            <?php $regularService = ''; ?>
+            <?php foreach ($block->getItemOptions() as $option): ?>
+                <?php if($option['label'] == 'regular_services'): ?>
+                    <?php $regularService = $option['value']; ?>
+                <?php else: ?>
+                <dt><strong><em><?= /* @escapeNotVerified */  $option['label'] ?>:</em></strong></dt>
+                <dd>
+                    <?= /* @escapeNotVerified */  nl2br($option['value']) ?>
+                </dd>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            </dl>
+            <div class="clear clearfix"></div>
+
+            <?php
+            if( !empty($regularService) ){
+                echo '<dl class="item-options">';
+                $regularService = json_decode($regularService);
+                foreach ($regularService as $itemR){
+                    echo '<dt><strong><em>'.$itemR->label.'</em></strong></dt>';
+                    echo '<dd><span class="price-item">'.$itemR->price.'</span> </span><span class="qty-item"> x '.$itemR->qty.'</span></dd>';
+                }
+                echo "</dl>";
+            }
+            ?>
+        <?php endif; ?>
+
+        <?php if( $_order->getIsLastminute() ): ?>
+            <?php if( $product->getLastminuteApply() ): ?>
+                <?php
+                $phoneProvider = $helperProvider->getProviderPhoneByProductId($product->getId());
+                $meetingPoint = $product->getLastMinuteMeetingPoint();
+                $hourPoint = $product->getLastMinuteHour();
+
+                ?>
+                <div class="clear clearfix"></div>
+                <br>
+                <dl class="item-options">
+                    <dt><strong><?= __('Notes') ?></strong></dt>
+                    <dd></dd>
+                    <br>
+                    <dt><strong><?= __('Meeting point') ?>:</strong></dt>
+                    <dd><?= $meetingPoint ?></dd>
+                    <dt><strong><?= __('Meeting hour') ?>:</strong></dt>
+                    <dd><?= $hourPoint ?></dd>
+                    <dt><strong><?= __('Provider phone') ?>:</strong></dt>
+                    <dd><?= $phoneProvider ?></dd>
+                </dl>
+                <div class="clear clearfix"></div>
+            <?php endif; ?>
+        <?php endif; ?>
+
+
+        <?php $addInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
+        <?php if ($addInfoBlock) :?>
+            <?= $addInfoBlock->setItem($_item)->toHtml() ?>
+        <?php endif; ?>
+        <?= $block->escapeHtml($_item->getDescription()) ?>
+    </td>
+    <td class="item-price">
+        <?= /* @escapeNotVerified */  $block->getItemPrice($_item) ?>
+    </td>
+</tr>
+<?php if ($_item->getGiftMessageId() && $_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage($_item->getGiftMessageId())): ?>
+<tr>
+    <td colspan="3" class="item-extra">
+        <table class="message-gift">
+            <tr>
+                <td>
+                    <h3><?= /* @escapeNotVerified */  __('Gift Message') ?></h3>
+                    <strong><?= /* @escapeNotVerified */  __('From:') ?></strong> <?= $block->escapeHtml($_giftMessage->getSender()) ?>
+                    <br /><strong><?= /* @escapeNotVerified */  __('To:') ?></strong> <?= $block->escapeHtml($_giftMessage->getRecipient()) ?>
+                    <br /><strong><?= /* @escapeNotVerified */  __('Message:') ?></strong>
+                    <br /><?= $block->escapeHtml($_giftMessage->getMessage()) ?>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<?php endif; ?>

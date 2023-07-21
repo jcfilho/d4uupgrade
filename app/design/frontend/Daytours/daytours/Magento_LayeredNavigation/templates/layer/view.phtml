@@ -1,0 +1,70 @@
+
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+/**
+ * Category layered navigation
+ *
+ * @var $block \Magento\LayeredNavigation\Block\Navigation
+ */
+?>
+
+<?php if ($block->canShowBlock()): ?>
+    <div class="block filter" id="layered-filter-block" data-mage-init='{"collapsible":{"openedState": "active", "collapsible": true, "active": false, "collateral": { "openedState": "filter-active", "element": "body" } }}'>
+        <?php $filtered = count($block->getLayer()->getState()->getFilters()) ?>
+        <div class="block-title filter-title" data-count="<?= /* @escapeNotVerified */ $filtered ?>">
+            <strong data-role="title">
+                <i class="fa fa-filter" aria-hidden="true"></i>
+                <span class="label-inactive"><?= /* @escapeNotVerified */ __('Filters') ?></span>
+                <span class="label-active"><?= /* @escapeNotVerified */ __('Back to products') ?></span>
+            </strong>
+        </div>
+        <div class="block-content filter-content">
+            <?= $block->getChildHtml('state') ?>
+
+            <?php if ($block->getLayer()->getState()->getFilters()): ?>
+                <div class="block-actions filter-actions">
+                    <a href="<?= /* @escapeNotVerified */ $block->getClearUrl() ?>" class="action clear filter-clear"><span><?= /* @escapeNotVerified */ __('Clear All') ?></span></a>
+                </div>
+            <?php endif; ?>
+            <?php $wrapOptions = false; ?>
+            <?php $active_filters_str = implode(' ', range(0, count($block->getFilters())-1)); ?>
+            <?php foreach ($block->getFilters() as $filter): ?>
+        <?php if ($filter->getItemsCount()): ?>
+        <?php if (!$wrapOptions): ?>
+            <strong role="heading" aria-level="4" class="block-subtitle filter-subtitle">
+                <span class="hide-mobile"><?= /* @escapeNotVerified */ __('Filters') ?></span>
+                <i class="fa fa-filter show-mobile" aria-hidden="true"></i>
+            </strong>
+            <div class="filter-options" id="narrow-by-list" data-role="content" data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": "<?= $active_filters_str ?>", "multipleCollapsible": true}}'>
+                <?php  $wrapOptions = true; endif; ?>
+                <?php if($filter->getName() === 'Price'): ?>
+                    <?= /* @escapeNotVerified */ $block->getChildHtml('filterprice') ?>
+                <?php else: ?>
+                    <div data-role="collapsible" class="filter-options-item">
+                        <div data-role="title" class="filter-options-title"><?= /* @escapeNotVerified */ __($filter->getName()) ?></div>
+                        <div data-role="content" class="filter-options-content"><?= /* @escapeNotVerified */ $block->getChildBlock('renderer')->render($filter) ?></div>
+                    </div>
+                <?php endif; ?>
+                <?php endif; ?>
+                <?php endforeach; ?>
+                <?php if ($wrapOptions): ?>
+            </div>
+        <?php else: ?>
+            <script>
+                require([
+                    'jquery'
+                ], function ($) {
+                    $('#layered-filter-block').addClass('filter-no-options');
+                });
+            </script>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>

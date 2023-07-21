@@ -1,0 +1,134 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+
+$product = $objectManager->get('\Magento\Framework\Registry');
+/** @var \Magento\Catalog\Model\Product $_product */
+$_product = $product->registry('product');
+?>
+<div class="product-booking-media"
+    <?php if ($_product->getImage() != "no_selection"){ ?>
+     style="background-image: url('<?= $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) .'catalog/product'.$_product->getImage() ?>');"
+    <?php } ?>>
+    <?php if ($_product->getImage() != "no_selection"){ ?>
+    
+    <?php } ?>
+</div>
+
+<?php if ($_product->getImage() != "no_selection"){ ?>
+    <div class="widget action-media-wrapper">
+        <span class="action-media"><?= __('More photos') ?></span>
+    </div>
+<?php } ?>
+
+<div class="prdBooking-media-popup">
+    <div class="close-btn"></div>
+    <div class="prdBooking-media-wrapper">
+        <div class="product-booking-gallery">
+            <span class="btn-close-popup"></span>
+            <?php $images = $_product->getMediaGalleryImages(); ?>
+            <div class="product-booking-gallery__stage">
+                <?php $i = 0; ?>
+                <?php foreach ($images as $image) { ?>
+
+                    <?php if( $image->getPosition() != 0 ) { ?>
+
+                            <?php
+
+                            $_imagehelper = $this->helper('Magento\Catalog\Helper\Image');
+                            $img_gallery = $_imagehelper->init($_product, 'product_page_image_large')
+                                ->setImageFile($image->getFile())
+                                ->resize(900, 677)
+                                ->getUrl();
+
+                            ?>
+
+                            <div class="item">
+                                <div class="product-booking-gallery__text">
+                                    <?php $i++;
+                                    echo ($i."/".count($images)." - ".$_product->getName());?>
+                                </div>
+                                <div class="prd-image" style="background: url(<?= $img_gallery ?>); background-size:cover; background-position: center">
+                                </div>
+                            </div>
+                        <?php } ?>
+                <?php } ?>
+            </div>
+            <div class="product-booking-gallery__nav">
+                <?php foreach ($images as $image) { ?>
+                    <?php if( $image->getPosition() != 0 ) { ?>
+                        <?php
+
+                        $_imagehelper = $this->helper('Magento\Catalog\Helper\Image');
+
+                        $img_thumnail = $_imagehelper->init($_product, 'product_page_image_large')
+                            ->setImageFile($image->getFile())
+                            ->resize(88, 66)
+                            ->getUrl();
+
+                        ?>
+                        <div class="item">
+                            <img src="<?= $img_thumnail; ?>" alt="">
+                        </div>
+                    <?php } ?>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    require([
+        'jquery',
+        'js/slick.min'
+    ], function ($) {
+        'use strict';
+        $('.product-booking-gallery__stage').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: true,
+            dots: true,
+            fade: true,
+            asNavFor: '.product-booking-gallery__nav'
+        });
+        $('.product-booking-gallery__nav').slick({
+            asNavFor: '.product-booking-gallery__stage',
+            arrows: false,
+            dots: false,
+            focusOnSelect: true,
+            slidesToShow: 7,
+            slidesToScroll: 1,
+            responsive: [
+                {
+                    breakpoint: 991,
+                    settings: {
+                        slidesToShow: 5
+                    }
+                },
+                {
+                    breakpoint: 767,
+                    settings: {
+                        slidesToShow: 4
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 2
+                    }
+                }
+            ]
+        });
+
+        $(window).load(function() {
+            $('.prdBooking-media-popup').hide();
+        });
+        $('.action-media').click(function () {
+            $('body').addClass('prdBooking-media-open');
+            $('.prdBooking-media-popup').show();
+        });
+        $('.prdBooking-media-popup > .close-btn,.prdBooking-media-popup .btn-close-popup').click(function () {
+            $('body').removeClass('prdBooking-media-open');
+            $('.prdBooking-media-popup').hide();
+        });
+    });
+</script>

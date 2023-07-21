@@ -1,0 +1,142 @@
+
+/* style for tab booking in product edit tab*/
+.control-booking-fileds-input
+{
+	float: left;
+	width: 35%;
+}
+
+.control-booking-fileds-button
+{
+	float: left;
+	width: 99%;
+}
+.control-booking-fileds-inputdell
+{
+	float: left;
+	width: 25%;
+}
+.bk-option-select-row
+{
+	float: left;
+	width: 100%;
+}
+.field-facility-input-type {
+	float: left;
+	width: 33%;
+}
+#booking-tab-facilities-contenter .fieldset-wrapper-title strong
+{
+	float: left;
+	margin-top: 10px;
+}
+/* style table contet */
+.booking-table-items {
+
+	width: 99%;
+	float: left;
+	margin-top: 10px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.booking-table-items .booking-list-items-header {
+	background: #dddddd none repeat scroll 0 0;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	float: left;
+	width: 100%;
+}
+.booking-table-items .booking-list-items-header .booking-label:last-child{border:none;}
+.booking-table-items .booking-list-items-content {
+	float: left;
+	width: 100%;
+}
+.booking-table-items  .bk-list-item{
+	float: left;
+	width: 100%;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.booking-table-items .booking-list-items-header .booking-label {
+	border-right: 1px solid rgba(0, 0, 0, 0.1);
+	float: left;
+	text-align:center;
+	width: 12%;
+}
+.booking-table-items .booking-list-items-content .booking-data:last-child{border:none;}
+.booking-table-items .booking-list-items-content .booking-data {
+	border-right: 1px solid rgba(0, 0, 0, 0.1);
+	float: left;
+	margin-top: 0;
+	text-align: center;
+	width: 12%;
+}
+.booking-table-items .booking-data-edit, #booking-list-calendar-items .booking-data-dell, #booking-list-calendar-items .booking-data-inter
+{
+	cursor: pointer;
+}
+.booking-table-items .bk-list-item-last
+{
+	border-bottom: none;
+}
+#booking-list-facility-items .booking-label
+{
+	width: 20%;
+}
+#booking-list-facility-items .booking-label-facility-input
+{
+	width: 10%;
+}
+#booking-list-facility-items .booking-label-facility-description
+{
+	width: 69%;
+}
+#booking-list-facility-items .booking-data
+{
+	width: 20%;
+}
+#booking-list-facility-items .booking-data-facility-input
+{
+	width: 10%;
+}
+#booking-list-facility-items .booking-data-facility-description
+{
+	width: 69%;
+}
+#booking-list-room-items span.booking-label, #booking-list-room-items span.booking-data
+{
+	width: 15%;
+}
+#booking-list-room-items span.booking-label-description, #booking-list-room-items span.booking-data-description
+{
+	width: 24%;
+}
+#bk-room-list-room-items span.booking-label, #bk-room-list-room-items span.booking-data
+{
+	width: 15%;
+}
+#bk-room-list-room-items span.booking-label-description, #bk-room-list-room-items span.booking-data-description
+{
+	width: 24%;
+}
+.booking-data-inter{
+	color: #fb9c52;
+}
+.add-calendar-field label.error {
+	width: 100%;
+	margin-left: 35%;
+	color: red;
+}
+.popup-booking-intervals
+{
+	margin-bottom: 10px;
+	width: 60%;
+}
+.bk-intervals-price
+{
+	float: left;
+	width: 100%;
+	border: 1px solid;
+}
+.bk-intervals-price h3
+{
+	text-align: center;
+}
+/* end  */
