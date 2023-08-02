@@ -297,31 +297,33 @@ switch ($type = $block->getType()) {
             'js/owl.carousel'
         ], function ($,carousel) {
             'use strict';
-            $(window).load(function () {
-                if($('.owl-carousel.<?= $class ?>').length > 0){
-                    $('.owl-carousel.<?= $class ?>').owlCarousel({
-                        nav:true,
-                        responsive:{
-                            0: {
-                                items: 2,
-                                stagePadding: 55
-                            },
-                            520: {
-                                items: 3
-                            },
-                            640: {
-                                items: 3
-                            },
-                            860: {
-                                items: 4
-                            },
-                            1200: {
-                                items: 4
+            // $(window).load(function () {
+            $( window ).on("load", function() {
+                    if($('.owl-carousel.<?= $class ?>').length > 0){
+                        $('.owl-carousel.<?= $class ?>').owlCarousel({
+                            nav:true,
+                            responsive:{
+                                0: {
+                                    items: 2,
+                                    stagePadding: 55
+                                },
+                                520: {
+                                    items: 3
+                                },
+                                640: {
+                                    items: 3
+                                },
+                                860: {
+                                    items: 4
+                                },
+                                1200: {
+                                    items: 4
+                                }
                             }
-                        }
-                    })
-                }
-            })
+                        })
+                    }
+                })
+            }
         })
     </script>
         <?php endif;?>

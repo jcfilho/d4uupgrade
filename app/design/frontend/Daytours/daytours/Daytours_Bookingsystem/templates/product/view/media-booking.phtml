@@ -119,7 +119,7 @@ $_product = $product->registry('product');
             ]
         });
 
-        $(window).load(function() {
+        $( window ).on("load", function() {
             $('.prdBooking-media-popup').hide();
         });
         $('.action-media').click(function () {

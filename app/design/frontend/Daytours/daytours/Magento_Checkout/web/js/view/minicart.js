@@ -237,9 +237,11 @@ define([
                 _.each(elementsRegularService,function(item,indiceRS){
                     if( item.label === 'regular_services' ){
                         var elementsRS = item.value;
-                        if(!_.isArray(elementsRS)){
-                            var jsonRS = $.parseJSON(elementsRS);
-                            items[indexProduct].options[indiceRS].value = jsonRS;
+                        if(elementsRS !== "") {
+                            if(!_.isArray(elementsRS)){
+                                var jsonRS = $.parseJSON(elementsRS);
+                                items[indexProduct].options[indiceRS].value = jsonRS;
+                            }
                         }
                     }
                 });
