@@ -2,7 +2,8 @@ require(
     [
         'jquery',
         'Magento_Ui/js/modal/modal',
-        'mage/translate'
+        'mage/translate',
+        'jquery/jquery.cookie'
     ],
     function ($, modal, $t) {
         let modalElement;

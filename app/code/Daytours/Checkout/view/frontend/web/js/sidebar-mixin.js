@@ -4,17 +4,18 @@ define([
     'Magento_Customer/js/customer-data',
     'Magento_Ui/js/modal/alert',
     'Magento_Ui/js/modal/confirm',
-    'Magento_Ui/js/lib/core/storage/local',
-    'mage/url',
+    'underscore',
     'overlay-minicart',
-    'jquery/ui',
+    'jquery-ui-modules/widget',
     'mage/decorate',
     'mage/collapsible',
-    'mage/cookies'
-],function($, authenticationPopup, customerData, alert, confirm,storage,urlbuild,overlayMinicart){
+    'mage/cookies',
+    'jquery-ui-modules/effect-fade'
+],function($, authenticationPopup, customerData, alert, confirm, _, overlayMinicart){
 
     return function (originalWidget) {
         $.widget('daytours.sidebar',$.mage.sidebar,{
+
             _initContent: function () {
                 var self = this,
                     events = {};
@@ -31,23 +32,23 @@ define([
                 };
                 events['click ' + this.options.button.checkout] = $.proxy(function () {
                     var cart = customerData.get('cart'),
-                        customer = customerData.get('customer');
+                        customer = customerData.get('customer'),
+                        element = $(this.options.button.checkout);
 
                     if (!customer().firstname && cart().isGuestCheckoutAllowed === false) {
                         // set URL for redirect on successful login/registration. It's postprocessed on backend.
                         $.cookie('login_redirect', this.options.url.checkout);
 
                         if (this.options.url.isRedirectRequired) {
+                            element.prop('disabled', true);
                             location.href = this.options.url.loginUrl;
                         } else {
-                            // authenticationPopup.showModal();
-                            $("body .popup-with-form").trigger('click');
-                            var linkUrlCheckout = urlbuild.build('checkout');
-                            $("#currentUrl").val(linkUrlCheckout);
+                            authenticationPopup.showModal();
                         }
 
                         return false;
                     }
+                    element.prop('disabled', true);
                     location.href = this.options.url.checkout;
                 }, this);
 
@@ -82,6 +83,13 @@ define([
                 /**
                  * @param {jQuery.Event} event
                  */
+                events['change ' + this.options.item.qty] = function (event) {
+                    self._showItemButton($(event.target));
+                };
+
+                /**
+                 * @param {jQuery.Event} event
+                 */
                 events['click ' + this.options.item.button] = function (event) {
                     event.stopPropagation();
                     self._updateItemQty($(event.currentTarget));
@@ -96,7 +104,7 @@ define([
 
                 this._on(this.element, events);
                 this._calcHeight();
-                this._isOverflowed();
+                // this._isOverflowed();
             }
         });
 
