@@ -224,7 +224,7 @@ class BkChangeStore extends \Magebay\Bookingsystem\Observer\Frontend\BkChangeSto
 								{
 									$item->addOption([
 									'code' => 'additional_options',
-									'value' => serialize($additionalOptions)
+									'value' => json_encode($additionalOptions)
                                     ]);
 								}
 							}
