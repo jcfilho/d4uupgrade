@@ -93,6 +93,7 @@ class BkChangeStore extends \Magebay\Bookingsystem\Observer\Frontend\BkChangeSto
     private $format;
 
     /**
+     *
      * BkChangeStore constructor.
      * @param RequestInterface $request
      * @param BkCoreCart $bkCoreCart
@@ -112,7 +113,7 @@ class BkChangeStore extends \Magebay\Bookingsystem\Observer\Frontend\BkChangeSto
      * @param Format $format
      */
     public function __construct(
-		RequestInterface $request,
+        RequestInterface $request,
 		BkCoreCart $bkCoreCart,
 		PriceHelper $bkPriceHelper,
 		DirectoryHelper $directoryHelper,
@@ -417,7 +418,7 @@ class BkChangeStore extends \Magebay\Bookingsystem\Observer\Frontend\BkChangeSto
     private function _getPriceFromRegularService($price,$formatPrice){
 
         preg_match_all('/\d+/', $price, $matches);
-        print_r($matches[0]);
+        //print_r($matches[0]);
         $result = '';
         if( !empty($matches) ){
             $matches = $matches[0];
