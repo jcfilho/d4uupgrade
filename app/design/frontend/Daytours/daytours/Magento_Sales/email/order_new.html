@@ -4,18 +4,26 @@
  * See COPYING.txt for license details.
  */
 -->
-<!--@subject {{trans "Your %store_name order confirmation" store_name=$store.getFrontendName()}} @-->
+<!--@subject {{trans "Your %store_name order confirmation" store_name=$store.frontend_name}} @-->
 <!--@vars {
 "var formattedBillingAddress|raw":"Billing Address",
-"var order.getEmailCustomerNote()":"Email Order Note",
+"var order_data.email_customer_note|escape|nl2br":"Email Order Note",
 "var order.increment_id":"Order Id",
 "layout handle=\"sales_email_order_items\" order=$order area=\"frontend\"":"Order Items Grid",
 "var payment_html|raw":"Payment Details",
 "var formattedShippingAddress|raw":"Shipping Address",
-"var order.getShippingDescription()":"Shipping Description",
+"var order.shipping_description":"Shipping Description",
 "var shipping_msg":"Shipping message",
-"template config_path=\"design\/email\/footer_template\"":"Email Footer Template",
-"template config_path=\"design\/email\/header_template\"":"Email Header Template"
+"var created_at_formatted":"Order Created At (datetime)",
+"var store.frontend_name":"Store Frontend Name",
+"var store_phone":"Store Phone",
+"var store_email":"Store Email",
+"var store_hours":"Store Hours",
+"var this.getUrl($store,'customer/account/',[_nosid:1])":"Customer Account URL",
+"var order_data.is_not_virtual":"Order Type",
+"var order":"Order",
+"var order_id": "Order DB Id",
+"var order_data.customer_name":"Customer Name"
 } @-->
 
 {{template config_path="design/email/header_template"}}
@@ -35,12 +43,12 @@
     <tr class="email-summary" style="padding: 0 25px;margin-top: 25px;display: block">
         <td>
             <h3 class="title-block" style="padding-bottom: 20px;border-bottom: 1px solid #e8e8e8;">{{trans 'Your Purchased'}}</h3>
-            <div class="summary_order">
-                {{layout handle="sales_email_order_items" order=$order area="frontend"}}
+            <div class="summary_order qweoooo">
+                {{layout handle="sales_email_order_items" order_id=$order.entity_id}}
             </div>
         </td>
     </tr>
-    {{layout area="frontend" handle="email_template_complete_order" order=$order}}
+    {{layout area="frontend" handle="email_template_complete_order" order_id=$order.entity_id order=$order}}
     <tr class="you-may-also-like" style="padding: 0 18.5px;margin-bottom: 40px;display: block">
         <td>
             <h3 class="title-block" style="padding: 0 7.5px;">{{trans "You may also like"}}</h3>

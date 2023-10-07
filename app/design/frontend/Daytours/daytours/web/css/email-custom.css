@@ -476,6 +476,7 @@ tr.box-daytours .logo-footer{
     width: 107px;
     padding: 0;
     padding-right: 20px;
+    padding-bottom: 15px;
     padding-top: 15px;
 }
 .wrapper table.main .email-items .item-info{
@@ -483,9 +484,11 @@ tr.box-daytours .logo-footer{
     float: left;
     padding: 0;
     padding-top: 15px;
+    padding-bottom: 15px;
 }
 .wrapper table.main .email-items .item-price{
     padding-top: 15px;
+    padding-bottom: 15px;
 }
 .wrapper table.main .email-items td{
     padding: 0;

@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd" label="Email Items" design_abstraction="custom">
     <body>
-        <block class="Magento\Framework\View\Element\Template" name="email.complete.order" template="Daytours_Checkout::email_complete_order.phtml"/>
+        <block name="email.complete.order" template="Daytours_Checkout::email_complete_order.phtml">
+            <arguments>
+                <argument name="view_model" xsi:type="object">Daytours\Checkout\ViewModel\ProductListToOperations</argument>
+            </arguments>
+        </block>
     </body>
 </page>

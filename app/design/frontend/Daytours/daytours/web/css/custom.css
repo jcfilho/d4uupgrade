@@ -124,8 +124,12 @@ header.page-header .header.panel > .header.links > .authorization-link:after{
     font-weight: 600;
     text-transform: uppercase;
 }
-header.page-header .header.panel > .header.links > li.welcome{
+header.page-header .header.panel > .header.links > li.welcome .not-logged-in{
     display: none;
+}
+/*Customer logged*/
+header.page-header .header.panel > .header.links > li.welcome .logged-in{
+    display: inline-block;
 }
 header.page-header .header.panel > .header.links > .authorization-link:after{
     color: #919392;
@@ -471,7 +475,7 @@ header.page-header .header.links .customer-welcome .customer-name {
     font-weight: 600;
     text-transform: uppercase;
 }
-header.page-header .header.links .customer-welcome::before {
+header.page-header .header.links .greet.welcome .logged-in::before {
     content: "";
     display: inline-block;
     width: 10px;
@@ -484,7 +488,7 @@ header.page-header .header.links .customer-welcome::before {
     float: left;
 }
 @media (max-width: 767px) {
-    header.page-header .header.links .customer-welcome::before {
+    header.page-header .header.links .greet.welcome .logged-in::before {
         display: none;
     }
 }

@@ -45,14 +45,16 @@ $orderByIncrementId = $viewModel->getOrderById($this->getOrderId());
                         <table>
                             <?php foreach ($productOptions as $option): ?>
                                 <?php if( $option['label'] == 'regular_services' ): ?>
-                                    <?php $regularService = json_decode($option['value']); ?>
-                                    <?php if( count($regularService) > 0 ): ?>
-                                        <?php foreach ($regularService as $itemR): ?>
-                                            <tr>
-                                                <td><strong><?= $itemR->label ?>:</strong></td>
-                                                <td><?= $itemR->price ?> x <?= $itemR->qty ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
+                                    <?php if(!empty($option['value'])): ?>
+                                        <?php $regularService = json_decode($option['value']); ?>
+                                        <?php if( count($regularService) > 0 ): ?>
+                                            <?php foreach ($regularService as $itemR): ?>
+                                                <tr>
+                                                    <td><strong><?= $itemR->label ?>:</strong></td>
+                                                    <td><?= $itemR->price ?> x <?= $itemR->qty ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 <?php else: ?>
                                     <tr>

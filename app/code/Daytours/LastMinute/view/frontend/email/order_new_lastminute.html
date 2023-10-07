@@ -37,11 +37,11 @@
         <td>
             <h3 class="title-block" style="padding-bottom: 20px;border-bottom: 1px solid #e8e8e8;">{{trans 'Your Purchased'}}</h3>
             <div class="summary_order">
-                {{layout handle="sales_email_order_items" order=$order area="frontend"}}
+                {{layout handle="sales_email_order_items" order_id=$order.entity_id order=$order area="frontend"}}
             </div>
         </td>
     </tr>
-    {{layout area="frontend" handle="email_template_complete_order" order=$order}}
+    {{layout area="frontend" handle="email_template_complete_order" order_id=$order.entity_id order=$order}}
     <tr class="you-may-also-like" style="padding: 0 18.5px;margin-bottom: 40px;display: block">
         <td>
             <h3 class="title-block" style="padding: 0 7.5px;">{{trans "You may also like"}}</h3>

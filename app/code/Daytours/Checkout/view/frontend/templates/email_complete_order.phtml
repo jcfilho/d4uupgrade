@@ -5,15 +5,20 @@ $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 /** @var  \Daytours\EditOrder\Helper\Data $helperEditOrder */
 
 $helperEditOrder = $this->helper("Daytours\EditOrder\Helper\Data");
-$_order = $this->getOrder();
-$order_id = $_order->getIncrementId();
+
+$viewModel = $block->getViewModel();
+$orderId = $this->getOrderId();
+$_order = $viewModel->getOrderById($this->getOrderId());
+
+//$_order = $this->getOrder();
+$order_increment_id = $_order->getIncrementId();
 
 $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
 $store = $storeManager->getStore();
 
 ?>
 
-<?php if($helperEditOrder->isVisibleCompleteOrderButton($order_id)) : ?>
+<?php if($helperEditOrder->isVisibleCompleteOrderButton($order_increment_id)) : ?>
 
 <tr class="email-complete phtml-file" style="padding: 0 25px;margin-bottom: 40px;margin-top: 40px;display: block">
     <td>
